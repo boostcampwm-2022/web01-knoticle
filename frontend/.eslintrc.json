@@ -9,6 +9,7 @@
     "airbnb",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
+    "plugin:import/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
@@ -20,6 +21,7 @@
     "react/react-in-jsx-scope": 0,
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "react/jsx-props-no-spreading": 0,
+    "import/extensions": [ "error", "ignorePackages", { "js":"never", "jsx":"never", "mjs":"never", "ts":"never", "tsx":"never" } ],
     "import/order": [
       "error",
       {
