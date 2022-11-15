@@ -12,6 +12,70 @@ datasource db {
 
 model User {
   id  Int @id @default(autoincrement())
-  user_id String @db.VarChar(20)
+  username String @db.VarChar(20)
   password String @db.VarChar(100)
+  nickname String @db.VarChar(20) @unique
+  provider String @db.VarChar(20)
+  provider_id String? @db.VarChar(50)
+  profile_image String @db.VarChar(255)
+  created_at DateTime @default(now())
+  deleted_at DateTime?
+  books Book[]
+  bookmarks Bookmark[]
+  temp_article TempArticle?
+  token Token?
+}
+
+model Book {
+  id  Int @id @default(autoincrement())
+  thumbnail_image String @db.VarChar(255)
+  title String @db.VarChar(50)
+  created_at DateTime @default(now())
+  deleted_at DateTime?
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  articles Article[]
+  scraps Scrap[]
+  bookmarks Bookmark[]
+}
+
+model Article {
+  id  Int @id @default(autoincrement())
+  title String @db.VarChar(50)
+  contents String @db.Text
+  book Book @relation(fields: [book_id], references: [id])
+  book_id Int
+  scraps Scrap[]
+}
+
+model Scrap {
+  id  Int @id @default(autoincrement())
+  order Int
+  is_original Boolean
+  article Article @relation(fields: [article_id], references: [id])
+  article_id Int
+  book Book @relation(fields: [book_id], references: [id])
+  book_id Int
+}
+
+model Bookmark {
+  id  Int @id @default(autoincrement())
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  book Book @relation(fields: [book_id], references: [id])
+  book_id Int
+}
+
+model TempArticle {
+  id  Int @id @default(autoincrement())
+  title String @db.VarChar(50)
+  contents String @db.Text
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @unique
+}
+
+model Token {
+  refresh_token String @db.VarChar(200)
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @unique
 }
