@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "NODE_ENV=dev tsc-watch --onSuccess \"ts-node -r tsconfig-paths/register dist/index.js\""
+    "dev": "cross-env NODE_ENV=dev tsc-watch --onSuccess \"ts-node -r tsconfig-paths/register dist/index.js\""
   },
   "dependencies": {
     "@prisma/client": "^4.6.1",
@@ -16,6 +16,7 @@
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
