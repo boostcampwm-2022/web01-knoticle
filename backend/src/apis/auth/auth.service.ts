@@ -16,10 +16,8 @@ const getSignInResult = async (username: string, password: string) => {
     },
   });
 
-  // 회원가입이 되어있지 않은 경우
   if (!user) throw new Unauthorized(Message.AUTH_WRONG);
 
-  // 비밀번호가 불일치하는 경우
   if (user.password !== password) throw new Unauthorized(Message.AUTH_WRONG);
 
   return user;
@@ -37,6 +35,10 @@ const getTokens = (userId: number) => {
 
 const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number } = {}) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
+};
+
+const decodeJWT = (token: string) => {
+  return jwt.verify(token, process.env.JWT_SECRET_KEY);
 };
 
 const saveRefreshToken = async (userId: number, refreshToken: string) => {
