@@ -15,7 +15,6 @@ export default (app: Application) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(cors());
-  app.use(errorHandler);
-
   app.use('/api', router);
+  app.use(errorHandler);
 };
