@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '../../config/orm.config';
 import { Message, Unauthorized } from '../../errors';
 
-const getSignInResult = async (username: string, password: string) => {
+const getSignedUser = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
     where: {
       username,
@@ -57,7 +57,7 @@ const saveRefreshToken = async (userId: number, refreshToken: string) => {
 };
 
 export default {
-  getSignInResult,
+  getSignedUser,
   getTokens,
   saveRefreshToken,
 };

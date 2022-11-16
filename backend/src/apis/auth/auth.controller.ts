@@ -9,7 +9,7 @@ const signIn = async (req: Request, res: Response) => {
   if (/[^a-zA-Z0-9]/.test(username) || username.length > 10)
     throw new Unauthorized(Message.AUTH_WRONG);
 
-  const user = await authService.getSignInResult(username, password);
+  const user = await authService.getSignedUser(username, password);
 
   const { accessToken, refreshToken } = authService.getTokens(user.id);
 
