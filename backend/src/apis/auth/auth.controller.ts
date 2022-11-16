@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { getSignInResult } from './auth.service';
+import authService from './auth.service';
 
 const signIn = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -9,9 +9,16 @@ const signIn = async (req: Request, res: Response) => {
     throw new Error();
   }
 
-  const userInfo = await getSignInResult(username, password);
+  const user = await authService.getSignInResult(username, password);
 
-  return res.status(200).send(userInfo);
+  const { accessToken, refreshToken } = authService.getTokens(user.id);
+
+  await authService.saveRefreshToken(user.id, refreshToken);
+
+  res.cookie('access_token', accessToken, { httpOnly: true });
+  res.cookie('refresh_token', refreshToken, { httpOnly: true });
+
+  res.status(200).send({ id: user.id, nickname: user.nickname });
 };
 
 export default {

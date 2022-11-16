@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import { prisma } from '../../config/orm.config';
 
-export const getSignInResult = async (username: string, password: string) => {
+const getSignInResult = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
     where: {
       username,
@@ -21,12 +21,17 @@ export const getSignInResult = async (username: string, password: string) => {
   // 비밀번호가 불일치하는 경우
   if (user.password !== password) throw new Error();
 
-  const accessToken = generateJWT('3h', { id: user.id });
+  return user;
+};
+
+const getTokens = (userId: number) => {
+  const accessToken = generateJWT('3h', { id: userId });
   const refreshToken = generateJWT('7d');
 
-  await saveRefreshToken(user.id, refreshToken);
-
-  return user;
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number } = {}) => {
@@ -46,4 +51,10 @@ const saveRefreshToken = async (userId: number, refreshToken: string) => {
       refresh_token: refreshToken,
     },
   });
+};
+
+export default {
+  getSignInResult,
+  getTokens,
+  saveRefreshToken,
 };
