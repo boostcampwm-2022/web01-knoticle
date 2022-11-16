@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 import { prisma } from '../../config/orm.config';
+import { Message, Unauthorized } from '../../errors';
 
 const getSignInResult = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
@@ -16,10 +17,10 @@ const getSignInResult = async (username: string, password: string) => {
   });
 
   // 회원가입이 되어있지 않은 경우
-  if (!user) throw new Error();
+  if (!user) throw new Unauthorized(Message.AUTH_WRONG);
 
   // 비밀번호가 불일치하는 경우
-  if (user.password !== password) throw new Error();
+  if (user.password !== password) throw new Unauthorized(Message.AUTH_WRONG);
 
   return user;
 };

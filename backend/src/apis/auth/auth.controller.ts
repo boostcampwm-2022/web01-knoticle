@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 
+import { Unauthorized, Message } from '../../errors';
 import authService from './auth.service';
 
 const signIn = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  if (/[^a-zA-Z0-9]/.test(username) || username.length > 10) {
-    throw new Error();
-  }
+  if (/[^a-zA-Z0-9]/.test(username) || username.length > 10)
+    throw new Unauthorized(Message.AUTH_WRONG);
 
   const user = await authService.getSignInResult(username, password);
 
