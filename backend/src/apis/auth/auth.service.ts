@@ -24,9 +24,26 @@ export const getSignInResult = async (username: string, password: string) => {
   const accessToken = generateJWT('3h', { id: user.id });
   const refreshToken = generateJWT('7d');
 
+  await saveRefreshToken(user.id, refreshToken);
+
   return user;
 };
 
 const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number } = {}) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
+};
+
+const saveRefreshToken = async (userId: number, refreshToken: string) => {
+  await prisma.token.upsert({
+    where: {
+      user_id: userId,
+    },
+    update: {
+      refresh_token: refreshToken,
+    },
+    create: {
+      user_id: userId,
+      refresh_token: refreshToken,
+    },
+  });
 };
