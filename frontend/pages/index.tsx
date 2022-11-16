@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import SignInModal from '../layouts/SignInModal';
+
 const Page = styled.div`
   width: 100%;
   height: 100%;
@@ -10,15 +12,16 @@ const Page = styled.div`
 `;
 
 const TempWrapper = styled.div`
-  width: 400px;
-  height: 400px;
-  background-color: red;
+  width: 40vw;
+  height: 60vh;
 `;
 
 export default function AAA() {
   return (
     <Page>
-      <TempWrapper>Login</TempWrapper>
+      <TempWrapper>
+        <SignInModal />
+      </TempWrapper>
     </Page>
   );
 }
