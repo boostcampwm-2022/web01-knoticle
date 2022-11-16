@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
+import axios from 'axios';
 import styled from 'styled-components';
 
 import GithubIcon from '../assets/icon-github.svg';
@@ -44,14 +45,18 @@ export default function SignInModal() {
     });
   };
 
-  // const handleOnClick = () => {
-  //   axios
-  //     .post(`${SERVER_URL}/api/auth/signin/local`, {
-  //       username: '',
-  //       password: '',
-  //     })
-  //     .then((res) => console.log(res));
-  // };
+  const SERVER_URL = 'http://localhost:8000';
+  const handleOnClick = () => {
+    axios
+      .post(`${SERVER_URL}/api/auth/signin/local`, {
+        username: info.username,
+        password: info.password,
+      })
+      .then((res) =>
+        // 응답으로 받아온 로그인 정보를 이용해 전역 상태 관리!!
+        console.log(res)
+      );
+  };
 
   return (
     <Wrapper>
@@ -73,7 +78,7 @@ export default function SignInModal() {
             handleInputChange(e, 'password');
           }}
         />
-        <Button title="로그인하기" />
+        <Button title="로그인하기" onClick={handleOnClick} />
       </SinginForm>
       <GithubBtn onClick={() => console.log(info)}>
         <Image src={GithubIcon} alt="Github Icon" />

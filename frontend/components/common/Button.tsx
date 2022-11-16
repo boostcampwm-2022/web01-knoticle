@@ -1,4 +1,3 @@
-import axios from 'axios';
 import styled from 'styled-components';
 
 import { TextSmall } from '../../styles/common';
@@ -17,19 +16,14 @@ const Content = styled(TextSmall)`
   color: var(--white-color);
 `;
 
-export default function Button({ title }: { title: string }) {
-  const SERVER_URL = 'http:localhost:8000';
-  const handleOnClick = () => {
-    axios
-      .post(`${SERVER_URL}/api/auth/signin/local`, {
-        username: '',
-        password: '',
-      })
-      .then((res) => console.log(res));
-  };
+interface ButtonProps {
+  title: string;
+  onClick: () => void;
+}
 
+export default function Button({ title, onClick }: ButtonProps) {
   return (
-    <BrownBtn type="button" onClick={handleOnClick}>
+    <BrownBtn type="button" onClick={onClick}>
       <Content>{title}</Content>
     </BrownBtn>
   );
