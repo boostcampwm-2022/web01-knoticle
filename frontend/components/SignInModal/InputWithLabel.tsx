@@ -20,13 +20,19 @@ interface InputWithLabelProps {
   title: string;
   type: string;
   placeholder?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function InputWithLabel({ title, type, placeholder }: InputWithLabelProps) {
+export default function InputWithLabel({
+  title,
+  type,
+  placeholder,
+  onChange,
+}: InputWithLabelProps) {
   return (
     <Wrapper>
       <Label>{title}</Label>
-      <Input type={type} placeholder={placeholder} />
+      <Input type={type} placeholder={placeholder} onChange={onChange} />
     </Wrapper>
   );
 }
