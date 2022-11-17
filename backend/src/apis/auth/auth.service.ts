@@ -74,10 +74,18 @@ const getGithubAccessToken = async (code: string) => {
 
   return data.access_token;
 };
+const getGithubUserProfile = async (accessToken: string) => {
+  const { data } = await axios.get(process.env.GH_API_USER_URL, {
+    headers: { authorization: `token ${accessToken}` },
+  });
+
+  return { username: data.login, provider_id: data.id };
+};
 
 export default {
   getSignedUser,
   getTokens,
   saveRefreshToken,
   getGithubAccessToken,
+  getGithubUserProfile,
 };

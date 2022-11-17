@@ -26,8 +26,11 @@ const signInGithub = async (req: Request, res: Response) => {
   const { code } = req.body;
 
   const accessToken = await authService.getGithubAccessToken(code);
+  console.log('access', accessToken);
+  const { username, provider_id } = await authService.getGithubUserProfile(accessToken);
 
-  console.log(accessToken);
+  console.log(username, provider_id);
+  res.status(200).send({ username, provider_id });
 };
 
 export default {
