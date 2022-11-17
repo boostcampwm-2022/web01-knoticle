@@ -24,12 +24,16 @@ const signIn = async (req: Request, res: Response) => {
 
 const signInGithub = async (req: Request, res: Response) => {
   const { code } = req.body;
+  console.log('code', code);
 
   const accessToken = await authService.getGithubAccessToken(code);
   console.log('access', accessToken);
-  const { username, provider_id } = await authService.getGithubUserProfile(accessToken);
 
-  console.log(username, provider_id);
+  const { username, provider_id } = await authService.getGithubUserProfile(accessToken);
+  console.log({ username, provider_id });
+
+  const user = await authService.checkGithubUserInDB(provider_id);
+  console.log('user', user);
   res.status(200).send({ username, provider_id });
 };
 

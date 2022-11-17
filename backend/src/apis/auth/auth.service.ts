@@ -71,7 +71,7 @@ const getGithubAccessToken = async (code: string) => {
       },
     }
   );
-
+  console.log('data', data);
   return data.access_token;
 };
 const getGithubUserProfile = async (accessToken: string) => {
@@ -79,7 +79,18 @@ const getGithubUserProfile = async (accessToken: string) => {
     headers: { authorization: `token ${accessToken}` },
   });
 
-  return { username: data.login, provider_id: data.id };
+  return { username: data.login, provider_id: String(data.id) };
+};
+
+const checkGithubUserInDB = async (provider_id: string) => {
+  console.log('provider_id', provider_id);
+  const user = await prisma.user.findFirst({
+    where: {
+      provider: 'github',
+      provider_id,
+    },
+  });
+  return user;
 };
 
 export default {
@@ -88,4 +99,5 @@ export default {
   saveRefreshToken,
   getGithubAccessToken,
   getGithubUserProfile,
+  checkGithubUserInDB,
 };
