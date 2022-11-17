@@ -9,25 +9,25 @@ interface ModalProps {
   title: string;
   hasBackward?: boolean;
   children: React.ReactNode;
+
+  handleModalClose: () => void;
 }
 
-export default function Modal({ title, hasBackward, children }: ModalProps) {
+export default function Modal({ title, hasBackward, children, handleModalClose }: ModalProps) {
   return (
-    <>
-      <Dimmed />
-      <ModalWrapper>
-        <ModalInner>
-          <ButtonWrapper hasBackward={hasBackward}>
-            <Image src={BackwardIcon} alt="Backward Icon" />
-            <Image src={CancelIcon} alt="Cancel Icon" />
-          </ButtonWrapper>
-          <ModalTitle>
-            <TextLinkMedium>{title}</TextLinkMedium>
-          </ModalTitle>
-          {children}
-        </ModalInner>
-      </ModalWrapper>
-    </>
+    <ModalWrapper>
+      <Dimmed onClick={handleModalClose} />
+      <ModalInner>
+        <ButtonWrapper hasBackward={hasBackward}>
+          <Image src={BackwardIcon} alt="Backward Icon" />
+          <Image src={CancelIcon} alt="Cancel Icon" onClick={handleModalClose} />
+        </ButtonWrapper>
+        <ModalTitle>
+          <TextLinkMedium>{title}</TextLinkMedium>
+        </ModalTitle>
+        {children}
+      </ModalInner>
+    </ModalWrapper>
   );
 }
 
