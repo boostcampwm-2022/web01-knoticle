@@ -8,10 +8,14 @@ export default function Github() {
   const router = useRouter();
 
   useEffect(() => {
-    if (router.query) {
-      axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signin/github`, {
-        code: router.query.code,
-      });
+    if (router.query.code) {
+      axios
+        .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signin/github`, {
+          code: router.query.code,
+        })
+        .then((res) => {
+          console.log(res);
+        });
     }
   });
 
