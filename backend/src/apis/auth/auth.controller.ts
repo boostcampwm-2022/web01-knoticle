@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Request, Response } from 'express';
 
 import { Unauthorized, Message } from '../../errors';
@@ -24,21 +23,17 @@ const signIn = async (req: Request, res: Response) => {
 
 const signInGithub = async (req: Request, res: Response) => {
   const { code } = req.body;
-  console.log('code', code);
 
   const githubAccessToken = await authService.getGithubAccessToken(code);
-  console.log('access', githubAccessToken);
 
   const { username, provider_id } = await authService.getUserByGithubAPI(githubAccessToken);
-  console.log({ username, provider_id });
 
   const githubUser = await authService.getUserByLocalDB(provider_id);
-  console.log('user', githubUser);
 
+  // 랜덤 피해주는 로직 더 하고 싶으면 하세요
   if (!githubUser) {
     let nickname = username;
     while (!(await authService.checkNicknameUnique(nickname))) {
-      // 랜덤 피해주는 로직 더 하고 싶으면 하세요
       nickname += String(Math.floor(Math.random() * 10000));
     }
     await authService.signUpGithubUser(nickname, provider_id);

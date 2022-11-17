@@ -19,7 +19,9 @@ export default function Github() {
             withCredentials: true,
           }
         )
-        .then((res) => {});
+        .then(() => {
+          router.push('/');
+        });
     }
   });
 
