@@ -18,6 +18,7 @@ const Input = styled.input`
 
 interface InputWithLabelProps {
   title: string;
+  name: string;
   type: string;
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,6 +26,7 @@ interface InputWithLabelProps {
 
 export default function InputWithLabel({
   title,
+  name,
   type,
   placeholder,
   onChange,
@@ -32,7 +34,7 @@ export default function InputWithLabel({
   return (
     <Wrapper>
       <Label>{title}</Label>
-      <Input type={type} placeholder={placeholder} onChange={onChange} />
+      <Input name={name} type={type} placeholder={placeholder} onChange={onChange} />
     </Wrapper>
   );
 }

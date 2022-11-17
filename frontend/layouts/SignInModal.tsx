@@ -5,7 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import GithubIcon from '../assets/icon-github.svg';
+import GithubIcon from '../assets/icon_github.svg';
 import Button from '../components/common/Button';
 import InputWithLabel from '../components/SignInModal/InputWithLabel';
 import ModalTitle from '../components/SignInModal/ModalTitle';
@@ -38,10 +38,10 @@ export default function SignInModal() {
     password: '',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInfo({
       ...info,
-      [key]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -64,19 +64,17 @@ export default function SignInModal() {
       <SinginForm>
         <InputWithLabel
           title="아이디"
+          name="username"
           type="text"
           placeholder="아이디를 입력해주세요"
-          onChange={(e) => {
-            handleInputChange(e, 'username');
-          }}
+          onChange={handleInputChange}
         />
         <InputWithLabel
           title="비밀번호"
+          name="password"
           type="password"
           placeholder="비밀번호를 입력해주세요"
-          onChange={(e) => {
-            handleInputChange(e, 'password');
-          }}
+          onChange={handleInputChange}
         />
         <Button title="로그인하기" onClick={handleOnClick} />
       </SinginForm>
