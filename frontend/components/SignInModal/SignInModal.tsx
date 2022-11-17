@@ -5,10 +5,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import GithubIcon from '../assets/ico_github.svg';
-import Button from '../components/common/Button';
-import InputWithLabel from '../components/SignInModal/InputWithLabel';
-import ModalTitle from '../components/SignInModal/ModalTitle';
+import GithubIcon from '../../assets/ico_github.svg';
+import Button from '../common/Button';
+import InputWithLabel from './InputWithLabel';
+import ModalTitle from './ModalTitle';
 
 const Wrapper = styled.div`
   display: flex;

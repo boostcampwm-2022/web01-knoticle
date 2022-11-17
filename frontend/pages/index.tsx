@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import SignInModal from '../layouts/SignInModal';
+import SignInModal from '../components/SignInModal/SignInModal';
 
 const Page = styled.div`
   width: 100%;
