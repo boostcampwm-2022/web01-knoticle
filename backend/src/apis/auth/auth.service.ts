@@ -1,3 +1,4 @@
+import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
 import { prisma } from '../../config/orm.config';
@@ -56,8 +57,27 @@ const saveRefreshToken = async (userId: number, refreshToken: string) => {
   });
 };
 
+const getGithubAccessToken = async (code: string) => {
+  const { data } = await axios.post(
+    process.env.GH_OAUTH_URL,
+    {
+      client_id: process.env.GH_ID,
+      client_secret: process.env.GH_SECRET,
+      code: code,
+    },
+    {
+      headers: {
+        accept: 'application/json',
+      },
+    }
+  );
+
+  return data.access_token;
+};
+
 export default {
   getSignedUser,
   getTokens,
   saveRefreshToken,
+  getGithubAccessToken,
 };
