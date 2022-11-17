@@ -5,7 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import GithubIcon from '../assets/icon_github.svg';
+import GithubIcon from '../assets/ico_github.svg';
 import Button from '../components/common/Button';
 import InputWithLabel from '../components/SignInModal/InputWithLabel';
 import ModalTitle from '../components/SignInModal/ModalTitle';
@@ -48,10 +48,16 @@ export default function SignInModal() {
   const SERVER_URL = 'http://localhost:8000';
   const handleSignInBtnOnClick = () => {
     axios
-      .post(`${SERVER_URL}/api/auth/signin/local`, {
-        username: info.username,
-        password: info.password,
-      })
+      .post(
+        `${SERVER_URL}/api/auth/signin/local`,
+        {
+          username: info.username,
+          password: info.password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) =>
         // 응답으로 받아온 로그인 정보를 이용해 전역 상태 관리!!
         console.log(res)
