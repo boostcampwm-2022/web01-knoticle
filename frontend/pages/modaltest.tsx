@@ -1,5 +1,5 @@
 import Modal from '../components/common/Modal';
 
 export default function ModalTest() {
-  return <Modal>Hello</Modal>;
+  return <Modal title="Knoticle 시작하기">Hello</Modal>;
 }

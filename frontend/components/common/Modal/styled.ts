@@ -27,3 +27,16 @@ export const ModalInner = styled.div`
   border-radius: 30px;
   z-index: 1;
 `;
+
+export const ButtonWrapper = styled.div<{ hasBackward?: boolean }>`
+  display: flex;
+  justify-content: space-between;
+
+  img:first-child {
+    visibility: ${(props) => (props.hasBackward ? 'visible' : 'hidden')};
+  }
+`;
+
+export const ModalTitle = styled.div`
+  text-align: center;
+`;
