@@ -18,10 +18,15 @@
   ],
   "plugins": ["@typescript-eslint", "react", "react-hooks", "prettier"],
   "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react/react-in-jsx-scope": 0,
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "react/jsx-props-no-spreading": 0,
-    "import/extensions": [ "error", "ignorePackages", { "js":"never", "jsx":"never", "mjs":"never", "ts":"never", "tsx":"never" } ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      { "js": "never", "jsx": "never", "mjs": "never", "ts": "never", "tsx": "never" }
+    ],
     "import/order": [
       "error",
       {
