@@ -71,7 +71,6 @@ const getGithubAccessToken = async (code: string) => {
       },
     }
   );
-  console.log('data', data);
   return data.access_token;
 };
 const getGithubUserProfile = async (accessToken: string) => {
@@ -83,14 +82,39 @@ const getGithubUserProfile = async (accessToken: string) => {
 };
 
 const checkGithubUserInDB = async (provider_id: string) => {
-  console.log('provider_id', provider_id);
   const user = await prisma.user.findFirst({
     where: {
       provider: 'github',
-      provider_id,
+      username: provider_id,
+    },
+    select: {
+      id: true,
+      nickname: true,
     },
   });
   return user;
+};
+
+const checkNicknameUnique = async (nickname: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      nickname,
+    },
+  });
+
+  return !user ? true : false;
+};
+
+const signUpGithubUser = async (nickname: string, provider_id: string) => {
+  await prisma.user.create({
+    data: {
+      username: provider_id,
+      nickname,
+      provider: 'github',
+      password: '',
+      profile_image: '',
+    },
+  });
 };
 
 export default {
@@ -100,4 +124,6 @@ export default {
   getGithubAccessToken,
   getGithubUserProfile,
   checkGithubUserInDB,
+  checkNicknameUnique,
+  signUpGithubUser,
 };

@@ -24,16 +24,26 @@ const signIn = async (req: Request, res: Response) => {
 
 const signInGithub = async (req: Request, res: Response) => {
   const { code } = req.body;
-  console.log('code', code);
+  // console.log('code', code);
 
   const accessToken = await authService.getGithubAccessToken(code);
-  console.log('access', accessToken);
+  // console.log('access', accessToken);
 
   const { username, provider_id } = await authService.getGithubUserProfile(accessToken);
-  console.log({ username, provider_id });
+  // console.log({ username, provider_id });
 
   const user = await authService.checkGithubUserInDB(provider_id);
-  console.log('user', user);
+  // console.log('user', user);
+
+  if (!user) {
+    let nickname = username;
+    while (!(await authService.checkNicknameUnique(nickname))) {
+      // 랜덤 피해주는 로직 더 하고 싶으면 하세요
+      nickname += String(Math.floor(Math.random() * 10000));
+    }
+    await authService.signUpGithubUser(nickname, provider_id);
+  }
+
   res.status(200).send({ username, provider_id });
 };
 
