@@ -9,9 +9,11 @@ export default function Github() {
 
   useEffect(() => {
     if (router.query) {
-      // axios.post();
+      axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signin/github`, {
+        code: router.query.code,
+      });
     }
   });
 
-  return <div>github</div>;
+  return <div>Github 로그인 시동 중입니다.....</div>;
 }
