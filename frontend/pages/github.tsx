@@ -10,12 +10,16 @@ export default function Github() {
   useEffect(() => {
     if (router.query.code) {
       axios
-        .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signin/github`, {
-          code: router.query.code,
-        })
-        .then((res) => {
-          console.log(res);
-        });
+        .post(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signin/github`,
+          {
+            code: router.query.code,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {});
     }
   });
 

@@ -24,18 +24,18 @@ const signIn = async (req: Request, res: Response) => {
 
 const signInGithub = async (req: Request, res: Response) => {
   const { code } = req.body;
-  // console.log('code', code);
+  console.log('code', code);
 
-  const accessToken = await authService.getGithubAccessToken(code);
-  // console.log('access', accessToken);
+  const githubAccessToken = await authService.getGithubAccessToken(code);
+  console.log('access', githubAccessToken);
 
-  const { username, provider_id } = await authService.getGithubUserProfile(accessToken);
-  // console.log({ username, provider_id });
+  const { username, provider_id } = await authService.getUserByGithubAPI(githubAccessToken);
+  console.log({ username, provider_id });
 
-  const user = await authService.checkGithubUserInDB(provider_id);
-  // console.log('user', user);
+  const githubUser = await authService.getUserByLocalDB(provider_id);
+  console.log('user', githubUser);
 
-  if (!user) {
+  if (!githubUser) {
     let nickname = username;
     while (!(await authService.checkNicknameUnique(nickname))) {
       // 랜덤 피해주는 로직 더 하고 싶으면 하세요
@@ -44,7 +44,14 @@ const signInGithub = async (req: Request, res: Response) => {
     await authService.signUpGithubUser(nickname, provider_id);
   }
 
-  res.status(200).send({ username, provider_id });
+  const { accessToken, refreshToken } = authService.getTokens(githubUser.id);
+
+  await authService.saveRefreshToken(githubUser.id, refreshToken);
+
+  res.cookie('access_token', accessToken, { httpOnly: true });
+  res.cookie('refresh_token', refreshToken, { httpOnly: true });
+
+  res.status(200).send({ id: githubUser.id, nickname: githubUser.nickname });
 };
 
 export default {

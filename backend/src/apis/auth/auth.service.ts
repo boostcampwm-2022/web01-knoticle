@@ -73,7 +73,7 @@ const getGithubAccessToken = async (code: string) => {
   );
   return data.access_token;
 };
-const getGithubUserProfile = async (accessToken: string) => {
+const getUserByGithubAPI = async (accessToken: string) => {
   const { data } = await axios.get(process.env.GH_API_USER_URL, {
     headers: { authorization: `token ${accessToken}` },
   });
@@ -81,7 +81,7 @@ const getGithubUserProfile = async (accessToken: string) => {
   return { username: data.login, provider_id: String(data.id) };
 };
 
-const checkGithubUserInDB = async (provider_id: string) => {
+const getUserByLocalDB = async (provider_id: string) => {
   const user = await prisma.user.findFirst({
     where: {
       provider: 'github',
@@ -122,8 +122,8 @@ export default {
   getTokens,
   saveRefreshToken,
   getGithubAccessToken,
-  getGithubUserProfile,
-  checkGithubUserInDB,
+  getUserByGithubAPI,
+  getUserByLocalDB,
   checkNicknameUnique,
   signUpGithubUser,
 };
