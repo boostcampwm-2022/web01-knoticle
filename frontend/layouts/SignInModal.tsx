@@ -46,10 +46,9 @@ export default function SignInModal() {
   };
 
   const handleSignInBtnOnClick = () => {
-    const SERVER_URL= 'http://localhost:8000';
     axios
       .post(
-        `${SERVER_URL}/api/auth/signin/local`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signin/local`,
         {
           username: info.username,
           password: info.password,
@@ -64,10 +63,7 @@ export default function SignInModal() {
       );
   };
   const handleSignInGinhubBtnOnClick = () => {
-    const GH_ID='57993fafcd4bacae8bfd';
-    const GH_CALLBACK='http://localhost:3000/github';
-    const GH_SIGNIN_URL = `https://github.com/login/oauth/authorize?client_id=${GH_ID}&redirect_url=${GH_CALLBACK}`;
-    console.log(GH_SIGNIN_URL);
+    const GH_SIGNIN_URL = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GH_ID}&redirect_url=${process.env.NEXT_PUBLIC_GH_CALLBACK}`;
     window.location.assign(GH_SIGNIN_URL);
   };
 
