@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import GithubIcon from '../../assets/ico_github.svg';
 import Button from '../common/Button';
+import Modal from '../common/Modal';
 import InputWithLabel from './InputWithLabel';
 import ModalTitle from './ModalTitle';
 
@@ -65,8 +66,7 @@ export default function SignInModal() {
   };
 
   return (
-    <Wrapper>
-      <ModalTitle title="Knoticle 시작하기" />
+    <>
       <SigninForm>
         <InputWithLabel
           title="아이디"
@@ -88,6 +88,6 @@ export default function SignInModal() {
         <Image src={GithubIcon} alt="Github Icon" />
         Github으로 로그인하기
       </GithubBtn>
-    </Wrapper>
+    </>
   );
 }
