@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   height: 100%;
 `;
 
-const SinginForm = styled.form`
+const SigninForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 80%;
@@ -46,7 +46,7 @@ export default function SignInModal() {
   };
 
   const SERVER_URL = 'http://localhost:8000';
-  const handleOnClick = () => {
+  const handleSignInBtnOnClick = () => {
     axios
       .post(`${SERVER_URL}/api/auth/signin/local`, {
         username: info.username,
@@ -61,7 +61,7 @@ export default function SignInModal() {
   return (
     <Wrapper>
       <ModalTitle title="Knoticle 시작하기" />
-      <SinginForm>
+      <SigninForm>
         <InputWithLabel
           title="아이디"
           name="username"
@@ -76,8 +76,8 @@ export default function SignInModal() {
           placeholder="비밀번호를 입력해주세요"
           onChange={handleInputChange}
         />
-        <Button title="로그인하기" onClick={handleOnClick} />
-      </SinginForm>
+        <Button title="로그인하기" onClick={handleSignInBtnOnClick} />
+      </SigninForm>
       <GithubBtn onClick={() => console.log(info)}>
         <Image src={GithubIcon} alt="Github Icon" />
         Github으로 로그인하기
