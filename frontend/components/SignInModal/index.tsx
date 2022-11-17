@@ -6,25 +6,15 @@ import axios from 'axios';
 import styled from 'styled-components';
 
 import GithubIcon from '../../assets/ico_github.svg';
-import Button from '../common/Button';
-import Modal from '../common/Modal';
-import InputWithLabel from './InputWithLabel';
-import ModalTitle from './ModalTitle';
+import LabeledInput from '../common/LabeledInput';
+import Button from '../common/Modal/ModalButton';
 
-const Wrapper = styled.div`
+const SignInModalWrapper = styled.div`
+  margin-top: 56px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--light-orange-color);
-  border-radius: 30px;
-  height: 100%;
-`;
-
-const SigninForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 80%;
+  gap: 24px;
+  box-sizing: border-box;
 `;
 
 const GithubBtn = styled.button`
@@ -66,28 +56,31 @@ export default function SignInModal() {
   };
 
   return (
-    <>
-      <SigninForm>
-        <InputWithLabel
-          title="아이디"
-          name="username"
-          type="text"
-          placeholder="아이디를 입력해주세요"
-          onChange={handleInputChange}
-        />
-        <InputWithLabel
-          title="비밀번호"
-          name="password"
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          onChange={handleInputChange}
-        />
-        <Button title="로그인하기" onClick={handleSignInBtnOnClick} />
-      </SigninForm>
-      <GithubBtn onClick={() => console.log(info)}>
+    <SignInModalWrapper>
+      <LabeledInput
+        label="아이디"
+        type="text"
+        name="username"
+        placeholder="아이디를 입력해주세요"
+        onChange={handleInputChange}
+      />
+      <LabeledInput
+        label="비밀번호"
+        type="password"
+        name="password"
+        placeholder="비밀번호를 입력해주세요"
+        onChange={handleInputChange}
+      />
+      <Button theme="primary" onClick={handleSignInBtnOnClick}>
+        로그인하기
+      </Button>
+      <Button theme="second" onClick={() => console.log('asd')}>
         <Image src={GithubIcon} alt="Github Icon" />
         Github으로 로그인하기
-      </GithubBtn>
-    </>
+      </Button>
+      {/* <GithubBtn onClick={() => console.log(info)}>
+        
+      </GithubBtn> */}
+    </SignInModalWrapper>
   );
 }
