@@ -45,8 +45,8 @@ export default function SignInModal() {
     });
   };
 
-  const SERVER_URL = 'http://localhost:8000';
   const handleSignInBtnOnClick = () => {
+    const SERVER_URL= 'http://localhost:8000';
     axios
       .post(
         `${SERVER_URL}/api/auth/signin/local`,
@@ -62,6 +62,13 @@ export default function SignInModal() {
         // 응답으로 받아온 로그인 정보를 이용해 전역 상태 관리!!
         console.log(res)
       );
+  };
+  const handleSignInGinhubBtnOnClick = () => {
+    const GH_ID='57993fafcd4bacae8bfd';
+    const GH_CALLBACK='http://localhost:3000/github';
+    const GH_SIGNIN_URL = `https://github.com/login/oauth/authorize?client_id=${GH_ID}&redirect_url=${GH_CALLBACK}`;
+    console.log(GH_SIGNIN_URL);
+    window.location.assign(GH_SIGNIN_URL);
   };
 
   return (
@@ -84,7 +91,7 @@ export default function SignInModal() {
         />
         <Button title="로그인하기" onClick={handleSignInBtnOnClick} />
       </SigninForm>
-      <GithubBtn onClick={() => console.log(info)}>
+      <GithubBtn onClick={handleSignInGinhubBtnOnClick}>
         <Image src={GithubIcon} alt="Github Icon" />
         Github으로 로그인하기
       </GithubBtn>

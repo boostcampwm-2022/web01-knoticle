@@ -21,6 +21,8 @@ const signIn = async (req: Request, res: Response) => {
   res.status(200).send({ id: user.id, nickname: user.nickname });
 };
 
+
+
 export default {
   signIn,
 };
