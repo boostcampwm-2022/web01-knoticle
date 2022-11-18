@@ -3,25 +3,11 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import axios from 'axios';
-import styled from 'styled-components';
 
 import GithubIcon from '../../assets/ico_github.svg';
 import LabeledInput from '../common/LabeledInput';
 import Button from '../common/Modal/ModalButton';
-
-const SignInModalWrapper = styled.div`
-  margin-top: 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  box-sizing: border-box;
-`;
-
-const GithubBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+import SignInModalWrapper from './styled';
 
 export default function SignInModal() {
   const [info, setInfo] = useState({
@@ -36,11 +22,16 @@ export default function SignInModal() {
     });
   };
 
-  const SERVER_URL = 'http://localhost:8000';
+  const handleSignInGithubClick = () => {
+    const GH_SIGNIN_URL = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GH_ID}&redirect_url=${process.env.NEXT_PUBLIC_GH_CALLBACK}`;
+
+    window.location.assign(GH_SIGNIN_URL);
+  };
+
   const handleSignInBtnOnClick = () => {
     axios
       .post(
-        `${SERVER_URL}/api/auth/signin/local`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signin/local`,
         {
           username: info.username,
           password: info.password,
@@ -74,13 +65,10 @@ export default function SignInModal() {
       <Button theme="primary" onClick={handleSignInBtnOnClick}>
         로그인하기
       </Button>
-      <Button theme="second" onClick={() => console.log('asd')}>
+      <Button theme="second" onClick={handleSignInGithubClick}>
         <Image src={GithubIcon} alt="Github Icon" />
         Github으로 로그인하기
       </Button>
-      {/* <GithubBtn onClick={() => console.log(info)}>
-        
-      </GithubBtn> */}
     </SignInModalWrapper>
   );
 }
