@@ -106,7 +106,7 @@ const checkNicknameUnique = async (nickname: string) => {
 };
 
 const signUpGithubUser = async (nickname: string, provider_id: string) => {
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       username: provider_id,
       nickname,
@@ -115,6 +115,8 @@ const signUpGithubUser = async (nickname: string, provider_id: string) => {
       profile_image: '',
     },
   });
+
+  return user;
 };
 
 export default {
