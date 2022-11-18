@@ -4,7 +4,6 @@ const Text = styled.div`
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 400;
-  color: var(--title-active-color);
 `;
 
 export const TextLarge = styled(Text)`

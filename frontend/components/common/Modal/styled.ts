@@ -19,7 +19,7 @@ export const ModalWrapper = styled.div`
 `;
 
 export const ModalInner = styled.div`
-  width: 486px;
+  width: 400px;
   margin-top: 150px;
   padding: 32px;
   background: var(--white-color);
