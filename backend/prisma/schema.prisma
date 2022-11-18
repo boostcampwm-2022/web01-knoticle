@@ -16,7 +16,6 @@ model User {
   password String @db.VarChar(100)
   nickname String @db.VarChar(20) @unique
   provider String @db.VarChar(20)
-  provider_id String? @db.VarChar(50)
   profile_image String @db.VarChar(255)
   created_at DateTime @default(now())
   deleted_at DateTime?

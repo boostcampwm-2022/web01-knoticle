@@ -1,3 +1,4 @@
+import axios from 'axios';
 import jwt from 'jsonwebtoken';
 
 import { prisma } from '../../config/orm.config';
@@ -56,8 +57,73 @@ const saveRefreshToken = async (userId: number, refreshToken: string) => {
   });
 };
 
+const getGithubAccessToken = async (code: string) => {
+  const { data } = await axios.post(
+    process.env.GH_OAUTH_URL,
+    {
+      client_id: process.env.GH_ID,
+      client_secret: process.env.GH_SECRET,
+      code: code,
+    },
+    {
+      headers: {
+        accept: 'application/json',
+      },
+    }
+  );
+  return data.access_token;
+};
+const getUserByGithubAPI = async (accessToken: string) => {
+  const { data } = await axios.get(process.env.GH_API_USER_URL, {
+    headers: { authorization: `token ${accessToken}` },
+  });
+
+  return { username: data.login, provider_id: String(data.id) };
+};
+
+const getUserByLocalDB = async (provider_id: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      provider: 'github',
+      username: provider_id,
+    },
+    select: {
+      id: true,
+      nickname: true,
+    },
+  });
+  return user;
+};
+
+const checkNicknameUnique = async (nickname: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      nickname,
+    },
+  });
+
+  return !user ? true : false;
+};
+
+const signUpGithubUser = async (nickname: string, provider_id: string) => {
+  await prisma.user.create({
+    data: {
+      username: provider_id,
+      nickname,
+      provider: 'github',
+      password: '',
+      profile_image: '',
+    },
+  });
+};
+
 export default {
   getSignedUser,
   getTokens,
   saveRefreshToken,
+  getGithubAccessToken,
+  getUserByGithubAPI,
+  getUserByLocalDB,
+  checkNicknameUnique,
+  signUpGithubUser,
 };
