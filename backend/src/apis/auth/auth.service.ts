@@ -95,17 +95,8 @@ const getUserByLocalDB = async (provider_id: string) => {
   return user;
 };
 
-const checkNicknameUnique = async (nickname: string) => {
-  const user = await prisma.user.findFirst({
-    where: {
-      nickname,
-    },
-  });
-
-  return !user ? true : false;
-};
-
-const signUpGithubUser = async (nickname: string, provider_id: string) => {
+const signUpGithubUser = async (username: string, provider_id: string) => {
+  const nickname = await createUniqueNickname(username);
   const user = await prisma.user.create({
     data: {
       username: provider_id,
@@ -119,6 +110,27 @@ const signUpGithubUser = async (nickname: string, provider_id: string) => {
   return user;
 };
 
+const createUniqueNickname = async (username: string) => {
+  let nickname = username;
+
+  while (true) {
+    if (await checkNicknameUnique(nickname)) break;
+    nickname += String(Math.floor(Math.random() * 10000));
+  }
+
+  return nickname;
+};
+
+const checkNicknameUnique = async (nickname: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      nickname,
+    },
+  });
+
+  return !user ? true : false;
+};
+
 export default {
   getSignedUser,
   getTokens,
@@ -126,6 +138,5 @@ export default {
   getGithubAccessToken,
   getUserByGithubAPI,
   getUserByLocalDB,
-  checkNicknameUnique,
   signUpGithubUser,
 };

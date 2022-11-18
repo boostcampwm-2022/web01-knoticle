@@ -28,17 +28,9 @@ const signInGithub = async (req: Request, res: Response) => {
 
   const { username, provider_id } = await authService.getUserByGithubAPI(githubAccessToken);
 
-  let githubUser = await authService.getUserByLocalDB(provider_id);
-
-  // 랜덤 피해주는 로직 더 하고 싶으면 하세요
-  if (!githubUser) {
-    let nickname = username;
-    while (!(await authService.checkNicknameUnique(nickname))) {
-      nickname += String(Math.floor(Math.random() * 10000));
-    }
-
-    githubUser = await authService.signUpGithubUser(nickname, provider_id);
-  }
+  const githubUser =
+    (await authService.getUserByLocalDB(provider_id)) ||
+    (await authService.signUpGithubUser(username, provider_id));
 
   const { accessToken, refreshToken } = authService.getTokens(githubUser.id);
 
