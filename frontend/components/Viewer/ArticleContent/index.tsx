@@ -6,18 +6,16 @@ import RightBtnIcon from '../../../assets/ico_rightBtn.svg';
 import Scrap from '../../../assets/ico_scrap.svg';
 import { TextLarge } from '../../../styles/common';
 import ArticleButton from './Button';
+import sampleData from './sampledata';
 import {
   ArticleContainer,
   ArticleLeftBtn,
+  ArticleMain,
   ArticleContents,
   ArticleRightBtn,
   ArticleTitle,
   ArticleTitleBtnBox,
 } from './styled';
-
-const sampleData = {
-  title: 'JSX',
-};
 
 export default function Article() {
   return (
@@ -25,7 +23,7 @@ export default function Article() {
       <ArticleLeftBtn>
         <Image src={LeftBtnIcon} alt="Viewer Icon" />
       </ArticleLeftBtn>
-      <ArticleContents>
+      <ArticleMain>
         <ArticleTitle>
           {/* Global style Large의 크기가 너무 작음 -> 월요일 회의 후 반영 */}
           <TextLarge>{sampleData.title}</TextLarge>
@@ -48,7 +46,8 @@ export default function Article() {
             </ArticleButton>
           </ArticleTitleBtnBox>
         </ArticleTitle>
-      </ArticleContents>
+        <ArticleContents>{sampleData.content}</ArticleContents>
+      </ArticleMain>
       <ArticleRightBtn>
         <Image src={RightBtnIcon} alt="Viewer Icon" />
       </ArticleRightBtn>

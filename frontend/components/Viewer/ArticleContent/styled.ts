@@ -1,19 +1,25 @@
 import styled from 'styled-components';
 
-import { FlexCenter, Flex } from '../../../styles/layout';
+import { Flex } from '../../../styles/layout';
 
 export const ArticleContainer = styled(Flex)`
-  width: 100%;
+  flex-basis: 100%;
+  height: calc(100vh - 66px);
 `;
-export const ArticleLeftBtn = styled(FlexCenter)`
-  flex-basis: 5%;
+export const ArticleLeftBtn = styled.div`
+  position: fixed;
+  top: 50%;
+  margin-left: 10px;
 `;
-export const ArticleRightBtn = styled(FlexCenter)`
-  flex-basis: 5%;
+export const ArticleRightBtn = styled.div`
+  position: fixed;
+  top: 50%;
+  right: 25px;
 `;
-export const ArticleContents = styled(FlexCenter)`
-  flex-basis: 90%;
+export const ArticleMain = styled(Flex)`
   flex-direction: column;
+  padding: 30px;
+  overflow: auto;
 `;
 export const ArticleTitle = styled(Flex)`
   width: 100%;
@@ -22,3 +28,7 @@ export const ArticleTitle = styled(Flex)`
   justify-content: space-between;
 `;
 export const ArticleTitleBtnBox = styled(Flex)``;
+export const ArticleContents = styled.div`
+  margin-top: 20px;
+  height: 481px;
+`;
