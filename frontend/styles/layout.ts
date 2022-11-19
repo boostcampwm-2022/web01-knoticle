@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-const FlexCenter = styled.div`
+export const FlexCenter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
-export default FlexCenter;
+export const Flex = styled.div`
+  display: flex;
+`;

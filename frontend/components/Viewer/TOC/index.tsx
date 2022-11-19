@@ -53,7 +53,7 @@ export default function TOC() {
           <TextMedium>{sampleData.username}</TextMedium>
         </TOCproflieText>
         <TOCImgBox>
-          <Image src={SampleProflie} alt="Viewer Icon" width={75} height={75} />
+          <Image src={SampleProflie} alt="Viewer Icon" layout="fill" objectFit="contain" />
         </TOCImgBox>
       </TOCproflie>
     </TOCBox>

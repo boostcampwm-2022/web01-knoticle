@@ -1,5 +1,3 @@
-import { Image } from 'next/image';
-
 import styled from 'styled-components';
 
 export const TOCBox = styled.nav`
@@ -46,8 +44,9 @@ export const TOCproflieText = styled.div`
 `;
 
 export const TOCImgBox = styled.div`
-  width: 75px;
-  height: 75px;
+  width: 70px;
+  height: 70px;
+  position: relative;
+  margin-left: 10px;
   border-radius: 50%;
-  background-color: black;
 `;
