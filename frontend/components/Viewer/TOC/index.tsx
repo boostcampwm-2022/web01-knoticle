@@ -2,13 +2,25 @@ import Image from 'next/image';
 
 import Bookmark from '../../../assets/ico_bookmark.svg';
 import Hide from '../../../assets/ico_hide.svg';
+import SampleProflie from '../../../assets/ico_sampleProfile.svg';
 import { TextMedium, TextSmall } from '../../../styles/common';
-import { TOCBox, TOCsideBar, TOCIcons, TOCtitle, TOCcontainer, TOClist } from './styled';
+import {
+  TOCBox,
+  TOCsideBar,
+  TOCIcons,
+  TOCtitle,
+  TOCcontainer,
+  TOClist,
+  TOCproflie,
+  TOCproflieText,
+  TOCImgBox,
+} from './styled';
 
 const sampleData = {
   bookmarkNum: 398,
   bookTitle: '리액트 마스터하기',
   articles: ['Create-react-app', 'JSX'],
+  username: 'Web01',
 };
 
 export default function TOC() {
@@ -35,6 +47,15 @@ export default function TOC() {
           </TOClist>
         </TOCcontainer>
       </TOCsideBar>
+      <TOCproflie>
+        <TOCproflieText>
+          <TextSmall>Written by</TextSmall>
+          <TextMedium>{sampleData.username}</TextMedium>
+        </TOCproflieText>
+        <TOCImgBox>
+          <Image src={SampleProflie} alt="Viewer Icon" width={75} height={75} />
+        </TOCImgBox>
+      </TOCproflie>
     </TOCBox>
   );
 }
