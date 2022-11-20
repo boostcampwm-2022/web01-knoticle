@@ -6,7 +6,7 @@ export const BookListTabWrapper = styled.div`
 export const TabTitle = styled.div`
   display: flex;
   justify-content: center;
-  padding: 30px;
+  padding: 20px;
   /* background-color: red; */
 `;
 export const LeftTab = styled.div`
@@ -19,11 +19,5 @@ export const BookGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-`;
-
-export const TempBook = styled.div`
-  width: 280px;
-  height: 480px;
-  background-color: orange;
-  margin: 10px;
+  padding: 20px;
 `;
