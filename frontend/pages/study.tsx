@@ -2,17 +2,19 @@ import GNB from '../components/common/GNB';
 import FAB from '../components/FAB';
 import BookListTab from '../components/study/BookListTab.tsx';
 import UserProfile from '../components/study/UserProfile';
-import { FlexCenterPositioner } from '../styles/layout';
+import { FlexCenterPositioner, PageColorWrapper } from '../styles/layout';
 
 export default function Study() {
   return (
     <>
       <GNB />
-      <FlexCenterPositioner>
-        <UserProfile />
-        <BookListTab />
-      </FlexCenterPositioner>
-      <FAB />
+      <PageColorWrapper>
+        <FlexCenterPositioner>
+          <UserProfile />
+          <BookListTab />
+        </FlexCenterPositioner>
+        <FAB />
+      </PageColorWrapper>
     </>
   );
 }

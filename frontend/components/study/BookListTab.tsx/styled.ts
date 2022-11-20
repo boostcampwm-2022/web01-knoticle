@@ -1,19 +1,22 @@
 import styled from 'styled-components';
 
+import { TextLinkMedium } from '../../../styles/common';
+
 export const BookListTabWrapper = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 export const TabTitle = styled.div`
   display: flex;
   justify-content: center;
-  padding: 20px;
-  /* background-color: red; */
+  padding: 10px;
 `;
-export const LeftTab = styled.div`
+export const LeftTab = styled(TextLinkMedium)`
   padding-right: 30px;
+  cursor: pointer;
 `;
-export const RightTab = styled.div`
+export const RightTab = styled(TextLinkMedium)`
   padding-left: 30px;
+  cursor: pointer;
 `;
 export const BookGrid = styled.div`
   display: grid;
