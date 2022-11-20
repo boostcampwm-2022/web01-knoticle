@@ -11,4 +11,5 @@ export const FlexCenterPositioner = styled(FlexCenter)`
   left: 0;
   right: 0;
   margin: auto;
+  flex-direction: column;
 `;
