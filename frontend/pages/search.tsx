@@ -1,15 +1,23 @@
 import GNB from '../components/common/GNB';
 import SearchBar from '../components/search/SearchBar';
 import SearchFilter from '../components/search/SearchFilter';
-import { SearchArea } from '../components/search/styled';
+import SearchListItem from '../components/search/SearchListItem';
+import { SearchArea, SearchResult } from '../components/search/styled';
 
 export default function Search() {
+  const items = Array.from({ length: 50 });
+
   return (
     <>
       <GNB />
       <SearchArea>
         <SearchBar />
         <SearchFilter />
+        <SearchResult>
+          {items.map((_, index) => (
+            <SearchListItem key={index} />
+          ))}
+        </SearchResult>
       </SearchArea>
     </>
   );

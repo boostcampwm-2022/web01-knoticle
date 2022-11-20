@@ -5,3 +5,5 @@ export const SearchArea = styled.div`
   margin: 0 auto;
   max-width: 900px;
 `;
+
+export const SearchResult = styled.div``;
