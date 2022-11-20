@@ -4,9 +4,10 @@ import { useState } from 'react';
 
 import axios from 'axios';
 
-import GithubIcon from '../../assets/ico_github.svg';
-import LabeledInput from '../common/LabeledInput';
-import Button from '../common/Modal/ModalButton';
+import GithubIcon from '@assets/ico_github.svg';
+import LabeledInput from '@components/common/LabeledInput';
+import Button from '@components/common/Modal/ModalButton';
+
 import SignInModalWrapper from './styled';
 
 export default function SignInModal() {

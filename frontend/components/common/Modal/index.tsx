@@ -1,8 +1,9 @@
 import Image from 'next/image';
 
-import BackwardIcon from '../../../assets/ico_backward.svg';
-import CancelIcon from '../../../assets/ico_cancel.svg';
-import { TextLinkMedium } from '../../../styles/common';
+import BackwardIcon from '@assets/ico_backward.svg';
+import CancelIcon from '@assets/ico_cancel.svg';
+import { TextLinkMedium } from '@styles/common';
+
 import { ButtonWrapper, Dimmed, ModalInner, ModalTitle, ModalWrapper } from './styled';
 
 interface ModalProps {

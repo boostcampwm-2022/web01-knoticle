@@ -1,4 +1,5 @@
-import { TextSmall } from '../../../styles/common';
+import { TextSmall } from '@styles/common';
+
 import { Input, LabeledInputWrapper } from './styled';
 
 interface LabeledInputProps {
