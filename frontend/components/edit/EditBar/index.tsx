@@ -1,6 +1,10 @@
 import { Bar, ButtonGroup, ExitButton, PublishButton, TemporaryButton } from './styled';
 
-export default function EditBar() {
+interface EditBarProps {
+  handleModalOpen: () => void;
+}
+
+export default function EditBar({ handleModalOpen }: EditBarProps) {
   return (
     <Bar>
       <ButtonGroup>
@@ -9,7 +13,7 @@ export default function EditBar() {
       <ButtonGroup>
         <TemporaryButton>불러오기</TemporaryButton>
         <TemporaryButton>임시 저장</TemporaryButton>
-        <PublishButton>발행</PublishButton>
+        <PublishButton onClick={handleModalOpen}>발행</PublishButton>
       </ButtonGroup>
     </Bar>
   );
