@@ -1,4 +1,5 @@
-import { BookGrid, BookListTabWrapper, LeftTab, RightTab, TabTitle, TempBook } from './styled';
+import Book from '../../common/Book';
+import { BookGrid, BookListTabWrapper, LeftTab, RightTab, TabTitle } from './styled';
 
 export default function BookListTab() {
   const items = [1, 2, 3, 4, 5, 6, 7];
@@ -11,7 +12,7 @@ export default function BookListTab() {
       </TabTitle>
       <BookGrid>
         {items.map((item) => (
-          <TempBook key={item}>{item}</TempBook>
+          <Book key={item} />
         ))}
       </BookGrid>
     </BookListTabWrapper>
