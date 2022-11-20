@@ -11,5 +11,4 @@ export const FlexCenterPositioner = styled(FlexCenter)`
   left: 0;
   right: 0;
   margin: auto;
-  background-color: red;
 `;
