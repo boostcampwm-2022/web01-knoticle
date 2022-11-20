@@ -9,13 +9,9 @@ export const TabTitle = styled.div`
   display: flex;
   justify-content: center;
   padding: 10px;
+  gap: 30px;
 `;
-export const LeftTab = styled(TextLinkMedium)`
-  padding-right: 30px;
-  cursor: pointer;
-`;
-export const RightTab = styled(TextLinkMedium)`
-  padding-left: 30px;
+export const TabTitleContent = styled(TextLinkMedium)`
   cursor: pointer;
 `;
 export const BookGrid = styled.div`

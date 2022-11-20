@@ -9,7 +9,7 @@ export const FABWrapper = styled.div`
   width: 110px;
 `;
 
-export const FABButton = styled.button<{ isGreen?: boolean }>`
+export const Button = styled.button<{ isGreen?: boolean }>`
   display: center;
   justify-content: center;
   align-items: center;

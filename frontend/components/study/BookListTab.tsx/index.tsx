@@ -1,5 +1,5 @@
 import Book from '../../common/Book';
-import { BookGrid, BookListTabWrapper, LeftTab, RightTab, TabTitle } from './styled';
+import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './styled';
 
 export default function BookListTab() {
   const items = [1, 2, 3, 4, 5, 6, 7];
@@ -7,8 +7,8 @@ export default function BookListTab() {
   return (
     <BookListTabWrapper>
       <TabTitle>
-        <LeftTab>엮은 책</LeftTab>
-        <RightTab>북마크한 책</RightTab>
+        <TabTitleContent>엮은 책</TabTitleContent>
+        <TabTitleContent>북마크한 책</TabTitleContent>
       </TabTitle>
       <BookGrid>
         {items.map((item) => (

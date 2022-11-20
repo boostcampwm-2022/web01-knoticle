@@ -1,6 +1,6 @@
 import GNB from '../components/common/GNB';
-import FAB from '../components/FAB';
 import BookListTab from '../components/study/BookListTab.tsx';
+import FAB from '../components/study/FAB';
 import UserProfile from '../components/study/UserProfile';
 import { FlexCenterPositioner, PageColorWrapper } from '../styles/layout';
 

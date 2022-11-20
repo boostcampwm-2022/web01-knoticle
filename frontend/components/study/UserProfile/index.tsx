@@ -5,8 +5,8 @@ import User1 from '../../../assets/ico_user1.svg';
 import { TextLinkMedium } from '../../../styles/common';
 import {
   ProfileEditButton,
-  Userdesciprtion,
-  USerDetialGroup,
+  UserDescription,
+  UserDetailGroup,
   Username,
   UserProfileWrapper,
   UserThumbnail,
@@ -16,14 +16,14 @@ export default function UserProfile() {
   return (
     <UserProfileWrapper>
       <UserThumbnail src={User1} alt="User1" />
-      <USerDetialGroup>
+      <UserDetailGroup>
         <Username>Web01</Username>
-        <Userdesciprtion>안녕하세요 Web01입니다.</Userdesciprtion>
+        <UserDescription>안녕하세요 Web01입니다.</UserDescription>
         <ProfileEditButton type="button">
           <TextLinkMedium>프로필 수정</TextLinkMedium>
           <Image src={Edit} alt="profile_edit" />
         </ProfileEditButton>
-      </USerDetialGroup>
+      </UserDetailGroup>
     </UserProfileWrapper>
   );
 }

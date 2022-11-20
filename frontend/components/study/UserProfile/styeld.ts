@@ -19,7 +19,7 @@ export const UserThumbnail = styled(Image)`
   border: 1px solid var(--grey-01-color);
 `;
 
-export const USerDetialGroup = styled.div`
+export const UserDetailGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 30px;
@@ -28,7 +28,7 @@ export const USerDetialGroup = styled.div`
 
 export const Username = styled(TextLarge)``;
 
-export const Userdesciprtion = styled(TextSmall)``;
+export const UserDescription = styled(TextSmall)``;
 
 export const ProfileEditButton = styled.button`
   width: 120px;
