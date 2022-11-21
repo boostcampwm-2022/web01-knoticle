@@ -21,7 +21,7 @@ export const BookInfoContainer = styled(FlexColumn)`
 `;
 
 export const BookTitle = styled.div`
-  div: nth-child(1) {
+  div:nth-child(1) {
     font-weight: 700;
   }
 `;
