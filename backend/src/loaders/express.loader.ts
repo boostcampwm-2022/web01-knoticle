@@ -1,8 +1,9 @@
+import { Application, ErrorRequestHandler, json, urlencoded } from 'express';
+
 import cors from 'cors';
-import express, { Application, ErrorRequestHandler } from 'express';
 import logger from 'morgan';
 
-import router from '../apis';
+import router from '@apis';
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   const { status, message } = err;
@@ -12,8 +13,8 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 export default (app: Application) => {
   app.use(logger('dev'));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: false }));
+  app.use(json());
+  app.use(urlencoded({ extended: false }));
   app.use(cors({ credentials: true, origin: process.env.ORIGIN_URL }));
   app.use('/api', router);
   app.use(errorHandler);

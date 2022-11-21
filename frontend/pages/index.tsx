@@ -1,11 +1,12 @@
+import GNB from '@components/common/GNB';
+
 import Footer from '../components/common/Footer';
-import GNB from '../components/common/GNB';
 import Slider from '../components/Slider';
 import { FlexColumnCenter } from '../styles/layout';
 
 export default function Home() {
   return (
-    <FlexColumnCenter style={{ 'background-color': '#fffce9' }}>
+    <FlexColumnCenter style={{ backgroundColor: '#fffce9' }}>
       <GNB />
       <Slider />
       <Slider />

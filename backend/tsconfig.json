@@ -4,9 +4,17 @@
     "module": "CommonJS",
     "outDir": "./dist",
     "rootDir": "src",
-    "baseUrl": ".",
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "noImplicitAny": true,
+    "baseUrl": ".",
+    "paths": {
+      "@apis/*": ["./src/apis/*"],
+      "@apis": ["./src/apis"],
+      "@errors/*": ["./src/errors/*"],
+      "@errors": ["./src/errors"],
+      "@config/*": ["./src/config/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
   }
 }

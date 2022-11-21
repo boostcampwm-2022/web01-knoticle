@@ -1,6 +1,6 @@
 import express from 'express';
 
-import './config/env.config';
+import '@config/env.config';
 import loader from './loaders';
 
 const startServer = async () => {

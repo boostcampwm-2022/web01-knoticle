@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    color: var(--title-active-color);
     font-family: 'Noto Sans KR';
     font-weight: 500;
   }

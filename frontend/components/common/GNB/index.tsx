@@ -2,11 +2,12 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
-import ArticleIcon from '../../../assets/ico_article.svg';
-import PersonIcon from '../../../assets/ico_person.svg';
-import SearchIcon from '../../../assets/ico_search.svg';
-import SignInModal from '../../SignInModal';
-import Modal from '../Modal';
+import ArticleIcon from '@assets/ico_article.svg';
+import PersonIcon from '@assets/ico_person.svg';
+import SearchIcon from '@assets/ico_search.svg';
+import Modal from '@components/common/Modal';
+import SignInModal from '@components/SignInModal';
+
 import { GNBbar, IconsContainer, Logo } from './styled';
 
 export default function GNB() {

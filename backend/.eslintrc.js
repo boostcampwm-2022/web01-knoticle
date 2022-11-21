@@ -30,7 +30,13 @@ module.exports = {
       'error',
       {
         groups: ['builtin', 'external', 'internal'],
-        pathGroups: [],
+        pathGroups: [
+          {
+            pattern: '{express*,express*/**}',
+            group: 'builtin',
+            position: 'before',
+          },
+        ],
         pathGroupsExcludedImportTypes: [],
         'newlines-between': 'always',
         alphabetize: {
@@ -39,5 +45,15 @@ module.exports = {
         },
       },
     ],
+  },
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      typescript: {
+        project: 'backend/tsconfig.json',
+      },
+    },
   },
 };
