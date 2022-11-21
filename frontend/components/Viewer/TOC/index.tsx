@@ -39,7 +39,7 @@ export default function TOC() {
           <TOClist>
             {sampleData.articles.map((v, i) => {
               return (
-                <TextSmall key={i}>
+                <TextSmall key={v}>
                   {i + 1}.{v}
                 </TextSmall>
               );

@@ -1,0 +1,65 @@
+name: Deploy to Production (Frontend)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: frontend-cache
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - if: ${{ steps.frontend-cache.outputs.cache-hit != 'true' }}
+        name: Install Dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Generate Environment Variables
+        run: |
+          echo "NEXT_PUBLIC_SERVER_URL=$SERVER_URL" >> .env.production
+          echo "NEXT_PUBLIC_GH_ID=$GH_ID" >> .env.production
+          echo "NEXT_PUBLIC_GH_CALLBACK=$GH_CALLBACK" >> .env.production
+        env:
+          CI: false
+          SERVER_URL: '${{ secrets.SERVER_URL }}'
+          GH_ID: '${{ secrets.GH_ID }}'
+          GH_CALLBACK: '${{ secrets.GH_CALLBACK }}'
+        working-directory: frontend
+
+      - name: Build
+        run: npm run build
+        working-directory: frontend
+
+      - name: Deploy with SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "frontend/"
+          target: "frontend"
+
+      # - name: SSH
+      #   uses: appleboy/ssh-action@v0.1.4
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     password: ${{ secrets.SSH_PASSWORD }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     script: ${{ secrets.SSH_SCRIPT }}

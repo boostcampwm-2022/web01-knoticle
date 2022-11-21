@@ -36,7 +36,7 @@ export const SliderIndicatorContainer = styled.div`
   gap: 4px;
 `;
 
-export const SliderIndicator = styled.div`
+export const SliderIndicator = styled.div<{ number: number; sliderNumber: number }>`
   width: 40px;
   height: 8px;
   border-radius: 10px;

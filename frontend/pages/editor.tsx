@@ -13,7 +13,7 @@ export default function EditorPage() {
 
   return (
     <>
-      <EditBar handleModalOpen={() => handleModalOpen(true)} />
+      <EditBar handleModalOpen={() => setModalShown(true)} />
       <Editor />
       {isModalShown && (
         <Modal title="글 발행하기" handleModalClose={handleModalClose}>
