@@ -24,8 +24,8 @@ const getSignedUser = async (username: string, password: string) => {
   return user;
 };
 
-const getTokens = (userId: number) => {
-  const accessToken = generateJWT('3h', { id: userId });
+const getTokens = (userId: number, nickname: string) => {
+  const accessToken = generateJWT('3h', { id: userId, nickname });
   const refreshToken = generateJWT('7d');
 
   return {
@@ -34,7 +34,7 @@ const getTokens = (userId: number) => {
   };
 };
 
-const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number } = {}) => {
+const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number; nickname?: string } = {}) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
 };
 

@@ -11,7 +11,7 @@ const signIn = async (req: Request, res: Response) => {
 
   const user = await authService.getSignedUser(username, password);
 
-  const { accessToken, refreshToken } = authService.getTokens(user.id);
+  const { accessToken, refreshToken } = authService.getTokens(user.id, user.nickname);
 
   await authService.saveRefreshToken(user.id, refreshToken);
 
@@ -32,7 +32,7 @@ const signInGithub = async (req: Request, res: Response) => {
     (await authService.getUserByLocalDB(provider_id)) ||
     (await authService.signUpGithubUser(username, provider_id));
 
-  const { accessToken, refreshToken } = authService.getTokens(githubUser.id);
+  const { accessToken, refreshToken } = authService.getTokens(githubUser.id, githubUser.nickname);
 
   await authService.saveRefreshToken(githubUser.id, refreshToken);
 
