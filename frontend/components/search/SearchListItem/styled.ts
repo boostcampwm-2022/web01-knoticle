@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { TextMedium, TextSmall } from '../../../styles/common';
+import { TextMedium, TextSmall } from '@styles/common';
 
 export const ItemWrapper = styled.div`
   padding: 16px;

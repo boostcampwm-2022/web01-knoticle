@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { TextXSmall } from '../../../styles/common';
-import { FlexColumn } from '../../../styles/layout';
+import { TextXSmall } from '@styles/common';
+import { FlexColumn } from '@styles/layout';
 
 export const BookWrapper = styled(FlexColumn)`
   width: 280px;

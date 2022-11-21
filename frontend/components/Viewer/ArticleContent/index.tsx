@@ -1,10 +1,11 @@
 import Image from 'next/image';
 
-import LeftBtnIcon from '../../../assets/ico_leftBtn.svg';
-import Original from '../../../assets/ico_original.svg';
-import RightBtnIcon from '../../../assets/ico_rightBtn.svg';
-import Scrap from '../../../assets/ico_scrap.svg';
-import { TextLarge } from '../../../styles/common';
+import LeftBtnIcon from '@assets/ico_leftBtn.svg';
+import Original from '@assets/ico_original.svg';
+import RightBtnIcon from '@assets/ico_rightBtn.svg';
+import Scrap from '@assets/ico_scrap.svg';
+import { TextLarge } from '@styles/common';
+
 import ArticleButton from './Button';
 import sampleData from './sampledata';
 import {

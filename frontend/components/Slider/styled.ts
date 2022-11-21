@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { FlexColumn } from '../../styles/layout';
+import { FlexColumn } from '@styles/layout';
 
 export const SliderWrapper = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ export const SliderIndicatorContainer = styled.div`
   gap: 4px;
 `;
 
-export const SliderIndicator = styled.div`
+export const SliderIndicator = styled.div<{ number: number; sliderNumber: number }>`
   width: 40px;
   height: 8px;
   border-radius: 10px;

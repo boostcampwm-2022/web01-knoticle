@@ -1,7 +1,8 @@
 import Image from 'next/image';
 
-import Add from '../../../assets/ico_add.svg';
-import EditWhite from '../../../assets/ico_edit_white.svg';
+import Add from '@assets/ico_add.svg';
+import EditWhite from '@assets/ico_edit_white.svg';
+
 import { Button, FABWrapper } from './styled';
 
 export default function FAB() {

@@ -2,7 +2,8 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
-import CaretDownIcon from '../../../assets/ico_caret_down.svg';
+import CaretDownIcon from '@assets/ico_caret_down.svg';
+
 import {
   DropdownWrapper,
   IconWrapper,

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Flex } from '../../../styles/layout';
+import { Flex } from '@styles/layout';
 
 export const TOCBox = styled(Flex)`
   /* 고정크기? %? */
