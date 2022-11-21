@@ -21,7 +21,7 @@ model User {
   deleted_at DateTime?
   books Book[]
   bookmarks Bookmark[]
-  temp_article TempArticle?
+  temporary_article TemporaryArticle?
   token Token?
 }
 
@@ -42,6 +42,8 @@ model Article {
   id  Int @id @default(autoincrement())
   title String @db.VarChar(50)
   contents String @db.Text
+  created_at DateTime @default(now())
+  deleted_at DateTime?
   book Book @relation(fields: [book_id], references: [id])
   book_id Int
   scraps Scrap[]
@@ -65,7 +67,7 @@ model Bookmark {
   book_id Int
 }
 
-model TempArticle {
+model TemporaryArticle {
   id  Int @id @default(autoincrement())
   title String @db.VarChar(50)
   contents String @db.Text
