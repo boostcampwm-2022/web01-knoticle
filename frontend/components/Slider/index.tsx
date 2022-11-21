@@ -46,6 +46,7 @@ function Slider() {
           <Book />
           <Book />
           <Book />
+          <Book />
         </SliderBookContainer>
       </SliderContent>
 
