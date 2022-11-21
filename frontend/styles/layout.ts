@@ -19,6 +19,12 @@ export const FlexSpaceBetween = styled.div`
   justify-content: space-between;
 `;
 
+export const FlexColumnCenter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const PageColorWrapper = styled.div`
   width: 100%;
   height: 100%;
