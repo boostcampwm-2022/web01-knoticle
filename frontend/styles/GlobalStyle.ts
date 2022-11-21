@@ -21,6 +21,12 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
   }
 
+  button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
 `;
 
 export default GlobalStyle;

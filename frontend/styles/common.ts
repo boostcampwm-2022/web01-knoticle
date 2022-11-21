@@ -4,6 +4,7 @@ const Text = styled.div`
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 400;
+  color: var(--grey-01-color);
 `;
 
 export const TextLarge = styled(Text)`
@@ -30,7 +31,7 @@ const TextLink = styled.div`
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 500;
-  color: var(--title-active-color);
+  color: var(--grey-01-color);
 `;
 
 export const TextLinkMedium = styled(TextLink)`
