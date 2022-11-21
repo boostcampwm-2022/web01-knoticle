@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Generate Environment Variables
         run: |
-          echo "$SERVER_URL" >> .env.production
+          echo "$BACKEND_ENV" >> .env.production
         env:
           CI: false
           BACKEND_ENV: '${{ secrets.BACKEND_ENV }}'
