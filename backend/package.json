@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev tsc-watch --onSuccess \"ts-node -r tsconfig-paths/register dist/index.js\""
+    "dev": "cross-env NODE_ENV=dev tsc-watch --onSuccess \"ts-node -r tsconfig-paths/register dist/index.js\"",
+    "build": "tsc",
+    "start": "NODE_ENV=prod ts-node -r tsconfig-paths/register dist/index.js"
   },
   "dependencies": {
     "@prisma/client": "^4.6.1",
