@@ -30,7 +30,6 @@ const TextLink = styled.div`
   font-family: 'Noto Sans KR';
   font-style: normal;
   font-weight: 500;
-  color: var(--title-active-color);
 `;
 
 export const TextLinkMedium = styled(TextLink)`

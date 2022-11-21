@@ -17,8 +17,15 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    color: var(--title-active-color);
     font-family: 'Noto Sans KR';
     font-weight: 500;
+  }
+
+  button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
   }
 
 `;
