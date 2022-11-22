@@ -1,7 +1,9 @@
+import { CreateArticle } from '@apis/article/article.interface';
 import { prisma } from '@config/orm.config';
 
-const createArticle = async (title: string, contents: string, book_id: number) => {
-  console.log(title, 111);
+const createArticle = async (dto: CreateArticle) => {
+  const { title, contents, book_id } = dto;
+
   const article = await prisma.article.create({
     data: {
       title,
@@ -13,6 +15,7 @@ const createArticle = async (title: string, contents: string, book_id: number) =
       },
     },
   });
+
   return article;
 };
 

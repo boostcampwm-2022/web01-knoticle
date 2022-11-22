@@ -1,14 +1,9 @@
+import { CreateScrap } from '@apis/scrap/scrap.interface';
 import { prisma } from '@config/orm.config';
 
-interface createScrapProps {
-  order: number;
-  is_original: boolean;
-  book_id: number;
-  article_id: number;
-}
-
-const createScrap = async (dto: createScrapProps) => {
+const createScrap = async (dto: CreateScrap) => {
   const { order, is_original, book_id, article_id } = dto;
+
   const scrap = await prisma.scrap.create({
     data: {
       order,

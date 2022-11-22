@@ -5,12 +5,12 @@ import scrapService from '@apis/scrap/scrap.service';
 import articleService from './article.service';
 
 const publish = async (req: Request, res: Response) => {
-  const { title, contents, book_id } = req.body;
-  const article = await articleService.createArticle(title, contents, book_id);
+  const article = await articleService.createArticle(req.body);
+
   const scrap = await scrapService.createScrap({
     order: 1,
     is_original: true,
-    book_id,
+    book_id: article.book_id,
     article_id: article.id,
   });
 
