@@ -15,6 +15,7 @@ const createImage = async (dto: CreateImage) => {
   });
 
   const imageName = uuidv4() + '.png';
+  const imagePath = `${process.env.OS_ENDPOINT}/${process.env.OS_BUCKET}/${imageName}`;
 
   await ObjectStorage.putObject({
     Bucket: process.env.OS_BUCKET,
@@ -22,8 +23,7 @@ const createImage = async (dto: CreateImage) => {
     ACL: 'public-read',
     Body: file.buffer,
     ContentType: 'image/png',
-  });
-  const imagePath = `${process.env.OS_ENDPOINT}/${process.env.OS_BUCKET}/${imageName}`;
+  }).promise();
 
   return imagePath;
 };
