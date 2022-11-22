@@ -52,6 +52,8 @@ const signUp = async (req: Request, res: Response) => {
     throw new ResourceConflict(Message.AUTH_NICKNAME_OVERLAP);
   }
 
+  await authService.signUpLocalUser(username, password, nickname);
+
   res.status(200).send();
 };
 

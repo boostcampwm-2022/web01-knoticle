@@ -1,7 +1,10 @@
 import { prisma } from '@config/orm.config';
 import { Message, Unauthorized } from '@errors';
 import axios from 'axios';
+import { hash } from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
+const SALT = 12;
 
 const getSignedUser = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
@@ -142,6 +145,22 @@ const checkLocalUsernameUnique = async (username: string) => {
   return !user ? true : false;
 };
 
+const signUpLocalUser = async (username: string, password: string, nickname: string) => {
+  const encryptedPassword = await hash(password, SALT);
+
+  const user = await prisma.user.create({
+    data: {
+      username,
+      nickname,
+      provider: 'local',
+      password: encryptedPassword,
+      profile_image: '',
+    },
+  });
+
+  return user;
+};
+
 export default {
   getSignedUser,
   getTokens,
@@ -152,4 +171,5 @@ export default {
   signUpGithubUser,
   checkLocalUsernameUnique,
   checkNicknameUnique,
+  signUpLocalUser,
 };
