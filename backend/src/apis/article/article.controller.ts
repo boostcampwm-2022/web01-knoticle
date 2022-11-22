@@ -23,4 +23,16 @@ const publish = async (req: Request, res: Response) => {
   res.status(201).send({ article, scrap });
 };
 
-export default { publish };
+const saveTemporaryArticle = async (req: Request, res: Response) => {
+  const { title, contents, user_id } = req.body;
+
+  const temporaryArticle = await articleService.createTemporaryArticle({
+    title,
+    contents,
+    user_id,
+  });
+
+  res.status(201).send({ temporaryArticle });
+};
+
+export default { publish, saveTemporaryArticle };

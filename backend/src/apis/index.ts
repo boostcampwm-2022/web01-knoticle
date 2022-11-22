@@ -10,6 +10,7 @@ const router = Router();
 router.post('/auth/signin/local', catchAsync(authController.signIn));
 router.post('/auth/signin/github', catchAsync(authController.signInGithub));
 
+router.post('/articles/temporary', catchAsync(articleController.saveTemporaryArticle));
 router.post('/articles', catchAsync(articleController.publish));
 
 router.get('/books/search');
