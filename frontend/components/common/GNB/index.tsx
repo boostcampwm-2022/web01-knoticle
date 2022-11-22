@@ -41,7 +41,7 @@ export default function GNB() {
             handleBackwardBtnClicked={handleBackwardBtnClicked}
             hasBackward
           >
-            <SignUpModal />
+            <SignUpModal handleModalClose={handleModalClose} />
           </Modal>
         )) || (
           <Modal title="Knoticle 시작하기" handleModalClose={handleModalClose}>

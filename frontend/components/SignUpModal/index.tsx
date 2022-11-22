@@ -4,9 +4,14 @@ import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
 import axios from 'axios';
 
-import SignUpModalWrapper from './styled';
+import { SignUpModalWrapper, SignUpModalErrorMessage } from './styled';
 
-function SignUpModal() {
+interface SignUpModalProps {
+  handleModalClose: () => void;
+}
+
+function SignUpModal({ handleModalClose }: SignUpModalProps) {
+  const [errorMessage, setErrorMessage] = useState('');
   const [info, setInfo] = useState({
     username: '',
     password: '',
@@ -21,11 +26,19 @@ function SignUpModal() {
   };
 
   const handleSignUpBtnClick = () => {
-    return ``;
+    axios
+      .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signup`, info)
+      .then(() => {
+        handleModalClose();
+      })
+      .catch((err) => {
+        setErrorMessage(err.response.data.message);
+      });
   };
 
   return (
     <SignUpModalWrapper>
+      <SignUpModalErrorMessage>{errorMessage}</SignUpModalErrorMessage>
       <LabeledInput
         label="아이디"
         type="text"
