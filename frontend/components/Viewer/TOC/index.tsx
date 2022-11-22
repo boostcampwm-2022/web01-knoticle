@@ -11,8 +11,8 @@ import {
   TocTitle,
   TocContainer,
   TocList,
-  TocProflie,
-  TocProflieText,
+  TocProfile,
+  TocProfileText,
   TocImgWrapper,
 } from './styled';
 
@@ -48,13 +48,13 @@ export default function TOC() {
           </TocList>
         </TocContainer>
       </TocSideBar>
-      <TocProflie>
-        <TocProflieText>
+      <TocProfile>
+        <TocProfileText>
           <TextSmall>Written by</TextSmall>
           <TextMedium>{sampleData.username}</TextMedium>
-        </TocProflieText>
+        </TocProfileText>
         <TocImgWrapper src={SampleProflie} alt="Viewer Icon" />
-      </TocProflie>
+      </TocProfile>
     </TocWrapper>
   );
 }
