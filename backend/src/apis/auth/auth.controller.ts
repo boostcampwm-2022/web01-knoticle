@@ -44,7 +44,6 @@ const signInGithub = async (req: Request, res: Response) => {
 
 const signUp = async (req: Request, res: Response) => {
   const { username, password, nickname } = req.body;
-  console.log(username, password, nickname, '!');
 
   if (!(await authService.checkLocalUsernameUnique(username))) {
     throw new ResourceConflict(Message.AUTH_USERNAME_OVERLAP);
