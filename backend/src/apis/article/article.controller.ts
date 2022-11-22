@@ -1,7 +1,12 @@
 import { Request, Response } from 'express';
 
+import articleService from './article.service';
+
 const publish = async (req: Request, res: Response) => {
-  res.status(200).send(req.body);
+  const { title, contents, book_id } = req.body;
+  const article = await articleService.createArticle(title, contents, book_id);
+
+  res.status(200).send({ article });
 };
 
 export default { publish };
