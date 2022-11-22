@@ -1,9 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { Flex } from '@styles/layout';
+
+const slide = keyframes`
+from {
+    left:-200px;
+}
+to {
+    left:0px;
+}
+`;
 
 export const TocWrapper = styled(Flex)`
   /* 고정크기? %? */
@@ -12,6 +21,8 @@ export const TocWrapper = styled(Flex)`
   background-color: var(--primary-color);
   color: var(--white-color);
   flex-direction: column;
+  position: relative;
+  animation: ${slide} 1s ease-in-out;
 `;
 
 export const TocSideBar = styled.div`
