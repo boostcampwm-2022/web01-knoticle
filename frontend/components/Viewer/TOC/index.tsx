@@ -6,15 +6,15 @@ import SampleProflie from '@assets/ico_sampleProfile.svg';
 import { TextMedium, TextSmall } from '@styles/common';
 
 import {
-  TOCBox,
-  TOCsideBar,
-  TOCIcons,
-  TOCtitle,
-  TOCcontainer,
-  TOClist,
-  TOCproflie,
-  TOCproflieText,
-  TOCImgBox,
+  TocWrapper,
+  TocSideBar,
+  TocIcons,
+  TocTitle,
+  TocContainer,
+  TocList,
+  TocProfile,
+  TocProfileText,
+  TocImgWrapper,
 } from './styled';
 
 const sampleData = {
@@ -26,18 +26,18 @@ const sampleData = {
 
 export default function TOC() {
   return (
-    <TOCBox>
-      <TOCsideBar>
-        <TOCIcons>
+    <TocWrapper>
+      <TocSideBar>
+        <TocIcons>
           <Image src={Bookmark} alt="Viewer Icon" />
           <Image src={Hide} alt="Viewer Icon" />
-        </TOCIcons>
+        </TocIcons>
         <TextSmall>{sampleData.bookmarkNum}</TextSmall>
-        <TOCtitle>{sampleData.bookTitle}</TOCtitle>
+        <TocTitle>{sampleData.bookTitle}</TocTitle>
 
-        <TOCcontainer>
+        <TocContainer>
           <TextMedium>목차</TextMedium>
-          <TOClist>
+          <TocList>
             {sampleData.articles.map((v, i) => {
               return (
                 <TextSmall key={v}>
@@ -45,18 +45,16 @@ export default function TOC() {
                 </TextSmall>
               );
             })}
-          </TOClist>
-        </TOCcontainer>
-      </TOCsideBar>
-      <TOCproflie>
-        <TOCproflieText>
+          </TocList>
+        </TocContainer>
+      </TocSideBar>
+      <TocProfile>
+        <TocProfileText>
           <TextSmall>Written by</TextSmall>
           <TextMedium>{sampleData.username}</TextMedium>
-        </TOCproflieText>
-        <TOCImgBox>
-          <Image src={SampleProflie} alt="Viewer Icon" layout="fill" objectFit="contain" />
-        </TOCImgBox>
-      </TOCproflie>
-    </TOCBox>
+        </TocProfileText>
+        <TocImgWrapper src={SampleProflie} alt="Viewer Icon" />
+      </TocProfile>
+    </TocWrapper>
   );
 }

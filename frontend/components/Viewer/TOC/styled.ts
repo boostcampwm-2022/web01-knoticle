@@ -1,8 +1,10 @@
+import Image from 'next/image';
+
 import styled from 'styled-components';
 
 import { Flex } from '@styles/layout';
 
-export const TOCBox = styled(Flex)`
+export const TocWrapper = styled(Flex)`
   /* 고정크기? %? */
   min-width: 250px;
   height: calc(100vh - 66px);
@@ -11,20 +13,20 @@ export const TOCBox = styled(Flex)`
   flex-direction: column;
 `;
 
-export const TOCsideBar = styled.div`
+export const TocSideBar = styled.div`
   padding: 30px;
   flex-basis: 90%;
 `;
 
-export const TOCIcons = styled(Flex)`
+export const TocIcons = styled(Flex)`
   justify-content: space-between;
 `;
 
-export const TOCtitle = styled.div`
+export const TocTitle = styled.div`
   padding: 10px 0;
   border-bottom: 1px solid var(--white-color);
 `;
-export const TOCcontainer = styled.div`
+export const TocContainer = styled.div`
   background-color: var(--white-color);
   height: 70%;
   color: var(--grey-01-color);
@@ -33,24 +35,24 @@ export const TOCcontainer = styled.div`
   margin-top: 10px;
   overflow: auto;
 `;
-export const TOClist = styled.div`
+export const TocList = styled.div`
   margin: 5px;
 `;
 
-export const TOCproflie = styled(Flex)`
+export const TocProfile = styled(Flex)`
   justify-content: end;
   align-items: end;
   flex-basis: 10%;
   padding: 20px;
 `;
-export const TOCproflieText = styled(Flex)`
+export const TocProfileText = styled(Flex)`
   flex-direction: column;
   align-items: end;
   justify-content: end;
   padding-left: 10px;
 `;
 
-export const TOCImgBox = styled.div`
+export const TocImgWrapper = styled(Image)`
   width: 70px;
   height: 70px;
   position: relative;
