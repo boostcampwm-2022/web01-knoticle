@@ -1,5 +1,6 @@
-import ModalButton from '../../common/Modal/ModalButton';
-import Dropdown from '../Dropdown';
+import ModalButton from '@components/common/Modal/ModalButton';
+import Dropdown from '@components/edit/Dropdown';
+
 import { Label, PublishModalWrapper } from './styled';
 
 export default function PublishModal() {

@@ -1,4 +1,5 @@
-import Book from '../../common/Book';
+import Book from '@components/common/Book';
+
 import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './styled';
 
 export default function BookListTab() {

@@ -25,16 +25,22 @@ export const FlexColumnCenter = styled.div`
   align-items: center;
 `;
 
-export const PageColorWrapper = styled.div`
-  width: 100%;
-  height: 100%;
+export const PageWrapper = styled.div`
+  padding-top: 64px;
+  min-height: calc(100vh - 67px);
   background-color: var(--light-yellow-color);
 `;
 
-export const FlexCenterPositioner = styled(FlexCenter)`
-  width: 70%;
-  left: 0;
-  right: 0;
-  margin: auto;
-  flex-direction: column;
+export const PageInnerSmall = styled(FlexColumnCenter)`
+  margin: 0 auto;
+  max-width: 900px;
+`;
+
+export const PageInnerLarge = styled(FlexColumnCenter)`
+  margin: 0 auto;
+  max-width: 1200px;
+`;
+
+export const TopBar = styled.nav`
+  height: 67px;
 `;

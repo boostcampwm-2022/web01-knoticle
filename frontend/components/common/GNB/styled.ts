@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const GNBbar = styled.nav`
+import { TopBar } from '@styles/layout';
+
+export const GNBbar = styled(TopBar)`
   width: 100%;
   border-bottom: 1px solid #222222;
   display: flex;

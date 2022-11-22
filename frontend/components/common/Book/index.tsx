@@ -1,10 +1,11 @@
 import Image from 'next/image';
 
-import BookmarkIcon from '../../../assets/ico_bookmark.svg';
-import MoreContentsIcon from '../../../assets/ico_more_contents.svg';
-import SampleThumbnail from '../../../assets/img_sample_thumbnail.jpg';
-import { TextLarge, TextXSmall, TextSmall } from '../../../styles/common';
-import { FlexCenter, FlexSpaceBetween } from '../../../styles/layout';
+import BookmarkIcon from '@assets/ico_bookmark.svg';
+import MoreContentsIcon from '@assets/ico_more_contents.svg';
+import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
+import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
+import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
+
 import {
   BookWrapper,
   BookInfoContainer,
