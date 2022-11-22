@@ -1,7 +1,7 @@
 import { prisma } from '@config/orm.config';
 import { Message, Unauthorized } from '@errors';
 import axios from 'axios';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 const SALT = 12;
@@ -21,7 +21,7 @@ const getSignedUser = async (username: string, password: string) => {
 
   if (!user) throw new Unauthorized(Message.AUTH_WRONG);
 
-  if (user.password !== password) throw new Unauthorized(Message.AUTH_WRONG);
+  if (!(await compare(password, user.password))) throw new Unauthorized(Message.AUTH_WRONG);
 
   return user;
 };
