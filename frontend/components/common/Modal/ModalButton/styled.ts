@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { TextMedium } from '../../../../styles/common';
+import { TextMedium } from '@styles/common';
 
 export const CustomButton = styled.button<{ theme: 'primary' | 'second' }>`
   padding: 16px 0;

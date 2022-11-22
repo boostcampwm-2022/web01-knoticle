@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { TextSmall } from '../../../../styles/common';
+import { TextSmall } from '@styles/common';
 
 export const ViewerButton = styled.button`
   max-width: 120px;

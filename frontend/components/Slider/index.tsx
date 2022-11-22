@@ -2,10 +2,11 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
-import RightArrowIcon from '../../assets/ico_arrow_right.svg';
-import ListIcon from '../../assets/ico_flower.svg';
-import { FlexSpaceBetween } from '../../styles/layout';
-import Book from '../common/Book';
+import RightArrowIcon from '@assets/ico_arrow_right.svg';
+import ListIcon from '@assets/ico_flower.svg';
+import Book from '@components/common/Book';
+import { FlexSpaceBetween } from '@styles/layout';
+
 import {
   SliderContent,
   SliderInfo,
@@ -42,6 +43,7 @@ function Slider() {
         </FlexSpaceBetween>
 
         <SliderBookContainer>
+          <Book />
           <Book />
           <Book />
           <Book />

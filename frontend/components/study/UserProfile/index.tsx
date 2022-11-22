@@ -1,8 +1,9 @@
 import Image from 'next/image';
 
-import Edit from '../../../assets/ico_edit.svg';
-import User1 from '../../../assets/ico_user1.svg';
-import { TextLinkMedium } from '../../../styles/common';
+import Edit from '@assets/ico_edit.svg';
+import User1 from '@assets/ico_user1.svg';
+import { TextLinkMedium } from '@styles/common';
+
 import {
   ProfileEditButton,
   UserDescription,
