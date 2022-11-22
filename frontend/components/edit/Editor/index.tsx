@@ -10,6 +10,7 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
 import Preview from '@components/edit/Preview';
+import useInput from 'hooks/useInput';
 
 import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
 
@@ -20,6 +21,7 @@ const CodeMirror = dynamic(() => import('@uiw/react-codemirror'), {
 export default function Editor() {
   const [content, setContent] = useState('');
   const [html, setHtml] = useState('');
+  const title = useInput();
 
   const [height, setHeight] = useState(0);
 
@@ -41,7 +43,7 @@ export default function Editor() {
   return (
     <EditorWrapper style={{ height }}>
       <EditorInner>
-        <TitleInput placeholder="제목을 입력해주세요" />
+        <TitleInput placeholder="제목을 입력해주세요" {...title} />
         <CodeMirrorWrapper>
           <CodeMirror
             value={content}
@@ -60,7 +62,7 @@ export default function Editor() {
           />
         </CodeMirrorWrapper>
       </EditorInner>
-      <Preview title="title" content={html} />
+      <Preview title={title.value} content={html} />
     </EditorWrapper>
   );
 }
