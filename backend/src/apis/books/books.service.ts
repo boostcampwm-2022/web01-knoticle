@@ -27,7 +27,6 @@ const getBookData = async (bookId: number) => {
         },
       },
       _count: {
-        // 북마크 수
         select: { bookmarks: true },
       },
     },

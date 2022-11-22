@@ -9,7 +9,6 @@ const router = Router();
 router.post('/auth/signin/local', catchAsync(authController.signIn));
 router.post('/auth/signin/github', catchAsync(authController.signInGithub));
 
-router.get('/search?type=book');
-
-router.get('/books/:bookId([0-9]{1,})', catchAsync(bookController.bookTest));
+router.get('/books/search');
+router.get('/books/:bookId', catchAsync(bookController.bookTest));
 export default router;
