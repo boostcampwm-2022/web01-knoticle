@@ -6,13 +6,20 @@ import axios from 'axios';
 
 import GNB from '@components/common/GNB';
 import ArticleContainer from '@components/viewer/ArticleContent';
+import ClosedSideBar from '@components/Viewer/CloseedSideBar';
 import TOC from '@components/viewer/TOC';
 import { Flex } from '@styles/layout';
 
 export default function Viewer() {
   const [book, setBook] = useState(null);
+  const [isOpened, setIsOpened] = useState(true);
 
   const router = useRouter();
+
+  const handleSideBar = () => {
+    setIsOpened((prev) => !prev);
+  };
+
   useEffect(() => {
     if (book) return;
     if (router.query.data?.length === 2) {
@@ -37,7 +44,11 @@ export default function Viewer() {
       <GNB />
       {book ? (
         <Flex>
-          <TOC book={book} />
+          {isOpened ? (
+            <TOC book={book} onClick={handleSideBar} />
+          ) : (
+            <ClosedSideBar onClick={handleSideBar} />
+          )}
           <ArticleContainer />
         </Flex>
       ) : (

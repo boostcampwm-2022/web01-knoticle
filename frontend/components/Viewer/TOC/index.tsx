@@ -21,15 +21,16 @@ import {
 interface TocProps {
   // book 객체에 대한 interface 추가 예정
   book: any;
+  onClick: () => void;
 }
 
-export default function TOC({ book }: TocProps) {
+export default function TOC({ book, onClick }: TocProps) {
   return (
     <TocWrapper>
       <TocSideBar>
         <TocIcons>
           <Image src={Bookmark} alt="Viewer Icon" />
-          <Image src={Hide} alt="Viewer Icon" />
+          <Image src={Hide} alt="Viewer Icon" onClick={onClick} />
         </TocIcons>
         <TextSmall>{book._count.bookmarks}</TextSmall>
         <TocTitle>{book.title}</TocTitle>
