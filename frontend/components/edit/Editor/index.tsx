@@ -2,33 +2,65 @@ import dynamic from 'next/dynamic';
 
 import { useEffect, useState } from 'react';
 
-import { EditorWrapper, TitleInput } from './styled';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
+import rehypeStringify from 'rehype-stringify';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { unified } from 'unified';
 
-import '@uiw/react-md-editor/markdown-editor.css';
-import '@uiw/react-markdown-preview/markdown.css';
+import Preview from '@components/edit/Preview';
 
-const MDEditor = dynamic(() => import('@uiw/react-md-editor'), {
+import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
+
+const CodeMirror = dynamic(() => import('@uiw/react-codemirror'), {
   ssr: false,
 });
 
 export default function Editor() {
-  const [content, setContent] = useState<string | undefined>('');
-  const [editorHeight, setEditorHeight] = useState(0);
+  const [content, setContent] = useState('');
+  const [html, setHtml] = useState('');
+
+  const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    setEditorHeight(window.innerHeight - 68);
+    setHeight(window.innerHeight - 68);
   }, []);
 
+  useEffect(() => {
+    setHtml(
+      unified()
+        .use(remarkParse)
+        .use(remarkRehype)
+        .use(rehypeStringify)
+        .processSync(content)
+        .toString()
+    );
+  }, [content]);
+
   return (
-    <EditorWrapper>
-      <TitleInput placeholder="제목을 입력해주세요" />
-      <MDEditor
-        height={editorHeight}
-        value={content}
-        onChange={(value) => {
-          setContent(value);
-        }}
-      />
+    <EditorWrapper style={{ height }}>
+      <EditorInner>
+        <TitleInput placeholder="제목을 입력해주세요" />
+        <CodeMirrorWrapper>
+          <CodeMirror
+            value={content}
+            onChange={(value) => setContent(value)}
+            extensions={[
+              markdown({
+                base: markdownLanguage,
+                codeLanguages: languages,
+              }),
+            ]}
+            basicSetup={{
+              lineNumbers: false,
+              foldGutter: false,
+              highlightSelectionMatches: false,
+            }}
+          />
+        </CodeMirrorWrapper>
+      </EditorInner>
+      <Preview title="title" content={html} />
     </EditorWrapper>
   );
 }
