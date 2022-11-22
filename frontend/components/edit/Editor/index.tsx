@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react';
 
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
+import { tags } from '@lezer/highlight';
+import { createTheme } from '@uiw/codemirror-themes';
 import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
 import Preview from '@components/edit/Preview';
-import useInput from 'hooks/useInput';
+import useInput from '@hooks/useInput';
 
 import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
 
@@ -40,6 +42,32 @@ export default function Editor() {
     );
   }, [content]);
 
+  const theme = createTheme({
+    theme: 'light',
+    settings: {
+      background: '#ffffff',
+      foreground: '#222222',
+      fontFamily: 'Noto Sans KR',
+    },
+    styles: [
+      {
+        tag: tags.heading1,
+        'font-size': '24px',
+        'font-weight': '700',
+      },
+      {
+        tag: tags.heading2,
+        'font-size': '20px',
+        'font-weight': '700',
+      },
+      {
+        tag: tags.heading3,
+        'font-size': '16px',
+        'font-weight': '700',
+      },
+    ],
+  });
+
   return (
     <EditorWrapper style={{ height }}>
       <EditorInner>
@@ -48,6 +76,7 @@ export default function Editor() {
           <CodeMirror
             value={content}
             onChange={(value) => setContent(value)}
+            theme={theme}
             extensions={[
               markdown({
                 base: markdownLanguage,
@@ -58,7 +87,9 @@ export default function Editor() {
               lineNumbers: false,
               foldGutter: false,
               highlightSelectionMatches: false,
+              highlightActiveLine: false,
             }}
+            placeholder="내용을 입력해주세요"
           />
         </CodeMirrorWrapper>
       </EditorInner>

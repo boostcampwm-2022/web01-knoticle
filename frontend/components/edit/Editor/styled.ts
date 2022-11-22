@@ -13,12 +13,10 @@ export const EditorInner = styled.div`
 `;
 
 export const CodeMirrorWrapper = styled.div`
+  font-size: 16px;
+
   .cm-editor.cm-focused {
     outline: none;
-  }
-
-  .cm-activeLine.cm-line {
-    background-color: var(--light-orange-color);
   }
 `;
 
