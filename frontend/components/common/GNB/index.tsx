@@ -36,7 +36,7 @@ export default function GNB() {
       {isModalShown &&
         ((currentModalState === 'SignUp' && (
           <Modal
-            title="Knoticle 시작하기"
+            title="Knoticle 함께하기"
             handleModalClose={handleModalClose}
             handleBackwardBtnClicked={handleBackwardBtnClicked}
             hasBackward
