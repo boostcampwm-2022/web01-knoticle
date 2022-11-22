@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import authService from '@apis/auth/auth.service';
-import { Unauthorized, Message } from '@errors';
+import { ResourceConflict, Unauthorized, Message } from '@errors';
 
 const signIn = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -42,7 +42,22 @@ const signInGithub = async (req: Request, res: Response) => {
   res.status(200).send({ id: githubUser.id, nickname: githubUser.nickname });
 };
 
+const signUp = async (req: Request, res: Response) => {
+  const { username, password, nickname } = req.body;
+  console.log(username, password, nickname, '!');
+
+  if (!(await authService.checkLocalUsernameUnique(username))) {
+    throw new ResourceConflict(Message.AUTH_USERNAME_OVERLAP);
+  }
+  if (!(await authService.checkNicknameUnique(nickname))) {
+    throw new ResourceConflict(Message.AUTH_NICKNAME_OVERLAP);
+  }
+
+  res.status(200).send();
+};
+
 export default {
   signIn,
   signInGithub,
+  signUp,
 };
