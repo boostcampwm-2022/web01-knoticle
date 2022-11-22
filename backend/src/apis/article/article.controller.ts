@@ -20,7 +20,7 @@ const publish = async (req: Request, res: Response) => {
     article_id: article.id,
   });
 
-  res.status(200).send({ article, scrap });
+  res.status(201).send({ article, scrap });
 };
 
 export default { publish };
