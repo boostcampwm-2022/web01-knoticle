@@ -24,7 +24,11 @@ const sampleData = {
   username: 'Web01',
 };
 
-export default function TOC() {
+interface TocProps {
+  book: any;
+}
+
+export default function TOC({ book }: TocProps) {
   return (
     <TocWrapper>
       <TocSideBar>
@@ -32,16 +36,16 @@ export default function TOC() {
           <Image src={Bookmark} alt="Viewer Icon" />
           <Image src={Hide} alt="Viewer Icon" />
         </TocIcons>
-        <TextSmall>{sampleData.bookmarkNum}</TextSmall>
-        <TocTitle>{sampleData.bookTitle}</TocTitle>
+        <TextSmall>{book._count.bookmarks}</TextSmall>
+        <TocTitle>{book.title}</TocTitle>
 
         <TocContainer>
           <TextMedium>목차</TextMedium>
           <TocList>
-            {sampleData.articles.map((v, i) => {
+            {book.scraps.map((v) => {
               return (
-                <TextSmall key={v}>
-                  {i + 1}.{v}
+                <TextSmall key={v.order}>
+                  {v.order}.{v.article.title}
                 </TextSmall>
               );
             })}
@@ -51,7 +55,7 @@ export default function TOC() {
       <TocProfile>
         <TocProfileText>
           <TextSmall>Written by</TextSmall>
-          <TextMedium>{sampleData.username}</TextMedium>
+          <TextMedium>{book.user.nickname}</TextMedium>
         </TocProfileText>
         <TocImgWrapper src={SampleProflie} alt="Viewer Icon" />
       </TocProfile>
