@@ -9,7 +9,11 @@ import axios from 'axios';
 
 import { SignInModalWrapper, SignInModalSignUpContainer, SignUpButton } from './styled';
 
-export default function SignInModal() {
+export default function SignInModal({
+  handleGoToSignUpBtnClicked,
+}: {
+  handleGoToSignUpBtnClicked: () => void;
+}) {
   const [info, setInfo] = useState({
     username: '',
     password: '',
@@ -71,7 +75,7 @@ export default function SignInModal() {
       </Button>
       <SignInModalSignUpContainer>
         <div>아직 계정이 없으신가요?</div>
-        <SignUpButton>회원가입하기</SignUpButton>
+        <SignUpButton onClick={handleGoToSignUpBtnClicked}>회원가입하기</SignUpButton>
       </SignInModalSignUpContainer>
     </SignInModalWrapper>
   );
