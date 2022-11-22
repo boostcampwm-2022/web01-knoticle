@@ -37,7 +37,22 @@ const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
   return temporaryArticle;
 };
 
+const findTemporaryArticle = async (userId: number) => {
+  const temporaryArticle = await prisma.temporaryArticle.findFirst({
+    where: {
+      user_id: userId,
+    },
+    select: {
+      title: true,
+      contents: true,
+    },
+  });
+
+  return temporaryArticle;
+};
+
 export default {
   createArticle,
   createTemporaryArticle,
+  findTemporaryArticle,
 };

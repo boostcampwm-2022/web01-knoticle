@@ -10,6 +10,7 @@ const router = Router();
 router.post('/auth/signin/local', catchAsync(authController.signIn));
 router.post('/auth/signin/github', catchAsync(authController.signInGithub));
 
+router.get('/articles/temporary/:userId', catchAsync(articleController.getTemporaryArticle));
 router.post('/articles/temporary', catchAsync(articleController.saveTemporaryArticle));
 router.post('/articles', catchAsync(articleController.publish));
 

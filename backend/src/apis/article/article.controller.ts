@@ -35,4 +35,12 @@ const saveTemporaryArticle = async (req: Request, res: Response) => {
   res.status(201).send({ temporaryArticle });
 };
 
-export default { publish, saveTemporaryArticle };
+const getTemporaryArticle = async (req: Request, res: Response) => {
+  const userId = Number(req.params.userId);
+
+  const temporaryArticle = await articleService.findTemporaryArticle(userId);
+
+  res.status(201).send({ temporaryArticle });
+};
+
+export default { publish, saveTemporaryArticle, getTemporaryArticle };
