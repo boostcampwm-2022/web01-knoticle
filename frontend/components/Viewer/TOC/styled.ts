@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import styled from 'styled-components';
 
-import { Flex } from '../../../styles/layout';
+import { Flex } from '@styles/layout';
 
 export const TocWrapper = styled(Flex)`
   /* 고정크기? %? */

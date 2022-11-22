@@ -1,9 +1,10 @@
 import Image from 'next/image';
 
-import Bookmark from '../../../assets/ico_bookmark.svg';
-import Hide from '../../../assets/ico_hide.svg';
-import SampleProflie from '../../../assets/ico_sampleProfile.svg';
-import { TextMedium, TextSmall } from '../../../styles/common';
+import Bookmark from '@assets/ico_bookmark.svg';
+import Hide from '@assets/ico_hide.svg';
+import SampleProflie from '@assets/ico_sampleProfile.svg';
+import { TextMedium, TextSmall } from '@styles/common';
+
 import {
   TocWrapper,
   TocSideBar,
