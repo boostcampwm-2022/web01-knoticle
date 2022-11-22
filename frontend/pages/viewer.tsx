@@ -1,7 +1,7 @@
-import GNB from '../components/common/GNB';
-import ArticleContainer from '../components/Viewer/ArticleContent';
-import TOC from '../components/Viewer/TOC';
-import { Flex } from '../styles/layout';
+import GNB from '@components/common/GNB';
+import ArticleContainer from '@components/viewer/ArticleContent';
+import TOC from '@components/viewer/TOC';
+import { Flex } from '@styles/layout';
 
 export default function Viewer() {
   return (

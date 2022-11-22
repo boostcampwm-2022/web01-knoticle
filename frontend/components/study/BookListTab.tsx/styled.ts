@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { TextLinkMedium } from '../../../styles/common';
+import { TextLinkMedium } from '@styles/common';
 
 export const BookListTabWrapper = styled.div`
   margin-top: 20px;

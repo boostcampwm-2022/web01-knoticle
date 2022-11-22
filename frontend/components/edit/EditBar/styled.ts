@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 
-export const Bar = styled.div`
+import { TopBar } from '@styles/layout';
+
+export const Bar = styled(TopBar)`
   padding: 16px 50px;
   background-color: var(--light-yellow-color);
   border-bottom: 1px solid var(--title-active-color);
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
 `;
 
 export const ButtonGroup = styled.div`

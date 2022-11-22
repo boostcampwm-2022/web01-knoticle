@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { TextXSmall } from '../../../styles/common';
-import { FlexColumn } from '../../../styles/layout';
+import { TextXSmall } from '@styles/common';
+import { FlexColumn } from '@styles/layout';
 
 export const BookWrapper = styled(FlexColumn)`
   width: 280px;
@@ -21,7 +21,7 @@ export const BookInfoContainer = styled(FlexColumn)`
 `;
 
 export const BookTitle = styled.div`
-  div: nth-child(1) {
+  div:nth-child(1) {
     font-weight: 700;
   }
 `;

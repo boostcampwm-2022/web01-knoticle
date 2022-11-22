@@ -1,7 +1,8 @@
 import Image from 'next/image';
 
-import TemporaryImage from '../../../assets/img_profile.png';
-import { TextSmall, TextXSmall } from '../../../styles/common';
+import TemporaryImage from '@assets/img_profile.png';
+import { TextSmall, TextXSmall } from '@styles/common';
+
 import {
   ItemContent,
   ItemGroup,
