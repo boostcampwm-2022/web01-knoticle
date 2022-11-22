@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 
 import { useEffect, useState } from 'react';
 
-import { EditorWrapper } from './styled';
+import { EditorWrapper, TitleInput } from './styled';
 
 import '@uiw/react-md-editor/markdown-editor.css';
 import '@uiw/react-markdown-preview/markdown.css';
@@ -21,6 +21,7 @@ export default function Editor() {
 
   return (
     <EditorWrapper>
+      <TitleInput placeholder="제목을 입력해주세요" />
       <MDEditor
         height={editorHeight}
         value={content}
