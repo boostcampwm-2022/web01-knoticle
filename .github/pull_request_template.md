@@ -1,12 +1,3 @@
----
-name: Pull Request
-about: Pull Request 작업 사항을 알려주세요!
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## 개요
 
 
