@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import styled from 'styled-components';
 
-import { Flex } from '@styles/layout';
+import { Flex } from '../../../styles/layout';
 
 export const TocWrapper = styled(Flex)`
   /* 고정크기? %? */
@@ -39,13 +39,13 @@ export const TocList = styled.div`
   margin: 5px;
 `;
 
-export const TocProflie = styled(Flex)`
+export const TocProfile = styled(Flex)`
   justify-content: end;
   align-items: end;
   flex-basis: 10%;
   padding: 20px;
 `;
-export const TocProflieText = styled(Flex)`
+export const TocProfileText = styled(Flex)`
   flex-direction: column;
   align-items: end;
   justify-content: end;
