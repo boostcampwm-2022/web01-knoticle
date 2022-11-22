@@ -27,16 +27,22 @@ export default function Viewer() {
         });
 
       // articleId -> 글 조회 추가 예정
+      console.log(articleId);
     }
   });
+
   // 우선 book데이터를 받아오면 렌더링하도록 구현 -> 추후 변경 예정
   return (
     <>
       <GNB />
-      <Flex>
-        {book ? <TOC book={book} /> : <div>loading</div>}
-        <ArticleContainer />
-      </Flex>
+      {book ? (
+        <Flex>
+          <TOC book={book} />
+          <ArticleContainer />
+        </Flex>
+      ) : (
+        <div>loading</div>
+      )}
     </>
   );
 }

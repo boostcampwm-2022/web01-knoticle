@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import styled from 'styled-components';
 
@@ -37,6 +38,15 @@ export const TocContainer = styled.div`
 `;
 export const TocList = styled.div`
   margin: 5px;
+`;
+
+export const TocArticle = styled(Link)`
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  margin-bottom: 5px;
 `;
 
 export const TocProfile = styled(Flex)`

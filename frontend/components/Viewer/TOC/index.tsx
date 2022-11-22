@@ -15,16 +15,11 @@ import {
   TocProfile,
   TocProfileText,
   TocImgWrapper,
+  TocArticle,
 } from './styled';
 
-const sampleData = {
-  bookmarkNum: 398,
-  bookTitle: '리액트 마스터하기',
-  articles: ['Create-react-app', 'JSX'],
-  username: 'Web01',
-};
-
 interface TocProps {
+  // book 객체에 대한 interface 추가 예정
   book: any;
 }
 
@@ -44,9 +39,9 @@ export default function TOC({ book }: TocProps) {
           <TocList>
             {book.scraps.map((v) => {
               return (
-                <TextSmall key={v.order}>
+                <TocArticle href={`/viewer/${book.id}/${v.article.id}`} key={v.order}>
                   {v.order}.{v.article.title}
-                </TextSmall>
+                </TocArticle>
               );
             })}
           </TocList>
