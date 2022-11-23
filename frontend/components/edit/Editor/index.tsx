@@ -35,27 +35,21 @@ export default function Editor() {
   }, []);
 
   useEffect(() => {
-    setArticle((prev) => {
-      const prevState = { ...prev };
-
-      prevState.title = title.value;
-
-      return { ...prevState };
+    setArticle({
+      ...article,
+      title: title.value,
     });
   }, [title.value]);
 
   useEffect(() => {
-    setArticle((prev) => {
-      const prevState = { ...prev };
-
-      prevState.content = unified()
+    setArticle({
+      ...article,
+      content: unified()
         .use(remarkParse)
         .use(remarkRehype)
         .use(rehypeStringify)
         .processSync(content)
-        .toString();
-
-      return { ...prevState };
+        .toString(),
     });
   }, [content]);
 

@@ -46,19 +46,15 @@ export default function PublishModal({ books }: PublishModalProps) {
     setSelectedScrapIndex(-1);
     setFilteredScraps(selectedBook ? selectedBook.scraps : []);
 
-    setArticle((prev) => {
-      const prevState = { ...prev };
-
-      prevState.book_id = selectedBookIndex;
-
-      return { ...prevState };
+    setArticle({
+      ...article,
+      book_id: selectedBookIndex,
     });
   }, [selectedBookIndex]);
 
   useEffect(() => {
     setArticle((prev) => {
       const prevState = { ...prev };
-
       const selectedScrap = filteredScraps.find((scrap) => scrap.id === selectedScrapIndex);
 
       prevState.order = selectedScrap ? selectedScrap.order : 0;
