@@ -153,7 +153,7 @@ const checkOverlapBeforeSignUp = async (username: string, nickname: string) => {
 };
 
 const signUpLocalUser = async (username: string, password: string, nickname: string) => {
-  const encryptedPassword = await hash(password, process.env.BCRYPT_SALT);
+  const encryptedPassword = await hash(password, Number(process.env.BCRYPT_SALT));
 
   await prisma.user.create({
     data: {
