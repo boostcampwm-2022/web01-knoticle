@@ -13,7 +13,7 @@ const api = async ({ url, method, data, params }: Api) => {
   };
 
   const response = await axios({
-    url: process.env.REACT_APP_BASE_URL + url,
+    url: process.env.NEXT_PUBLIC_SERVER_URL + url,
     method,
     headers,
     data,

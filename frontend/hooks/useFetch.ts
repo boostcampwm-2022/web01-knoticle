@@ -10,7 +10,7 @@ const useFetch = <T>(api: (...args: any[]) => Promise<T>) => {
     } catch (error: any) {
       const { message } = error.response.data;
 
-      alert(message);
+      console.log(message);
     }
   }, []);
 
