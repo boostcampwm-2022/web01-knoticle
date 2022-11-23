@@ -1,8 +1,8 @@
 import { prisma } from '@config/orm.config';
 import { ResourceConflict, Message, Unauthorized } from '@errors';
+import { generateJWT } from '@utils/token';
 import axios from 'axios';
 import { hash, compare } from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 const getSignedUser = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
@@ -32,14 +32,6 @@ const getTokens = (userId: number, nickname: string) => {
     accessToken,
     refreshToken,
   };
-};
-
-const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number; nickname?: string } = {}) => {
-  return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
-};
-
-const decodeJWT = (token: string) => {
-  return jwt.verify(token, process.env.JWT_SECRET_KEY);
 };
 
 const saveRefreshToken = async (userId: number, refreshToken: string) => {
