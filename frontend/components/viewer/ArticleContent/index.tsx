@@ -65,12 +65,14 @@ export default function Article({ article, scraps, bookId }: articleProps) {
     router.push(`/viewer/${bookId}/${nextArticleId}`);
   };
   const handleDeleteBtnOnClick = () => {
-    axios
-      .delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${article.id}`)
-      .catch((err) => {
-        // 추후 에러 핸들링 추가 예정
-        console.log(err);
-      });
+    if (window.confirm('해당 글을 삭제하시겠습니까?')) {
+      axios
+        .delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${article.id}`)
+        .catch((err) => {
+          // 추후 에러 핸들링 추가 예정
+          console.log(err);
+        });
+    }
   };
 
   return (
