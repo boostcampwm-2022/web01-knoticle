@@ -27,17 +27,17 @@ interface DropdownProps {
 }
 
 export default function Dropdown({ label, items, selectedId, handleItemSelect }: DropdownProps) {
-  const [isShown, setShown] = useState(false);
+  const [isDropdownSpread, setDropdownSpread] = useState(false);
 
   const handleItemClick = (itemId: number) => {
-    setShown(false);
+    setDropdownSpread(false);
     handleItemSelect(itemId);
   };
 
   return (
     <DropdownWrapper>
-      <SelectedArea onClick={() => setShown(!isShown)}>
-        <IconWrapper className={isShown ? 'open' : 'close'}>
+      <SelectedArea onClick={() => setDropdownSpread(!isDropdownSpread)}>
+        <IconWrapper className={isDropdownSpread ? 'open' : 'close'}>
           <Image src={CaretDownIcon} alt="Caret Down Icon" />
         </IconWrapper>
         {selectedId !== -1 ? (
@@ -46,9 +46,9 @@ export default function Dropdown({ label, items, selectedId, handleItemSelect }:
           <Placeholder>{label}</Placeholder>
         )}
       </SelectedArea>
-      {isShown && (
+      {isDropdownSpread && (
         <ItemWrapper>
-          {items.length === 0 && <Item onClick={() => setShown(false)}>없음</Item>}
+          {items.length === 0 && <Item onClick={() => setDropdownSpread(false)}>없음</Item>}
 
           {items.map((item) => (
             <Item key={item.id} onClick={() => handleItemClick(item.id)}>
