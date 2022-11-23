@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { useRecoilState } from 'recoil';
+
+import { createArticleApi } from '@apis/articleApi';
+import articleState from '@atoms/article';
 import ModalButton from '@components/common/Modal/ModalButton';
 import Dropdown from '@components/edit/Dropdown';
+import useFetch from '@hooks/useFetch';
 import { Book, Scrap } from '@interfaces';
 
 import { Label, PublishModalWrapper } from './styled';
@@ -11,6 +16,10 @@ interface PublishModalProps {
 }
 
 export default function PublishModal({ books }: PublishModalProps) {
+  const { execute: createArticle } = useFetch(createArticleApi);
+
+  const [article, setArticle] = useRecoilState(articleState);
+
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [selectedScrapIndex, setSelectedScrapIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<Scrap[]>([]);
@@ -36,7 +45,27 @@ export default function PublishModal({ books }: PublishModalProps) {
 
     setSelectedScrapIndex(-1);
     setFilteredScraps(selectedBook ? selectedBook.scraps : []);
+
+    setArticle((prev) => {
+      const prevState = { ...prev };
+
+      prevState.book_id = selectedBookIndex;
+
+      return { ...prevState };
+    });
   }, [selectedBookIndex]);
+
+  useEffect(() => {
+    setArticle((prev) => {
+      const prevState = { ...prev };
+
+      const selectedScrap = filteredScraps.find((scrap) => scrap.id === selectedScrapIndex);
+
+      prevState.order = selectedScrap ? selectedScrap.order : 0;
+
+      return { ...prevState };
+    });
+  }, [selectedScrapIndex]);
 
   return (
     <PublishModalWrapper>
@@ -54,7 +83,7 @@ export default function PublishModal({ books }: PublishModalProps) {
         selectedId={selectedScrapIndex}
         handleItemSelect={(id) => setSelectedScrapIndex(id)}
       />
-      <ModalButton theme="primary" onClick={() => console.log('click')}>
+      <ModalButton theme="primary" onClick={() => createArticle(article)}>
         발행하기
       </ModalButton>
     </PublishModalWrapper>

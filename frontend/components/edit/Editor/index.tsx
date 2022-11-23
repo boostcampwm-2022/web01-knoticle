@@ -6,11 +6,13 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { tags } from '@lezer/highlight';
 import { createTheme } from '@uiw/codemirror-themes';
+import { useRecoilState } from 'recoil';
 import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
+import articleState from '@atoms/article';
 import Preview from '@components/edit/Preview';
 import useInput from '@hooks/useInput';
 
@@ -21,25 +23,40 @@ const CodeMirror = dynamic(() => import('@uiw/react-codemirror'), {
 });
 
 export default function Editor() {
-  const [content, setContent] = useState('');
-  const [html, setHtml] = useState('');
-  const title = useInput();
+  const [article, setArticle] = useRecoilState(articleState);
 
+  const [content, setContent] = useState('');
   const [height, setHeight] = useState(0);
+
+  const title = useInput();
 
   useEffect(() => {
     setHeight(window.innerHeight - 68);
   }, []);
 
   useEffect(() => {
-    setHtml(
-      unified()
+    setArticle((prev) => {
+      const prevState = { ...prev };
+
+      prevState.title = title.value;
+
+      return { ...prevState };
+    });
+  }, [title.value]);
+
+  useEffect(() => {
+    setArticle((prev) => {
+      const prevState = { ...prev };
+
+      prevState.content = unified()
         .use(remarkParse)
         .use(remarkRehype)
         .use(rehypeStringify)
         .processSync(content)
-        .toString()
-    );
+        .toString();
+
+      return { ...prevState };
+    });
   }, [content]);
 
   const theme = createTheme({
@@ -93,7 +110,7 @@ export default function Editor() {
           />
         </CodeMirrorWrapper>
       </EditorInner>
-      <Preview title={title.value} content={html} />
+      <Preview title={article.title} content={article.content} />
     </EditorWrapper>
   );
 }
