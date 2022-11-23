@@ -1,8 +1,9 @@
-import { prisma } from '@config/orm.config';
-import { ResourceConflict, Message, Unauthorized } from '@errors';
 import axios from 'axios';
 import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
+import { prisma } from '@config/orm.config';
+import { ResourceConflict, Message, Unauthorized } from '@errors';
 
 const getSignedUser = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
