@@ -9,7 +9,7 @@ export const SignInModalWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-export const SignInModalSignUpContainer = styled(FlexColumnCenter)`
+export const SignUpContainer = styled(FlexColumnCenter)`
   padding: 20px;
   gap: 10px;
 

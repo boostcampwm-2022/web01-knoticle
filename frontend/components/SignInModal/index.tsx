@@ -2,12 +2,13 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
+import axios from 'axios';
+
 import GithubIcon from '@assets/ico_github.svg';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
-import axios from 'axios';
 
-import { SignInModalWrapper, SignInModalSignUpContainer, SignUpButton } from './styled';
+import { SignInModalWrapper, SignUpContainer, SignUpButton } from './styled';
 
 export default function SignInModal({
   handleGoToSignUpBtnClicked,
@@ -73,10 +74,10 @@ export default function SignInModal({
         <Image src={GithubIcon} alt="Github Icon" />
         Github으로 로그인하기
       </Button>
-      <SignInModalSignUpContainer>
+      <SignUpContainer>
         <div>아직 계정이 없으신가요?</div>
         <SignUpButton onClick={handleGoToSignUpBtnClicked}>회원가입하기</SignUpButton>
-      </SignInModalSignUpContainer>
+      </SignUpContainer>
     </SignInModalWrapper>
   );
 }
