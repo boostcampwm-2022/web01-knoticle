@@ -6,8 +6,12 @@ const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number; nickname?: 
   return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
 };
 
-const decodeJWT = (token: string) => {
+const verifyJWT = (token: string) => {
   return jwt.verify(token, process.env.JWT_SECRET_KEY) as JwtPayload;
+};
+
+const decodeJWT = (token: string) => {
+  return jwt.decode(token) as JwtPayload;
 };
 
 const getTokens = (userId: number, nickname: string) => {
@@ -36,43 +40,29 @@ const saveRefreshToken = async (userId: number, refreshToken: string) => {
 };
 
 const checkRefreshTokenValid = async (refresh_token: string) => {
+  try {
+    verifyJWT(refresh_token);
+  } catch (err) {
+    throw new Unauthorized(Message.TOKEN_EXPIRED);
+  }
+
   const matchedToken = await prisma.token.findFirst({
     where: {
       refresh_token,
     },
     select: {
       user_id: true,
-      user: {
-        select: {
-          nickname: true,
-        },
-      },
     },
   });
-  return matchedToken;
-};
 
-const handleAccessTokenExpired = async (refresh_token: string) => {
-  const matchedToken = await checkRefreshTokenValid(refresh_token);
-  if (!matchedToken) throw new Unauthorized(Message.TOKEN_EXPIRED);
-  else {
-    const newTokens = getTokens(matchedToken.user_id, matchedToken.user.nickname);
-
-    await saveRefreshToken(matchedToken.user_id, newTokens.refreshToken);
-
-    return {
-      ...newTokens,
-      id: matchedToken.user_id,
-      nickname: matchedToken.user.nickname,
-    };
-  }
+  if (!matchedToken) throw new Unauthorized(Message.TOKEN_MALFORMED);
 };
 
 export default {
   generateJWT,
+  verifyJWT,
   decodeJWT,
   getTokens,
   saveRefreshToken,
   checkRefreshTokenValid,
-  handleAccessTokenExpired,
 };
