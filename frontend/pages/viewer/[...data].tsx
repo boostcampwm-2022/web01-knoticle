@@ -22,7 +22,7 @@ export default function Viewer() {
 
   useEffect(() => {
     if (book) return;
-    if (router.query.data?.length === 2) {
+    if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
       const [bookId, articleId] = router.query.data;
 
       axios
