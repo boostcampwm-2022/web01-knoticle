@@ -6,9 +6,7 @@ import token from '@utils/token';
 const guard = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id, nickname } = token.verifyJWT(req.cookies.access_token);
-    res.locals.id = id;
-    res.locals.nickname = nickname;
-
+    res.locals.user = { id, nickname };
     next();
   } catch (err) {
     if (err.message === 'jwt expired') {
@@ -23,8 +21,7 @@ const guard = async (req: Request, res: Response, next: NextFunction) => {
       res.cookie('access_token', accessToken, { httpOnly: true });
       res.cookie('refresh_token', refreshToken, { httpOnly: true });
 
-      res.locals.id = id;
-      res.locals.nickname = nickname;
+      res.locals.user = { id, nickname };
 
       next();
     } else throw new Unauthorized(Message.TOKEN_MALFORMED);
