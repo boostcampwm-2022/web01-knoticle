@@ -1,8 +1,9 @@
-import { prisma } from '@config/orm.config';
-import { Message, Unauthorized } from '@errors';
 import axios from 'axios';
 import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
+import { prisma } from '@config/orm.config';
+import { Message, Unauthorized } from '@errors';
 
 const SALT = 12;
 

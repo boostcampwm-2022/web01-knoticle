@@ -1,6 +1,7 @@
-import { CreateImage } from '@apis/image/image.interface';
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
+
+import { CreateImage } from '@apis/images/images.interface';
 
 const createImage = async (dto: CreateImage) => {
   const { file } = dto;

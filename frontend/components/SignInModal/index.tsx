@@ -2,10 +2,11 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
+import axios from 'axios';
+
 import GithubIcon from '@assets/ico_github.svg';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
-import axios from 'axios';
 
 import { SignInModalWrapper, SignInModalSignUpContainer, SignUpButton } from './styled';
 
