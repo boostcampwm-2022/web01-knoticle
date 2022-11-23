@@ -18,7 +18,7 @@ router.get('/articles/temporary/:userId', catchAsync(articlesController.getTempo
 router.post('/articles/temporary', catchAsync(articlesController.saveTemporaryArticle));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
 router.post('/articles', catchAsync(articlesController.publish));
-router.delete('/articles/:articleId', catchAsync(articlesController.delArticle));
+router.delete('/articles/:articleId', catchAsync(articlesController.deleteArticle));
 
 router.post('/image', multer().single('image'), catchAsync(imagesController.createImage));
 
