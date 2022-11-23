@@ -1,8 +1,10 @@
-import axios from 'axios';
-import jwt from 'jsonwebtoken';
-
 import { prisma } from '@config/orm.config';
 import { Message, Unauthorized } from '@errors';
+import axios from 'axios';
+import { hash, compare } from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+const SALT = 12;
 
 const getSignedUser = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
@@ -19,7 +21,7 @@ const getSignedUser = async (username: string, password: string) => {
 
   if (!user) throw new Unauthorized(Message.AUTH_WRONG);
 
-  if (user.password !== password) throw new Unauthorized(Message.AUTH_WRONG);
+  if (!(await compare(password, user.password))) throw new Unauthorized(Message.AUTH_WRONG);
 
   return user;
 };
@@ -73,6 +75,7 @@ const getGithubAccessToken = async (code: string) => {
   );
   return data.access_token;
 };
+
 const getUserByGithubAPI = async (accessToken: string) => {
   const { data } = await axios.get(process.env.GH_API_USER_URL, {
     headers: { authorization: `token ${accessToken}` },
@@ -131,6 +134,33 @@ const checkNicknameUnique = async (nickname: string) => {
   return !user ? true : false;
 };
 
+const checkLocalUsernameUnique = async (username: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      username,
+      provider: 'local',
+    },
+  });
+
+  return !user ? true : false;
+};
+
+const signUpLocalUser = async (username: string, password: string, nickname: string) => {
+  const encryptedPassword = await hash(password, SALT);
+
+  const user = await prisma.user.create({
+    data: {
+      username,
+      nickname,
+      provider: 'local',
+      password: encryptedPassword,
+      profile_image: '',
+    },
+  });
+
+  return user;
+};
+
 export default {
   getSignedUser,
   getTokens,
@@ -139,4 +169,7 @@ export default {
   getUserByGithubAPI,
   getUserByLocalDB,
   signUpGithubUser,
+  checkLocalUsernameUnique,
+  checkNicknameUnique,
+  signUpLocalUser,
 };

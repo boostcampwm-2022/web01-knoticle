@@ -35,4 +35,10 @@ export class NotFound extends HttpError {
   }
 }
 
+export class ResourceConflict extends HttpError {
+  constructor(message = 'ResourceConflict') {
+    super(message, 409);
+  }
+}
+
 export const Message = messages;

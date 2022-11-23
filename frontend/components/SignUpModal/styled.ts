@@ -1,6 +1,7 @@
+import { TextSmall } from '@styles/common';
 import styled from 'styled-components';
 
-const SignUpModalWrapper = styled.div`
+export const SignUpModalWrapper = styled.div`
   margin-top: 32px;
   display: flex;
   flex-direction: column;
@@ -8,4 +9,6 @@ const SignUpModalWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-export default SignUpModalWrapper;
+export const SignUpModalErrorMessage = styled(TextSmall)`
+  color: var(--red-color);
+`;
