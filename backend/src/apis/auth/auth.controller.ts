@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import authService from '@apis/auth/auth.service';
-import { ResourceConflict, Unauthorized, Message } from '@errors';
+import { Unauthorized, Message } from '@errors';
 
 const signIn = async (req: Request, res: Response) => {
   const { username, password } = req.body;

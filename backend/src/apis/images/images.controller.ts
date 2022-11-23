@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
-import imageService from '@apis/image/image.service';
+import imagesService from '@apis/images/images.service';
 
 const createImage = async (req: Request, res: Response) => {
-  const imagePath = await imageService.createImage({ file: req.file });
+  const imagePath = await imagesService.createImage({ file: req.file });
 
   res.status(201).send({ imagePath });
 };

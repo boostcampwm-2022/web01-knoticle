@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import GNB from '@components/common/GNB';
 import ArticleContainer from '@components/viewer/ArticleContent';
-import ClosedSideBar from '@components/Viewer/CloseedSideBar';
+import ClosedSideBar from '@components/viewer/ClosedSideBar';
 import TOC from '@components/viewer/TOC';
 import { Flex } from '@styles/layout';
 
@@ -22,7 +22,7 @@ export default function Viewer() {
 
   useEffect(() => {
     if (book) return;
-    if (router.query.data?.length === 2) {
+    if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
       const [bookId, articleId] = router.query.data;
 
       axios

@@ -1,4 +1,4 @@
-import { CreateScrap } from '@apis/scrap/scrap.interface';
+import { CreateScrap } from '@apis/scraps/scraps.interface';
 import { prisma } from '@config/orm.config';
 
 const createScrap = async (dto: CreateScrap) => {
