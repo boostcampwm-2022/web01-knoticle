@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import GNB from '@components/common/GNB';
 import ArticleContainer from '@components/viewer/ArticleContent';
-import ClosedSideBar from '@components/Viewer/CloseedSideBar';
+import ClosedSideBar from '@components/viewer/ClosedSideBar';
 import TOC from '@components/viewer/TOC';
 import { Flex } from '@styles/layout';
 
