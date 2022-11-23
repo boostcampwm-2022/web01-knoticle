@@ -3,6 +3,7 @@ const tempBookDatas = [
     id: 1,
     title: '리액트 완전 정복',
     user: {
+      id: 1,
       nickname: 'MinHK4',
       profile_image: '',
     },
@@ -33,6 +34,7 @@ const tempBookDatas = [
     id: 1,
     title: '리액트 완전 정복',
     user: {
+      id: 1,
       nickname: 'MinHK4',
       profile_image: '',
     },

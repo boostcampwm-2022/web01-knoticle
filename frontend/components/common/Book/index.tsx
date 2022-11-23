@@ -39,7 +39,7 @@ interface Scrap {
 }
 
 interface Bookmark {
-  id: number;
+  id: number | null;
 }
 
 interface BookProps {
