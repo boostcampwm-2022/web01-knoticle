@@ -1,4 +1,4 @@
-import { CreateArticle } from '@apis/article/article.interface';
+import { CreateArticle, CreateTemporaryArticle } from '@apis/article/article.interface';
 import { prisma } from '@config/orm.config';
 
 const createArticle = async (dto: CreateArticle) => {
@@ -19,6 +19,40 @@ const createArticle = async (dto: CreateArticle) => {
   return article;
 };
 
+const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
+  const { title, contents, user_id } = dto;
+
+  const temporaryArticle = await prisma.temporaryArticle.create({
+    data: {
+      title,
+      contents,
+      user: {
+        connect: {
+          id: user_id,
+        },
+      },
+    },
+  });
+
+  return temporaryArticle;
+};
+
+const findTemporaryArticle = async (userId: number) => {
+  const temporaryArticle = await prisma.temporaryArticle.findFirst({
+    where: {
+      user_id: userId,
+    },
+    select: {
+      title: true,
+      contents: true,
+    },
+  });
+
+  return temporaryArticle;
+};
+
 export default {
   createArticle,
+  createTemporaryArticle,
+  findTemporaryArticle,
 };

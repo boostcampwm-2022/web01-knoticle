@@ -3,3 +3,9 @@ export interface CreateArticle {
   contents: string;
   book_id: number;
 }
+
+export interface CreateTemporaryArticle {
+  title: string;
+  contents: string;
+  user_id: number;
+}
