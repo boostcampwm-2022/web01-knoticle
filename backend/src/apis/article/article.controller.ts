@@ -5,11 +5,11 @@ import scrapService from '@apis/scrap/scrap.service';
 import articleService from './article.service';
 
 const publish = async (req: Request, res: Response) => {
-  const { title, contents, book_id, order } = req.body;
+  const { title, content, book_id, order } = req.body;
 
   const article = await articleService.createArticle({
     title,
-    contents,
+    content,
     book_id,
   });
 
@@ -24,11 +24,11 @@ const publish = async (req: Request, res: Response) => {
 };
 
 const saveTemporaryArticle = async (req: Request, res: Response) => {
-  const { title, contents, user_id } = req.body;
+  const { title, content, user_id } = req.body;
 
   const temporaryArticle = await articleService.createTemporaryArticle({
     title,
-    contents,
+    content,
     user_id,
   });
 

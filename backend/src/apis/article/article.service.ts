@@ -2,12 +2,12 @@ import { CreateArticle, CreateTemporaryArticle } from '@apis/article/article.int
 import { prisma } from '@config/orm.config';
 
 const createArticle = async (dto: CreateArticle) => {
-  const { title, contents, book_id } = dto;
+  const { title, content, book_id } = dto;
 
   const article = await prisma.article.create({
     data: {
       title,
-      contents,
+      content,
       book: {
         connect: {
           id: book_id,
@@ -20,12 +20,12 @@ const createArticle = async (dto: CreateArticle) => {
 };
 
 const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
-  const { title, contents, user_id } = dto;
+  const { title, content, user_id } = dto;
 
   const temporaryArticle = await prisma.temporaryArticle.create({
     data: {
       title,
-      contents,
+      content,
       user: {
         connect: {
           id: user_id,
@@ -44,7 +44,7 @@ const findTemporaryArticle = async (userId: number) => {
     },
     select: {
       title: true,
-      contents: true,
+      content: true,
     },
   });
 

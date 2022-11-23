@@ -41,7 +41,7 @@ model Book {
 model Article {
   id  Int @id @default(autoincrement())
   title String @db.VarChar(50)
-  contents String @db.Text
+  content String @db.Text
   created_at DateTime @default(now())
   deleted_at DateTime?
   book Book @relation(fields: [book_id], references: [id])
@@ -70,7 +70,7 @@ model Bookmark {
 model TemporaryArticle {
   id  Int @id @default(autoincrement())
   title String @db.VarChar(50)
-  contents String @db.Text
+  content String @db.Text
   user User @relation(fields: [user_id], references: [id])
   user_id Int @unique
 }
