@@ -39,6 +39,10 @@ export const Bookmark = styled(FlexColumn)`
   gap: 4px;
 `;
 
+export const BookmarkIcon = styled(Image)`
+  cursor: pointer;
+`;
+
 export const BookContentsInfo = styled(FlexColumn)`
   gap: 8px;
 `;

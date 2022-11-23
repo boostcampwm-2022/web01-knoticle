@@ -1,6 +1,11 @@
 import Image from 'next/image';
 
-import BookmarkIcon from '@assets/ico_bookmark.svg';
+import { useState } from 'react';
+
+import axios from 'axios';
+
+import InactiveBookmarkIcon from '@assets/ico_bookmark_black.svg';
+import ActiveBookmarkIcon from '@assets/ico_bookmark_red.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
 import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
@@ -16,6 +21,7 @@ import {
   BookThumbnail,
   ArticleLink,
   AuthorLink,
+  BookmarkIcon,
 } from './styled';
 
 interface BookProps {
@@ -37,11 +43,25 @@ interface BookProps {
     _count: {
       bookmarks: number;
     };
+    isBookmarked: boolean;
   };
 }
 
 export default function Book({ book }: BookProps) {
-  const { id, title, user, scraps, _count } = book;
+  const { id, title, user, scraps, _count, isBookmarked } = book;
+  const [isBookmarkedNow, setIsBookmarkedNow] = useState<boolean>(isBookmarked);
+  const handleBookmarkClick = async () => {
+    if (isBookmarkedNow) {
+      // 북마크 삭제 API 요청
+      // await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks/${id}`);
+    } else {
+      // 북마크 생성 API 요청
+      // await axios.post(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks`, {
+      //   book_id: id,
+      // });
+    }
+    setIsBookmarkedNow(!isBookmarkedNow);
+  };
 
   return (
     <BookWrapper>
@@ -54,8 +74,12 @@ export default function Book({ book }: BookProps) {
             <AuthorLink href={`/study/${user.nickname}`}>by {user.nickname}</AuthorLink>
           </BookTitle>
           <Bookmark>
-            <Image src={BookmarkIcon} alt="Bookmark Icon" />
-            <TextXSmall>{_count.bookmarks}</TextXSmall>
+            <BookmarkIcon
+              src={isBookmarkedNow ? ActiveBookmarkIcon : InactiveBookmarkIcon}
+              alt="Bookmark Icon"
+              onClick={handleBookmarkClick}
+            />
+            <TextXSmall>{_count.bookmarks + (isBookmarkedNow ? 1 : 0)}</TextXSmall>
           </Bookmark>
         </FlexSpaceBetween>
 
