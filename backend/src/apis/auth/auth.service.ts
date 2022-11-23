@@ -1,5 +1,5 @@
 import { prisma } from '@config/orm.config';
-import { Message, Unauthorized } from '@errors';
+import { Message, ResourceConflict, Unauthorized } from '@errors';
 import axios from 'axios';
 import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -143,6 +143,15 @@ const checkLocalUsernameUnique = async (username: string) => {
   return !user ? true : false;
 };
 
+const checkOverlapBeforeSignUp = async (username: string, nickname: string) => {
+  if (!(await checkLocalUsernameUnique(username))) {
+    throw new ResourceConflict(Message.AUTH_USERNAME_OVERLAP);
+  }
+  if (!(await checkNicknameUnique(nickname))) {
+    throw new ResourceConflict(Message.AUTH_NICKNAME_OVERLAP);
+  }
+};
+
 const signUpLocalUser = async (username: string, password: string, nickname: string) => {
   const encryptedPassword = await hash(password, process.env.BCRYPT_SALT);
 
@@ -165,7 +174,6 @@ export default {
   getUserByGithubAPI,
   getUserByLocalDB,
   signUpGithubUser,
-  checkLocalUsernameUnique,
-  checkNicknameUnique,
+  checkOverlapBeforeSignUp,
   signUpLocalUser,
 };
