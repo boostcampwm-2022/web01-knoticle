@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import BookmarkIcon from '@assets/ico_bookmark.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
@@ -15,28 +16,52 @@ import {
   BookContents,
 } from './styled';
 
-export default function Book() {
+interface BookProps {
+  book: {
+    id: number;
+    title: string;
+    user: {
+      nickname: string;
+      profile_image: string;
+    };
+    scraps: {
+      order: number;
+      article: {
+        id: number;
+        title: string;
+      };
+    }[];
+    _count: {
+      bookmarks: number;
+    };
+  };
+}
+
+export default function Book({ book }: BookProps) {
+  const { id, title, user, scraps, _count } = book;
+
   return (
     <BookWrapper>
       <Image src={SampleThumbnail} alt="thumbnail" width={280} height={200} />
       <BookInfoContainer>
         <FlexSpaceBetween>
           <BookTitle>
-            <TextLarge>리액트 마스터하기</TextLarge>
-            <TextXSmall>by Web01</TextXSmall>
+            <TextLarge>{title}</TextLarge>
+            <TextXSmall>by {user.nickname}</TextXSmall>
           </BookTitle>
           <Bookmark>
             <Image src={BookmarkIcon} alt="Bookmark Icon" />
-            <TextXSmall>398</TextXSmall>
+            <TextXSmall>{_count.bookmarks}</TextXSmall>
           </Bookmark>
         </FlexSpaceBetween>
         <BookContentsInfo>
           <TextSmall>Contents</TextSmall>
           <BookContents>
-            <div>1. Create-react-app</div>
-            <div>2. JSX</div>
-            <div>3. State</div>
-            <div>4. Props</div>
+            {scraps.map((scrap, idx) => (
+              <Link key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
+                {idx}. {scrap.article.title}
+              </Link>
+            ))}
           </BookContents>
           <FlexCenter>
             <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
