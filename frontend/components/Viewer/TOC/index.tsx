@@ -15,16 +15,15 @@ import {
   TocProfile,
   TocProfileText,
   TocImgWrapper,
+  TocArticle,
 } from './styled';
 
-const sampleData = {
-  bookmarkNum: 398,
-  bookTitle: '리액트 마스터하기',
-  articles: ['Create-react-app', 'JSX'],
-  username: 'Web01',
-};
+interface TocProps {
+  // book 객체에 대한 interface 추가 예정
+  book: any;
+}
 
-export default function TOC() {
+export default function TOC({ book }: TocProps) {
   return (
     <TocWrapper>
       <TocSideBar>
@@ -32,17 +31,17 @@ export default function TOC() {
           <Image src={Bookmark} alt="Viewer Icon" />
           <Image src={Hide} alt="Viewer Icon" />
         </TocIcons>
-        <TextSmall>{sampleData.bookmarkNum}</TextSmall>
-        <TocTitle>{sampleData.bookTitle}</TocTitle>
+        <TextSmall>{book._count.bookmarks}</TextSmall>
+        <TocTitle>{book.title}</TocTitle>
 
         <TocContainer>
           <TextMedium>목차</TextMedium>
           <TocList>
-            {sampleData.articles.map((v, i) => {
+            {book.scraps.map((v) => {
               return (
-                <TextSmall key={v}>
-                  {i + 1}.{v}
-                </TextSmall>
+                <TocArticle href={`/viewer/${book.id}/${v.article.id}`} key={v.order}>
+                  {v.order}.{v.article.title}
+                </TocArticle>
               );
             })}
           </TocList>
@@ -51,7 +50,7 @@ export default function TOC() {
       <TocProfile>
         <TocProfileText>
           <TextSmall>Written by</TextSmall>
-          <TextMedium>{sampleData.username}</TextMedium>
+          <TextMedium>{book.user.nickname}</TextMedium>
         </TocProfileText>
         <TocImgWrapper src={SampleProflie} alt="Viewer Icon" />
       </TocProfile>
