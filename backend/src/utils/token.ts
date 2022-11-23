@@ -48,7 +48,6 @@ const checkRefreshTokenValid = async (refresh_token: string) => {
       },
     },
   });
-  if (!matchedToken) return false;
   return matchedToken;
 };
 
