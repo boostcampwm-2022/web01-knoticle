@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import BookmarkIcon from '@assets/ico_bookmark.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
@@ -16,6 +15,7 @@ import {
   BookContents,
   BookThumbnail,
   ArticleLink,
+  AuthorLink,
 } from './styled';
 
 interface BookProps {
@@ -23,6 +23,7 @@ interface BookProps {
     id: number;
     title: string;
     user: {
+      id: number;
       nickname: string;
       profile_image: string;
     };
@@ -50,7 +51,7 @@ export default function Book({ book }: BookProps) {
         <FlexSpaceBetween>
           <BookTitle>
             <TextLarge>{title}</TextLarge>
-            <TextXSmall>by {user.nickname}</TextXSmall>
+            <AuthorLink href={`/study/${user.nickname}`}>by {user.nickname}</AuthorLink>
           </BookTitle>
           <Bookmark>
             <Image src={BookmarkIcon} alt="Bookmark Icon" />

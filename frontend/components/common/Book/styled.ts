@@ -67,3 +67,12 @@ export const ArticleLink = styled(Link)`
   display: block;
   margin-bottom: 5px;
 `;
+
+export const AuthorLink = styled(Link)`
+  font-size: 14px;
+  line-height: 28px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  margin-top: 2px;
+`;
