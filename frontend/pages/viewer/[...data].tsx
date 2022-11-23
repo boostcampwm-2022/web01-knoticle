@@ -31,7 +31,6 @@ export default function Viewer() {
     if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
       const [bookId, articleId] = router.query.data;
       if (bookId === idInfo.bookId && articleId === idInfo.articleId) return;
-      console.log(bookId, articleId);
       setIdInfo({ ...idInfo, bookId, articleId });
     }
     // Eslint error 해결을 위해 dependency 추가
