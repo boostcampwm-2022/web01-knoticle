@@ -24,22 +24,26 @@ import {
   BookmarkIcon,
 } from './styled';
 
+interface User {
+  id: number;
+  nickname: string;
+  profile_image: string;
+}
+
+interface Scrap {
+  order: number;
+  article: {
+    id: number;
+    title: string;
+  };
+}
+
 interface BookProps {
   book: {
     id: number;
     title: string;
-    user: {
-      id: number;
-      nickname: string;
-      profile_image: string;
-    };
-    scraps: {
-      order: number;
-      article: {
-        id: number;
-        title: string;
-      };
-    }[];
+    user: User;
+    scraps: Scrap[];
     _count: {
       bookmarks: number;
     };
