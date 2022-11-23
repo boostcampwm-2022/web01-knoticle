@@ -1,11 +1,11 @@
 export interface CreateArticle {
   title: string;
-  contents: string;
+  content: string;
   book_id: number;
 }
 
 export interface CreateTemporaryArticle {
   title: string;
-  contents: string;
+  content: string;
   user_id: number;
 }

@@ -15,12 +15,12 @@ const getArticleData = async (articleId: number) => {
 };
 
 const createArticle = async (dto: CreateArticle) => {
-  const { title, contents, book_id } = dto;
+  const { title, content, book_id } = dto;
 
   const article = await prisma.article.create({
     data: {
       title,
-      contents,
+      content,
       book: {
         connect: {
           id: book_id,
@@ -33,7 +33,7 @@ const createArticle = async (dto: CreateArticle) => {
 };
 
 const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
-  const { title, contents, user_id } = dto;
+  const { title, content, user_id } = dto;
 
   const temporaryArticle = await prisma.temporaryArticle.upsert({
     where: {
@@ -41,12 +41,12 @@ const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
     },
     update: {
       title,
-      contents,
+      content,
     },
     create: {
       user_id,
       title,
-      contents,
+      content,
     },
   });
 
@@ -60,7 +60,7 @@ const findTemporaryArticle = async (userId: number) => {
     },
     select: {
       title: true,
-      contents: true,
+      content: true,
     },
   });
 
