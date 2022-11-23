@@ -1,4 +1,5 @@
 import { prisma } from '@config/orm.config';
+import { Message, Unauthorized } from '@errors';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number; nickname?: string } = {}) => {
@@ -51,10 +52,27 @@ const checkRefreshTokenValid = async (refresh_token: string) => {
   return matchedToken;
 };
 
+const handleAccessTokenExpired = async (refresh_token: string) => {
+  const matchedToken = await checkRefreshTokenValid(refresh_token);
+  if (!matchedToken) throw new Unauthorized(Message.TOKEN_EXPIRED);
+  else {
+    const newTokens = getTokens(matchedToken.user_id, matchedToken.user.nickname);
+
+    await saveRefreshToken(matchedToken.user_id, newTokens.refreshToken);
+
+    return {
+      ...newTokens,
+      id: matchedToken.user_id,
+      nickname: matchedToken.user.nickname,
+    };
+  }
+};
+
 export default {
   generateJWT,
   decodeJWT,
   getTokens,
   saveRefreshToken,
   checkRefreshTokenValid,
+  handleAccessTokenExpired,
 };
