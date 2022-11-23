@@ -14,6 +14,8 @@ import {
   Bookmark,
   BookContentsInfo,
   BookContents,
+  BookThumbnail,
+  ArticleLink,
 } from './styled';
 
 interface BookProps {
@@ -42,7 +44,8 @@ export default function Book({ book }: BookProps) {
 
   return (
     <BookWrapper>
-      <Image src={SampleThumbnail} alt="thumbnail" width={280} height={200} />
+      <BookThumbnail src={SampleThumbnail} alt="thumbnail" />
+
       <BookInfoContainer>
         <FlexSpaceBetween>
           <BookTitle>
@@ -54,13 +57,14 @@ export default function Book({ book }: BookProps) {
             <TextXSmall>{_count.bookmarks}</TextXSmall>
           </Bookmark>
         </FlexSpaceBetween>
+
         <BookContentsInfo>
           <TextSmall>Contents</TextSmall>
           <BookContents>
             {scraps.map((scrap, idx) => (
-              <Link key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
+              <ArticleLink key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
                 {idx}. {scrap.article.title}
-              </Link>
+              </ArticleLink>
             ))}
           </BookContents>
           <FlexCenter>
