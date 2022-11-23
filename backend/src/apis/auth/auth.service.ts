@@ -1,6 +1,5 @@
 import { prisma } from '@config/orm.config';
 import { ResourceConflict, Message, Unauthorized } from '@errors';
-import { generateJWT } from '@utils/token';
 import axios from 'axios';
 import { hash, compare } from 'bcrypt';
 
@@ -22,31 +21,6 @@ const getSignedUser = async (username: string, password: string) => {
   if (!(await compare(password, user.password))) throw new Unauthorized(Message.AUTH_WRONG);
 
   return user;
-};
-
-const getTokens = (userId: number, nickname: string) => {
-  const accessToken = generateJWT('3h', { id: userId, nickname });
-  const refreshToken = generateJWT('7d');
-
-  return {
-    accessToken,
-    refreshToken,
-  };
-};
-
-const saveRefreshToken = async (userId: number, refreshToken: string) => {
-  await prisma.token.upsert({
-    where: {
-      user_id: userId,
-    },
-    update: {
-      refresh_token: refreshToken,
-    },
-    create: {
-      user_id: userId,
-      refresh_token: refreshToken,
-    },
-  });
 };
 
 const getGithubAccessToken = async (code: string) => {
@@ -160,8 +134,6 @@ const signUpLocalUser = async (username: string, password: string, nickname: str
 
 export default {
   getSignedUser,
-  getTokens,
-  saveRefreshToken,
   getGithubAccessToken,
   getUserByGithubAPI,
   getUserByLocalDB,
