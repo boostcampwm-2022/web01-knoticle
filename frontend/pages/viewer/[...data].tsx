@@ -2,8 +2,6 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import { info } from 'console';
-
 import axios from 'axios';
 
 import GNB from '@components/common/GNB';
@@ -13,8 +11,8 @@ import TOC from '@components/viewer/TOC';
 import { Flex } from '@styles/layout';
 
 export default function Viewer() {
-  const [book, setBook] = useState(null);
-  const [article, setArticle] = useState(null);
+  const [book, setBook] = useState<any>(null);
+  const [article, setArticle] = useState<any>(null);
   const [idInfo, setIdInfo] = useState({
     bookId: '',
     articleId: '',
@@ -66,7 +64,7 @@ export default function Viewer() {
           ) : (
             <ClosedSideBar handleSideBarOnClick={handleSideBarToggle} />
           )}
-          <ArticleContainer article={article} />
+          <ArticleContainer article={article} scraps={book.scraps} bookId={book.id} />
         </Flex>
       ) : (
         <div>loading</div>

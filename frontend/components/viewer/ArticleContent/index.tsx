@@ -27,20 +27,42 @@ interface articleDataType {
   book_id: number;
 }
 
-interface articleProps {
-  article: articleDataType;
+interface scrapsData {
+  order: number;
+  article: {
+    id: number;
+    title: string;
+  };
 }
 
-export default function Article({ article }: articleProps) {
+interface articleProps {
+  article: articleDataType;
+  scraps: scrapsData[];
+  bookId: number;
+}
+export default function Article({ article, scraps, bookId }: articleProps) {
   const router = useRouter();
   const handleOriginalBtnOnClick = () => {
     router.push(`/viewer/${article.book_id}/${article.id}`);
   };
+  const handleLeftBtnOnClick = () => {
+    const prevOrder = scraps.filter((v: scrapsData) => v.article.id === article.id)[0].order - 1;
+    const prevArticleId = scraps.filter((v: scrapsData) => v.order === prevOrder)[0].article.id;
+    router.push(`/viewer/${bookId}/${prevArticleId}`);
+  };
+  const handleRightBtnOnClick = () => {
+    const nextOrder = scraps.filter((v: scrapsData) => v.article.id === article.id)[0].order + 1;
+    const nextArticleId = scraps.filter((v: scrapsData) => v.order === nextOrder)[0].article.id;
+    router.push(`/viewer/${bookId}/${nextArticleId}`);
+  };
+
   return (
     <ArticleContainer>
-      <ArticleLeftBtn>
-        <Image src={LeftBtnIcon} alt="Viewer Icon" />
-      </ArticleLeftBtn>
+      {article.id === scraps[0]?.article.id ? null : (
+        <ArticleLeftBtn onClick={handleLeftBtnOnClick}>
+          <Image src={LeftBtnIcon} alt="Viewer Icon" />
+        </ArticleLeftBtn>
+      )}
       <ArticleMain>
         <ArticleTitle>
           {/* Global style Large의 크기가 너무 작음 -> 월요일 회의 후 반영 */}
@@ -62,9 +84,11 @@ export default function Article({ article }: articleProps) {
         </ArticleTitle>
         <ArticleContents>{article.contents}</ArticleContents>
       </ArticleMain>
-      <ArticleRightBtn>
-        <Image src={RightBtnIcon} alt="Viewer Icon" />
-      </ArticleRightBtn>
+      {article.id === scraps.at(-1)?.article.id ? null : (
+        <ArticleRightBtn onClick={handleRightBtnOnClick}>
+          <Image src={RightBtnIcon} alt="Viewer Icon" />
+        </ArticleRightBtn>
+      )}
     </ArticleContainer>
   );
 }
