@@ -70,7 +70,7 @@ export default function Book({ book }: BookProps) {
       //   book_id: id,
       // });
       // const newBookmark = data.bookmark;
-      // setCurBookmarkId(newBookmark);
+      // setCurBookmarkId(newBookmark.id);
       setCurBookmarkId(1);
     }
   };
