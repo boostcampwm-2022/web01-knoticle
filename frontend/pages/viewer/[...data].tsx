@@ -16,7 +16,7 @@ export default function Viewer() {
 
   const router = useRouter();
 
-  const handleSideBar = () => {
+  const handleSideBarToggle = () => {
     setIsOpened((prev) => !prev);
   };
 
@@ -45,9 +45,9 @@ export default function Viewer() {
       {book ? (
         <Flex>
           {isOpened ? (
-            <TOC book={book} onClick={handleSideBar} />
+            <TOC book={book} handleSideBarOnClick={handleSideBarToggle} />
           ) : (
-            <ClosedSideBar onClick={handleSideBar} />
+            <ClosedSideBar handleSideBarOnClick={handleSideBarToggle} />
           )}
           <ArticleContainer />
         </Flex>

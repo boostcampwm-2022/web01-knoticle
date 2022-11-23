@@ -5,14 +5,14 @@ import Open from '@assets/ico_open.svg';
 import { ClosedSidebarIcons, ClosedSideBarWrapper } from './styled';
 
 interface ClosedSideBarProps {
-  onClick: () => void;
+  handleSideBarOnClick: () => void;
 }
 
-export default function ClosedSideBar({ onClick }: ClosedSideBarProps) {
+export default function ClosedSideBar({ handleSideBarOnClick }: ClosedSideBarProps) {
   return (
     <ClosedSideBarWrapper>
       <ClosedSidebarIcons>
-        <Image src={Open} alt="Viewer Icon" onClick={onClick} />
+        <Image src={Open} alt="Open Sidebar Icon" onClick={handleSideBarOnClick} />
       </ClosedSidebarIcons>
     </ClosedSideBarWrapper>
   );
