@@ -7,7 +7,6 @@ import Scrap from '@assets/ico_scrap.svg';
 import { TextLarge } from '@styles/common';
 
 import ArticleButton from './Button';
-import sampleData from './sampledata';
 import {
   ArticleContainer,
   ArticleLeftBtn,
@@ -18,7 +17,11 @@ import {
   ArticleTitleBtnBox,
 } from './styled';
 
-export default function Article() {
+interface articleProps {
+  article: any;
+}
+
+export default function Article({ article }: articleProps) {
   return (
     <ArticleContainer>
       <ArticleLeftBtn>
@@ -27,7 +30,7 @@ export default function Article() {
       <ArticleMain>
         <ArticleTitle>
           {/* Global style Large의 크기가 너무 작음 -> 월요일 회의 후 반영 */}
-          <TextLarge>{sampleData.title}</TextLarge>
+          <TextLarge>{article.title}</TextLarge>
           <ArticleTitleBtnBox>
             <ArticleButton
               onClick={() => {
@@ -47,7 +50,7 @@ export default function Article() {
             </ArticleButton>
           </ArticleTitleBtnBox>
         </ArticleTitle>
-        <ArticleContents>{sampleData.content}</ArticleContents>
+        <ArticleContents>{article.contents}</ArticleContents>
       </ArticleMain>
       <ArticleRightBtn>
         <Image src={RightBtnIcon} alt="Viewer Icon" />
