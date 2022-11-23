@@ -53,7 +53,6 @@ export default function Viewer() {
       });
   }, [idInfo]);
 
-  // 우선 book데이터를 받아오면 렌더링하도록 구현 -> 추후 변경 예정
   return (
     <>
       <GNB />
