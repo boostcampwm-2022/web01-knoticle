@@ -38,6 +38,10 @@ interface Scrap {
   };
 }
 
+interface Bookmark {
+  id: number;
+}
+
 interface BookProps {
   book: {
     id: number;
@@ -47,24 +51,35 @@ interface BookProps {
     _count: {
       bookmarks: number;
     };
-    isBookmarked: boolean;
+    bookmark: Bookmark;
   };
 }
 
 export default function Book({ book }: BookProps) {
-  const { id, title, user, scraps, _count, isBookmarked } = book;
-  const [isBookmarkedNow, setIsBookmarkedNow] = useState<boolean>(isBookmarked);
+  const { id, title, user, scraps, _count, bookmark } = book;
+  const [curBookmarkId, setCurBookmarkId] = useState<number | null>(bookmark.id);
+
   const handleBookmarkClick = async () => {
-    if (isBookmarkedNow) {
+    if (curBookmarkId) {
       // 북마크 삭제 API 요청
       // await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks/${id}`);
+      setCurBookmarkId(null);
     } else {
       // 북마크 생성 API 요청
-      // await axios.post(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks`, {
+      // const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks`, {
       //   book_id: id,
       // });
+      // const newBookmark = data.bookmark;
+      // setCurBookmarkId(newBookmark);
+      setCurBookmarkId(1);
     }
-    setIsBookmarkedNow(!isBookmarkedNow);
+  };
+
+  const calcTempBookmark = () => {
+    if (bookmark.id) {
+      return _count.bookmarks + (curBookmarkId ? 0 : -1);
+    }
+    return _count.bookmarks + (curBookmarkId ? 1 : 0);
   };
 
   return (
@@ -79,11 +94,11 @@ export default function Book({ book }: BookProps) {
           </BookTitle>
           <Bookmark>
             <BookmarkIcon
-              src={isBookmarkedNow ? ActiveBookmarkIcon : InactiveBookmarkIcon}
+              src={curBookmarkId ? ActiveBookmarkIcon : InactiveBookmarkIcon}
               alt="Bookmark Icon"
               onClick={handleBookmarkClick}
             />
-            <TextXSmall>{_count.bookmarks + (isBookmarkedNow ? 1 : 0)}</TextXSmall>
+            <TextXSmall>{calcTempBookmark()}</TextXSmall>
           </Bookmark>
         </FlexSpaceBetween>
 
