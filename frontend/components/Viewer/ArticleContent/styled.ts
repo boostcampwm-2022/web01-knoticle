@@ -4,7 +4,7 @@ import { Flex } from '@styles/layout';
 
 export const ArticleContainer = styled(Flex)`
   flex-basis: 100%;
-  height: calc(100vh - 66px);
+  height: calc(100vh - 67px);
 `;
 export const ArticleLeftBtn = styled.div`
   position: fixed;
