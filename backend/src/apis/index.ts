@@ -26,5 +26,6 @@ router.get('/books/search');
 router.get('/books/:bookId', catchAsync(booksController.getBook));
 
 router.post('/bookmarks', catchAsync(guard), catchAsync(bookmarksController.createBookmark));
+router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));
 
 export default router;

@@ -1,4 +1,5 @@
 import { prisma } from '@config/orm.config';
+import { Message, NotFound } from '@errors';
 
 const createBookmark = async (user_id: number, book_id: number) => {
   const { id } = await prisma.bookmark.create({
@@ -10,6 +11,19 @@ const createBookmark = async (user_id: number, book_id: number) => {
   return id;
 };
 
+const deleteBookmark = async (id: number) => {
+  try {
+    await prisma.bookmark.delete({
+      where: {
+        id,
+      },
+    });
+  } catch (err) {
+    throw new NotFound(Message.BOOKMARK_NOTFOUND);
+  }
+};
+
 export default {
   createBookmark,
+  deleteBookmark,
 };
