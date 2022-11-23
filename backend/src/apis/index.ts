@@ -8,6 +8,8 @@ import bookController from '@apis/books/books.controller';
 import imageController from '@apis/image/image.controller';
 import { catchAsync } from '@utils/catch-async';
 
+import articlesController from './articles/articles.controller';
+
 const router = Router();
 
 router.post('/auth/signin/local', catchAsync(authController.signIn));
@@ -20,5 +22,7 @@ router.post('/image', multer().single('image'), catchAsync(imageController.creat
 router.post('/articles', catchAsync(articleController.publish));
 
 router.get('/books/search');
-router.get('/books/:bookId', catchAsync(bookController.bookTest));
+router.get('/books/:bookId', catchAsync(bookController.getBook));
+
+router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
 export default router;

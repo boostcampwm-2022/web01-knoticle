@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import bookService from '@apis/books/books.service';
 
-const bookTest = async (req: Request, res: Response) => {
+const getBook = async (req: Request, res: Response) => {
   const bookId = Number(req.params.bookId);
   const bookData = await bookService.getBookData(bookId);
 
@@ -12,5 +12,5 @@ const bookTest = async (req: Request, res: Response) => {
 };
 
 export default {
-  bookTest,
+  getBook,
 };
