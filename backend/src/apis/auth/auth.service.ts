@@ -4,8 +4,6 @@ import axios from 'axios';
 import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-const SALT = 12;
-
 const getSignedUser = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
     where: {
@@ -146,9 +144,9 @@ const checkLocalUsernameUnique = async (username: string) => {
 };
 
 const signUpLocalUser = async (username: string, password: string, nickname: string) => {
-  const encryptedPassword = await hash(password, SALT);
+  const encryptedPassword = await hash(password, process.env.BCRYPT_SALT);
 
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: {
       username,
       nickname,
@@ -157,8 +155,6 @@ const signUpLocalUser = async (username: string, password: string, nickname: str
       profile_image: '',
     },
   });
-
-  return user;
 };
 
 export default {
