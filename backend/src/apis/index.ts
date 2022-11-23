@@ -1,12 +1,13 @@
 import { Router } from 'express';
 
-import multer from 'multer';
-
 import articlesController from '@apis/articles/articles.controller';
 import authController from '@apis/auth/auth.controller';
+import bookmarksController from '@apis/bookmarks/bookmarks.controller';
 import booksController from '@apis/books/books.controller';
 import imagesController from '@apis/images/images.controller';
 import { catchAsync } from '@utils/catch-async';
+import multer from 'multer';
+import guard from 'src/middlewares/tokenValidator';
 
 const router = Router();
 
@@ -23,5 +24,7 @@ router.post('/image', multer().single('image'), catchAsync(imagesController.crea
 
 router.get('/books/search');
 router.get('/books/:bookId', catchAsync(booksController.getBook));
+
+router.post('/bookmarks', catchAsync(guard), catchAsync(bookmarksController.createBookmark));
 
 export default router;
