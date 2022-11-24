@@ -10,7 +10,7 @@ const getArticleData = async (articleId: number) => {
     select: {
       id: true,
       title: true,
-      contents: true,
+      content: true,
       created_at: true,
       deleted_at: true,
       book_id: true,
