@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
@@ -16,6 +18,8 @@ interface PublishModalProps {
 }
 
 export default function PublishModal({ books }: PublishModalProps) {
+  const router = useRouter();
+
   const { execute: createArticle } = useFetch(createArticleApi);
 
   const [article, setArticle] = useRecoilState(articleState);
@@ -54,10 +58,14 @@ export default function PublishModal({ books }: PublishModalProps) {
 
   useEffect(() => {
     setArticle((prev) => {
-      const prevState = { ...prev };
-      const selectedScrap = filteredScraps.find((scrap) => scrap.id === selectedScrapIndex);
+      // NOTE: 책의 가장 마지막으로 글이 들어감 (임시)
 
-      prevState.order = selectedScrap ? selectedScrap.order : 0;
+      const prevState = { ...prev };
+      // const selectedScrap = filteredScraps.find((scrap) => scrap.id === selectedScrapIndex);
+
+      // prevState.order = selectedScrap ? selectedScrap.order : 0;
+
+      prevState.order = filteredScraps.length;
 
       return { ...prevState };
     });
@@ -79,7 +87,13 @@ export default function PublishModal({ books }: PublishModalProps) {
         selectedId={selectedScrapIndex}
         handleItemSelect={(id) => setSelectedScrapIndex(id)}
       />
-      <ModalButton theme="primary" onClick={() => createArticle(article)}>
+      <ModalButton
+        theme="primary"
+        onClick={() => {
+          createArticle(article);
+          router.push('/');
+        }}
+      >
         발행하기
       </ModalButton>
     </PublishModalWrapper>

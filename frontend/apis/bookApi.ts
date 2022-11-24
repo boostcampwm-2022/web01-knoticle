@@ -1,11 +1,14 @@
 import api from '@utils/api';
 
 interface GetBooksApi {
-  userId: string;
+  order: 'newest' | 'bookmark';
+  take: number;
 }
 
+// NOTE: 서버에서 take가 없을 때 최대로
+
 export const getBooksApi = async (data: GetBooksApi) => {
-  const url = `/api/books?user=${data.userId}`;
+  const url = `/api/books?order=${data.order}&take=12`;
 
   const response = await api({ url, method: 'GET' });
 
