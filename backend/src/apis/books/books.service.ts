@@ -39,7 +39,7 @@ const getBookData = async (bookId: number) => {
   return book;
 };
 
-const findBooks = async ({ order }: FindBooks) => {
+const findBooks = async ({ order, take }: FindBooks) => {
   const sortOptions = [];
 
   if (order === 'bookmark') sortOptions.push({ bookmarks: { _count: 'desc' as const } });
@@ -75,6 +75,7 @@ const findBooks = async ({ order }: FindBooks) => {
       deleted_at: null,
     },
     orderBy: sortOptions,
+    take,
   });
 
   return books;

@@ -12,9 +12,12 @@ const getBook = async (req: Request, res: Response) => {
 };
 
 const getBooks = async (req: Request, res: Response) => {
-  const { order } = req.query as { order: 'newest' | 'bookmark' };
+  const { order, take } = req.query as unknown as {
+    order: 'newest' | 'bookmark';
+    take: number;
+  };
 
-  const books = await booksService.findBooks({ order });
+  const books = await booksService.findBooks({ order, take: +take });
 
   res.status(200).send(books);
 };
