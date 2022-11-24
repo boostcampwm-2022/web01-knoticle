@@ -20,9 +20,10 @@ import {
 
 interface SliderProps {
   bookList: BookData[];
+  title: string;
 }
 
-function Slider({ bookList }: SliderProps) {
+function Slider({ bookList, title }: SliderProps) {
   const [sliderNumber, setSliderNumber] = useState(1);
 
   const sliderIndicatorCount = 4;
@@ -38,7 +39,7 @@ function Slider({ bookList }: SliderProps) {
         <FlexSpaceBetween>
           <SliderInfo>
             <Image src={ListIcon} alt="List Icon" />
-            <SliderTitle>새로 엮은 책</SliderTitle>
+            <SliderTitle>{title}</SliderTitle>
           </SliderInfo>
           <SliderIndicatorContainer>
             {sliderIndicatorNumbersList.map((number) => {
