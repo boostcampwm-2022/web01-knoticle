@@ -13,7 +13,7 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
 import articleState from '@atoms/article';
-import Preview from '@components/edit/Preview';
+import Content from '@components/common/Content';
 import useInput from '@hooks/useInput';
 
 import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
@@ -104,7 +104,9 @@ export default function Editor() {
           />
         </CodeMirrorWrapper>
       </EditorInner>
-      <Preview title={article.title} content={article.content} />
+      <EditorInner>
+        <Content title={article.title} content={article.content} />
+      </EditorInner>
     </EditorWrapper>
   );
 }
