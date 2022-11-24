@@ -21,10 +21,12 @@ import {
 interface TocProps {
   // book 객체에 대한 interface 추가 예정
   book: any;
+  articleId: number;
   handleSideBarOnClick: () => void;
 }
 
-export default function TOC({ book, handleSideBarOnClick }: TocProps) {
+export default function TOC({ book, articleId, handleSideBarOnClick }: TocProps) {
+  console.log('articleId', articleId);
   return (
     <TocWrapper>
       <TocSideBar>
@@ -40,7 +42,11 @@ export default function TOC({ book, handleSideBarOnClick }: TocProps) {
           <TocList>
             {book.scraps.map((v) => {
               return (
-                <TocArticle href={`/viewer/${book.id}/${v.article.id}`} key={v.order}>
+                <TocArticle
+                  href={`/viewer/${book.id}/${v.article.id}`}
+                  key={v.order}
+                  className={v.article.id === articleId ? 'current' : null}
+                >
                   {v.order}.{v.article.title}
                 </TocArticle>
               );

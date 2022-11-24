@@ -58,6 +58,10 @@ export const TocArticle = styled(Link)`
   color: inherit;
   display: block;
   margin-bottom: 5px;
+
+  &.current {
+    color: #ca7647;
+  }
 `;
 
 export const TocProfile = styled(Flex)`
