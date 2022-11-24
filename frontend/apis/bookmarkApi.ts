@@ -8,7 +8,6 @@ interface DeleteBookmarkApi {
   bookmarkId: number;
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export const postBookmarkApi = async (data: PostBookmarkApi) => {
   const url = `/api/bookmarks`;
 
