@@ -13,54 +13,11 @@ export default function EditorPage() {
   const handleModalOpen = () => setModalShown(true);
   const handleModalClose = () => setModalShown(false);
 
-  const books = [
-    {
-      id: 1,
-      thumbnail_image: 'https://sdlkasdlkf',
-      title: '리액트 마스터하기1',
-      created_at: '2022-11-17T04:25:35.464Z',
-      deleted_at: null,
-      user: {
-        nickname: 'dahyeon',
-      },
-      scraps: [],
-      isBookmarked: false,
-    },
-    {
-      id: 2,
-      thumbnail_image: 'https://sdlkasdlkf',
-      title: '리액트 마스터하기2',
-      created_at: '2022-11-17T04:25:35.464Z',
-      deleted_at: null,
-      user: {
-        nickname: 'dahyeon',
-      },
-      scraps: [
-        {
-          id: 1,
-          order: 1,
-          article: {
-            id: 3,
-            title: 'Create-react-app',
-          },
-        },
-        {
-          id: 2,
-          order: 2,
-          article: {
-            id: 5,
-            title: 'JSX',
-          },
-        },
-      ],
-    },
-  ];
+  const { data: books, execute: getBooks } = useFetch(getBooksApi);
 
-  // const { data: books, execute: getBooks } = useFetch(getBooksApi);
-
-  // useEffect(() => {
-  // getBooks({ userId: 4 });
-  // }, []);
+  useEffect(() => {
+    getBooks({ userId: 4 });
+  }, []);
 
   return (
     <>
