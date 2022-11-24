@@ -26,9 +26,11 @@ const tempBookDatas = [
     _count: {
       bookmarks: 398,
     },
-    bookmark: {
-      id: 1,
-    },
+    bookmark: [
+      {
+        id: 1,
+      },
+    ],
   },
   {
     id: 2,
@@ -57,9 +59,7 @@ const tempBookDatas = [
     _count: {
       bookmarks: 398,
     },
-    bookmark: {
-      id: null,
-    },
+    bookmark: [],
   },
 ];
 

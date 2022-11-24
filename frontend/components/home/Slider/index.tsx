@@ -17,7 +17,6 @@ import {
   SliderIndicator,
   SliderBookContainer,
 } from './styled';
-import tempBookDatas from './tempBookData';
 
 interface SliderProps {
   bookList: BookData[];

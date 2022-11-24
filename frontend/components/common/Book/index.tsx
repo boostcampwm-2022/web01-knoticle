@@ -31,7 +31,9 @@ interface BookProps {
 
 export default function Book({ book }: BookProps) {
   const { id, title, user, scraps, _count, bookmark } = book;
-  const [curBookmarkId, setCurBookmarkId] = useState<number | null>(bookmark.id);
+  const [curBookmarkId, setCurBookmarkId] = useState<number | null>(
+    bookmark.length ? bookmark[0].id : null
+  );
 
   const handleBookmarkClick = async () => {
     if (curBookmarkId) {
@@ -50,7 +52,7 @@ export default function Book({ book }: BookProps) {
   };
 
   const calcTempBookmark = () => {
-    if (bookmark.id) {
+    if (bookmark.length) {
       return _count.bookmarks + (curBookmarkId ? 0 : -1);
     }
     return _count.bookmarks + (curBookmarkId ? 1 : 0);

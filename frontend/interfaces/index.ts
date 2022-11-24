@@ -12,7 +12,7 @@ interface BookData {
   _count: {
     bookmarks: number;
   };
-  bookmark: Bookmark;
+  bookmark: Bookmark[];
 }
 
 export type { Article, Book, Bookmark, Scrap, User, BookData };
