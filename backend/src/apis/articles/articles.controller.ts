@@ -4,11 +4,11 @@ import articlesService from '@apis/articles/articles.service';
 import scrapsService from '@apis/scraps/scraps.service';
 
 const publish = async (req: Request, res: Response) => {
-  const { title, contents, book_id, order } = req.body;
+  const { title, content, book_id, order } = req.body;
 
   const article = await articlesService.createArticle({
     title,
-    contents,
+    content,
     book_id,
   });
 
@@ -30,11 +30,11 @@ const getArticle = async (req: Request, res: Response) => {
 };
 
 const saveTemporaryArticle = async (req: Request, res: Response) => {
-  const { title, contents, user_id } = req.body;
+  const { title, content, user_id } = req.body;
 
   const temporaryArticle = await articlesService.createTemporaryArticle({
     title,
-    contents,
+    content,
     user_id,
   });
 

@@ -1,11 +1,7 @@
+import { prisma } from '@config/orm.config';
+import { ResourceConflict, Message, Unauthorized } from '@errors';
 import axios from 'axios';
 import { hash, compare } from 'bcrypt';
-import jwt from 'jsonwebtoken';
-
-import { prisma } from '@config/orm.config';
-import { Message, Unauthorized } from '@errors';
-
-const SALT = 12;
 
 const getSignedUser = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
@@ -25,39 +21,6 @@ const getSignedUser = async (username: string, password: string) => {
   if (!(await compare(password, user.password))) throw new Unauthorized(Message.AUTH_WRONG);
 
   return user;
-};
-
-const getTokens = (userId: number, nickname: string) => {
-  const accessToken = generateJWT('3h', { id: userId, nickname });
-  const refreshToken = generateJWT('7d');
-
-  return {
-    accessToken,
-    refreshToken,
-  };
-};
-
-const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number; nickname?: string } = {}) => {
-  return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
-};
-
-const decodeJWT = (token: string) => {
-  return jwt.verify(token, process.env.JWT_SECRET_KEY);
-};
-
-const saveRefreshToken = async (userId: number, refreshToken: string) => {
-  await prisma.token.upsert({
-    where: {
-      user_id: userId,
-    },
-    update: {
-      refresh_token: refreshToken,
-    },
-    create: {
-      user_id: userId,
-      refresh_token: refreshToken,
-    },
-  });
 };
 
 const getGithubAccessToken = async (code: string) => {
@@ -146,10 +109,19 @@ const checkLocalUsernameUnique = async (username: string) => {
   return !user ? true : false;
 };
 
-const signUpLocalUser = async (username: string, password: string, nickname: string) => {
-  const encryptedPassword = await hash(password, SALT);
+const checkOverlapBeforeSignUp = async (username: string, nickname: string) => {
+  if (!(await checkLocalUsernameUnique(username))) {
+    throw new ResourceConflict(Message.AUTH_USERNAME_OVERLAP);
+  }
+  if (!(await checkNicknameUnique(nickname))) {
+    throw new ResourceConflict(Message.AUTH_NICKNAME_OVERLAP);
+  }
+};
 
-  const user = await prisma.user.create({
+const signUpLocalUser = async (username: string, password: string, nickname: string) => {
+  const encryptedPassword = await hash(password, Number(process.env.BCRYPT_SALT));
+
+  await prisma.user.create({
     data: {
       username,
       nickname,
@@ -158,19 +130,14 @@ const signUpLocalUser = async (username: string, password: string, nickname: str
       profile_image: '',
     },
   });
-
-  return user;
 };
 
 export default {
   getSignedUser,
-  getTokens,
-  saveRefreshToken,
   getGithubAccessToken,
   getUserByGithubAPI,
   getUserByLocalDB,
   signUpGithubUser,
-  checkLocalUsernameUnique,
-  checkNicknameUnique,
+  checkOverlapBeforeSignUp,
   signUpLocalUser,
 };
