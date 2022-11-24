@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
+import { useEffect } from 'react';
+
 import axios from 'axios';
 
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
@@ -23,7 +25,7 @@ import {
 interface articleDataType {
   id: number;
   title: string;
-  contents: string;
+  content: string;
   created_at: string;
   deleted_at: string;
   book_id: number;
@@ -75,6 +77,21 @@ export default function Article({ article, scraps, bookId }: articleProps) {
     }
   };
 
+  const checkArticleAuthority = (scraps: any, id: number) => {
+    if (scraps.find((v: scrapsData) => v.article.id === id)) {
+      return true;
+    }
+    // alert 두번뜨는 현상...
+    // 404 페이지로 처리? 고민 중
+    // alert('잘못된 접근입니다.');
+    router.push('/');
+    return false;
+  };
+
+  useEffect(() => {
+    checkArticleAuthority(scraps, article.id);
+  }, []);
+
   return (
     <ArticleContainer>
       {article.id === scraps.at(0)?.article.id ? null : (
@@ -105,7 +122,7 @@ export default function Article({ article, scraps, bookId }: articleProps) {
             </ArticleButton>
           </ArticleTitleBtnBox>
         </ArticleTitle>
-        <ArticleContents>{article.contents}</ArticleContents>
+        <ArticleContents>{article.content}</ArticleContents>
       </ArticleMain>
       {article.id === scraps.at(-1)?.article.id ? null : (
         <ArticleRightBtn onClick={handleRightBtnOnClick}>
