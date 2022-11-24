@@ -17,7 +17,7 @@ const getBooks = async (req: Request, res: Response) => {
     take: number;
   };
 
-  const books = await booksService.findBooks({ order, take: +take });
+  const books = await booksService.findBooks({ order, take: +take, userId: res.locals?.user.id });
 
   res.status(200).send(books);
 };
