@@ -1,13 +1,20 @@
 import { prisma } from '@config/orm.config';
-import { Message, NotFound } from '@errors';
 
 import { FindBooks } from './books.interface';
 
-const getBookData = async (bookId: number) => {
+const findBook = async (bookId: number, userId: number) => {
+  let additionalJoin = {};
+
+  if (userId)
+    additionalJoin = {
+      bookmarks: {
+        where: {
+          user_id: userId,
+        },
+      },
+    };
+
   const book = await prisma.book.findFirst({
-    where: {
-      id: bookId,
-    },
     select: {
       id: true,
       title: true,
@@ -32,10 +39,13 @@ const getBookData = async (bookId: number) => {
       _count: {
         select: { bookmarks: true },
       },
+      ...additionalJoin,
+    },
+    where: {
+      id: bookId,
+      deleted_at: null,
     },
   });
-
-  if (!book) throw new NotFound(Message.BOOK_NOTFOUND);
 
   return book;
 };
@@ -95,6 +105,6 @@ const findBooks = async ({ order, take, userId }: FindBooks) => {
 };
 
 export default {
-  getBookData,
+  findBook,
   findBooks,
 };
