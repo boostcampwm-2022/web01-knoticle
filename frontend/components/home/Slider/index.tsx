@@ -49,9 +49,7 @@ function Slider({ bookList, title }: SliderProps) {
         </FlexSpaceBetween>
 
         <SliderBookContainer>
-          {bookList.map((book) => (
-            <Book key={book.id} book={book} />
-          ))}
+          {bookList.length && bookList.map((book) => <Book key={book.id} book={book} />)}
         </SliderBookContainer>
       </SliderContent>
 

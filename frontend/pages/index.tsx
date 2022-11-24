@@ -16,8 +16,6 @@ export default function Home() {
     getPopularBookList('bookmark');
   }, []);
 
-  console.log(newestBookList);
-
   return (
     <>
       <GNB />
