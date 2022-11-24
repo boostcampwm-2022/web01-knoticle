@@ -74,6 +74,8 @@ export default function Article({ article, scraps, bookId }: articleProps) {
           // 추후 에러 핸들링 추가 예정
           console.log(err);
         });
+
+      router.push('/');
     }
   };
 
@@ -99,31 +101,35 @@ export default function Article({ article, scraps, bookId }: articleProps) {
           <Image src={LeftBtnIcon} alt="Viewer Icon" />
         </ArticleLeftBtn>
       )}
-      <ArticleMain>
-        <ArticleTitle>
-          {/* Global style Large의 크기가 너무 작음 -> 월요일 회의 후 반영 */}
-          <TextLarge>{article.title}</TextLarge>
-          <ArticleTitleBtnBox>
-            {article.book.user.nickname === user.nickname ? (
-              <ArticleButton onClick={handleDeleteBtnOnClick}>삭제</ArticleButton>
-            ) : (
-              <ArticleButton onClick={handleOriginalBtnOnClick}>
-                <Image src={Original} alt="Original Icon" width={20} height={15} />
-                원본 글 보기
+      {!article.deleted_at ? (
+        <ArticleMain>
+          <ArticleTitle>
+            {/* Global style Large의 크기가 너무 작음 -> 월요일 회의 후 반영 */}
+            <TextLarge>{article.title}</TextLarge>
+            <ArticleTitleBtnBox>
+              {article.book.user.nickname === user.nickname ? (
+                <ArticleButton onClick={handleDeleteBtnOnClick}>삭제</ArticleButton>
+              ) : (
+                <ArticleButton onClick={handleOriginalBtnOnClick}>
+                  <Image src={Original} alt="Original Icon" width={20} height={15} />
+                  원본 글 보기
+                </ArticleButton>
+              )}
+              <ArticleButton
+                onClick={() => {
+                  console.log('click');
+                }}
+              >
+                <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
+                스크랩
               </ArticleButton>
-            )}
-            <ArticleButton
-              onClick={() => {
-                console.log('click');
-              }}
-            >
-              <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
-              스크랩
-            </ArticleButton>
-          </ArticleTitleBtnBox>
-        </ArticleTitle>
-        <ArticleContents>{article.content}</ArticleContents>
-      </ArticleMain>
+            </ArticleTitleBtnBox>
+          </ArticleTitle>
+          <ArticleContents>{article.content}</ArticleContents>
+        </ArticleMain>
+      ) : (
+        <ArticleMain>삭제된 글입니다.</ArticleMain>
+      )}
       {article.id === scraps.at(-1)?.article.id ? null : (
         <ArticleRightBtn onClick={handleRightBtnOnClick}>
           <Image src={RightBtnIcon} alt="Viewer Icon" />

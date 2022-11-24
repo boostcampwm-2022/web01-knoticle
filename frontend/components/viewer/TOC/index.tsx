@@ -23,11 +23,12 @@ import {
 
 interface TocProps {
   // book 객체에 대한 interface 추가 예정
+  articleId: number;
   book: BookData;
   handleSideBarOnClick: () => void;
 }
 
-export default function TOC({ book, handleSideBarOnClick }: TocProps) {
+export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps) {
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
     book.bookmarks.length ? book.bookmarks[0].id : null,
     book._count.bookmarks,
@@ -54,7 +55,11 @@ export default function TOC({ book, handleSideBarOnClick }: TocProps) {
           <TocList>
             {book.scraps.map((v) => {
               return (
-                <TocArticle href={`/viewer/${book.id}/${v.article.id}`} key={v.order}>
+                <TocArticle
+                  href={`/viewer/${book.id}/${v.article.id}`}
+                  key={v.order}
+                  className={v.article.id === articleId ? 'current' : ''}
+                >
                   {v.order}.{v.article.title}
                 </TocArticle>
               );

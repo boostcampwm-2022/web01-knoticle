@@ -21,6 +21,7 @@ const findBook = async (bookId: number, userId: number) => {
             select: {
               id: true,
               title: true,
+              deleted_at: true,
             },
           },
         },
