@@ -1,13 +1,10 @@
 import Image from 'next/image';
 
-import { useState } from 'react';
-
-import axios from 'axios';
-
 import InactiveBookmarkIcon from '@assets/ico_bookmark_black.svg';
-import ActiveBookmarkIcon from '@assets/ico_bookmark_red.svg';
+import ActiveBookmarkIcon from '@assets/ico_bookmark_grey_filled.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
+import useBookmark from '@hooks/useBookmark';
 import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
 import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
 
@@ -51,36 +48,17 @@ interface BookProps {
     _count: {
       bookmarks: number;
     };
-    bookmark: Bookmark;
+    bookmarks: Bookmark[];
   };
 }
 
 export default function Book({ book }: BookProps) {
   const { id, title, user, scraps, _count, bookmark } = book;
-  const [curBookmarkId, setCurBookmarkId] = useState<number | null>(bookmark.id);
-
-  const handleBookmarkClick = async () => {
-    if (curBookmarkId) {
-      // 북마크 삭제 API 요청
-      // await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks/${id}`);
-      setCurBookmarkId(null);
-    } else {
-      // 북마크 생성 API 요청
-      // const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks`, {
-      //   book_id: id,
-      // });
-      // const newBookmark = data.bookmark;
-      // setCurBookmarkId(newBookmark.id);
-      setCurBookmarkId(1);
-    }
-  };
-
-  const calcTempBookmark = () => {
-    if (bookmark.id) {
-      return _count.bookmarks + (curBookmarkId ? 0 : -1);
-    }
-    return _count.bookmarks + (curBookmarkId ? 1 : 0);
-  };
+  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
+    book.bookmarks[0].id,
+    book._count.bookmarks,
+    book.id
+  );
 
   return (
     <BookWrapper>
@@ -98,7 +76,7 @@ export default function Book({ book }: BookProps) {
               alt="Bookmark Icon"
               onClick={handleBookmarkClick}
             />
-            <TextXSmall>{calcTempBookmark()}</TextXSmall>
+            <TextXSmall>{curBookmarkCnt}</TextXSmall>
           </Bookmark>
         </FlexSpaceBetween>
 
