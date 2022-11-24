@@ -9,6 +9,7 @@ import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
 import Scrap from '@assets/ico_scrap.svg';
+import Content from '@components/common/Content';
 import { TextLarge } from '@styles/common';
 
 import ArticleButton from './Button';
@@ -48,7 +49,7 @@ interface articleProps {
 
 const user = {
   id: 1,
-  nickname: 'mocha',
+  nickname: 'moc1ha',
 };
 
 export default function Article({ article, scraps, bookId }: articleProps) {
@@ -79,7 +80,7 @@ export default function Article({ article, scraps, bookId }: articleProps) {
     }
   };
 
-  const checkArticleAuthority = (scraps: any, id: number) => {
+  const checkArticleAuthority = (id: number) => {
     if (scraps.find((v: scrapsData) => v.article.id === id)) {
       return true;
     }
@@ -91,7 +92,7 @@ export default function Article({ article, scraps, bookId }: articleProps) {
   };
 
   useEffect(() => {
-    checkArticleAuthority(scraps, article.id);
+    checkArticleAuthority(article.id);
   }, []);
 
   return (
@@ -125,7 +126,7 @@ export default function Article({ article, scraps, bookId }: articleProps) {
               </ArticleButton>
             </ArticleTitleBtnBox>
           </ArticleTitle>
-          <ArticleContents>{article.content}</ArticleContents>
+          <Content content={article.content} />
         </ArticleMain>
       ) : (
         <ArticleMain>삭제된 글입니다.</ArticleMain>

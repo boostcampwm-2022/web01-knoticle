@@ -29,10 +29,11 @@ interface TocProps {
 }
 
 export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps) {
+  const { id, title, user, scraps, _count, bookmarks } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
-    book.bookmarks.length ? book.bookmarks[0].id : null,
-    book._count.bookmarks,
-    book.id
+    bookmarks.length ? bookmarks[0].id : null,
+    _count.bookmarks,
+    id
   );
 
   return (
@@ -48,15 +49,15 @@ export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps)
           <Image src={Hide} alt="Closed Sidebar Icon" onClick={handleSideBarOnClick} />
         </TocIcons>
         <TextSmall>{curBookmarkCnt}</TextSmall>
-        <TocTitle>{book.title}</TocTitle>
+        <TocTitle>{title}</TocTitle>
 
         <TocContainer>
           <TextMedium>목차</TextMedium>
           <TocList>
-            {book.scraps.map((v) => {
+            {scraps.map((v) => {
               return (
                 <TocArticle
-                  href={`/viewer/${book.id}/${v.article.id}`}
+                  href={`/viewer/${id}/${v.article.id}`}
                   key={v.order}
                   className={v.article.id === articleId ? 'current' : ''}
                 >
@@ -70,7 +71,7 @@ export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps)
       <TocProfile>
         <TocProfileText>
           <TextSmall>Written by</TextSmall>
-          <TextMedium>{book.user.nickname}</TextMedium>
+          <TextMedium>{user.nickname}</TextMedium>
         </TocProfileText>
         <TocImgWrapper src={SampleProflie} alt="Viewer Icon" />
       </TocProfile>
