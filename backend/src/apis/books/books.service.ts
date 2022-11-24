@@ -16,6 +16,7 @@ const getBookData = async (bookId: number) => {
         },
       },
       scraps: {
+        orderBy: { order: 'asc' },
         select: {
           order: true,
           article: {

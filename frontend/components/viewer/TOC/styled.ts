@@ -16,7 +16,7 @@ to {
 
 export const TocWrapper = styled(Flex)`
   /* 고정크기? %? */
-  min-width: 250px;
+  flex-basis: 250px;
   height: calc(100vh - 67px);
   background-color: var(--primary-color);
   color: var(--white-color);

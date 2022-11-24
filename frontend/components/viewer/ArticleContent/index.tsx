@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
@@ -7,7 +8,6 @@ import Scrap from '@assets/ico_scrap.svg';
 import { TextLarge } from '@styles/common';
 
 import ArticleButton from './Button';
-import sampleData from './sampledata';
 import {
   ArticleContainer,
   ArticleLeftBtn,
@@ -18,22 +18,57 @@ import {
   ArticleTitleBtnBox,
 } from './styled';
 
-export default function Article() {
+interface articleDataType {
+  id: number;
+  title: string;
+  contents: string;
+  created_at: string;
+  deleted_at: string;
+  book_id: number;
+}
+
+interface scrapsData {
+  order: number;
+  article: {
+    id: number;
+    title: string;
+  };
+}
+
+interface articleProps {
+  article: articleDataType;
+  scraps: scrapsData[];
+  bookId: number;
+}
+export default function Article({ article, scraps, bookId }: articleProps) {
+  const router = useRouter();
+  const handleOriginalBtnOnClick = () => {
+    router.push(`/viewer/${article.book_id}/${article.id}`);
+  };
+  const handleLeftBtnOnClick = () => {
+    const prevOrder = scraps.filter((v: scrapsData) => v.article.id === article.id)[0].order - 1;
+    const prevArticleId = scraps.filter((v: scrapsData) => v.order === prevOrder)[0].article.id;
+    router.push(`/viewer/${bookId}/${prevArticleId}`);
+  };
+  const handleRightBtnOnClick = () => {
+    const nextOrder = scraps.filter((v: scrapsData) => v.article.id === article.id)[0].order + 1;
+    const nextArticleId = scraps.filter((v: scrapsData) => v.order === nextOrder)[0].article.id;
+    router.push(`/viewer/${bookId}/${nextArticleId}`);
+  };
+
   return (
     <ArticleContainer>
-      <ArticleLeftBtn>
-        <Image src={LeftBtnIcon} alt="Viewer Icon" />
-      </ArticleLeftBtn>
+      {article.id === scraps[0]?.article.id ? null : (
+        <ArticleLeftBtn onClick={handleLeftBtnOnClick}>
+          <Image src={LeftBtnIcon} alt="Viewer Icon" />
+        </ArticleLeftBtn>
+      )}
       <ArticleMain>
         <ArticleTitle>
           {/* Global style Large의 크기가 너무 작음 -> 월요일 회의 후 반영 */}
-          <TextLarge>{sampleData.title}</TextLarge>
+          <TextLarge>{article.title}</TextLarge>
           <ArticleTitleBtnBox>
-            <ArticleButton
-              onClick={() => {
-                console.log('click');
-              }}
-            >
+            <ArticleButton onClick={handleOriginalBtnOnClick}>
               <Image src={Original} alt="Original Icon" width={20} height={15} />
               원본 글 보기
             </ArticleButton>
@@ -47,11 +82,13 @@ export default function Article() {
             </ArticleButton>
           </ArticleTitleBtnBox>
         </ArticleTitle>
-        <ArticleContents>{sampleData.content}</ArticleContents>
+        <ArticleContents>{article.contents}</ArticleContents>
       </ArticleMain>
-      <ArticleRightBtn>
-        <Image src={RightBtnIcon} alt="Viewer Icon" />
-      </ArticleRightBtn>
+      {article.id === scraps.at(-1)?.article.id ? null : (
+        <ArticleRightBtn onClick={handleRightBtnOnClick}>
+          <Image src={RightBtnIcon} alt="Viewer Icon" />
+        </ArticleRightBtn>
+      )}
     </ArticleContainer>
   );
 }
