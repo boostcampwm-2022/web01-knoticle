@@ -29,5 +29,5 @@ export const deleteBookmarkApi = async (data: DeleteBookmarkApi) => {
     method: 'DELETE',
   });
 
-  return true;
+  return response.data;
 };
