@@ -21,6 +21,7 @@ export const BookWrapper = styled(FlexColumn)`
 export const BookThumbnail = styled(Image)`
   width: 280px;
   height: 200px;
+  min-height: 200px;
 `;
 
 export const BookInfoContainer = styled(FlexColumn)`
@@ -51,14 +52,14 @@ export const BookContents = styled(TextXSmall)`
   display: flex;
   flex-direction: column;
 
-  div {
+  a {
     border-bottom: 1px solid var(--grey-02-color);
     height: 28px;
     display: flex;
     align-items: center;
   }
 
-  div:nth-child(1) {
+  a:nth-child(1) {
     border-top: 1px solid var(--primary-color);
   }
 `;
@@ -69,7 +70,6 @@ export const ArticleLink = styled(Link)`
   text-decoration: none;
   color: inherit;
   display: block;
-  margin-bottom: 5px;
 `;
 
 export const AuthorLink = styled(Link)`

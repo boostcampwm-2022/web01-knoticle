@@ -57,16 +57,21 @@ export default function Book({ book }: BookProps) {
         <BookContentsInfo>
           <TextSmall>Contents</TextSmall>
           <BookContents>
-            {scraps.map((scrap, idx) => (
-              <ArticleLink key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
-                {idx + 1}. {scrap.article.title}
-              </ArticleLink>
-            ))}
+            {scraps.map(
+              (scrap, idx) =>
+                idx < 4 && (
+                  <ArticleLink key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
+                    {idx + 1}. {scrap.article.title}
+                  </ArticleLink>
+                )
+            )}
           </BookContents>
+        </BookContentsInfo>
+        {scraps.length > 4 && (
           <FlexCenter>
             <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
           </FlexCenter>
-        </BookContentsInfo>
+        )}
       </BookInfoContainer>
     </BookWrapper>
   );
