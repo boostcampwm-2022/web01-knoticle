@@ -30,9 +30,9 @@ interface BookProps {
 }
 
 export default function Book({ book }: BookProps) {
-  const { id, title, user, scraps, _count, bookmark } = book;
+  const { id, title, user, scraps, _count, bookmarks } = book;
   const [curBookmarkId, setCurBookmarkId] = useState<number | null>(
-    bookmark.length ? bookmark[0].id : null
+    bookmarks.length ? bookmarks[0].id : null
   );
 
   const handleBookmarkClick = async () => {
@@ -52,7 +52,7 @@ export default function Book({ book }: BookProps) {
   };
 
   const calcTempBookmark = () => {
-    if (bookmark.length) {
+    if (bookmarks.length) {
       return _count.bookmarks + (curBookmarkId ? 0 : -1);
     }
     return _count.bookmarks + (curBookmarkId ? 1 : 0);
@@ -83,7 +83,7 @@ export default function Book({ book }: BookProps) {
           <BookContents>
             {scraps.map((scrap, idx) => (
               <ArticleLink key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
-                {idx}. {scrap.article.title}
+                {idx + 1}. {scrap.article.title}
               </ArticleLink>
             ))}
           </BookContents>

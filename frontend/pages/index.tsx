@@ -16,13 +16,15 @@ export default function Home() {
     getPopularBookList('bookmark');
   }, []);
 
+  console.log(newestBookList);
+
   return (
     <>
       <GNB />
       <PageWrapper>
         <PageInnerLarge>
-          <Slider bookList={newestBookList} />
-          <Slider bookList={popularBookList} />
+          <Slider bookList={!newestBookList ? [] : newestBookList} />
+          <Slider bookList={!popularBookList ? [] : popularBookList} />
           <Footer />
         </PageInnerLarge>
       </PageWrapper>
