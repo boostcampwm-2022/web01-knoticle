@@ -37,11 +37,12 @@ export default function TOC({ book, handleSideBarOnClick }: TocProps) {
     <TocWrapper>
       <TocSideBar>
         <TocIcons>
-          {curBookmarkId ? (
-            <Image src={BookmarkFilled} alt="Filled Bookmark Icon" onClick={handleBookmarkClick} />
-          ) : (
-            <Image src={Bookmark} alt="Bookmark Icon" onClick={handleBookmarkClick} />
-          )}
+          <Image
+            src={curBookmarkId ? BookmarkFilled : Bookmark}
+            alt="Filled Bookmark Icon"
+            onClick={handleBookmarkClick}
+          />
+
           <Image src={Hide} alt="Closed Sidebar Icon" onClick={handleSideBarOnClick} />
         </TocIcons>
         <TextSmall>{curBookmarkCnt}</TextSmall>
