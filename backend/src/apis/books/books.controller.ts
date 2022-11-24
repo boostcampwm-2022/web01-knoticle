@@ -11,6 +11,15 @@ const getBook = async (req: Request, res: Response) => {
   res.status(200).send(bookData);
 };
 
+const getBooks = async (req: Request, res: Response) => {
+  const { order } = req.query as { order: 'newest' | 'bookmark' };
+
+  const books = await booksService.findBooks({ order });
+
+  res.status(200).send(books);
+};
+
 export default {
   getBook,
+  getBooks,
 };

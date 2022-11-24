@@ -23,5 +23,6 @@ router.post('/image', multer().single('image'), catchAsync(imagesController.crea
 
 router.get('/books/search');
 router.get('/books/:bookId', catchAsync(booksController.getBook));
+router.get('/books', catchAsync(booksController.getBooks));
 
 export default router;
