@@ -1,8 +1,11 @@
 import Image from 'next/image';
 
 import Bookmark from '@assets/ico_bookmark.svg';
+import BookmarkFilled from '@assets/ico_bookmark_white_filled.svg';
 import Hide from '@assets/ico_hide.svg';
 import SampleProflie from '@assets/ico_sampleProfile.svg';
+import useBookmark from '@hooks/useBookmark';
+import { BookData } from '@interfaces';
 import { TextMedium, TextSmall } from '@styles/common';
 
 import {
@@ -20,20 +23,31 @@ import {
 
 interface TocProps {
   // book 객체에 대한 interface 추가 예정
-  book: any;
   articleId: number;
+  book: BookData;
   handleSideBarOnClick: () => void;
 }
 
-export default function TOC({ book, articleId, handleSideBarOnClick }: TocProps) {
+export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps) {
+  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
+    book.bookmarks.length ? book.bookmarks[0].id : null,
+    book._count.bookmarks,
+    book.id
+  );
+
   return (
     <TocWrapper>
       <TocSideBar>
         <TocIcons>
-          <Image src={Bookmark} alt="Bookmark Icon" />
+          <Image
+            src={curBookmarkId ? BookmarkFilled : Bookmark}
+            alt="Filled Bookmark Icon"
+            onClick={handleBookmarkClick}
+          />
+
           <Image src={Hide} alt="Closed Sidebar Icon" onClick={handleSideBarOnClick} />
         </TocIcons>
-        <TextSmall>{book._count.bookmarks}</TextSmall>
+        <TextSmall>{curBookmarkCnt}</TextSmall>
         <TocTitle>{book.title}</TocTitle>
 
         <TocContainer>

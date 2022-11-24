@@ -1,11 +1,9 @@
 import { prisma } from '@config/orm.config';
-import { Message, NotFound } from '@errors';
 
-const getBookData = async (bookId: number) => {
+import { FindBooks } from './books.interface';
+
+const findBook = async (bookId: number, userId: number) => {
   const book = await prisma.book.findFirst({
-    where: {
-      id: bookId,
-    },
     select: {
       id: true,
       title: true,
@@ -28,17 +26,72 @@ const getBookData = async (bookId: number) => {
           },
         },
       },
+      bookmarks: {
+        where: {
+          user_id: userId,
+        },
+      },
       _count: {
         select: { bookmarks: true },
       },
     },
+    where: {
+      id: bookId,
+      deleted_at: null,
+    },
   });
-
-  if (!book) throw new NotFound(Message.BOOK_NOTFOUND);
 
   return book;
 };
 
+const findBooks = async ({ order, take, userId }: FindBooks) => {
+  const sortOptions = [];
+
+  if (order === 'bookmark') sortOptions.push({ bookmarks: { _count: 'desc' as const } });
+  if (order === 'newest') sortOptions.push({ created_at: 'desc' as const });
+
+  const books = await prisma.book.findMany({
+    select: {
+      id: true,
+      title: true,
+      thumbnail_image: true,
+      created_at: true,
+      user: {
+        select: {
+          nickname: true,
+        },
+      },
+      scraps: {
+        select: {
+          order: true,
+          article: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+      },
+      bookmarks: {
+        where: {
+          user_id: userId,
+        },
+      },
+      _count: {
+        select: { bookmarks: true },
+      },
+    },
+    where: {
+      deleted_at: null,
+    },
+    orderBy: sortOptions,
+    take,
+  });
+
+  return books;
+};
+
 export default {
-  getBookData,
+  findBook,
+  findBooks,
 };
