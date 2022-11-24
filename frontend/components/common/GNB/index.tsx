@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Link from 'next/link';
 
 import { useState } from 'react';
 
@@ -9,7 +9,7 @@ import Modal from '@components/common/Modal';
 import SignInModal from '@components/SignInModal';
 import SignUpModal from '@components/SignUpModal';
 
-import { GNBbar, IconsContainer, Logo } from './styled';
+import { GNBbar, Icon, IconsContainer, Logo } from './styled';
 
 export default function GNB() {
   const [isModalShown, setModalShown] = useState(false);
@@ -26,11 +26,16 @@ export default function GNB() {
   return (
     <GNBbar>
       <IconsContainer />
-      <Logo>knoticle</Logo>
+      <Logo href="/">knoticle</Logo>
       <IconsContainer>
-        <Image src={ArticleIcon} alt="Article Icon" />
-        <Image src={PersonIcon} alt="Person Icon" onClick={handleModalOpen} />
-        <Image src={SearchIcon} alt="Search Icon" />
+        <Link href="/editor">
+          <Icon src={ArticleIcon} alt="Article Icon" />
+        </Link>
+        <Icon src={PersonIcon} alt="Person Icon" onClick={handleModalOpen} />
+
+        <Link href="/search">
+          <Icon src={SearchIcon} alt="Search Icon" />
+        </Link>
       </IconsContainer>
 
       {isModalShown &&
