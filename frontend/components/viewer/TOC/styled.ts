@@ -6,11 +6,11 @@ import styled, { keyframes } from 'styled-components';
 import { Flex } from '@styles/layout';
 
 const slide = keyframes`
-from {
-    left:-200px;
+0% {
+    width:0px;
 }
-to {
-    left:0px;
+100% {
+    width:250px;
 }
 `;
 
@@ -22,7 +22,7 @@ export const TocWrapper = styled(Flex)`
   color: var(--white-color);
   flex-direction: column;
   position: relative;
-  animation: ${slide} 1s ease-in-out;
+  // animation: ${slide} 1s ease-in-out;
 `;
 
 export const TocSideBar = styled.div`
