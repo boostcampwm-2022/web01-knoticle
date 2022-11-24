@@ -59,7 +59,7 @@ export default function Viewer() {
       {book && article ? (
         <Flex>
           {isOpened ? (
-            <TOC book={book} handleSideBarOnClick={handleSideBarToggle} />
+            <TOC book={book} articleId={article.id} handleSideBarOnClick={handleSideBarToggle} />
           ) : (
             <ClosedSideBar handleSideBarOnClick={handleSideBarToggle} />
           )}

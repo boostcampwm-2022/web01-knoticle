@@ -23,6 +23,7 @@ const getBookData = async (bookId: number) => {
             select: {
               id: true,
               title: true,
+              deleted_at: true,
             },
           },
         },
