@@ -4,6 +4,10 @@ export const EditorWrapper = styled.div`
   width: 100%;
   height: calc(100vh - 67px);
   display: flex;
+
+  > div:nth-child(2) {
+    background-color: #f9f9f9;
+  }
 `;
 
 export const EditorInner = styled.div`
