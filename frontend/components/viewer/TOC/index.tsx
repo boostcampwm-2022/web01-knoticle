@@ -1,8 +1,10 @@
 import Image from 'next/image';
 
 import Bookmark from '@assets/ico_bookmark.svg';
+import BookmarkFilled from '@assets/ico_bookmark_white_filled.svg';
 import Hide from '@assets/ico_hide.svg';
 import SampleProflie from '@assets/ico_sampleProfile.svg';
+import useBookmark from '@hooks/useBookmark';
 import { TextMedium, TextSmall } from '@styles/common';
 
 import {
@@ -25,14 +27,24 @@ interface TocProps {
 }
 
 export default function TOC({ book, handleSideBarOnClick }: TocProps) {
+  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
+    null,
+    book._count.bookmarks,
+    book.id
+  );
+
   return (
     <TocWrapper>
       <TocSideBar>
         <TocIcons>
-          <Image src={Bookmark} alt="Bookmark Icon" />
+          {curBookmarkId ? (
+            <Image src={BookmarkFilled} alt="Filled Bookmark Icon" onClick={handleBookmarkClick} />
+          ) : (
+            <Image src={Bookmark} alt="Bookmark Icon" onClick={handleBookmarkClick} />
+          )}
           <Image src={Hide} alt="Closed Sidebar Icon" onClick={handleSideBarOnClick} />
         </TocIcons>
-        <TextSmall>{book._count.bookmarks}</TextSmall>
+        <TextSmall>{curBookmarkCnt}</TextSmall>
         <TocTitle>{book.title}</TocTitle>
 
         <TocContainer>
