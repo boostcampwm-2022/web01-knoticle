@@ -1,7 +1,5 @@
 import Image from 'next/image';
 
-import { useState } from 'react';
-
 import InactiveBookmarkIcon from '@assets/ico_bookmark_black.svg';
 import ActiveBookmarkIcon from '@assets/ico_bookmark_grey_filled.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
@@ -9,7 +7,6 @@ import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
 import useBookmark from '@hooks/useBookmark';
 import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
 import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
-import axios from 'axios';
 
 import {
   BookWrapper,
@@ -51,14 +48,14 @@ interface BookProps {
     _count: {
       bookmarks: number;
     };
-    bookmark: Bookmark;
+    bookmarks: Bookmark[];
   };
 }
 
 export default function Book({ book }: BookProps) {
   const { id, title, user, scraps, _count, bookmark } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
-    null,
+    book.bookmarks[0].id,
     book._count.bookmarks,
     book.id
   );

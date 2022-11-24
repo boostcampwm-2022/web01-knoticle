@@ -28,7 +28,7 @@ interface TocProps {
 
 export default function TOC({ book, handleSideBarOnClick }: TocProps) {
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
-    null,
+    book.bookmarks[0].id,
     book._count.bookmarks,
     book.id
   );
