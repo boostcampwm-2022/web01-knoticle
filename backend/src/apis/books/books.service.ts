@@ -1,13 +1,20 @@
 import { prisma } from '@config/orm.config';
-import { Message, NotFound } from '@errors';
 
 import { FindBooks } from './books.interface';
 
-const getBookData = async (bookId: number) => {
+const findBook = async (bookId: number, userId: number) => {
+  let additionalJoin = {};
+
+  if (userId)
+    additionalJoin = {
+      bookmarks: {
+        where: {
+          user_id: userId,
+        },
+      },
+    };
+
   const book = await prisma.book.findFirst({
-    where: {
-      id: bookId,
-    },
     select: {
       id: true,
       title: true,
@@ -32,19 +39,33 @@ const getBookData = async (bookId: number) => {
       _count: {
         select: { bookmarks: true },
       },
+      ...additionalJoin,
+    },
+    where: {
+      id: bookId,
+      deleted_at: null,
     },
   });
-
-  if (!book) throw new NotFound(Message.BOOK_NOTFOUND);
 
   return book;
 };
 
-const findBooks = async ({ order, take }: FindBooks) => {
+const findBooks = async ({ order, take, userId }: FindBooks) => {
   const sortOptions = [];
 
   if (order === 'bookmark') sortOptions.push({ bookmarks: { _count: 'desc' as const } });
   if (order === 'newest') sortOptions.push({ created_at: 'desc' as const });
+
+  let additionalJoin = {};
+
+  if (userId)
+    additionalJoin = {
+      bookmarks: {
+        where: {
+          user_id: userId,
+        },
+      },
+    };
 
   const books = await prisma.book.findMany({
     select: {
@@ -71,6 +92,7 @@ const findBooks = async ({ order, take }: FindBooks) => {
       _count: {
         select: { bookmarks: true },
       },
+      ...additionalJoin,
     },
     where: {
       deleted_at: null,
@@ -83,6 +105,6 @@ const findBooks = async ({ order, take }: FindBooks) => {
 };
 
 export default {
-  getBookData,
+  findBook,
   findBooks,
 };
