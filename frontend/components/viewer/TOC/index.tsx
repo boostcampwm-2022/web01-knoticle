@@ -45,7 +45,7 @@ export default function TOC({ book, articleId, handleSideBarOnClick }: TocProps)
                 <TocArticle
                   href={`/viewer/${book.id}/${v.article.id}`}
                   key={v.order}
-                  className={v.article.id === articleId ? 'current' : null}
+                  className={v.article.id === articleId ? 'current' : ''}
                 >
                   {v.order}.{v.article.title}
                 </TocArticle>
