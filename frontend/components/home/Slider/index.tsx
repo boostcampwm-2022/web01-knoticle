@@ -16,6 +16,7 @@ import {
   SliderIndicator,
   SliderBookContainer,
 } from './styled';
+import tempBookDatas from './tempBookData';
 
 function Slider() {
   const [sliderNumber, setSliderNumber] = useState(1);
@@ -43,10 +44,9 @@ function Slider() {
         </FlexSpaceBetween>
 
         <SliderBookContainer>
-          <Book />
-          <Book />
-          <Book />
-          <Book />
+          {tempBookDatas.map((tempBookData) => (
+            <Book key={tempBookData.id} book={tempBookData} />
+          ))}
         </SliderBookContainer>
       </SliderContent>
 

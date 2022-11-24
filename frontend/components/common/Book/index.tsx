@@ -1,6 +1,11 @@
 import Image from 'next/image';
 
-import BookmarkIcon from '@assets/ico_bookmark.svg';
+import { useState } from 'react';
+
+import axios from 'axios';
+
+import InactiveBookmarkIcon from '@assets/ico_bookmark_black.svg';
+import ActiveBookmarkIcon from '@assets/ico_bookmark_red.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
 import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
@@ -13,30 +18,98 @@ import {
   Bookmark,
   BookContentsInfo,
   BookContents,
+  BookThumbnail,
+  ArticleLink,
+  AuthorLink,
+  BookmarkIcon,
 } from './styled';
 
-export default function Book() {
+interface User {
+  id: number;
+  nickname: string;
+  profile_image: string;
+}
+
+interface Scrap {
+  order: number;
+  article: {
+    id: number;
+    title: string;
+  };
+}
+
+interface Bookmark {
+  id: number | null;
+}
+
+interface BookProps {
+  book: {
+    id: number;
+    title: string;
+    user: User;
+    scraps: Scrap[];
+    _count: {
+      bookmarks: number;
+    };
+    bookmark: Bookmark;
+  };
+}
+
+export default function Book({ book }: BookProps) {
+  const { id, title, user, scraps, _count, bookmark } = book;
+  const [curBookmarkId, setCurBookmarkId] = useState<number | null>(bookmark.id);
+
+  const handleBookmarkClick = async () => {
+    if (curBookmarkId) {
+      // 북마크 삭제 API 요청
+      // await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks/${id}`);
+      setCurBookmarkId(null);
+    } else {
+      // 북마크 생성 API 요청
+      // const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/bookmarks`, {
+      //   book_id: id,
+      // });
+      // const newBookmark = data.bookmark;
+      // setCurBookmarkId(newBookmark.id);
+      setCurBookmarkId(1);
+    }
+  };
+
+  const calcTempBookmark = () => {
+    if (bookmark.id) {
+      return _count.bookmarks + (curBookmarkId ? 0 : -1);
+    }
+    return _count.bookmarks + (curBookmarkId ? 1 : 0);
+  };
+
   return (
     <BookWrapper>
-      <Image src={SampleThumbnail} alt="thumbnail" width={280} height={200} />
+      <BookThumbnail src={SampleThumbnail} alt="thumbnail" />
+
       <BookInfoContainer>
         <FlexSpaceBetween>
           <BookTitle>
-            <TextLarge>리액트 마스터하기</TextLarge>
-            <TextXSmall>by Web01</TextXSmall>
+            <TextLarge>{title}</TextLarge>
+            <AuthorLink href={`/study/${user.nickname}`}>by {user.nickname}</AuthorLink>
           </BookTitle>
           <Bookmark>
-            <Image src={BookmarkIcon} alt="Bookmark Icon" />
-            <TextXSmall>398</TextXSmall>
+            <BookmarkIcon
+              src={curBookmarkId ? ActiveBookmarkIcon : InactiveBookmarkIcon}
+              alt="Bookmark Icon"
+              onClick={handleBookmarkClick}
+            />
+            <TextXSmall>{calcTempBookmark()}</TextXSmall>
           </Bookmark>
         </FlexSpaceBetween>
+
         <BookContentsInfo>
           <TextSmall>Contents</TextSmall>
           <BookContents>
-            <div>1. Create-react-app</div>
-            <div>2. JSX</div>
-            <div>3. State</div>
-            <div>4. Props</div>
+            {scraps.map((scrap, idx) => (
+              <ArticleLink key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
+                {idx}. {scrap.article.title}
+              </ArticleLink>
+            ))}
           </BookContents>
           <FlexCenter>
             <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
