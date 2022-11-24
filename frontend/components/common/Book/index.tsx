@@ -5,6 +5,7 @@ import ActiveBookmarkIcon from '@assets/ico_bookmark_grey_filled.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
 import useBookmark from '@hooks/useBookmark';
+import { BookData } from '@interfaces';
 import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
 import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
 
@@ -21,43 +22,16 @@ import {
   BookmarkIcon,
 } from './styled';
 
-interface User {
-  id: number;
-  nickname: string;
-  profile_image: string;
-}
-
-interface Scrap {
-  order: number;
-  article: {
-    id: number;
-    title: string;
-  };
-}
-
-interface Bookmark {
-  id: number | null;
-}
-
 interface BookProps {
-  book: {
-    id: number;
-    title: string;
-    user: User;
-    scraps: Scrap[];
-    _count: {
-      bookmarks: number;
-    };
-    bookmarks: Bookmark[];
-  };
+  book: BookData;
 }
 
 export default function Book({ book }: BookProps) {
-  const { id, title, user, scraps, _count, bookmark } = book;
+  const { id, title, user, scraps, _count, bookmarks } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
-    book.bookmarks[0].id,
-    book._count.bookmarks,
-    book.id
+    bookmarks.length ? bookmarks[0].id : null,
+    _count.bookmarks,
+    id
   );
 
   return (
@@ -85,7 +59,7 @@ export default function Book({ book }: BookProps) {
           <BookContents>
             {scraps.map((scrap, idx) => (
               <ArticleLink key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
-                {idx}. {scrap.article.title}
+                {idx + 1}. {scrap.article.title}
               </ArticleLink>
             ))}
           </BookContents>

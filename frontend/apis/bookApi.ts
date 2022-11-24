@@ -4,9 +4,16 @@ interface GetBooksApi {
   userId: string;
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export const getBooksApi = async (data: GetBooksApi) => {
   const url = `/api/books?user=${data.userId}`;
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};
+
+export const getOrderedBookListApi = async (order: string) => {
+  const url = `/api/books?order=${order}&take=12`;
 
   const response = await api({ url, method: 'GET' });
 

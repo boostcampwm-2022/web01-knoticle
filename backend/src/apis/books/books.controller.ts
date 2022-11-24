@@ -15,6 +15,8 @@ const getBook = async (req: Request, res: Response) => {
 };
 
 const getBooks = async (req: Request, res: Response) => {
+  console.log(req.query);
+
   const { order, take } = req.query as unknown as {
     order: 'newest' | 'bookmark';
     take: number;
