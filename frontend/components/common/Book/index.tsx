@@ -8,6 +8,7 @@ import InactiveBookmarkIcon from '@assets/ico_bookmark_black.svg';
 import ActiveBookmarkIcon from '@assets/ico_bookmark_red.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
+import { BookData } from '@interfaces';
 import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
 import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
 
@@ -24,35 +25,8 @@ import {
   BookmarkIcon,
 } from './styled';
 
-interface User {
-  id: number;
-  nickname: string;
-  profile_image: string;
-}
-
-interface Scrap {
-  order: number;
-  article: {
-    id: number;
-    title: string;
-  };
-}
-
-interface Bookmark {
-  id: number | null;
-}
-
 interface BookProps {
-  book: {
-    id: number;
-    title: string;
-    user: User;
-    scraps: Scrap[];
-    _count: {
-      bookmarks: number;
-    };
-    bookmark: Bookmark;
-  };
+  book: BookData;
 }
 
 export default function Book({ book }: BookProps) {

@@ -21,8 +21,8 @@ export default function Home() {
       <GNB />
       <PageWrapper>
         <PageInnerLarge>
-          <Slider />
-          <Slider />
+          <Slider bookList={newestBookList} />
+          <Slider bookList={popularBookList} />
           <Footer />
         </PageInnerLarge>
       </PageWrapper>

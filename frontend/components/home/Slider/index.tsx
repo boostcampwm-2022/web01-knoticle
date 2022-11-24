@@ -5,6 +5,7 @@ import { useState } from 'react';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
+import { BookData } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
 
 import {
@@ -18,7 +19,11 @@ import {
 } from './styled';
 import tempBookDatas from './tempBookData';
 
-function Slider() {
+interface SliderProps {
+  bookList: BookData[];
+}
+
+function Slider({ bookList }: SliderProps) {
   const [sliderNumber, setSliderNumber] = useState(1);
 
   const sliderIndicatorCount = 4;
@@ -44,8 +49,8 @@ function Slider() {
         </FlexSpaceBetween>
 
         <SliderBookContainer>
-          {tempBookDatas.map((tempBookData) => (
-            <Book key={tempBookData.id} book={tempBookData} />
+          {bookList.map((book) => (
+            <Book key={book.id} book={book} />
           ))}
         </SliderBookContainer>
       </SliderContent>

@@ -12,12 +12,8 @@ export const getBooksApi = async (data: GetBooksApi) => {
   return response.data;
 };
 
-interface GetOrderedBookListApi {
-  order: string;
-}
-
-export const getOrderedBookListApi = async (data: GetOrderedBookListApi) => {
-  const url = `/api/books?order=${data.order}`;
+export const getOrderedBookListApi = async (order: string) => {
+  const url = `/api/books?order=${order}`;
 
   const response = await api({ url, method: 'GET' });
 

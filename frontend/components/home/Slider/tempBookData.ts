@@ -31,7 +31,7 @@ const tempBookDatas = [
     },
   },
   {
-    id: 1,
+    id: 2,
     title: '리액트 완전 정복',
     user: {
       id: 1,
