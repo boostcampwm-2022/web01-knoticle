@@ -26,7 +26,6 @@ interface TocProps {
 }
 
 export default function TOC({ book, articleId, handleSideBarOnClick }: TocProps) {
-  console.log('articleId', articleId);
   return (
     <TocWrapper>
       <TocSideBar>
