@@ -7,6 +7,24 @@ const getArticleData = async (articleId: number) => {
     where: {
       id: articleId,
     },
+    select: {
+      id: true,
+      title: true,
+      contents: true,
+      created_at: true,
+      deleted_at: true,
+      book_id: true,
+      book: {
+        select: {
+          user: {
+            select: {
+              id: true,
+              nickname: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   if (!article) throw new NotFound(Message.ARTICLE_NOTFOUND);
@@ -66,10 +84,21 @@ const findTemporaryArticle = async (userId: number) => {
 
   return temporaryArticle;
 };
+const deleteArticle = async (articleId: number) => {
+  const deletedAtArticle = await prisma.article.update({
+    where: {
+      id: articleId,
+    },
+    data: {
+      deleted_at: new Date(),
+    },
+  });
+};
 
 export default {
   getArticleData,
   createArticle,
   createTemporaryArticle,
   findTemporaryArticle,
+  deleteArticle,
 };

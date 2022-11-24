@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Flex } from '@styles/layout';
 
 export const ArticleContainer = styled(Flex)`
-  flex-basis: 100%;
+  flex: 1;
   height: calc(100vh - 67px);
 `;
 export const ArticleLeftBtn = styled.div`
@@ -18,7 +18,8 @@ export const ArticleRightBtn = styled.div`
 `;
 export const ArticleMain = styled(Flex)`
   flex-direction: column;
-  padding: 30px;
+  width: 100%;
+  padding: 50px;
   overflow: auto;
 `;
 export const ArticleTitle = styled(Flex)`

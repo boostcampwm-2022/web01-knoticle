@@ -49,9 +49,18 @@ const getTemporaryArticle = async (req: Request, res: Response) => {
   res.status(201).send({ temporaryArticle });
 };
 
+const deleteArticle = async (req: Request, res: Response) => {
+  const articleId = Number(req.params.articleId);
+
+  await articlesService.deleteArticle(articleId);
+
+  res.status(204).send();
+};
+
 export default {
   publish,
   getArticle,
   saveTemporaryArticle,
   getTemporaryArticle,
+  deleteArticle,
 };

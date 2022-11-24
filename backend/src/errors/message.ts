@@ -4,4 +4,8 @@ export default {
   AUTH_NICKNAME_OVERLAP: '중복되는 닉네임이 존재합니다.',
   ARTICLE_NOTFOUND: '일치하는 글이 없습니다.',
   BOOK_NOTFOUND: '일치하는 책이 없습니다.',
+  USER_NOTFOUND: '일치하는 유저가 없습니다.',
+  TOKEN_EXPIRED: '다시 로그인 해주세요',
+  TOKEN_MALFORMED: '다시 로그인 해주세요',
+  BOOKMARK_NOTFOUND: '북마크된 책이 아닙니다.',
 };
