@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
+import axios from 'axios';
+
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
@@ -25,6 +27,7 @@ interface articleDataType {
   created_at: string;
   deleted_at: string;
   book_id: number;
+  book: any;
 }
 
 interface scrapsData {
@@ -40,6 +43,12 @@ interface articleProps {
   scraps: scrapsData[];
   bookId: number;
 }
+
+const user = {
+  id: 1,
+  nickname: 'mocha',
+};
+
 export default function Article({ article, scraps, bookId }: articleProps) {
   const router = useRouter();
   const handleOriginalBtnOnClick = () => {
@@ -55,10 +64,20 @@ export default function Article({ article, scraps, bookId }: articleProps) {
     const nextArticleId = scraps.filter((v: scrapsData) => v.order === nextOrder)[0].article.id;
     router.push(`/viewer/${bookId}/${nextArticleId}`);
   };
+  const handleDeleteBtnOnClick = () => {
+    if (window.confirm('해당 글을 삭제하시겠습니까?')) {
+      axios
+        .delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${article.id}`)
+        .catch((err) => {
+          // 추후 에러 핸들링 추가 예정
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <ArticleContainer>
-      {article.id === scraps[0]?.article.id ? null : (
+      {article.id === scraps.at(0)?.article.id ? null : (
         <ArticleLeftBtn onClick={handleLeftBtnOnClick}>
           <Image src={LeftBtnIcon} alt="Viewer Icon" />
         </ArticleLeftBtn>
@@ -68,10 +87,14 @@ export default function Article({ article, scraps, bookId }: articleProps) {
           {/* Global style Large의 크기가 너무 작음 -> 월요일 회의 후 반영 */}
           <TextLarge>{article.title}</TextLarge>
           <ArticleTitleBtnBox>
-            <ArticleButton onClick={handleOriginalBtnOnClick}>
-              <Image src={Original} alt="Original Icon" width={20} height={15} />
-              원본 글 보기
-            </ArticleButton>
+            {article.book.user.nickname === user.nickname ? (
+              <ArticleButton onClick={handleDeleteBtnOnClick}>삭제</ArticleButton>
+            ) : (
+              <ArticleButton onClick={handleOriginalBtnOnClick}>
+                <Image src={Original} alt="Original Icon" width={20} height={15} />
+                원본 글 보기
+              </ArticleButton>
+            )}
             <ArticleButton
               onClick={() => {
                 console.log('click');
