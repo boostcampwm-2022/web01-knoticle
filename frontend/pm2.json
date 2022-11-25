@@ -4,7 +4,7 @@
       "name": "knoticle-frontend",
       "script": "npm",
       "args": "run start",
-      "instances": 2,
+      "instances": 1,
       "exec_mode": "cluster"
     }
   ]
