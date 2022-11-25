@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { FlexCenter } from '../../../styles/layout';
+import { FlexCenter } from '@styles/layout';
 
 const FooterContent = styled(FlexCenter)`
   flex-direction: column;

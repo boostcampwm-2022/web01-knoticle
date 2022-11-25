@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import authService from '@apis/auth/auth.service';
 import { Unauthorized, Message } from '@errors';
+import token from '@utils/token';
 
 const signIn = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -11,9 +12,9 @@ const signIn = async (req: Request, res: Response) => {
 
   const user = await authService.getSignedUser(username, password);
 
-  const { accessToken, refreshToken } = authService.getTokens(user.id, user.nickname);
+  const { accessToken, refreshToken } = token.getTokens(user.id, user.nickname);
 
-  await authService.saveRefreshToken(user.id, refreshToken);
+  await token.saveRefreshToken(user.id, refreshToken);
 
   res.cookie('access_token', accessToken, { httpOnly: true });
   res.cookie('refresh_token', refreshToken, { httpOnly: true });
@@ -32,9 +33,9 @@ const signInGithub = async (req: Request, res: Response) => {
     (await authService.getUserByLocalDB(provider_id)) ||
     (await authService.signUpGithubUser(username, provider_id));
 
-  const { accessToken, refreshToken } = authService.getTokens(githubUser.id, githubUser.nickname);
+  const { accessToken, refreshToken } = token.getTokens(githubUser.id, githubUser.nickname);
 
-  await authService.saveRefreshToken(githubUser.id, refreshToken);
+  await token.saveRefreshToken(githubUser.id, refreshToken);
 
   res.cookie('access_token', accessToken, { httpOnly: true });
   res.cookie('refresh_token', refreshToken, { httpOnly: true });
@@ -42,7 +43,18 @@ const signInGithub = async (req: Request, res: Response) => {
   res.status(200).send({ id: githubUser.id, nickname: githubUser.nickname });
 };
 
+const signUp = async (req: Request, res: Response) => {
+  const { username, password, nickname } = req.body;
+
+  await authService.checkOverlapBeforeSignUp(username, nickname);
+
+  await authService.signUpLocalUser(username, password, nickname);
+
+  res.status(201).send();
+};
+
 export default {
   signIn,
   signInGithub,
+  signUp,
 };

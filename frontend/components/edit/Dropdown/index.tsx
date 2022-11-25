@@ -2,7 +2,8 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
-import CaretDownIcon from '../../../assets/ico_caret_down.svg';
+import CaretDownIcon from '@assets/ico_caret_down.svg';
+
 import {
   DropdownWrapper,
   IconWrapper,
@@ -13,34 +14,45 @@ import {
   SelectedItem,
 } from './styled';
 
-interface DropdownProps {
-  label: string;
+interface DropdownItem {
+  id: number;
+  name: string;
 }
 
-export default function Dropdown({ label }: DropdownProps) {
-  const items = ['아이템1', '아이템2', '아이템3'];
+interface DropdownProps {
+  label: string;
+  items: DropdownItem[];
+  selectedId: number;
+  handleItemSelect: (id: number) => void;
+}
 
-  const [isShown, setShown] = useState(false);
-  const [selection, setSelection] = useState('');
+export default function Dropdown({ label, items, selectedId, handleItemSelect }: DropdownProps) {
+  const [isDropdownSpread, setDropdownSpread] = useState(false);
 
-  const handleItemClick = (item: string) => {
-    setSelection(item);
-    setShown(false);
+  const handleItemClick = (itemId: number) => {
+    setDropdownSpread(false);
+    handleItemSelect(itemId);
   };
 
   return (
     <DropdownWrapper>
-      <SelectedArea onClick={() => setShown(!isShown)}>
-        <IconWrapper className={isShown ? 'open' : 'close'}>
+      <SelectedArea onClick={() => setDropdownSpread(!isDropdownSpread)}>
+        <IconWrapper className={isDropdownSpread ? 'open' : 'close'}>
           <Image src={CaretDownIcon} alt="Caret Down Icon" />
         </IconWrapper>
-        {selection ? <SelectedItem>{selection}</SelectedItem> : <Placeholder>{label}</Placeholder>}
+        {selectedId !== -1 ? (
+          <SelectedItem>{items.find((item) => item.id === selectedId)?.name}</SelectedItem>
+        ) : (
+          <Placeholder>{label}</Placeholder>
+        )}
       </SelectedArea>
-      {isShown && (
+      {isDropdownSpread && (
         <ItemWrapper>
+          {items.length === 0 && <Item onClick={() => setDropdownSpread(false)}>없음</Item>}
+
           {items.map((item) => (
-            <Item key={item} onClick={() => handleItemClick(item)}>
-              {item}
+            <Item key={item.id} onClick={() => handleItemClick(item.id)}>
+              {item.name}
             </Item>
           ))}
         </ItemWrapper>

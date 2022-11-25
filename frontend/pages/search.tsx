@@ -1,26 +1,26 @@
-import GNB from '../components/common/GNB';
-import SearchBar from '../components/search/SearchBar';
-import SearchFilter from '../components/search/SearchFilter';
-import SearchListItem from '../components/search/SearchListItem';
-import { SearchArea, SearchResult, SearchWrapper } from '../components/search/styled';
+import GNB from '@components/common/GNB';
+import SearchBar from '@components/search/SearchBar';
+import SearchFilter from '@components/search/SearchFilter';
+import SearchListItem from '@components/search/SearchListItem';
+import { PageInnerSmall, PageWrapper } from '@styles/layout';
 
 export default function Search() {
-  const items = Array.from({ length: 50 });
+  const items = Array.from({ length: 50 }, () => 0);
 
   return (
     <>
       <GNB />
-      <SearchWrapper>
-        <SearchArea>
+      <PageWrapper>
+        <PageInnerSmall>
           <SearchBar />
           <SearchFilter />
-          <SearchResult>
-            {items.map((item: any) => (
+          <div>
+            {items.map((item) => (
               <SearchListItem key={item} />
             ))}
-          </SearchResult>
-        </SearchArea>
-      </SearchWrapper>
+          </div>
+        </PageInnerSmall>
+      </PageWrapper>
     </>
   );
 }

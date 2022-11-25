@@ -12,15 +12,22 @@ interface ModalProps {
   children: React.ReactNode;
 
   handleModalClose: () => void;
+  handleBackwardBtnClicked?: () => void;
 }
 
-export default function Modal({ title, hasBackward, children, handleModalClose }: ModalProps) {
+export default function Modal({
+  title,
+  hasBackward,
+  children,
+  handleModalClose,
+  handleBackwardBtnClicked,
+}: ModalProps) {
   return (
     <ModalWrapper>
       <Dimmed onClick={handleModalClose} />
       <ModalInner>
         <ButtonWrapper hasBackward={hasBackward}>
-          <Image src={BackwardIcon} alt="Backward Icon" />
+          <Image src={BackwardIcon} alt="Backward Icon" onClick={handleBackwardBtnClicked} />
           <Image src={CancelIcon} alt="Cancel Icon" onClick={handleModalClose} />
         </ButtonWrapper>
         <ModalTitle>
@@ -34,4 +41,5 @@ export default function Modal({ title, hasBackward, children, handleModalClose }
 
 Modal.defaultProps = {
   hasBackward: false,
+  handleBackwardBtnClicked: undefined,
 };

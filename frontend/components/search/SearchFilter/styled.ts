@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const FilterWrapper = styled.div`
+  width: 100%;
   margin-bottom: 16px;
   display: flex;
   justify-content: space-between;

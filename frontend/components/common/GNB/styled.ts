@@ -1,6 +1,11 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 import styled from 'styled-components';
 
-export const GNBbar = styled.nav`
+import { TopBar } from '@styles/layout';
+
+export const GNBbar = styled(TopBar)`
   width: 100%;
   border-bottom: 1px solid #222222;
   display: flex;
@@ -11,13 +16,14 @@ export const GNBbar = styled.nav`
   background-color: var(--light-yellow-color);
 `;
 
-export const Logo = styled.div`
+export const Logo = styled(Link)`
   font-family: 'Sofia';
   font-style: normal;
-  font-weight: 400;
-  font-size: 32px;
+  font-weight: 500;
+  font-size: 44px;
   line-height: 57px;
   color: var(--title-active-color);
+  text-decoration: none;
 `;
 
 export const IconsContainer = styled.div`
@@ -25,4 +31,10 @@ export const IconsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const Icon = styled(Image)`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 `;

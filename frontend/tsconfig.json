@@ -18,9 +18,14 @@
     "paths": {
       "@components/*": ["./components/*"],
       "@assets/*": ["./assets/*"],
-      "@styles/*": ["./styles/*"]
+      "@styles/*": ["./styles/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@utils/*": ["./utils/*"],
+      "@apis/*": ["./apis/*"],
+      "@atoms/*": ["./atoms/*"],
+      "@interfaces": ["./interfaces"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/study/BookListTab"],
   "exclude": ["node_modules"]
 }

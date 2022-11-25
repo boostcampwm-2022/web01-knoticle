@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import styled from 'styled-components';
 
-import { TextLarge, TextSmall } from '../../../styles/common';
+import { TextLarge, TextSmall } from '@styles/common';
 
 export const UserProfileWrapper = styled.div`
   width: 100%;
