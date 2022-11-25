@@ -7,15 +7,15 @@
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "noImplicitAny": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@apis/*": ["./src/apis/*"],
-      "@apis": ["./src/apis"],
-      "@errors/*": ["./src/errors/*"],
-      "@errors": ["./src/errors"],
-      "@config/*": ["./src/config/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@middlewares/*": ["./src/middlewares/*"]
+      "@apis/*": ["./apis/*"],
+      "@apis": ["./apis"],
+      "@errors/*": ["./errors/*"],
+      "@errors": ["./errors"],
+      "@config/*": ["./config/*"],
+      "@utils/*": ["./utils/*"],
+      "@middlewares/*": ["./middlewares/*"]
     }
   }
 }
