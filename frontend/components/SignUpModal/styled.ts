@@ -1,5 +1,6 @@
-import { TextSmall } from '@styles/common';
 import styled from 'styled-components';
+
+import { TextSmall } from '@styles/common';
 
 export const SignUpModalWrapper = styled.div`
   margin-top: 32px;

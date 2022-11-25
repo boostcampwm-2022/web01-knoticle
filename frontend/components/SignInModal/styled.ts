@@ -1,5 +1,6 @@
-import { FlexColumnCenter } from '@styles/layout';
 import styled from 'styled-components';
+
+import { FlexColumnCenter } from '@styles/layout';
 
 export const SignInModalWrapper = styled.div`
   margin-top: 56px;

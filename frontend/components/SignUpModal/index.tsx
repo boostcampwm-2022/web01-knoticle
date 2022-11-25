@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
+import axios from 'axios';
+
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
-import axios from 'axios';
 
 import { SignUpModalWrapper, SignUpModalErrorMessage } from './styled';
 

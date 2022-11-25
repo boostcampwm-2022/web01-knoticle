@@ -5,7 +5,7 @@ import SearchListItem from '@components/search/SearchListItem';
 import { PageInnerSmall, PageWrapper } from '@styles/layout';
 
 export default function Search() {
-  const items = Array.from({ length: 50 });
+  const items = Array.from({ length: 50 }, () => 0);
 
   return (
     <>
@@ -15,8 +15,8 @@ export default function Search() {
           <SearchBar />
           <SearchFilter />
           <div>
-            {items.map((_, index) => (
-              <SearchListItem key={index} />
+            {items.map((item) => (
+              <SearchListItem key={item} />
             ))}
           </div>
         </PageInnerSmall>
