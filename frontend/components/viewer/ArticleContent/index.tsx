@@ -3,14 +3,13 @@ import { useRouter } from 'next/router';
 
 import { useEffect } from 'react';
 
-import axios from 'axios';
-
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
 import Scrap from '@assets/ico_scrap.svg';
 import Content from '@components/common/Content';
 import { TextLarge } from '@styles/common';
+import axios from 'axios';
 
 import ArticleButton from './Button';
 import {
@@ -45,6 +44,7 @@ interface articleProps {
   article: articleDataType;
   scraps: scrapsData[];
   bookId: number;
+  handleScrapBtnClick: () => void;
 }
 
 const user = {
@@ -52,7 +52,7 @@ const user = {
   nickname: 'moc1ha',
 };
 
-export default function Article({ article, scraps, bookId }: articleProps) {
+export default function Article({ article, scraps, bookId, handleScrapBtnClick }: articleProps) {
   const router = useRouter();
   const handleOriginalBtnOnClick = () => {
     router.push(`/viewer/${article.book_id}/${article.id}`);
@@ -116,11 +116,7 @@ export default function Article({ article, scraps, bookId }: articleProps) {
                   원본 글 보기
                 </ArticleButton>
               )}
-              <ArticleButton
-                onClick={() => {
-                  console.log('click');
-                }}
-              >
+              <ArticleButton onClick={handleScrapBtnClick}>
                 <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
                 스크랩
               </ArticleButton>

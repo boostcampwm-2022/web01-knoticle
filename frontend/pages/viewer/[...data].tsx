@@ -3,10 +3,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { getArticleApi } from '@apis/articleApi';
-import { getBookApi } from '@apis/bookApi';
+import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
+import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
 import ClosedSideBar from '@components/viewer/ClosedSideBar';
+import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
 import useFetch from '@hooks/useFetch';
 import { Flex } from '@styles/layout';
@@ -14,8 +16,14 @@ import { Flex } from '@styles/layout';
 export default function Viewer() {
   const { data: article, execute: getArticle } = useFetch(getArticleApi);
   const { data: book, execute: getBook } = useFetch(getBookApi);
+  const { data: userBooks, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
 
   const [isOpened, setIsOpened] = useState(true);
+
+  const [isModalShown, setModalShown] = useState(false);
+
+  const handleModalOpen = () => setModalShown(true);
+  const handleModalClose = () => setModalShown(false);
 
   const router = useRouter();
 
@@ -29,6 +37,7 @@ export default function Viewer() {
 
       getBook(bookId);
       getArticle(articleId);
+      getUserKnottedBooks('dahyeon');
     }
   }, [router.query.data]);
 
@@ -42,10 +51,20 @@ export default function Viewer() {
           ) : (
             <ClosedSideBar handleSideBarOnClick={handleSideBarToggle} />
           )}
-          <ArticleContainer article={article} scraps={book.scraps} bookId={book.id} />
+          <ArticleContainer
+            article={article}
+            scraps={book.scraps}
+            bookId={book.id}
+            handleScrapBtnClick={handleModalOpen}
+          />
         </Flex>
       ) : (
         <div>loading</div>
+      )}
+      {isModalShown && (
+        <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
+          <ScrapModal books={userBooks} />
+        </Modal>
       )}
     </>
   );
