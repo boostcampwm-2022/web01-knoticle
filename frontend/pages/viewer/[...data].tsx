@@ -2,17 +2,18 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
-
+import { getArticleApi } from '@apis/articleApi';
+import { getBookApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
 import ArticleContainer from '@components/viewer/ArticleContent';
 import ClosedSideBar from '@components/viewer/ClosedSideBar';
 import TOC from '@components/viewer/TOC';
+import useFetch from '@hooks/useFetch';
 import { Flex } from '@styles/layout';
 
 export default function Viewer() {
-  const [book, setBook] = useState<any>(null);
-  const [article, setArticle] = useState<any>(null);
+  const { data: article, execute: getArticle } = useFetch(getArticleApi);
+  const { data: book, execute: getBook } = useFetch(getBookApi);
 
   const [isOpened, setIsOpened] = useState(true);
 
@@ -26,24 +27,9 @@ export default function Viewer() {
     if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
       const [bookId, articleId] = router.query.data;
 
-      // useFetch 변경
-      axios
-        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/books/${bookId}`)
-        .then((res) => setBook(res.data))
-        .catch((err) => {
-          // 추후 에러 핸들링 추가 예정
-          console.log(err);
-        });
-
-      axios
-        .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${articleId}`)
-        .then((res) => setArticle(res.data))
-        .catch((err) => {
-          // 추후 에러 핸들링 추가 예정
-          console.log(err);
-        });
+      getBook(bookId);
+      getArticle(articleId);
     }
-    // Eslint error 해결을 위해 dependency 추가
   }, [router.query.data]);
 
   return (

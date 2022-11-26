@@ -22,3 +22,11 @@ export const getOrderedBookListApi = async (order: string) => {
 
   return response.data;
 };
+
+export const getBookApi = async (bookId: string) => {
+  const url = `/api/books/${bookId}`;
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};
