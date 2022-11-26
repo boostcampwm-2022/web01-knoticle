@@ -1,0 +1,38 @@
+name: Deploy to Production (Frontend)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Environment Variables
+        run: |
+          echo "$FRONTEND_ENV" >> .env.production
+        env:
+          CI: false
+          FRONTEND_ENV: '${{ secrets.FRONTEND_ENV }}'
+
+      - name: Transfer Environment Variables with SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          source: '.env.production'
+          target: 'knoticle/frontend'
+
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: ${{ secrets.SSH_FRONTEND_SCRIPT }}

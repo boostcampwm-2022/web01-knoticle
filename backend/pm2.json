@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "knoticle-backend",
+      "script": "npm",
+      "args": "run start"
+    }
+  ]
+}
