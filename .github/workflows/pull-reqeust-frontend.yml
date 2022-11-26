@@ -12,10 +12,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -41,7 +37,7 @@ jobs:
           CI: true
         working-directory: frontend
 
-  lhci:
+  lighthouse:
     name: Lighthouse CI
 
     runs-on: ubuntu-latest
@@ -75,6 +71,7 @@ jobs:
         run: |
           npm install -g @lhci/cli
           lhci autorun
+        working-directory: frontend
 
       - name: Format Lighthouse Score
         id: format_lighthouse_score
