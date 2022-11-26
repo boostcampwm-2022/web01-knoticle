@@ -1,5 +1,8 @@
+import { useRouter } from 'next/router';
+
 import { useEffect, useState } from 'react';
 
+import { createScrapApi } from '@apis/scrapApi';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
@@ -9,12 +12,16 @@ import { Label, ScrapModalWrapper } from './styled';
 
 interface ScrapModalProps {
   books: Book[];
+  handleModalClose: () => void;
 }
 
-export default function ScrapModal({ books }: ScrapModalProps) {
+export default function ScrapModal({ books, handleModalClose }: ScrapModalProps) {
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [selectedScrapIndex, setSelectedScrapIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<Scrap[]>([]);
+  const { execute: createScrap } = useFetch(createScrapApi);
+
+  const router = useRouter();
 
   const createBookDropdownItems = (items: Book[]) =>
     items.map((item) => {
@@ -40,7 +47,16 @@ export default function ScrapModal({ books }: ScrapModalProps) {
   }, [selectedBookIndex]);
 
   const handleScrapBtnClick = () => {
-    console.log('!');
+    const [bookId, articleId] = router.query.data as string[];
+    if (selectedBookIndex === -1 || selectedScrapIndex === -1) return;
+    // NOTE: 책의 가장 마지막으로 글이 들어감 (임시)
+    createScrap({
+      order: filteredScraps.length,
+      is_original: false,
+      book_id: selectedBookIndex,
+      article_id: +articleId,
+    });
+    handleModalClose();
   };
 
   return (
