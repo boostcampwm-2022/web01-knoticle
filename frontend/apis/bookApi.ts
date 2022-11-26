@@ -30,3 +30,11 @@ export const getBookApi = async (bookId: string) => {
 
   return response.data;
 };
+
+export const getUserKnottedBooksApi = async (nickname: string) => {
+  const url = `/api/books?editor=${nickname}&take=12`;
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};
