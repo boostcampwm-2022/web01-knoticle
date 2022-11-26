@@ -80,7 +80,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require('fs');
-            const results = JSON.parse(fs.readFileSync("/frontend/lighthouse_reports/manifest.json"));
+            const results = JSON.parse(fs.readFileSync("frontend/lighthouse_reports/manifest.json"));
             let comments = "";
 
             results.forEach((result) => {
