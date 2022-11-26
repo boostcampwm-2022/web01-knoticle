@@ -101,7 +101,6 @@ jobs:
                 `| Category | Score |`,
                 `| --- | --- |`,
                 `| ${score(summary.performance)} Performance | ${summary.performance} |`,
-                { ... }
               ].join("\n");
 
               const detail = [
@@ -112,7 +111,6 @@ jobs:
                 )} First Contentful Paint | ${
                   audits["first-contentful-paint"].displayValue
                 } |`,
-                { ... }
               ].join("\n");
               comments += comment + "\n" + detail + "\n";
             });
