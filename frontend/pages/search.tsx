@@ -15,8 +15,8 @@ export default function Search() {
           <SearchBar />
           <SearchFilter />
           <div>
-            {items.map((item, index) => (
-              <SearchListItem key={index} />
+            {items.map((item) => (
+              <SearchListItem key={item} />
             ))}
           </div>
         </PageInnerSmall>
