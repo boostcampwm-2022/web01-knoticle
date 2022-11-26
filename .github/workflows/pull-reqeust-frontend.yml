@@ -107,7 +107,7 @@ jobs:
                 `| ${score(summary.pwa)} PWA | ${summary.pwa} |`,
               ].join('\n');
 
-              comments += comment + '\n';
+              comments += comment + '\n' + '\n';
             });
 
             core.setOutput('comments', comments)
