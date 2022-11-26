@@ -18,6 +18,9 @@ export default function Search() {
             {items.map((item) => (
               <SearchListItem key={item} />
             ))}
+            {items.map((item) => (
+              <SearchListItem key={item} />
+            ))}
           </div>
         </PageInnerSmall>
       </PageWrapper>
