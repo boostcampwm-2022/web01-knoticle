@@ -1,0 +1,36 @@
+name: Pull Request (Frontend)
+
+on:
+  pull_request:
+    branches: [develop]
+    paths:
+      - 'frontend/**'
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        id: frontend-cache
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - if: ${{ steps.frontend-cache.outputs.cache-hit != 'true' }}
+        name: Install Dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Check Lint
+        run: npm run lint
+        env:
+          CI: true
+        working-directory: frontend
