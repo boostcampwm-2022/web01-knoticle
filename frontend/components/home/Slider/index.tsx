@@ -5,7 +5,7 @@ import { useState } from 'react';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
-import { BookData } from '@interfaces';
+import { Book as BookData } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
 
 import {
