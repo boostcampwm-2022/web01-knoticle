@@ -7,8 +7,10 @@ import { TextXSmall } from '@styles/common';
 import { FlexColumn } from '@styles/layout';
 
 export const BookWrapper = styled(FlexColumn)`
-  width: 280px;
-  height: 480px;
+  min-width: 280px;
+  min-height: 480px;
+  margin: 0 10px;
+  box-sizing: border-box;
 
   background: #ffffff;
   border: 1px solid var(--primary-color);

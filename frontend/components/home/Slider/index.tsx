@@ -18,7 +18,7 @@ import {
   SliderBookContainer,
   SliderInfoContainer,
   SliderIcon,
-  Slide,
+  SliderTrack,
 } from './styled';
 
 interface SliderProps {
@@ -47,7 +47,9 @@ function Slider({ bookList, title }: SliderProps) {
 
   return (
     <SliderWrapper>
-      <SliderIcon src={LeftArrowIcon} alt="Left Arrow Icon" onClick={handleLeftArrowClick} />
+      {sliderNumber !== 1 && (
+        <SliderIcon src={LeftArrowIcon} alt="Left Arrow Icon" onClick={handleLeftArrowClick} />
+      )}
 
       <SliderContent>
         <SliderInfoContainer>
@@ -62,26 +64,16 @@ function Slider({ bookList, title }: SliderProps) {
           </SliderIndicatorContainer>
         </SliderInfoContainer>
 
-        <SliderBookContainer>
-          {bookList.length &&
-            bookList
-              .filter((_, idx) => curBookIndex <= idx && idx < curBookIndex + numberPerPage)
-              .concat(
-                bookList.filter(
-                  (_, idx) =>
-                    curBookIndex + numberPerPage > bookList.length &&
-                    idx < (curBookIndex + numberPerPage) % bookList.length
-                )
-              )
-              .map((book) => (
-                <Slide key={book.id}>
-                  <Book book={book} />
-                </Slide>
-              ))}
+        <SliderBookContainer curBookIndex={curBookIndex}>
+          {bookList.map((book) => (
+            <Book key={book.id} book={book} />
+          ))}
         </SliderBookContainer>
       </SliderContent>
 
-      <SliderIcon src={RightArrowIcon} alt="Right Arrow Icon" onClick={handleRightArrowClick} />
+      {sliderNumber !== sliderIndicatorCount && (
+        <SliderIcon src={RightArrowIcon} alt="Right Arrow Icon" onClick={handleRightArrowClick} />
+      )}
     </SliderWrapper>
   );
 }
