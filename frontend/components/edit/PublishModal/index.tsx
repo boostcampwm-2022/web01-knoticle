@@ -6,8 +6,8 @@ import { useRecoilState } from 'recoil';
 
 import { createArticleApi } from '@apis/articleApi';
 import articleState from '@atoms/article';
+import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
-import Dropdown from '@components/edit/Dropdown';
 import useFetch from '@hooks/useFetch';
 import { Book, Scrap } from '@interfaces';
 
