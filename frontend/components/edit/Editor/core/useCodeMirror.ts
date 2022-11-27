@@ -40,7 +40,7 @@ export default function useCodeMirror() {
         // eslint-disable-next-line no-restricted-syntax
         for (const item of items) {
           if (item.kind === 'file' && /image\/[png,jpg,jpeg,gif]/.test(item.type)) {
-            const blob = item.getAsFile();
+            const blob = item.getAsFile() as Blob;
 
             const formData = new FormData();
 
@@ -58,7 +58,7 @@ export default function useCodeMirror() {
 
     const cursor = editorView.state.selection.main.head;
 
-    const markdownImage = (path: string) => `![image](${path})`;
+    const markdownImage = (path: string) => `![image](${path})\n`;
 
     const insert = markdownImage(image.imagePath);
 
