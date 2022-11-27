@@ -54,8 +54,9 @@ export const SliderIndicator = styled.div<{ isActive: boolean }>`
       : 'background-color: var(--grey-02-color)'};
 `;
 
-export const SliderIcon = styled(Image)`
+export const SliderIcon = styled(Image)<{ isVisible: boolean }>`
   cursor: pointer;
+  ${(props) => (props.isVisible ? '' : 'visibility : hidden')}
 `;
 
 export const SliderTrack = styled.div<{ curBookIndex: number }>``;
