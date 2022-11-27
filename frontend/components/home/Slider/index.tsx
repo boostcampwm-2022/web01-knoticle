@@ -17,6 +17,8 @@ import {
   SliderIndicator,
   SliderBookContainer,
   SliderInfoContainer,
+  SliderIcon,
+  Slide,
 } from './styled';
 
 interface SliderProps {
@@ -45,7 +47,7 @@ function Slider({ bookList, title }: SliderProps) {
 
   return (
     <SliderWrapper>
-      <Image src={LeftArrowIcon} alt="Left Arrow Icon" onClick={handleLeftArrowClick} />
+      <SliderIcon src={LeftArrowIcon} alt="Left Arrow Icon" onClick={handleLeftArrowClick} />
 
       <SliderContent>
         <SliderInfoContainer>
@@ -71,11 +73,15 @@ function Slider({ bookList, title }: SliderProps) {
                     idx < (curBookIndex + numberPerPage) % bookList.length
                 )
               )
-              .map((book) => <Book key={book.id} book={book} />)}
+              .map((book) => (
+                <Slide key={book.id}>
+                  <Book book={book} />
+                </Slide>
+              ))}
         </SliderBookContainer>
       </SliderContent>
 
-      <Image src={RightArrowIcon} alt="Right Arrow Icon" onClick={handleRightArrowClick} />
+      <SliderIcon src={RightArrowIcon} alt="Right Arrow Icon" onClick={handleRightArrowClick} />
     </SliderWrapper>
   );
 }

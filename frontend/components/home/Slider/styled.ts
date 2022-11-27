@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import styled from 'styled-components';
 
 import { FlexColumn, FlexSpaceBetween } from '@styles/layout';
@@ -47,4 +49,13 @@ export const SliderIndicator = styled.div<{ isActive: boolean }>`
     props.isActive
       ? 'background-color: var(--primary-color)'
       : 'background-color: var(--grey-02-color)'};
+`;
+
+export const SliderIcon = styled(Image)`
+  cursor: pointer;
+`;
+
+export const Slide = styled.div`
+  /* transform: translate(-200%, 0%);
+  transition: transform 500ms ease-in-out; */
 `;
