@@ -48,6 +48,11 @@ export const BookmarkIcon = styled(Image)`
 
 export const BookContentsInfo = styled(FlexColumn)`
   gap: 8px;
+
+  div:nth-child(1) {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--primary-color);
+  }
 `;
 
 export const BookContents = styled(TextXSmall)`
@@ -59,10 +64,6 @@ export const BookContents = styled(TextXSmall)`
     height: 28px;
     display: flex;
     align-items: center;
-  }
-
-  a:nth-child(1) {
-    border-top: 1px solid var(--primary-color);
   }
 `;
 

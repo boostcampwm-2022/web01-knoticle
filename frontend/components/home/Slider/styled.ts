@@ -11,7 +11,6 @@ export const SliderWrapper = styled.div`
 `;
 
 export const SliderContent = styled(FlexColumn)`
-  /* width: fit-content; */
   max-width: 1200px;
   overflow: hidden;
   gap: 10px;
@@ -35,6 +34,7 @@ export const SliderBookContainer = styled.div<{ curBookIndex: number }>`
   display: flex;
   ${(props) => `transform: translateX(-${300 * props.curBookIndex}px);`}
   transition: transform 700ms ease 0ms;
+  z-index: 0;
 `;
 
 export const SliderIndicatorContainer = styled.div`
@@ -58,5 +58,3 @@ export const SliderIcon = styled(Image)<{ isVisible: boolean }>`
   cursor: pointer;
   ${(props) => (props.isVisible ? '' : 'visibility : hidden')}
 `;
-
-export const SliderTrack = styled.div<{ curBookIndex: number }>``;

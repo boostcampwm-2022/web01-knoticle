@@ -16,6 +16,7 @@ export const ModalWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  z-index: 99;
 `;
 
 export const ModalInner = styled.div`
@@ -24,7 +25,7 @@ export const ModalInner = styled.div`
   padding: 32px;
   background: var(--white-color);
   border-radius: 30px;
-  z-index: 1;
+  z-index: 100;
 `;
 
 export const ButtonWrapper = styled.div<{ hasBackward?: boolean }>`
