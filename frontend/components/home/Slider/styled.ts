@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { FlexColumn } from '@styles/layout';
+import { FlexColumn, FlexSpaceBetween } from '@styles/layout';
 
 export const SliderWrapper = styled.div`
   display: flex;
@@ -13,6 +13,8 @@ export const SliderContent = styled(FlexColumn)`
   gap: 10px;
   margin-top: 30px;
 `;
+
+export const SliderInfoContainer = styled(FlexSpaceBetween)``;
 
 export const SliderInfo = styled.div`
   display: flex;
@@ -36,13 +38,13 @@ export const SliderIndicatorContainer = styled.div`
   gap: 4px;
 `;
 
-export const SliderIndicator = styled.div<{ number: number; sliderNumber: number }>`
+export const SliderIndicator = styled.div<{ isActive: boolean }>`
   width: 40px;
   height: 8px;
   border-radius: 10px;
 
   ${(props) =>
-    props.number === props.sliderNumber
+    props.isActive
       ? 'background-color: var(--primary-color)'
       : 'background-color: var(--grey-02-color)'};
 `;
