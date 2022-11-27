@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { getOrderedBookListApi } from '@apis/bookApi';
 import Book from '@components/common/Book';
 import useFetch from '@hooks/useFetch';
-import { BookData } from '@interfaces';
+import { Book as BookData } from '@interfaces';
 
 import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './styled';
 
