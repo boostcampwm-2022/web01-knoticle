@@ -5,9 +5,16 @@ import { EditorState } from '@codemirror/state';
 import { placeholder } from '@codemirror/view';
 import { EditorView } from 'codemirror';
 
+import { createImageApi } from '@apis/imageApi';
+import useFetch from '@hooks/useFetch';
+
 import theme from './theme';
 
 export default function useCodeMirror() {
+  const { data: image, execute: createImage } = useFetch(createImageApi);
+
+  const [editorView, setEditorView] = useState<EditorView>();
+
   const [value, setValue] = useState('');
   const [element, setElement] = useState<HTMLElement>();
 
@@ -17,14 +24,53 @@ export default function useCodeMirror() {
     setElement(node);
   }, []);
 
-  function onChange() {
+  const onChange = () => {
     return EditorView.updateListener.of(({ view, docChanged }) => {
       if (docChanged) setValue(view.state.doc.toString());
-
-      // console.log(view.state.selection.main.head);
-      // console.log(view.state.doc.lineAt(view.state.selection.main.head).number);
     });
-  }
+  };
+
+  const onPaste = () => {
+    return EditorView.domEventHandlers({
+      paste(event) {
+        if (!event.clipboardData) return;
+
+        const { items } = event.clipboardData;
+
+        // eslint-disable-next-line no-restricted-syntax
+        for (const item of items) {
+          if (item.kind === 'file' && /image\/[png,jpg,jpeg,gif]/.test(item.type)) {
+            const blob = item.getAsFile();
+
+            const formData = new FormData();
+
+            formData.append('image', blob);
+
+            createImage(formData);
+          }
+        }
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (!editorView) return;
+
+    const cursor = editorView.state.selection.main.head;
+
+    const markdownImage = (path: string) => `![image](${path})`;
+
+    const insert = markdownImage(image.imagePath);
+
+    editorView.dispatch({
+      changes: {
+        from: cursor,
+        to: cursor,
+        insert,
+      },
+      selection: { anchor: cursor + insert.length },
+    });
+  }, [image]);
 
   useEffect(() => {
     if (!element) return;
@@ -35,6 +81,7 @@ export default function useCodeMirror() {
         placeholder('내용을 입력해주세요.'),
         theme(),
         onChange(),
+        onPaste(),
       ],
     });
 
@@ -42,6 +89,8 @@ export default function useCodeMirror() {
       state: editorState,
       parent: element,
     });
+
+    setEditorView(view);
 
     // eslint-disable-next-line consistent-return
     return () => view?.destroy();

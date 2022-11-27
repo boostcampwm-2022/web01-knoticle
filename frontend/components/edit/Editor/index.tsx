@@ -6,22 +6,18 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
-import { createImageApi } from '@apis/imageApi';
 import articleState from '@atoms/article';
 import Content from '@components/common/Content';
 import useCodeMirror from '@components/edit/Editor/core/useCodeMirror';
-import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 
 import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
 
 export default function Editor() {
-  const { data: imagePath, execute: createImage } = useFetch(createImageApi);
+  const { ref, value } = useCodeMirror();
 
   const [article, setArticle] = useRecoilState(articleState);
-
   const [height, setHeight] = useState(0);
-
   const title = useInput();
 
   useEffect(() => {
@@ -34,31 +30,6 @@ export default function Editor() {
       title: title.value,
     });
   }, [title.value]);
-
-  useEffect(() => {
-    console.log(imagePath);
-  }, [imagePath]);
-
-  const handleImagePaste = (event: ClipboardEvent) => {
-    if (!event.clipboardData) return;
-
-    const { items } = event.clipboardData;
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const item of items) {
-      if (item.kind === 'file' && /image\/[png,jpg,jpeg,gif]/.test(item.type)) {
-        const blob = item.getAsFile();
-
-        const formData = new FormData();
-
-        formData.append('image', blob);
-
-        createImage(formData);
-      }
-    }
-  };
-
-  const { ref, value } = useCodeMirror();
 
   useEffect(() => {
     setArticle({
