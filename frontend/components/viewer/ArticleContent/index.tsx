@@ -45,6 +45,7 @@ interface articleProps {
   article: articleDataType;
   scraps: scrapsData[];
   bookId: number;
+  handleScrapBtnClick: () => void;
 }
 
 const user = {
@@ -52,7 +53,7 @@ const user = {
   nickname: 'moc1ha',
 };
 
-export default function Article({ article, scraps, bookId }: articleProps) {
+export default function Article({ article, scraps, bookId, handleScrapBtnClick }: articleProps) {
   const router = useRouter();
   const handleOriginalBtnOnClick = () => {
     router.push(`/viewer/${article.book_id}/${article.id}`);
@@ -116,11 +117,7 @@ export default function Article({ article, scraps, bookId }: articleProps) {
                   원본 글 보기
                 </ArticleButton>
               )}
-              <ArticleButton
-                onClick={() => {
-                  console.log('click');
-                }}
-              >
+              <ArticleButton onClick={handleScrapBtnClick}>
                 <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
                 스크랩
               </ArticleButton>

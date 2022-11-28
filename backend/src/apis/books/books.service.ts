@@ -44,7 +44,7 @@ const findBook = async (bookId: number, userId: number) => {
   return book;
 };
 
-const findBooks = async ({ order, take, userId }: FindBooks) => {
+const findBooks = async ({ order, take, userId, editor }: FindBooks) => {
   const sortOptions = [];
 
   if (order === 'bookmark') sortOptions.push({ bookmarks: { _count: 'desc' as const } });
@@ -83,6 +83,11 @@ const findBooks = async ({ order, take, userId }: FindBooks) => {
     },
     where: {
       deleted_at: null,
+      user: {
+        is: {
+          nickname: editor ? editor : undefined,
+        },
+      },
     },
     orderBy: sortOptions,
     take,

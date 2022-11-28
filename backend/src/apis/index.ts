@@ -1,15 +1,15 @@
 import { Router } from 'express';
 
-import multer from 'multer';
-
 import articlesController from '@apis/articles/articles.controller';
 import authController from '@apis/auth/auth.controller';
 import bookmarksController from '@apis/bookmarks/bookmarks.controller';
 import booksController from '@apis/books/books.controller';
 import imagesController from '@apis/images/images.controller';
+import scrapsController from '@apis/scraps/scraps.controller';
 import decoder from '@middlewares/tokenDecoder';
 import guard from '@middlewares/tokenValidator';
 import { catchAsync } from '@utils/catch-async';
+import multer from 'multer';
 
 const router = Router();
 
@@ -31,5 +31,7 @@ router.get('/books', decoder, catchAsync(booksController.getBooks));
 
 router.post('/bookmarks', catchAsync(guard), catchAsync(bookmarksController.createBookmark));
 router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));
+
+router.post('/scraps', catchAsync(scrapsController.createScrap));
 
 export default router;
