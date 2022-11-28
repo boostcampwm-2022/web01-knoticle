@@ -30,9 +30,10 @@ export const Username = styled(TextLarge)``;
 
 export const UserDescription = styled(TextSmall)``;
 
-export const ButtonGroup = styled.div`
+export const ButtonGroup = styled.div<{ isVisible: boolean }>`
   display: flex;
   gap: 8px;
+  ${(props) => (props.isVisible ? '' : 'visibility : hidden')}
 `;
 
 const Button = styled.button`

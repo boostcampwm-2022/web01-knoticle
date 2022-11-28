@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { useEffect } from 'react';
 
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { signOutApi } from '@apis/authApi';
 import Edit from '@assets/ico_edit.svg';
@@ -23,7 +23,7 @@ import {
 } from './styeld';
 
 export default function UserProfile() {
-  const setSignInStatus = useSetRecoilState(signInStatusState);
+  const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
   const { data: user, execute: signOut } = useFetch(signOutApi);
 
   const handleLogoutBtnClick = () => {
@@ -44,11 +44,13 @@ export default function UserProfile() {
       <UserDetailGroup>
         <Username>Web01</Username>
         <UserDescription>안녕하세요 Web01입니다.</UserDescription>
-        <ButtonGroup>
+
+        <ButtonGroup isVisible={signInStatus.id !== 0}>
           <ProfileEditButton type="button">
             <TextLinkMedium>프로필 수정</TextLinkMedium>
             <Image src={Edit} alt="profile_edit" />
           </ProfileEditButton>
+
           <LogoutButton onClick={handleLogoutBtnClick}>
             <TextLinkMedium>로그아웃</TextLinkMedium>
           </LogoutButton>
