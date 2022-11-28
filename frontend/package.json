@@ -26,6 +26,7 @@
     "next": "13.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^9.1.1",
     "recoil": "^0.7.6",
     "rehype-stringify": "^9.0.3",
     "remark-parse": "^10.0.1",
