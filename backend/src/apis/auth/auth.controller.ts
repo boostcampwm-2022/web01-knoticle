@@ -56,7 +56,14 @@ const signUp = async (req: Request, res: Response) => {
 const checkSignInStatus = async (req: Request, res: Response) => {
   if (res.locals.user)
     return res.status(200).send({ id: res.locals.user.id, nickname: res.locals.user.nickname });
-  res.status(200).send();
+  res.status(200).send({ id: 0, nickname: '' });
+};
+
+const signOut = async (req: Request, res: Response) => {
+  res.clearCookie('access_token');
+  res.clearCookie('refresh_token');
+
+  res.status(200).send({ id: 0, nickname: '' });
 };
 
 export default {
@@ -64,4 +71,5 @@ export default {
   signInGithub,
   signUp,
   checkSignInStatus,
+  signOut,
 };

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
-import { localSignInApi } from '@apis/signInApi';
+import { localSignInApi } from '@apis/authApi';
 import GithubIcon from '@assets/ico_github.svg';
 import signInStatusState from '@atoms/singInStatus';
 import LabeledInput from '@components/common/LabeledInput';

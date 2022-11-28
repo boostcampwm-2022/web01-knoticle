@@ -31,3 +31,11 @@ export const checkSignInApi = async () => {
 
   return response.data;
 };
+
+export const signOutApi = async () => {
+  const url = '/api/auth/signout';
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};

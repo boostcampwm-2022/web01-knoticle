@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
-import { githubSingInApi } from '@apis/signInApi';
+import { githubSingInApi } from '@apis/authApi';
 import signInStatusState from '@atoms/singInStatus';
 import useFetch from '@hooks/useFetch';
 
