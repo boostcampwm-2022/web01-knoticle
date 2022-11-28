@@ -48,7 +48,7 @@ function Slider({ bookList, title }: SliderProps) {
         src={LeftArrowIcon}
         alt="Left Arrow Icon"
         onClick={handleLeftArrowClick}
-        isVisible={sliderNumber !== 1}
+        isvisible={(sliderNumber !== 1).toString()}
       />
 
       <SliderContent>
@@ -75,7 +75,7 @@ function Slider({ bookList, title }: SliderProps) {
         src={RightArrowIcon}
         alt="Right Arrow Icon"
         onClick={handleRightArrowClick}
-        isVisible={sliderNumber !== sliderIndicatorCount}
+        isvisible={(sliderNumber !== sliderIndicatorCount).toString()}
       />
     </SliderWrapper>
   );
