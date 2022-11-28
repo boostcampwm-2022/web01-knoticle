@@ -1,11 +1,5 @@
-import dynamic from 'next/dynamic';
-
 import { useEffect, useState } from 'react';
 
-import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { languages } from '@codemirror/language-data';
-import { tags } from '@lezer/highlight';
-import { createTheme } from '@uiw/codemirror-themes';
 import { useRecoilState } from 'recoil';
 import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse';
@@ -14,20 +8,16 @@ import { unified } from 'unified';
 
 import articleState from '@atoms/article';
 import Content from '@components/common/Content';
+import useCodeMirror from '@components/edit/Editor/core/useCodeMirror';
 import useInput from '@hooks/useInput';
 
 import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
 
-const CodeMirror = dynamic(() => import('@uiw/react-codemirror'), {
-  ssr: false,
-});
-
 export default function Editor() {
+  const { ref, value } = useCodeMirror();
+
   const [article, setArticle] = useRecoilState(articleState);
-
-  const [content, setContent] = useState('');
   const [height, setHeight] = useState(0);
-
   const title = useInput();
 
   useEffect(() => {
@@ -48,60 +38,17 @@ export default function Editor() {
         .use(remarkParse)
         .use(remarkRehype)
         .use(rehypeStringify)
-        .processSync(content)
+        .processSync(value)
         .toString(),
     });
-  }, [content]);
-
-  const theme = createTheme({
-    theme: 'light',
-    settings: {
-      background: '#ffffff',
-      foreground: '#222222',
-      fontFamily: 'Noto Sans KR',
-    },
-    styles: [
-      {
-        tag: tags.heading1,
-        'font-size': '24px',
-        'font-weight': '700',
-      },
-      {
-        tag: tags.heading2,
-        'font-size': '20px',
-        'font-weight': '700',
-      },
-      {
-        tag: tags.heading3,
-        'font-size': '16px',
-        'font-weight': '700',
-      },
-    ],
-  });
+  }, [value]);
 
   return (
     <EditorWrapper style={{ height }}>
       <EditorInner>
         <TitleInput placeholder="제목을 입력해주세요" {...title} />
         <CodeMirrorWrapper>
-          <CodeMirror
-            value={content}
-            onChange={(value) => setContent(value)}
-            theme={theme}
-            extensions={[
-              markdown({
-                base: markdownLanguage,
-                codeLanguages: languages,
-              }),
-            ]}
-            basicSetup={{
-              lineNumbers: false,
-              foldGutter: false,
-              highlightSelectionMatches: false,
-              highlightActiveLine: false,
-            }}
-            placeholder="내용을 입력해주세요"
-          />
+          <div ref={ref} />
         </CodeMirrorWrapper>
       </EditorInner>
       <EditorInner>

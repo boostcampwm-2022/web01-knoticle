@@ -39,4 +39,10 @@ export const ContentBody = styled.div`
     list-style-type: disc;
     list-style-position: inside;
   }
+
+  p {
+    img {
+      width: 100%;
+    }
+  }
 `;

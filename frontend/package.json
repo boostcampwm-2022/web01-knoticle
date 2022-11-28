@@ -10,14 +10,15 @@
   },
   "dependencies": {
     "@codemirror/lang-markdown": "^6.0.5",
-    "@codemirror/language-data": "^6.1.0",
+    "@codemirror/language": "^6.3.1",
+    "@codemirror/state": "^6.1.4",
+    "@codemirror/view": "^6.6.0",
     "@lezer/highlight": "^1.1.2",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
-    "@uiw/codemirror-themes": "^4.15.1",
-    "@uiw/react-codemirror": "^4.15.1",
     "axios": "^1.1.3",
+    "codemirror": "^6.0.1",
     "dotenv": "^16.0.3",
     "dotenv-webpack": "^8.0.1",
     "eslint": "8.27.0",
@@ -35,6 +36,7 @@
     "unified": "^10.1.2"
   },
   "devDependencies": {
+    "@types/codemirror": "^5.60.5",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
