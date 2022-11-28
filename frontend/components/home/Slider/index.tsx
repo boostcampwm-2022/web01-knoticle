@@ -2,11 +2,11 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
+import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
-import { BookData } from '@interfaces';
-import { FlexSpaceBetween } from '@styles/layout';
+import { Book as BookData } from '@interfaces';
 
 import {
   SliderContent,
@@ -16,6 +16,8 @@ import {
   SliderIndicatorContainer,
   SliderIndicator,
   SliderBookContainer,
+  SliderInfoContainer,
+  SliderIcon,
 } from './styled';
 
 interface SliderProps {
@@ -24,36 +26,57 @@ interface SliderProps {
 }
 
 function Slider({ bookList, title }: SliderProps) {
+  const [curBookIndex, setCurBookIndex] = useState(0);
   const [sliderNumber, setSliderNumber] = useState(1);
 
-  const sliderIndicatorCount = 4;
+  const numberPerPage = 4;
+  const sliderIndicatorCount = Math.ceil(bookList.length / numberPerPage);
   const sliderIndicatorNumbersList = Array.from({ length: sliderIndicatorCount }, (_, i) => i + 1);
 
+  const handleLeftArrowClick = () => {
+    setCurBookIndex(curBookIndex - numberPerPage);
+    setSliderNumber(sliderNumber - 1);
+  };
   const handleRightArrowClick = () => {
-    setSliderNumber(sliderNumber === sliderIndicatorCount ? 1 : sliderNumber + 1);
+    setCurBookIndex(curBookIndex + numberPerPage);
+    setSliderNumber(sliderNumber + 1);
   };
 
   return (
     <SliderWrapper>
+      <SliderIcon
+        src={LeftArrowIcon}
+        alt="Left Arrow Icon"
+        onClick={handleLeftArrowClick}
+        isVisible={sliderNumber !== 1}
+      />
+
       <SliderContent>
-        <FlexSpaceBetween>
+        <SliderInfoContainer>
           <SliderInfo>
             <Image src={ListIcon} alt="List Icon" />
             <SliderTitle>{title}</SliderTitle>
           </SliderInfo>
           <SliderIndicatorContainer>
             {sliderIndicatorNumbersList.map((number) => {
-              return <SliderIndicator key={number} sliderNumber={sliderNumber} number={number} />;
+              return <SliderIndicator key={number} isActive={number === sliderNumber} />;
             })}
           </SliderIndicatorContainer>
-        </FlexSpaceBetween>
+        </SliderInfoContainer>
 
-        <SliderBookContainer>
-          {bookList.length && bookList.map((book) => <Book key={book.id} book={book} />)}
+        <SliderBookContainer curBookIndex={curBookIndex}>
+          {bookList.map((book) => (
+            <Book key={book.id} book={book} />
+          ))}
         </SliderBookContainer>
       </SliderContent>
 
-      <Image src={RightArrowIcon} alt="Right Arrow Icon" onClick={handleRightArrowClick} />
+      <SliderIcon
+        src={RightArrowIcon}
+        alt="Right Arrow Icon"
+        onClick={handleRightArrowClick}
+        isVisible={sliderNumber !== sliderIndicatorCount}
+      />
     </SliderWrapper>
   );
 }

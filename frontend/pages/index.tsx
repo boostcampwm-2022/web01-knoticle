@@ -21,8 +21,8 @@ export default function Home() {
       <GNB />
       <PageWrapper>
         <PageInnerLarge>
-          <Slider bookList={!newestBookList ? [] : newestBookList} title="새로 엮은 책" />
-          <Slider bookList={!popularBookList ? [] : popularBookList} title="가장 인기 있는 책" />
+          {newestBookList && <Slider bookList={newestBookList} title="새로 엮은 책" />}
+          {popularBookList && <Slider bookList={popularBookList} title="가장 인기 있는 책" />}
           <Footer />
         </PageInnerLarge>
       </PageWrapper>

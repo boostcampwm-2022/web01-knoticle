@@ -7,8 +7,10 @@ import { TextXSmall } from '@styles/common';
 import { FlexColumn } from '@styles/layout';
 
 export const BookWrapper = styled(FlexColumn)`
-  width: 280px;
-  height: 480px;
+  min-width: 280px;
+  min-height: 480px;
+  margin: 0 10px;
+  box-sizing: border-box;
 
   background: #ffffff;
   border: 1px solid var(--primary-color);
@@ -46,6 +48,11 @@ export const BookmarkIcon = styled(Image)`
 
 export const BookContentsInfo = styled(FlexColumn)`
   gap: 8px;
+
+  div:nth-child(1) {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--primary-color);
+  }
 `;
 
 export const BookContents = styled(TextXSmall)`
@@ -57,10 +64,6 @@ export const BookContents = styled(TextXSmall)`
     height: 28px;
     display: flex;
     align-items: center;
-  }
-
-  a:nth-child(1) {
-    border-top: 1px solid var(--primary-color);
   }
 `;
 

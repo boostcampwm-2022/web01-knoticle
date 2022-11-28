@@ -1,6 +1,8 @@
+import Image from 'next/image';
+
 import styled from 'styled-components';
 
-import { FlexColumn } from '@styles/layout';
+import { FlexColumn, FlexSpaceBetween } from '@styles/layout';
 
 export const SliderWrapper = styled.div`
   display: flex;
@@ -9,10 +11,13 @@ export const SliderWrapper = styled.div`
 `;
 
 export const SliderContent = styled(FlexColumn)`
-  width: fit-content;
+  max-width: 1200px;
+  overflow: hidden;
   gap: 10px;
   margin-top: 30px;
 `;
+
+export const SliderInfoContainer = styled(FlexSpaceBetween)``;
 
 export const SliderInfo = styled.div`
   display: flex;
@@ -25,9 +30,11 @@ export const SliderTitle = styled.div`
   font-weight: 700;
 `;
 
-export const SliderBookContainer = styled.div`
+export const SliderBookContainer = styled.div<{ curBookIndex: number }>`
   display: flex;
-  gap: 20px;
+  ${(props) => `transform: translateX(-${300 * props.curBookIndex}px);`}
+  transition: transform 700ms ease 0ms;
+  z-index: 0;
 `;
 
 export const SliderIndicatorContainer = styled.div`
@@ -36,13 +43,18 @@ export const SliderIndicatorContainer = styled.div`
   gap: 4px;
 `;
 
-export const SliderIndicator = styled.div<{ number: number; sliderNumber: number }>`
+export const SliderIndicator = styled.div<{ isActive: boolean }>`
   width: 40px;
   height: 8px;
   border-radius: 10px;
 
   ${(props) =>
-    props.number === props.sliderNumber
+    props.isActive
       ? 'background-color: var(--primary-color)'
       : 'background-color: var(--grey-02-color)'};
+`;
+
+export const SliderIcon = styled(Image)<{ isVisible: boolean }>`
+  cursor: pointer;
+  ${(props) => (props.isVisible ? '' : 'visibility : hidden')}
 `;
