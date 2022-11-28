@@ -23,3 +23,11 @@ export const githubSingInApi = async (data: GithubSignInApi) => {
 
   return response.data;
 };
+
+export const checkSignInApi = async () => {
+  const url = '/api/auth';
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};
