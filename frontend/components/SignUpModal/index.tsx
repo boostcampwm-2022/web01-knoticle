@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { createUserApi } from '@apis/authApi';
 import LabeledInput from '@components/common/LabeledInput';
@@ -24,6 +25,16 @@ function SignUpModal({ handleModalClose }: SignUpModalProps) {
   useEffect(() => {
     if (createUserData === undefined) return;
     handleModalClose();
+    toast.success('Knoticle 가입을 축하합니다!', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
   }, [createUserData]);
 
   const checkUsernameValid = (username: string) => {
