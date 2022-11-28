@@ -53,8 +53,13 @@ const signUp = async (req: Request, res: Response) => {
   res.status(201).send();
 };
 
+const checkSignInStatus = async (req: Request, res: Response) => {
+  res.status(200).send({ id: res.locals.user.id, nickname: res.locals.user.nickname });
+};
+
 export default {
   signIn,
   signInGithub,
   signUp,
+  checkSignInStatus,
 };
