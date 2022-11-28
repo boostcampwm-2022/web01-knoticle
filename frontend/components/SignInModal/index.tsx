@@ -1,9 +1,12 @@
 import Image from 'next/image';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useSetRecoilState } from 'recoil';
 
 import { localSignInApi } from '@apis/signInApi';
 import GithubIcon from '@assets/ico_github.svg';
+import signInStatusState from '@atoms/singInStatus';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
@@ -12,14 +15,17 @@ import { SignInModalWrapper, SignUpContainer, SignUpButton } from './styled';
 
 export default function SignInModal({
   handleGoToSignUpBtnClicked,
+  handleModalClose,
 }: {
   handleGoToSignUpBtnClicked: () => void;
+  handleModalClose: () => void;
 }) {
   const [info, setInfo] = useState({
     username: '',
     password: '',
   });
   const { data: user, execute: localSignIn } = useFetch(localSignInApi);
+  const setSignInStatus = useSetRecoilState(signInStatusState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInfo({
@@ -40,6 +46,15 @@ export default function SignInModal({
       password: info.password,
     });
   };
+
+  useEffect(() => {
+    if (!user) return;
+
+    setSignInStatus({
+      ...user,
+    });
+    handleModalClose();
+  }, [user]);
 
   return (
     <SignInModalWrapper>
