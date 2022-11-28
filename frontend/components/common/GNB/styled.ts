@@ -33,8 +33,9 @@ export const IconsContainer = styled.div`
   align-items: center;
 `;
 
-export const Icon = styled(Image)`
+export const Icon = styled(Image)<{ isvisible?: string }>`
   width: 20px;
   height: 20px;
   cursor: pointer;
+  ${(props) => (props.isvisible === 'false' ? 'visibility : hidden' : '')}
 `;

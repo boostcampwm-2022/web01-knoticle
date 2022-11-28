@@ -2,12 +2,16 @@ import { useRouter } from 'next/router';
 
 import { useEffect } from 'react';
 
+import { useSetRecoilState } from 'recoil';
+
 import { githubSingInApi } from '@apis/signInApi';
+import signInStatusState from '@atoms/singInStatus';
 import useFetch from '@hooks/useFetch';
 
 export default function Github() {
   const router = useRouter();
   const { data: user, execute: githubSignIn } = useFetch(githubSingInApi);
+  const setSignInStatus = useSetRecoilState(signInStatusState);
 
   useEffect(() => {
     if (router.query.code) {
@@ -20,6 +24,9 @@ export default function Github() {
   useEffect(() => {
     if (!user) return;
 
+    setSignInStatus({
+      ...user,
+    });
     router.push('/');
   }, [user]);
 

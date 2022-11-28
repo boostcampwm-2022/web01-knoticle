@@ -19,8 +19,6 @@ const getBook = async (req: Request, res: Response) => {
 const getBooks = async (req: Request, res: Response) => {
   const { order, take, editor } = req.query as unknown as FindBooks;
 
-  console.log(req.cookies);
-
   let userId = res.locals.user?.id;
 
   if (!userId) userId = 0;
