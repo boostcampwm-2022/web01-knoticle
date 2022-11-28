@@ -47,6 +47,7 @@ export default function SignInModal({
       )
       .then((res) =>
         // 응답으로 받아온 로그인 정보를 이용해 전역 상태 관리!!
+
         console.log(res)
       );
   };
