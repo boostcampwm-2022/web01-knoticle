@@ -1,29 +1,25 @@
 import api from '@utils/api';
 
 interface LocalSignInApi {
-  data: { username: string; password: string };
-  cb: () => void;
+  username: string;
+  password: string;
 }
 
 interface GithubSignInApi {
-  data: { code: string };
-  cb: () => void;
+  code: string;
 }
 
-export const localSignInApi = async ({ data, cb }: LocalSignInApi) => {
+export const localSignInApi = async (data: LocalSignInApi) => {
   const url = '/api/auth/signin/local';
-
   const response = await api({ url, method: 'POST', data });
-  cb();
 
   return response.data;
 };
 
-export const githubSingInApi = async ({ data, cb }: GithubSignInApi) => {
+export const githubSingInApi = async (data: GithubSignInApi) => {
   const url = '/api/auth/signin/github';
 
   const response = await api({ url, method: 'POST', data });
-  cb();
 
   return response.data;
 };

@@ -2,11 +2,11 @@ import Image from 'next/image';
 
 import { useState } from 'react';
 
-import axios from 'axios';
-
+import { localSignInApi } from '@apis/signInApi';
 import GithubIcon from '@assets/ico_github.svg';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
+import useFetch from '@hooks/useFetch';
 
 import { SignInModalWrapper, SignUpContainer, SignUpButton } from './styled';
 
@@ -19,6 +19,7 @@ export default function SignInModal({
     username: '',
     password: '',
   });
+  const { data: user, execute: localSignIn } = useFetch(localSignInApi);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInfo({
@@ -34,22 +35,10 @@ export default function SignInModal({
   };
 
   const handleSignInBtnOnClick = () => {
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signin/local`,
-        {
-          username: info.username,
-          password: info.password,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) =>
-        // 응답으로 받아온 로그인 정보를 이용해 전역 상태 관리!!
-
-        console.log(res)
-      );
+    localSignIn({
+      username: info.username,
+      password: info.password,
+    });
   };
 
   return (
