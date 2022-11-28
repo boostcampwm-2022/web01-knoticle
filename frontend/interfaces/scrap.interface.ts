@@ -1,7 +1,7 @@
-import { Article } from './article.interface';
+import { IArticle } from './article.interface';
 
-export interface Scrap {
+export interface IScrap {
   id: number;
   order: number;
-  article: Article;
+  article: IArticle;
 }

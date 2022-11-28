@@ -1,14 +1,12 @@
-import { Bookmark } from './bookmark.interface';
-import { Scrap } from './scrap.interface';
-import { User } from './user.interface';
+import { IBookmark } from './bookmark.interface';
+import { IUser } from './user.interface';
 
-export interface Book {
+export interface IBook {
   id: number;
   title: string;
-  user: User;
-  scraps: Scrap[];
+  user: IUser;
   _count: {
     bookmarks: number;
   };
-  bookmarks: Bookmark[];
+  bookmarks: IBookmark[];
 }

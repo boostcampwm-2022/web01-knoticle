@@ -6,24 +6,24 @@ import { createScrapApi } from '@apis/scrapApi';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { Book, Scrap } from '@interfaces';
+import { IBook, IBookScraps, IScrap } from '@interfaces';
 
 import { Label, ScrapModalWrapper } from './styled';
 
 interface ScrapModalProps {
-  books: Book[];
+  books: IBookScraps[];
   handleModalClose: () => void;
 }
 
 export default function ScrapModal({ books, handleModalClose }: ScrapModalProps) {
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [selectedScrapIndex, setSelectedScrapIndex] = useState(-1);
-  const [filteredScraps, setFilteredScraps] = useState<Scrap[]>([]);
+  const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const { execute: createScrap } = useFetch(createScrapApi);
 
   const router = useRouter();
 
-  const createBookDropdownItems = (items: Book[]) =>
+  const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
       return {
         id: item.id,
@@ -31,7 +31,7 @@ export default function ScrapModal({ books, handleModalClose }: ScrapModalProps)
       };
     });
 
-  const createScrapDropdownItems = (items: Scrap[]) =>
+  const createScrapDropdownItems = (items: IScrap[]) =>
     items.map((item) => {
       return {
         id: item.id,

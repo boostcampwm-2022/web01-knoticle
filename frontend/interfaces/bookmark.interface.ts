@@ -1,3 +1,3 @@
-export interface Bookmark {
+export interface IBookmark {
   id: number | null;
 }
