@@ -18,6 +18,8 @@ export default function Github() {
   }, [router.query.code]);
 
   useEffect(() => {
+    if (!user) return;
+
     router.push('/');
   }, [user]);
 

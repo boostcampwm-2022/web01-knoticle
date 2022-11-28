@@ -17,7 +17,7 @@ const router = Router();
 router.post('/auth/signin/local', catchAsync(authController.signIn));
 router.post('/auth/signin/github', catchAsync(authController.signInGithub));
 router.post('/auth/signup', catchAsync(authController.signUp));
-router.get('/auth', catchAsync(guard), catchAsync(authController.checkSignInStatus));
+router.get('/auth', decoder, catchAsync(authController.checkSignInStatus));
 
 router.get('/articles/temporary/:userId', catchAsync(articlesController.getTemporaryArticle));
 router.post('/articles/temporary', catchAsync(articlesController.saveTemporaryArticle));

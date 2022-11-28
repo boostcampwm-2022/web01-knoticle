@@ -54,7 +54,9 @@ const signUp = async (req: Request, res: Response) => {
 };
 
 const checkSignInStatus = async (req: Request, res: Response) => {
-  res.status(200).send({ id: res.locals.user.id, nickname: res.locals.user.nickname });
+  if (res.locals.user)
+    return res.status(200).send({ id: res.locals.user.id, nickname: res.locals.user.nickname });
+  res.status(200).send();
 };
 
 export default {
