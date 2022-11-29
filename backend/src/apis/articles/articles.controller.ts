@@ -24,6 +24,7 @@ const publish = async (req: Request, res: Response) => {
 
 const getArticle = async (req: Request, res: Response) => {
   const articleId = Number(req.params.articleId);
+
   const articleData = await articlesService.getArticleData(articleId);
 
   res.status(200).send(articleData);
