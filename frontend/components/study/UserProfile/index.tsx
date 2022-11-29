@@ -24,11 +24,11 @@ import {
 } from './styled';
 
 interface UserProfileProps {
-  userProfile: IUser;
+  curUserProfile: IUser;
   handleEditBtnClick: () => void;
 }
 
-export default function UserProfile({ userProfile, handleEditBtnClick }: UserProfileProps) {
+export default function UserProfile({ curUserProfile, handleEditBtnClick }: UserProfileProps) {
   const router = useRouter();
 
   const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
@@ -49,12 +49,12 @@ export default function UserProfile({ userProfile, handleEditBtnClick }: UserPro
 
   return (
     <UserProfileWrapper>
-      <UserThumbnail src={userProfile.profile_image} alt="User1" width={200} height={200} />
+      <UserThumbnail src={curUserProfile.profile_image} alt="User1" width={200} height={200} />
       <UserDetailGroup>
-        <Username>{userProfile.nickname}</Username>
-        <UserDescription>{userProfile.description}</UserDescription>
+        <Username>{curUserProfile.nickname}</Username>
+        <UserDescription>{curUserProfile.description}</UserDescription>
 
-        <ButtonGroup isVisible={signInStatus.id !== 0 && signInStatus.id === userProfile.id}>
+        <ButtonGroup isVisible={signInStatus.id !== 0 && signInStatus.id === curUserProfile.id}>
           <ProfileEditButton type="button" onClick={handleEditBtnClick}>
             <TextLinkMedium>프로필 수정</TextLinkMedium>
             <Image src={Edit} alt="profile_edit" />

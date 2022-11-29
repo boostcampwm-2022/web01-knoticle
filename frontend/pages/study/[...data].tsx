@@ -26,6 +26,8 @@ export default function Study() {
   }, [router.query.data]);
 
   useEffect(() => {
+    if (!userProfile) return;
+
     setCurUserProfile({
       ...userProfile,
     });
@@ -39,7 +41,6 @@ export default function Study() {
           <PageInnerLarge>
             {isEditing ? (
               <EditUserProfile
-                userProfile={curUserProfile}
                 handleEditFinishBtnClick={() => {
                   setIsEditing(false);
                 }}
@@ -48,7 +49,7 @@ export default function Study() {
               />
             ) : (
               <UserProfile
-                userProfile={curUserProfile}
+                curUserProfile={curUserProfile}
                 handleEditBtnClick={() => {
                   setIsEditing(true);
                 }}

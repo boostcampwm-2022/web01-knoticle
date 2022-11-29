@@ -64,7 +64,7 @@ const Button = styled.button`
 `;
 
 export const ProfileEditButton = styled(Button)`
-  width: 120px;
+  padding: 0 10px;
   height: 40px;
   display: flex;
   justify-content: space-between;
@@ -76,4 +76,18 @@ export const ProfileEditButton = styled(Button)`
 
 export const LogoutButton = styled(Button)`
   border: 1px solid var(--grey-01-color);
+`;
+
+export const EditThumbnailIcon = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  padding: 10px;
+  box-sizing: content-box;
+  border: 1px solid var(--grey-01-color);
+  transform: translate(380%, -100%);
+  background-color: var(--light-yellow-color);
+  cursor: pointer;
 `;

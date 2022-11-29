@@ -1,12 +1,9 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { useRecoilState } from 'recoil';
-
+import { createImageApi } from '@apis/imageApi';
 import Edit from '@assets/ico_edit.svg';
-import signInStatusState from '@atoms/signInStatus';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { IUser } from '@interfaces';
@@ -20,26 +17,42 @@ import {
   UserDetailGroup,
   UserProfileWrapper,
   UserThumbnail,
+  EditThumbnailIcon,
 } from './styled';
 
 interface EditUserProfileProps {
-  userProfile: IUser;
   curUserProfile: IUser;
-  handleEditFinishBtnClick: () => void;
   setCurUserProfile: (userProfile: IUser) => void;
+  handleEditFinishBtnClick: () => void;
 }
 
 export default function EditUserProfile({
-  userProfile,
   curUserProfile,
-  handleEditFinishBtnClick,
   setCurUserProfile,
+  handleEditFinishBtnClick,
 }: EditUserProfileProps) {
-  const router = useRouter();
-  const { value: nicknameValue, onChange: onNicknameChange } = useInput(userProfile.nickname);
+  const { data: imgFile, execute: createImage } = useFetch(createImageApi);
+  const { value: nicknameValue, onChange: onNicknameChange } = useInput(curUserProfile.nickname);
   const { value: descriptionValue, onChange: onDescriptionChange } = useInput(
-    userProfile.description
+    curUserProfile.description
   );
+  const inputFile = useRef<HTMLInputElement | null>(null);
+
+  const handleEditThumbnailClick = () => {
+    if (!inputFile.current) return;
+    inputFile.current.click();
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!event.target.files) return;
+
+    const formData = new FormData();
+    formData.append('image', event.target.files[0]);
+    createImage(formData);
+  };
 
   useEffect(() => {
     setCurUserProfile({
@@ -49,25 +62,41 @@ export default function EditUserProfile({
     });
   }, [nicknameValue, descriptionValue]);
 
+  useEffect(() => {
+    if (!imgFile) return;
+
+    setCurUserProfile({
+      ...curUserProfile,
+      profile_image: imgFile.imagePath,
+    });
+  }, [imgFile]);
+
   return (
     <UserProfileWrapper>
-      <UserThumbnail src={userProfile.profile_image} alt="User1" width={200} height={200} />
+      <div>
+        <UserThumbnail src={curUserProfile.profile_image} alt="User1" width={200} height={200} />
+        <EditThumbnailIcon onClick={handleEditThumbnailClick}>
+          <Image src={Edit} alt="profile_edit" width={20} />
+          <input
+            type="file"
+            id="file"
+            ref={inputFile}
+            style={{ display: 'none' }}
+            onChange={handleFileUpload}
+          />
+        </EditThumbnailIcon>
+      </div>
+
       <UserDetailGroup>
-        <EditUsername
-          defaultValue={userProfile.nickname}
-          value={nicknameValue}
-          onChange={onNicknameChange}
-        />
+        <EditUsername defaultValue={curUserProfile.nickname} onChange={onNicknameChange} />
         <EditUserDescription
-          defaultValue={userProfile.description}
-          value={descriptionValue}
+          defaultValue={curUserProfile.description}
           onChange={onDescriptionChange}
         />
 
         <ButtonGroup isVisible>
           <ProfileEditButton type="button" onClick={handleEditFinishBtnClick}>
             <TextLinkMedium>수정 완료</TextLinkMedium>
-            <Image src={Edit} alt="profile_edit" />
           </ProfileEditButton>
         </ButtonGroup>
       </UserDetailGroup>
