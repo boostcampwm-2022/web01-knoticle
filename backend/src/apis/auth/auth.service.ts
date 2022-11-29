@@ -72,6 +72,7 @@ const signUpGithubUser = async (username: string, provider_id: string) => {
       provider: 'github',
       password: '',
       profile_image: '',
+      description: `안녕하세요 ${nickname}입니다.`,
     },
   });
 
@@ -129,6 +130,7 @@ const signUpLocalUser = async (username: string, password: string, nickname: str
       provider: 'local',
       password: encryptedPassword,
       profile_image: '',
+      description: `안녕하세요 ${nickname}입니다.`,
     },
   });
 };
