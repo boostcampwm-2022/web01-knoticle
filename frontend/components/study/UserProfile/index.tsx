@@ -44,7 +44,7 @@ export default function UserProfile({ userProfile }: UserProfileProps) {
       ...user,
     });
     router.push('/');
-  }, user);
+  }, [user]);
 
   return (
     <UserProfileWrapper>
