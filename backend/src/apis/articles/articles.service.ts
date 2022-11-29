@@ -1,5 +1,60 @@
-import { CreateArticle, CreateTemporaryArticle } from '@apis/articles/articles.interface';
+import {
+  CreateArticle,
+  CreateTemporaryArticle,
+  SearchArticles,
+} from '@apis/articles/articles.interface';
 import { prisma } from '@config/orm.config';
+
+const searchArticles = async (searchArticles: SearchArticles) => {
+  const { query, page, user_id } = searchArticles;
+
+  const take = 10;
+  const skip = (page - 1) * take;
+
+  const matchUserCondition = user_id
+    ? {
+        book: {
+          user: {
+            id: Number(user_id),
+          },
+        },
+      }
+    : {};
+
+  const articles = await prisma.article.findMany({
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      created_at: true,
+      book: {
+        select: {
+          user: {
+            select: {
+              id: true,
+              nickname: true,
+              profile_image: true,
+            },
+          },
+        },
+      },
+    },
+    where: {
+      title: {
+        search: query,
+      },
+      content: {
+        search: query,
+      },
+      deleted_at: null,
+      ...matchUserCondition,
+    },
+    take,
+    skip,
+  });
+
+  return articles;
+};
 
 const getArticle = async (articleId: number) => {
   const article = await prisma.article.findFirst({
@@ -58,6 +113,20 @@ const deleteArticle = async (articleId: number) => {
   });
 };
 
+const getTemporaryArticle = async (userId: number) => {
+  const temporaryArticle = await prisma.temporaryArticle.findFirst({
+    where: {
+      user_id: userId,
+    },
+    select: {
+      title: true,
+      content: true,
+    },
+  });
+
+  return temporaryArticle;
+};
+
 const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
   const { title, content, user_id } = dto;
 
@@ -79,21 +148,8 @@ const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
   return temporaryArticle;
 };
 
-const getTemporaryArticle = async (userId: number) => {
-  const temporaryArticle = await prisma.temporaryArticle.findFirst({
-    where: {
-      user_id: userId,
-    },
-    select: {
-      title: true,
-      content: true,
-    },
-  });
-
-  return temporaryArticle;
-};
-
 export default {
+  searchArticles,
   getArticle,
   createArticle,
   deleteArticle,

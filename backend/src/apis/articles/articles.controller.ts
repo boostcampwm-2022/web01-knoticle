@@ -1,7 +1,16 @@
 import { Request, Response } from 'express';
 
+import { SearchArticles } from '@apis/articles/articles.interface';
 import articlesService from '@apis/articles/articles.service';
 import scrapsService from '@apis/scraps/scraps.service';
+
+const searchArticles = async (req: Request, res: Response) => {
+  const { query, page, user_id } = req.query as unknown as SearchArticles;
+
+  const articles = await articlesService.searchArticles({ query, page, user_id });
+
+  res.status(200).send(articles);
+};
 
 const getArticle = async (req: Request, res: Response) => {
   const articleId = Number(req.params.articleId);
@@ -58,6 +67,7 @@ const getTemporaryArticle = async (req: Request, res: Response) => {
 };
 
 export default {
+  searchArticles,
   getArticle,
   createArticle,
   deleteArticle,

@@ -1,3 +1,9 @@
+export interface SearchArticles {
+  query: string;
+  page: number;
+  user_id: number;
+}
+
 export interface CreateArticle {
   title: string;
   content: string;
