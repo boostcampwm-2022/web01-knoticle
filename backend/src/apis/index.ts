@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import multer from 'multer';
+
 import articlesController from '@apis/articles/articles.controller';
 import authController from '@apis/auth/auth.controller';
 import bookmarksController from '@apis/bookmarks/bookmarks.controller';
@@ -9,7 +11,6 @@ import scrapsController from '@apis/scraps/scraps.controller';
 import decoder from '@middlewares/tokenDecoder';
 import guard from '@middlewares/tokenValidator';
 import { catchAsync } from '@utils/catch-async';
-import multer from 'multer';
 
 const router = Router();
 
@@ -17,11 +18,12 @@ router.post('/auth/signin/local', catchAsync(authController.signIn));
 router.post('/auth/signin/github', catchAsync(authController.signInGithub));
 router.post('/auth/signup', catchAsync(authController.signUp));
 
-router.get('/articles/temporary/:userId', catchAsync(articlesController.getTemporaryArticle));
-router.post('/articles/temporary', catchAsync(articlesController.saveTemporaryArticle));
+router.get('/articles/search', catchAsync(articlesController.searchArticles));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
-router.post('/articles', catchAsync(articlesController.publish));
+router.post('/articles', catchAsync(articlesController.createArticle));
 router.delete('/articles/:articleId', catchAsync(articlesController.deleteArticle));
+router.get('/articles/temporary/:userId', catchAsync(articlesController.getTemporaryArticle));
+router.post('/articles/temporary', catchAsync(articlesController.craeteTemporaryArticle));
 
 router.post('/image', multer().single('image'), catchAsync(imagesController.createImage));
 
