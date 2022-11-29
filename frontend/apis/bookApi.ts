@@ -1,5 +1,24 @@
 import api from '@utils/api';
 
+interface SearchBooksApi {
+  query: string;
+  page: number;
+  userId: number;
+}
+
+export const searchBooksApi = async (data: SearchBooksApi) => {
+  const url = `/api/books/search`;
+  const params = {
+    query: data.query,
+    page: data.page,
+    userId: data.userId,
+  };
+
+  const response = await api({ url, method: 'GET', params });
+
+  return response.data;
+};
+
 interface GetBooksApi {
   order: 'newest' | 'bookmark';
   take: number;
