@@ -9,12 +9,12 @@ import articleState from '@atoms/article';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { Book, Scrap } from '@interfaces';
+import { IBook, IBookScraps, IScrap } from '@interfaces';
 
 import { Label, PublishModalWrapper } from './styled';
 
 interface PublishModalProps {
-  books: Book[];
+  books: IBookScraps[];
 }
 
 export default function PublishModal({ books }: PublishModalProps) {
@@ -26,9 +26,9 @@ export default function PublishModal({ books }: PublishModalProps) {
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [selectedScrapIndex, setSelectedScrapIndex] = useState(-1);
-  const [filteredScraps, setFilteredScraps] = useState<Scrap[]>([]);
+  const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
 
-  const createBookDropdownItems = (items: Book[]) =>
+  const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
       return {
         id: item.id,
@@ -36,7 +36,7 @@ export default function PublishModal({ books }: PublishModalProps) {
       };
     });
 
-  const createScrapDropdownItems = (items: Scrap[]) =>
+  const createScrapDropdownItems = (items: IScrap[]) =>
     items.map((item) => {
       return {
         id: item.id,

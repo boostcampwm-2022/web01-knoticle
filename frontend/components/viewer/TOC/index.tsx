@@ -5,7 +5,7 @@ import BookmarkFilled from '@assets/ico_bookmark_white_filled.svg';
 import Hide from '@assets/ico_hide.svg';
 import SampleProflie from '@assets/ico_sampleProfile.svg';
 import useBookmark from '@hooks/useBookmark';
-import { Book as BookData } from '@interfaces';
+import { IBookScraps } from '@interfaces';
 import { TextMedium, TextSmall } from '@styles/common';
 
 import {
@@ -24,7 +24,7 @@ import {
 interface TocProps {
   // book 객체에 대한 interface 추가 예정
   articleId: number;
-  book: BookData;
+  book: IBookScraps;
   handleSideBarOnClick: () => void;
 }
 
