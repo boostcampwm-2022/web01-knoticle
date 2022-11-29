@@ -38,3 +38,10 @@ export const getUserKnottedBooksApi = async (nickname: string) => {
 
   return response.data;
 };
+export const addBookApi = async (data: { title: string }) => {
+  const url = `/api/books`;
+
+  const response = await api({ url, method: 'POST', data });
+
+  return response.data;
+};
