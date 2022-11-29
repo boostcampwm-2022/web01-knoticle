@@ -1,7 +1,7 @@
 export interface SearchArticles {
   query: string;
   page: number;
-  user_id: number;
+  userId: number;
 }
 
 export interface CreateArticle {

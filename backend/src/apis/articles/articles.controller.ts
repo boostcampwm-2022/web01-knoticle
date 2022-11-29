@@ -5,9 +5,9 @@ import articlesService from '@apis/articles/articles.service';
 import scrapsService from '@apis/scraps/scraps.service';
 
 const searchArticles = async (req: Request, res: Response) => {
-  const { query, page, user_id } = req.query as unknown as SearchArticles;
+  const { query, page, userId } = req.query as unknown as SearchArticles;
 
-  const articles = await articlesService.searchArticles({ query, page, user_id });
+  const articles = await articlesService.searchArticles({ query, page, userId });
 
   res.status(200).send(articles);
 };
@@ -46,6 +46,14 @@ const deleteArticle = async (req: Request, res: Response) => {
   res.status(204).send();
 };
 
+const getTemporaryArticle = async (req: Request, res: Response) => {
+  const userId = Number(req.params.userId);
+
+  const temporaryArticle = await articlesService.getTemporaryArticle(userId);
+
+  res.status(201).send({ temporaryArticle });
+};
+
 const craeteTemporaryArticle = async (req: Request, res: Response) => {
   const { title, content, user_id } = req.body;
 
@@ -54,14 +62,6 @@ const craeteTemporaryArticle = async (req: Request, res: Response) => {
     content,
     user_id,
   });
-
-  res.status(201).send({ temporaryArticle });
-};
-
-const getTemporaryArticle = async (req: Request, res: Response) => {
-  const userId = Number(req.params.userId);
-
-  const temporaryArticle = await articlesService.getTemporaryArticle(userId);
 
   res.status(201).send({ temporaryArticle });
 };
