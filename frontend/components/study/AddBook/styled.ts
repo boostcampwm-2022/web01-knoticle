@@ -45,6 +45,7 @@ export const Input = styled.input`
   line-height: 24px;
   border: 1px solid var(--grey-02-color);
   border-radius: 10px;
+  color: var(--grey-01-color);
 `;
 
 export const BookContentsInfo = styled(FlexColumn)`

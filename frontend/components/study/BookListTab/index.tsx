@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { getOrderedBookListApi } from '@apis/bookApi';
 import Book from '@components/common/Book';
 import Modal from '@components/common/Modal';
-import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IBookScraps } from '@interfaces';
 
@@ -52,9 +51,6 @@ export default function BookListTab() {
       {isModalShown && (
         <Modal title="내 책 수정하기" handleModalClose={handleModalClose}>
           {curEditBook && <EditBook book={curEditBook} />}
-          <Button theme="primary" onClick={() => console.log('수정!')}>
-            수정 완료
-          </Button>
         </Modal>
       )}
     </BookListTabWrapper>
