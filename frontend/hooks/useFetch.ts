@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useState } from 'react';
 
+import { toastError } from '@utils/toast';
+
 const useFetch = <T>(api: (...args: any[]) => Promise<T>) => {
   const [data, setData] = useState<T>();
 
@@ -10,7 +12,7 @@ const useFetch = <T>(api: (...args: any[]) => Promise<T>) => {
     } catch (error: any) {
       const { message } = error.response.data;
 
-      console.log(message);
+      toastError(message);
     }
   }, []);
 

@@ -50,7 +50,10 @@ export default function GNB() {
           </Modal>
         )) || (
           <Modal title="Knoticle 시작하기" handleModalClose={handleModalClose}>
-            <SignInModal handleGoToSignUpBtnClicked={handleGoToSignUpBtnClicked} />
+            <SignInModal
+              handleGoToSignUpBtnClicked={handleGoToSignUpBtnClicked}
+              handleModalClose={handleModalClose}
+            />
           </Modal>
         ))}
     </GNBbar>
