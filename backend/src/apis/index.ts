@@ -27,7 +27,7 @@ router.post('/articles/temporary', catchAsync(articlesController.craeteTemporary
 
 router.post('/image', multer().single('image'), catchAsync(imagesController.createImage));
 
-router.get('/books/search');
+router.get('/books/search', catchAsync(booksController.getSearchedBooks));
 router.get('/books/:bookId', decoder, catchAsync(booksController.getBook));
 router.get('/books', decoder, catchAsync(booksController.getBooks));
 
