@@ -24,8 +24,8 @@ const findUserProfile = async (nickname: string) => {
 const updateUserProfile = async (dto: UpdateUserProfile) => {
   const { id, nickname, profile_image, description } = dto;
 
-  if (!(await checkNicknameUnique(nickname)))
-    throw new ResourceConflict(Message.AUTH_NICKNAME_OVERLAP);
+  const user = await getUserByNickname(nickname);
+  if (user && user.id !== id) throw new ResourceConflict(Message.AUTH_NICKNAME_OVERLAP);
 
   await prisma.user.update({
     where: {
@@ -39,15 +39,14 @@ const updateUserProfile = async (dto: UpdateUserProfile) => {
   });
 };
 
-// authService에서 중복되서 사용했는데 어떻게 하면 좋을지... 같은 레이어층 가져와서 써도 될까요...?
-const checkNicknameUnique = async (nickname: string) => {
+const getUserByNickname = async (nickname: string) => {
   const user = await prisma.user.findFirst({
     where: {
       nickname,
     },
   });
 
-  return !user ? true : false;
+  return user;
 };
 
 export default {

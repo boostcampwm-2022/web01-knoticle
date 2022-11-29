@@ -2,7 +2,10 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
+import { useRecoilState } from 'recoil';
+
 import { getUserProfileApi, updateUserProfileApi } from '@apis/userApi';
+import signInStatusState from '@atoms/signInStatus';
 import GNB from '@components/common/GNB';
 import BookListTab from '@components/study/BookListTab';
 import EditUserProfile from '@components/study/EditUserProfile';
@@ -16,12 +19,20 @@ export default function Study() {
   const router = useRouter();
   const { data: userProfile, execute: getUserProfile } = useFetch(getUserProfileApi);
   const { execute: updateUserProfile } = useFetch(updateUserProfileApi);
+  const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
   const [curUserProfile, setCurUserProfile] = useState<IUser | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const handleEditFinishBtnClick = () => {
+    if (!curUserProfile) return;
+
     setIsEditing(false);
     updateUserProfile(curUserProfile);
+    setSignInStatus({
+      ...signInStatus,
+      nickname: curUserProfile.nickname,
+    });
+    window.history.pushState(null, '', `/study/${curUserProfile.nickname}`);
   };
 
   useEffect(() => {
