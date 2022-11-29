@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import axios from 'axios';
-
+import { createUserApi } from '@apis/authApi';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
+import useFetch from '@hooks/useFetch';
+import { toastSuccess } from '@utils/toast';
 
 import { SignUpModalWrapper, SignUpModalErrorMessage } from './styled';
 
@@ -19,6 +20,13 @@ function SignUpModal({ handleModalClose }: SignUpModalProps) {
     password: '',
     nickname: '',
   });
+  const { data: createUserData, execute: createUser } = useFetch(createUserApi);
+
+  useEffect(() => {
+    if (createUserData === undefined) return;
+    handleModalClose();
+    toastSuccess('Knoticle 가입을 축하합니다!');
+  }, [createUserData]);
 
   const checkUsernameValid = (username: string) => {
     if (/[^a-zA-Z0-9]/.test(username) || username.length > 10) {
@@ -44,14 +52,7 @@ function SignUpModal({ handleModalClose }: SignUpModalProps) {
   };
 
   const handleSignUpBtnClick = () => {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/signup`, info)
-      .then(() => {
-        handleModalClose();
-      })
-      .catch((err) => {
-        setErrorMessage(err.response.data.message);
-      });
+    createUser(info);
   };
 
   return (

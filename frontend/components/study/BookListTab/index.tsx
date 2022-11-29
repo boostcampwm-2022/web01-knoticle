@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { getOrderedBookListApi } from '@apis/bookApi';
 import Book from '@components/common/Book';
 import useFetch from '@hooks/useFetch';
-import { Book as BookData } from '@interfaces';
+import { IBookScraps } from '@interfaces';
 
 import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './styled';
 
@@ -11,7 +11,7 @@ export default function BookListTab() {
   // 일단 에러 안 뜨게 새로 엮은 책 보여주기
 
   const { data: newestBookList, execute: getNewestBookList } =
-    useFetch<BookData[]>(getOrderedBookListApi);
+    useFetch<IBookScraps[]>(getOrderedBookListApi);
 
   useEffect(() => {
     getNewestBookList('newest');

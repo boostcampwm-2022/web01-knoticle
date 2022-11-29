@@ -3,30 +3,29 @@ import { useRouter } from 'next/router';
 
 import { useState, useEffect } from 'react';
 
-import { useSetRecoilState } from 'recoil';
+import GithubIcon from '@assets/ico_github.svg';
 
 import { localSignInApi } from '@apis/authApi';
-import GithubIcon from '@assets/ico_github.svg';
-import signInStatusState from '@atoms/signInStatus';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 
 import { SignInModalWrapper, SignUpContainer, SignUpButton } from './styled';
 
+interface SignInModalProps {
+  handleGoToSignUpBtnClicked: () => void;
+  handleModalClose: () => void;
+}
+
 export default function SignInModal({
   handleGoToSignUpBtnClicked,
   handleModalClose,
-}: {
-  handleGoToSignUpBtnClicked: () => void;
-  handleModalClose: () => void;
-}) {
+}: SignInModalProps) {
   const [info, setInfo] = useState({
     username: '',
     password: '',
   });
   const { data: user, execute: localSignIn } = useFetch(localSignInApi);
-  const setSignInStatus = useSetRecoilState(signInStatusState);
   const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

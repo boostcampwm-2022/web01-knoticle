@@ -10,6 +10,7 @@ import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
 import Scrap from '@assets/ico_scrap.svg';
 import Content from '@components/common/Content';
+import { IArticleBook, IScrap } from '@interfaces';
 import { TextLarge } from '@styles/common';
 
 import ArticleButton from './Button';
@@ -17,33 +18,14 @@ import {
   ArticleContainer,
   ArticleLeftBtn,
   ArticleMain,
-  ArticleContents,
   ArticleRightBtn,
   ArticleTitle,
   ArticleTitleBtnBox,
 } from './styled';
 
-interface articleDataType {
-  id: number;
-  title: string;
-  content: string;
-  created_at: string;
-  deleted_at: string;
-  book_id: number;
-  book: any;
-}
-
-interface scrapsData {
-  order: number;
-  article: {
-    id: number;
-    title: string;
-  };
-}
-
-interface articleProps {
-  article: articleDataType;
-  scraps: scrapsData[];
+interface ArticleProps {
+  article: IArticleBook;
+  scraps: IScrap[];
   bookId: number;
   handleScrapBtnClick: () => void;
 }
@@ -53,19 +35,21 @@ const user = {
   nickname: 'moc1ha',
 };
 
-export default function Article({ article, scraps, bookId, handleScrapBtnClick }: articleProps) {
+export default function Article({ article, scraps, bookId, handleScrapBtnClick }: ArticleProps) {
   const router = useRouter();
   const handleOriginalBtnOnClick = () => {
     router.push(`/viewer/${article.book_id}/${article.id}`);
   };
   const handleLeftBtnOnClick = () => {
-    const prevOrder = scraps.filter((v: scrapsData) => v.article.id === article.id)[0].order - 1;
-    const prevArticleId = scraps.filter((v: scrapsData) => v.order === prevOrder)[0].article.id;
+    const prevOrder =
+      scraps.filter((scrap: IScrap) => scrap.article.id === article.id)[0].order - 1;
+    const prevArticleId = scraps.filter((scrap: IScrap) => scrap.order === prevOrder)[0].article.id;
     router.push(`/viewer/${bookId}/${prevArticleId}`);
   };
   const handleRightBtnOnClick = () => {
-    const nextOrder = scraps.filter((v: scrapsData) => v.article.id === article.id)[0].order + 1;
-    const nextArticleId = scraps.filter((v: scrapsData) => v.order === nextOrder)[0].article.id;
+    const nextOrder =
+      scraps.filter((scrap: IScrap) => scrap.article.id === article.id)[0].order + 1;
+    const nextArticleId = scraps.filter((scrap: IScrap) => scrap.order === nextOrder)[0].article.id;
     router.push(`/viewer/${bookId}/${nextArticleId}`);
   };
   const handleDeleteBtnOnClick = () => {
@@ -82,7 +66,7 @@ export default function Article({ article, scraps, bookId, handleScrapBtnClick }
   };
 
   const checkArticleAuthority = (id: number) => {
-    if (scraps.find((v: scrapsData) => v.article.id === id)) {
+    if (scraps.find((v: IScrap) => v.article.id === id)) {
       return true;
     }
     // alert 두번뜨는 현상...

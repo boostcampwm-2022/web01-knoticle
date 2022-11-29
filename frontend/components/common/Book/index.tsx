@@ -5,7 +5,7 @@ import ActiveBookmarkIcon from '@assets/ico_bookmark_grey_filled.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
 import useBookmark from '@hooks/useBookmark';
-import { Book as BookData } from '@interfaces';
+import { IBookScraps } from '@interfaces';
 import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
 import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
 
@@ -23,7 +23,7 @@ import {
 } from './styled';
 
 interface BookProps {
-  book: BookData;
+  book: IBookScraps;
 }
 
 export default function Book({ book }: BookProps) {
