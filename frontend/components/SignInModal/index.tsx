@@ -3,9 +3,8 @@ import { useRouter } from 'next/router';
 
 import { useState, useEffect } from 'react';
 
-import GithubIcon from '@assets/ico_github.svg';
-
 import { localSignInApi } from '@apis/authApi';
+import GithubIcon from '@assets/ico_github.svg';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
