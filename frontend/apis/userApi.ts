@@ -1,4 +1,3 @@
-import { IUser } from '@interfaces';
 import api from '@utils/api';
 
 export const getUserProfileApi = async (nickname: string) => {
@@ -10,11 +9,14 @@ export const getUserProfileApi = async (nickname: string) => {
 };
 
 interface UpdateUserProfileApi {
-  userProfile: IUser;
+  id: number;
+  nickname?: string;
+  description?: string;
+  profile_image?: string;
 }
 
 export const updateUserProfileApi = async (data: UpdateUserProfileApi) => {
-  const url = `/api/users/${data.userProfile.id}`;
+  const url = `/api/users/${data.id}`;
 
   const response = await api({ url, method: 'PATCH', data });
 

@@ -19,6 +19,11 @@ export default function Study() {
   const [curUserProfile, setCurUserProfile] = useState<IUser | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
+  const handleEditFinishBtnClick = () => {
+    setIsEditing(false);
+    updateUserProfile(curUserProfile);
+  };
+
   useEffect(() => {
     if (!router.query.data) return;
 
@@ -42,10 +47,7 @@ export default function Study() {
           <PageInnerLarge>
             {isEditing ? (
               <EditUserProfile
-                handleEditFinishBtnClick={() => {
-                  setIsEditing(false);
-                  updateUserProfile(curUserProfile);
-                }}
+                handleEditFinishBtnClick={handleEditFinishBtnClick}
                 curUserProfile={curUserProfile}
                 setCurUserProfile={setCurUserProfile}
               />
