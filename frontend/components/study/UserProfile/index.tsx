@@ -25,9 +25,10 @@ import {
 
 interface UserProfileProps {
   userProfile: IUser;
+  handleEditBtnClick: () => void;
 }
 
-export default function UserProfile({ userProfile }: UserProfileProps) {
+export default function UserProfile({ userProfile, handleEditBtnClick }: UserProfileProps) {
   const router = useRouter();
 
   const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
@@ -54,7 +55,7 @@ export default function UserProfile({ userProfile }: UserProfileProps) {
         <UserDescription>{userProfile.description}</UserDescription>
 
         <ButtonGroup isVisible={signInStatus.id !== 0 && signInStatus.id === userProfile.id}>
-          <ProfileEditButton type="button">
+          <ProfileEditButton type="button" onClick={handleEditBtnClick}>
             <TextLinkMedium>프로필 수정</TextLinkMedium>
             <Image src={Edit} alt="profile_edit" />
           </ProfileEditButton>
