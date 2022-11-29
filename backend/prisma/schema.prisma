@@ -15,8 +15,9 @@ model User {
   username String @db.VarChar(20)
   password String @db.VarChar(100)
   nickname String @db.VarChar(20) @unique
-  provider String @db.VarChar(20)
+  description String @db.VarChar(100)
   profile_image String @db.VarChar(255)
+  provider String @db.VarChar(20)
   created_at DateTime @default(now())
   deleted_at DateTime?
   books Book[]
