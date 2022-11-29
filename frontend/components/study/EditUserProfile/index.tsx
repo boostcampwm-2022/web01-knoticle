@@ -18,6 +18,7 @@ import {
   UserProfileWrapper,
   UserThumbnail,
   EditThumbnailIcon,
+  UserThumbnailGroup,
 } from './styled';
 
 interface EditUserProfileProps {
@@ -73,7 +74,7 @@ export default function EditUserProfile({
 
   return (
     <UserProfileWrapper>
-      <div>
+      <UserThumbnailGroup>
         <UserThumbnail src={curUserProfile.profile_image} alt="User1" width={200} height={200} />
         <EditThumbnailIcon onClick={handleEditThumbnailClick}>
           <Image src={Edit} alt="profile_edit" width={20} />
@@ -85,7 +86,7 @@ export default function EditUserProfile({
             onChange={handleFileUpload}
           />
         </EditThumbnailIcon>
-      </div>
+      </UserThumbnailGroup>
 
       <UserDetailGroup>
         <EditUsername defaultValue={curUserProfile.nickname} onChange={onNicknameChange} />

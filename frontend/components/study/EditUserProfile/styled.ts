@@ -10,6 +10,8 @@ export const UserProfileWrapper = styled.div`
   /* justify-content: flex-start; */
 `;
 
+export const UserThumbnailGroup = styled.div``;
+
 export const UserThumbnail = styled(Image)`
   width: 200px;
   height: 200px;
