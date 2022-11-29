@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { localSignInApi } from '@apis/authApi';
 import GithubIcon from '@assets/ico_github.svg';
-import signInStatusState from '@atoms/singInStatus';
+import signInStatusState from '@atoms/signInStatus';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';

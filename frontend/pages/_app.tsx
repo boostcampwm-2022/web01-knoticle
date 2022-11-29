@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import { checkSignInApi } from '@apis/authApi';
-import signInStatusState from '@atoms/singInStatus';
+import signInStatusState from '@atoms/signInStatus';
 import useFetch from '@hooks/useFetch';
 import GlobalStyle from '@styles/GlobalStyle';
 

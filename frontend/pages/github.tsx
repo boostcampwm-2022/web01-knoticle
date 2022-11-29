@@ -4,13 +4,13 @@ import { useEffect } from 'react';
 
 import { useSetRecoilState } from 'recoil';
 
-import { githubSingInApi } from '@apis/authApi';
-import signInStatusState from '@atoms/singInStatus';
+import { githubSignInApi } from '@apis/authApi';
+import signInStatusState from '@atoms/signInStatus';
 import useFetch from '@hooks/useFetch';
 
 export default function Github() {
   const router = useRouter();
-  const { data: user, execute: githubSignIn } = useFetch(githubSingInApi);
+  const { data: user, execute: githubSignIn } = useFetch(githubSignInApi);
   const setSignInStatus = useSetRecoilState(signInStatusState);
 
   useEffect(() => {

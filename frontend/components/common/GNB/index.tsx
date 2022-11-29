@@ -7,7 +7,7 @@ import { useRecoilValue } from 'recoil';
 import ArticleIcon from '@assets/ico_article.svg';
 import PersonIcon from '@assets/ico_person.svg';
 import SearchIcon from '@assets/ico_search.svg';
-import signInStatusState from '@atoms/singInStatus';
+import signInStatusState from '@atoms/signInStatus';
 import Modal from '@components/common/Modal';
 import SignInModal from '@components/SignInModal';
 import SignUpModal from '@components/SignUpModal';

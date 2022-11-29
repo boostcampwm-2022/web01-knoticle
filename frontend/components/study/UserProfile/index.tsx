@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { signOutApi } from '@apis/authApi';
 import Edit from '@assets/ico_edit.svg';
 import User1 from '@assets/ico_user1.svg';
-import signInStatusState from '@atoms/singInStatus';
+import signInStatusState from '@atoms/signInStatus';
 import useFetch from '@hooks/useFetch';
 import { TextLinkMedium } from '@styles/common';
 
@@ -20,7 +20,7 @@ import {
   Username,
   UserProfileWrapper,
   UserThumbnail,
-} from './styeld';
+} from './styled';
 
 export default function UserProfile() {
   const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
