@@ -1,39 +1,17 @@
 import type { AppProps } from 'next/app';
 
-import { useEffect } from 'react';
+import { RecoilRoot } from 'recoil';
 
-import { RecoilRoot, useSetRecoilState } from 'recoil';
-
-import { checkSignInApi } from '@apis/authApi';
-import signInStatusState from '@atoms/signInStatus';
-import useFetch from '@hooks/useFetch';
+import CheckSignInByToken from '@components/CheckSignInByToken';
 import GlobalStyle from '@styles/GlobalStyle';
-
-function CheckSignInByToken() {
-  const { data: user, execute: checkSignIn } = useFetch(checkSignInApi);
-  const setSignInStatus = useSetRecoilState(signInStatusState);
-
-  useEffect(() => {
-    checkSignIn();
-  }, []);
-
-  useEffect(() => {
-    if (!user) return;
-
-    setSignInStatus({
-      ...user,
-    });
-  }, [user]);
-
-  return null;
-}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
-      <CheckSignInByToken />
-      <GlobalStyle />
-      <Component {...pageProps} />
+      <CheckSignInByToken>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </CheckSignInByToken>
     </RecoilRoot>
   );
 }
