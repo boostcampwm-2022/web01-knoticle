@@ -7,9 +7,9 @@ import { useRecoilState } from 'recoil';
 
 import { signOutApi } from '@apis/authApi';
 import Edit from '@assets/ico_edit.svg';
-import User1 from '@assets/ico_user1.svg';
 import signInStatusState from '@atoms/signInStatus';
 import useFetch from '@hooks/useFetch';
+import { IUser } from '@interfaces';
 import { TextLinkMedium } from '@styles/common';
 
 import {
@@ -23,7 +23,11 @@ import {
   UserThumbnail,
 } from './styled';
 
-export default function UserProfile() {
+interface UserProfileProps {
+  userProfile: IUser;
+}
+
+export default function UserProfile({ userProfile }: UserProfileProps) {
   const router = useRouter();
 
   const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
@@ -44,12 +48,12 @@ export default function UserProfile() {
 
   return (
     <UserProfileWrapper>
-      <UserThumbnail src={User1} alt="User1" />
+      <UserThumbnail src={userProfile.profile_image} alt="User1" width={200} height={200} />
       <UserDetailGroup>
-        <Username>Web01</Username>
-        <UserDescription>안녕하세요 Web01입니다.</UserDescription>
+        <Username>{userProfile.nickname}</Username>
+        <UserDescription>{userProfile.description}</UserDescription>
 
-        <ButtonGroup isVisible={signInStatus.id !== 0}>
+        <ButtonGroup isVisible={signInStatus.id !== 0 && signInStatus.id === userProfile.id}>
           <ProfileEditButton type="button">
             <TextLinkMedium>프로필 수정</TextLinkMedium>
             <Image src={Edit} alt="profile_edit" />
