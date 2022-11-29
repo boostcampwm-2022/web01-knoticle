@@ -123,7 +123,7 @@ const searchBooks = async ({ query, userId, page }: SearchBooks) => {
       },
       bookmarks: {
         where: {
-          user_id: userId,
+          user_id: userId ? Number(userId) : 0,
         },
       },
       _count: {
