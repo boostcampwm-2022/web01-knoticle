@@ -11,11 +11,13 @@ import useFetch from '@hooks/useFetch';
 import { PageInnerSmall, PageWrapper } from '@styles/layout';
 
 export default function Search() {
-  const items = Array.from({ length: 50 }, () => 0);
+  const items = Array.from({ length: 50 }, (_, i) => i);
 
   const { data: articles, execute: searchArticles } = useFetch(searchArticlesApi);
   const { data: books, execute: searchBooks } = useFetch(searchBooksApi);
+
   const [keyword, setKeyword] = useState('');
+  const [filter, setFilter] = useState({ type: 'article', userId: 0 });
   const debouncedKeyword = useDebounce(keyword, 1000);
 
   const handleSearchbarOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,13 +28,24 @@ export default function Search() {
     // 데이터 받아오기
   }, [debouncedKeyword]);
 
+  useEffect(() => {
+    console.log(filter);
+  }, [filter]);
+
+  const handleFilter = (value: { [value: string]: string | number }) => {
+    setFilter({
+      ...filter,
+      ...value,
+    });
+  };
+
   return (
     <>
       <GNB />
       <PageWrapper>
         <PageInnerSmall>
           <SearchBar handleSearchbarOnChange={handleSearchbarOnChange} />
-          <SearchFilter />
+          <SearchFilter handleFilter={handleFilter} />
           <div>
             {items.map((item) => (
               <SearchListItem key={item} />
