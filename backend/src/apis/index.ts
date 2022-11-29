@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import multer from 'multer';
+
 import articlesController from '@apis/articles/articles.controller';
 import authController from '@apis/auth/auth.controller';
 import bookmarksController from '@apis/bookmarks/bookmarks.controller';
@@ -9,13 +11,14 @@ import scrapsController from '@apis/scraps/scraps.controller';
 import decoder from '@middlewares/tokenDecoder';
 import guard from '@middlewares/tokenValidator';
 import { catchAsync } from '@utils/catch-async';
-import multer from 'multer';
 
 const router = Router();
 
 router.post('/auth/signin/local', catchAsync(authController.signIn));
 router.post('/auth/signin/github', catchAsync(authController.signInGithub));
 router.post('/auth/signup', catchAsync(authController.signUp));
+router.get('/auth/signout', catchAsync(authController.signOut));
+router.get('/auth', decoder, catchAsync(authController.checkSignInStatus));
 
 router.get('/articles/temporary/:userId', catchAsync(articlesController.getTemporaryArticle));
 router.post('/articles/temporary', catchAsync(articlesController.saveTemporaryArticle));

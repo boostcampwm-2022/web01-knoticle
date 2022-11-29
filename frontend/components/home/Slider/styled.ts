@@ -54,7 +54,7 @@ export const SliderIndicator = styled.div<{ isActive: boolean }>`
       : 'background-color: var(--grey-02-color)'};
 `;
 
-export const SliderIcon = styled(Image)<{ isVisible: boolean }>`
+export const SliderIcon = styled(Image)<{ isvisible: string }>`
   cursor: pointer;
-  ${(props) => (props.isVisible ? '' : 'visibility : hidden')}
+  ${(props) => (props.isvisible === 'true' ? '' : 'visibility : hidden')}
 `;
