@@ -1,8 +1,7 @@
 import { CreateArticle, CreateTemporaryArticle } from '@apis/articles/articles.interface';
 import { prisma } from '@config/orm.config';
-import { Message, NotFound } from '@errors';
 
-const getArticleData = async (articleId: number) => {
+const getArticle = async (articleId: number) => {
   const article = await prisma.article.findFirst({
     where: {
       id: articleId,
@@ -27,8 +26,6 @@ const getArticleData = async (articleId: number) => {
     },
   });
 
-  if (!article) throw new NotFound(Message.ARTICLE_NOTFOUND);
-
   return article;
 };
 
@@ -48,6 +45,17 @@ const createArticle = async (dto: CreateArticle) => {
   });
 
   return article;
+};
+
+const deleteArticle = async (articleId: number) => {
+  await prisma.article.update({
+    where: {
+      id: articleId,
+    },
+    data: {
+      deleted_at: new Date(),
+    },
+  });
 };
 
 const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
@@ -71,7 +79,7 @@ const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
   return temporaryArticle;
 };
 
-const findTemporaryArticle = async (userId: number) => {
+const getTemporaryArticle = async (userId: number) => {
   const temporaryArticle = await prisma.temporaryArticle.findFirst({
     where: {
       user_id: userId,
@@ -84,21 +92,11 @@ const findTemporaryArticle = async (userId: number) => {
 
   return temporaryArticle;
 };
-const deleteArticle = async (articleId: number) => {
-  const deletedAtArticle = await prisma.article.update({
-    where: {
-      id: articleId,
-    },
-    data: {
-      deleted_at: new Date(),
-    },
-  });
-};
 
 export default {
-  getArticleData,
+  getArticle,
   createArticle,
-  createTemporaryArticle,
-  findTemporaryArticle,
   deleteArticle,
+  getTemporaryArticle,
+  createTemporaryArticle,
 };
