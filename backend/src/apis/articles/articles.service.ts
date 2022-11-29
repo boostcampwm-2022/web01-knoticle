@@ -41,10 +41,10 @@ const searchArticles = async (searchArticles: SearchArticles) => {
     },
     where: {
       title: {
-        search: `${query} ${query}*`,
+        search: `${query}*`,
       },
       content: {
-        search: `${query} ${query}*`,
+        search: `${query}*`,
       },
       deleted_at: null,
       ...matchUserCondition,
