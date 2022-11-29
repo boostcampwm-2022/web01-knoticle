@@ -4,3 +4,7 @@ export interface FindBooks {
   userId?: number;
   editor?: string;
 }
+export interface CreateBook {
+  title: string;
+  userId: number;
+}
