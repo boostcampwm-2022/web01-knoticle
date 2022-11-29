@@ -16,6 +16,7 @@ import {
   Article,
   Author,
   Input,
+  BookContent,
 } from './styled';
 
 interface BookProps {
@@ -38,7 +39,7 @@ export default function EditBook({ book }: BookProps) {
         </FlexSpaceBetween>
 
         <BookContentsInfo>
-          <TextSmall>Contents</TextSmall>
+          <BookContent>Contents</BookContent>
           <BookContents>
             {scraps.map(
               (scrap, idx) =>

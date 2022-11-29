@@ -13,7 +13,7 @@ import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './style
 export default function BookListTab() {
   // 일단 에러 안 뜨게 새로 엮은 책 보여주기
   const [isModalShown, setModalShown] = useState(false);
-  const [currentModalState, setCurrentModalState] = useState<'EditBook' | 'AddBook'>('EditBook');
+  // const [currentModalState, setCurrentModalState] = useState<'EditBook' | 'AddBook'>('EditBook');
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
 
   const { data: newestBookList, execute: getNewestBookList } =
@@ -28,14 +28,14 @@ export default function BookListTab() {
     if (!e.currentTarget.dataset.book) return;
     setModalShown(true);
     setCurEditBook(JSON.parse(e.currentTarget.dataset.book));
-    setCurrentModalState('EditBook');
+    // setCurrentModalState('EditBook');
   };
   const handleModalClose = () => {
     setModalShown(false);
-    setCurrentModalState('EditBook');
+    // setCurrentModalState('EditBook');
   };
-  const handleEditBookClicked = () => setCurrentModalState('EditBook');
-  const handleAddBookClicked = () => setCurrentModalState('AddBook');
+  // const handleEditBookClicked = () => setCurrentModalState('EditBook');
+  // const handleAddBookClicked = () => setCurrentModalState('AddBook');
 
   return (
     <BookListTabWrapper>
@@ -53,7 +53,7 @@ export default function BookListTab() {
         <Modal title="내 책 수정하기" handleModalClose={handleModalClose}>
           {curEditBook && <EditBook book={curEditBook} />}
           <Button theme="primary" onClick={() => console.log('수정!')}>
-            수정하기
+            수정 완료
           </Button>
         </Modal>
       )}
