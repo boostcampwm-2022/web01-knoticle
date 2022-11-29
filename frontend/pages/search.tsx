@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { searchArticlesApi } from '@apis/articleApi';
+import { searchBooksApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
 import SearchBar from '@components/search/SearchBar';
 import SearchFilter from '@components/search/SearchFilter';
@@ -12,6 +13,8 @@ import { PageInnerSmall, PageWrapper } from '@styles/layout';
 export default function Search() {
   const items = Array.from({ length: 50 }, () => 0);
 
+  const { data: articles, execute: searchArticles } = useFetch(searchArticlesApi);
+  const { data: books, execute: searchBooks } = useFetch(searchBooksApi);
   const [keyword, setKeyword] = useState('');
   const debouncedKeyword = useDebounce(keyword, 1000);
 
@@ -22,8 +25,6 @@ export default function Search() {
   useEffect(() => {
     // 데이터 받아오기
   }, [debouncedKeyword]);
-
-  const { data: articles, execute: searchArticles } = useFetch(searchArticlesApi);
 
   return (
     <>
