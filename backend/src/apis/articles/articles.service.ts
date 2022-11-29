@@ -1,8 +1,62 @@
-import { CreateArticle, CreateTemporaryArticle } from '@apis/articles/articles.interface';
+import {
+  CreateArticle,
+  CreateTemporaryArticle,
+  SearchArticles,
+} from '@apis/articles/articles.interface';
 import { prisma } from '@config/orm.config';
-import { Message, NotFound } from '@errors';
 
-const getArticleData = async (articleId: number) => {
+const searchArticles = async (searchArticles: SearchArticles) => {
+  const { query, page, userId } = searchArticles;
+
+  const take = 10;
+  const skip = (page - 1) * take;
+
+  const matchUserCondition = userId
+    ? {
+        book: {
+          user: {
+            id: Number(userId),
+          },
+        },
+      }
+    : {};
+
+  const articles = await prisma.article.findMany({
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      created_at: true,
+      book: {
+        select: {
+          user: {
+            select: {
+              id: true,
+              nickname: true,
+              profile_image: true,
+            },
+          },
+        },
+      },
+    },
+    where: {
+      title: {
+        search: `${query}*`,
+      },
+      content: {
+        search: `${query}*`,
+      },
+      deleted_at: null,
+      ...matchUserCondition,
+    },
+    take,
+    skip,
+  });
+
+  return articles;
+};
+
+const getArticle = async (articleId: number) => {
   const article = await prisma.article.findFirst({
     where: {
       id: articleId,
@@ -27,8 +81,6 @@ const getArticleData = async (articleId: number) => {
     },
   });
 
-  if (!article) throw new NotFound(Message.ARTICLE_NOTFOUND);
-
   return article;
 };
 
@@ -48,6 +100,31 @@ const createArticle = async (dto: CreateArticle) => {
   });
 
   return article;
+};
+
+const deleteArticle = async (articleId: number) => {
+  await prisma.article.update({
+    where: {
+      id: articleId,
+    },
+    data: {
+      deleted_at: new Date(),
+    },
+  });
+};
+
+const getTemporaryArticle = async (userId: number) => {
+  const temporaryArticle = await prisma.temporaryArticle.findFirst({
+    where: {
+      user_id: userId,
+    },
+    select: {
+      title: true,
+      content: true,
+    },
+  });
+
+  return temporaryArticle;
 };
 
 const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
@@ -71,34 +148,11 @@ const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
   return temporaryArticle;
 };
 
-const findTemporaryArticle = async (userId: number) => {
-  const temporaryArticle = await prisma.temporaryArticle.findFirst({
-    where: {
-      user_id: userId,
-    },
-    select: {
-      title: true,
-      content: true,
-    },
-  });
-
-  return temporaryArticle;
-};
-const deleteArticle = async (articleId: number) => {
-  const deletedAtArticle = await prisma.article.update({
-    where: {
-      id: articleId,
-    },
-    data: {
-      deleted_at: new Date(),
-    },
-  });
-};
-
 export default {
-  getArticleData,
+  searchArticles,
+  getArticle,
   createArticle,
-  createTemporaryArticle,
-  findTemporaryArticle,
   deleteArticle,
+  getTemporaryArticle,
+  createTemporaryArticle,
 };
