@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import { getUserProfileApi } from '@apis/userApi';
+import { getUserProfileApi, updateUserProfileApi } from '@apis/userApi';
 import GNB from '@components/common/GNB';
 import BookListTab from '@components/study/BookListTab';
 import EditUserProfile from '@components/study/EditUserProfile';
@@ -15,6 +15,7 @@ import { PageInnerLarge, PageWrapper } from '@styles/layout';
 export default function Study() {
   const router = useRouter();
   const { data: userProfile, execute: getUserProfile } = useFetch(getUserProfileApi);
+  const { execute: updateUserProfile } = useFetch(updateUserProfileApi);
   const [curUserProfile, setCurUserProfile] = useState<IUser | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -43,6 +44,7 @@ export default function Study() {
               <EditUserProfile
                 handleEditFinishBtnClick={() => {
                   setIsEditing(false);
+                  updateUserProfile(curUserProfile);
                 }}
                 curUserProfile={curUserProfile}
                 setCurUserProfile={setCurUserProfile}
