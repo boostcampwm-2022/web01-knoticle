@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { useState, useEffect } from 'react';
 
@@ -26,6 +27,7 @@ export default function SignInModal({
   });
   const { data: user, execute: localSignIn } = useFetch(localSignInApi);
   const setSignInStatus = useSetRecoilState(signInStatusState);
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInfo({
@@ -50,10 +52,8 @@ export default function SignInModal({
   useEffect(() => {
     if (!user) return;
 
-    setSignInStatus({
-      ...user,
-    });
     handleModalClose();
+    router.reload();
   }, [user]);
 
   return (

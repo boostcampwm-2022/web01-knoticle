@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { useEffect } from 'react';
 
@@ -23,6 +24,8 @@ import {
 } from './styled';
 
 export default function UserProfile() {
+  const router = useRouter();
+
   const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
   const { data: user, execute: signOut } = useFetch(signOutApi);
 
@@ -36,6 +39,7 @@ export default function UserProfile() {
     setSignInStatus({
       ...user,
     });
+    router.push('/');
   }, user);
 
   return (
