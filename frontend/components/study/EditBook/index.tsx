@@ -30,7 +30,7 @@ export default function EditBook({ book }: BookProps) {
     <>
       <BookWrapper>
         <BookThumbnail src={SampleThumbnail} alt="thumbnail" />
-
+        {/* 수정 버튼 추가 예정 */}
         <BookInfoContainer>
           <FlexSpaceBetween>
             <BookTitle>
@@ -56,11 +56,9 @@ export default function EditBook({ book }: BookProps) {
               )}
             </BookContents>
           </BookContentsInfo>
-          {scraps.length > 4 && (
-            <FlexCenter>
-              <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
-            </FlexCenter>
-          )}
+          <FlexCenter>
+            <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
+          </FlexCenter>
         </BookInfoContainer>
       </BookWrapper>
       <Button theme="primary" onClick={() => console.log('수정!')}>

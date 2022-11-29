@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import styled from 'styled-components';
 
@@ -8,7 +7,7 @@ import { FlexColumn } from '@styles/layout';
 
 export const BookWrapper = styled(FlexColumn)`
   width: 100%;
-  height: 500px;
+  height: 540px;
   margin: 10px auto;
   box-sizing: border-box;
 
@@ -75,6 +74,7 @@ export const Article = styled.div`
   text-decoration: none;
   color: inherit;
   display: block;
+  padding: 2px 0;
   border-bottom: 1px solid var(--grey-02-color);
 `;
 
