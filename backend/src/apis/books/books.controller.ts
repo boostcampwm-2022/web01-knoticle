@@ -62,9 +62,9 @@ const editBook = async (req: Request, res: Response) => {
 const deleteBook = async (req: Request, res: Response) => {
   const bookId = Number(req.params.bookId);
 
-  await booksService.deleteBook(bookId);
+  const book = await booksService.deleteBook(bookId);
 
-  res.status(200).send();
+  res.status(200).send(book);
 };
 
 export default {

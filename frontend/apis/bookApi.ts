@@ -81,10 +81,19 @@ export const addBookApi = async (data: { title: string }) => {
 
   return response.data;
 };
+
 export const editBookApi = async (data: EditBookApi) => {
   const url = `/api/books`;
 
   const response = await api({ url, method: 'PATCH', data });
+
+  return response.data;
+};
+
+export const deleteBookApi = async (bookId: number) => {
+  const url = `/api/books/${bookId}`;
+
+  const response = await api({ url, method: 'DELETE' });
 
   return response.data;
 };

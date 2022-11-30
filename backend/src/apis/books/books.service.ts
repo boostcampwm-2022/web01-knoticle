@@ -191,15 +191,16 @@ const editBook = async (dto: any) => {
 };
 
 const deleteBook = async (id: number) => {
-  try {
-    await prisma.bookmark.delete({
-      where: {
-        id,
-      },
-    });
-  } catch (err) {
-    throw new NotFound(Message.BOOK_NOTFOUND);
-  }
+  const book = await prisma.book.update({
+    where: {
+      id,
+    },
+    data: {
+      deleted_at: new Date(),
+    },
+  });
+
+  return book;
 };
 
 export default {

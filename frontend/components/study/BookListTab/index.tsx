@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 
 import MinusWhite from '@assets/ico_minus_white.svg';
 import curKnottedBookListState from '@atoms/curKnottedBookList';
+import editInfoState from '@atoms/editInfo';
 import Book from '@components/common/Book';
 import Modal from '@components/common/Modal';
 import EditBook from '@components/study/EditBook';
@@ -33,6 +34,7 @@ export default function BookListTab({
   isUserMatched,
 }: BookListTabProps) {
   const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
+  const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
   const [isModalShown, setModalShown] = useState(false);
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
@@ -54,6 +56,10 @@ export default function BookListTab({
   const handleMinusBtnClick = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
     e.stopPropagation();
     setCurKnottedBookList([...curKnottedBookList.filter((book) => id !== book.id)]);
+    setEditInfo({
+      ...editInfo,
+      deleted: [...editInfo.deleted, id],
+    });
   };
 
   return (
