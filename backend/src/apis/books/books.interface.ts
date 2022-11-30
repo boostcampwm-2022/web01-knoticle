@@ -4,3 +4,9 @@ export interface FindBooks {
   userId?: number;
   editor?: string;
 }
+
+export interface SearchBooks {
+  query: string;
+  page: number;
+  userId?: number;
+}

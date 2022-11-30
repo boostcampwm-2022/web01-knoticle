@@ -1,18 +1,33 @@
 import { FilterButton, FilterGroup, FilterLabel, FilterWrapper } from './styled';
 
-export default function SearchFilter() {
+interface SearchFilterProps {
+  handleFilter: (value: { [value: string]: string | number }) => void;
+}
+
+export default function SearchFilter({ handleFilter }: SearchFilterProps) {
   return (
     <FilterWrapper>
       <FilterGroup>
         <FilterLabel>
-          <FilterButton type="radio" name="type" />글
+          <FilterButton
+            type="radio"
+            name="type"
+            onChange={() => handleFilter({ type: 'article' })}
+            defaultChecked
+          />
+          글
         </FilterLabel>
         <FilterLabel>
-          <FilterButton type="radio" name="type" />책
+          <FilterButton type="radio" name="type" onChange={() => handleFilter({ type: 'book' })} />
+          책
         </FilterLabel>
       </FilterGroup>
       <FilterLabel>
-        <FilterButton type="checkbox" />내 책에서 검색
+        <FilterButton
+          type="checkbox"
+          onChange={(e) => handleFilter({ userId: e.target.checked ? 1 : 0 })}
+        />
+        내 책에서 검색
       </FilterLabel>
     </FilterWrapper>
   );
