@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { getUserBookmarkedBooksApi, getUserKnottedBooksApi } from '@apis/bookApi';
 import { getUserProfileApi, updateUserProfileApi } from '@apis/userApi';
 import signInStatusState from '@atoms/signInStatus';
+import List from '@components/common/DragDrop/Container';
 import GNB from '@components/common/GNB';
 import BookListTab from '@components/study/BookListTab';
 import EditUserProfile from '@components/study/EditUserProfile';

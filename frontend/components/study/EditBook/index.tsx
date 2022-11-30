@@ -1,11 +1,15 @@
 import Image from 'next/image';
 
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+
+import { useRecoilState } from 'recoil';
 
 import { editBookApi } from '@apis/bookApi';
 import { createImageApi } from '@apis/imageApi';
 import Edit from '@assets/ico_edit.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
+import scrapState from '@atoms/scrap';
+import DragArticle from '@components/common/DragDrop';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
@@ -17,9 +21,7 @@ import {
   BookInfoContainer,
   BookTitle,
   BookContentsInfo,
-  BookContents,
   BookThumbnail,
-  Article,
   Author,
   Input,
   BookContent,
@@ -38,7 +40,7 @@ export default function EditBook({ book }: BookProps) {
   const { value: titleData, onChange: onTitleChange } = useInput(title);
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
   const { data: editBookData, execute: editBook } = useFetch(editBookApi);
-  // const [scrapList, setScrapList] = useState(scraps);
+  const [scrapList] = useRecoilState<any>(scrapState);
 
   const [isContentsShown, setIsContentsShown] = useState(false);
 
@@ -61,11 +63,12 @@ export default function EditBook({ book }: BookProps) {
   };
 
   const handleCompletedBtnClick = () => {
+    const editScraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
     editBook({
       id,
       title: titleData,
-      thumbnail_image: imgFile.imagePath || thumbnail_image,
-      scraps,
+      thumbnail_image: imgFile?.imagePath || thumbnail_image,
+      scraps: editScraps,
     });
   };
 
@@ -108,13 +111,7 @@ export default function EditBook({ book }: BookProps) {
 
           <BookContentsInfo>
             <BookContent>Contents</BookContent>
-            <BookContents>
-              {scraps.map((scrap, idx) => (
-                <Article key={scrap.article.id}>
-                  {idx + 1}. {scrap.article.title}
-                </Article>
-              ))}
-            </BookContents>
+            <DragArticle data={scraps} isContentsShown={isContentsShown} />
           </BookContentsInfo>
         </BookInfoContainer>
         <MoreContentsIconWrapper onClick={handleContentsOnClick}>
