@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import authService from '@apis/auth/auth.service';
+import usersService from '@apis/users/users.service';
 import { Unauthorized, Message } from '@errors';
 import token from '@utils/token';
 
@@ -12,7 +13,7 @@ const signIn = async (req: Request, res: Response) => {
 
   const user = await authService.getSignedUser(username, password);
 
-  const { accessToken, refreshToken } = token.getTokens(user.id, user.nickname);
+  const { accessToken, refreshToken } = token.getTokens(user.id);
 
   await token.saveRefreshToken(user.id, refreshToken);
 
@@ -33,7 +34,7 @@ const signInGithub = async (req: Request, res: Response) => {
     (await authService.getUserByLocalDB(provider_id)) ||
     (await authService.signUpGithubUser(username, provider_id));
 
-  const { accessToken, refreshToken } = token.getTokens(githubUser.id, githubUser.nickname);
+  const { accessToken, refreshToken } = token.getTokens(githubUser.id);
 
   await token.saveRefreshToken(githubUser.id, refreshToken);
 
@@ -54,8 +55,13 @@ const signUp = async (req: Request, res: Response) => {
 };
 
 const checkSignInStatus = async (req: Request, res: Response) => {
-  if (res.locals.user)
-    return res.status(200).send({ id: res.locals.user.id, nickname: res.locals.user.nickname });
+  if (res.locals.user) {
+    const userId = res.locals.user.id;
+
+    const user = await usersService.getUserById(userId);
+
+    return res.status(200).send({ id: user.id, nickname: user.nickname });
+  }
   res.status(200).send({ id: 0, nickname: '' });
 };
 

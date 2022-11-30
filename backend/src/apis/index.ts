@@ -8,6 +8,7 @@ import bookmarksController from '@apis/bookmarks/bookmarks.controller';
 import booksController from '@apis/books/books.controller';
 import imagesController from '@apis/images/images.controller';
 import scrapsController from '@apis/scraps/scraps.controller';
+import usersController from '@apis/users/users.controller';
 import decoder from '@middlewares/tokenDecoder';
 import guard from '@middlewares/tokenValidator';
 import { catchAsync } from '@utils/catch-async';
@@ -38,5 +39,8 @@ router.post('/bookmarks', catchAsync(guard), catchAsync(bookmarksController.crea
 router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));
 
 router.post('/scraps', catchAsync(scrapsController.createScrap));
+
+router.get('/users', catchAsync(usersController.getUserProfile));
+router.patch('/users/:userId', catchAsync(usersController.editUserProfile));
 
 export default router;
