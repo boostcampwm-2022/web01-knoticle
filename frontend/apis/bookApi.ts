@@ -57,6 +57,15 @@ export const getUserKnottedBooksApi = async (nickname: string) => {
 
   return response.data;
 };
+
+export const getUserBookmarkedBooksApi = async (nickname: string) => {
+  const url = `/api/books?editor=${nickname}&type=bookmark&take=12`;
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};
+
 export const addBookApi = async (data: { title: string }) => {
   const url = `/api/books`;
 
