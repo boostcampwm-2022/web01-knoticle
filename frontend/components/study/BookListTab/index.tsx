@@ -22,19 +22,15 @@ export default function BookListTab() {
     getNewestBookList('newest');
   }, []);
 
-  const handleEditBookModalOpen = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Html Dataset에는 객체를 담을 수 없어서 JSON을 통해 받음
-    if (!e.currentTarget.dataset.book) return;
+  const handleEditBookModalOpen = (id: number) => {
+    const curbook = newestBookList?.find((v) => v.id === id);
+    if (!curbook) return;
     setModalShown(true);
-    setCurEditBook(JSON.parse(e.currentTarget.dataset.book));
-    // setCurrentModalState('EditBook');
+    setCurEditBook(curbook);
   };
   const handleModalClose = () => {
     setModalShown(false);
-    // setCurrentModalState('EditBook');
   };
-  // const handleEditBookClicked = () => setCurrentModalState('EditBook');
-  // const handleAddBookClicked = () => setCurrentModalState('AddBook');
 
   return (
     <BookListTabWrapper>
@@ -45,7 +41,13 @@ export default function BookListTab() {
       <BookGrid>
         {newestBookList &&
           newestBookList.map((book) => (
-            <Book key={book.id} book={book} handleEditBookModalOpen={handleEditBookModalOpen} />
+            <Book
+              key={book.id}
+              book={book}
+              handleEditBookModalOpen={() => {
+                handleEditBookModalOpen(book.id);
+              }}
+            />
           ))}
       </BookGrid>
       {isModalShown && (

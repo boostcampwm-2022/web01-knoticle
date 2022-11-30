@@ -34,7 +34,7 @@ const createBook = async (req: Request, res: Response) => {
 
   const book = await booksService.createBook({ title, userId });
 
-  res.status(200).send(book);
+  res.status(201).send(book);
 };
 
 export default {

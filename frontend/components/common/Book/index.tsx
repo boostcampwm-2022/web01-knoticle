@@ -24,7 +24,7 @@ import {
 
 interface BookProps {
   book: IBookScraps;
-  handleEditBookModalOpen?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handleEditBookModalOpen?: () => void;
 }
 
 export default function Book({ book, handleEditBookModalOpen }: BookProps) {
@@ -37,7 +37,7 @@ export default function Book({ book, handleEditBookModalOpen }: BookProps) {
 
   return (
     // 수정모드일때만 아래 onclick이 실행되도록 수정해야함 -> 민형님 작업 후
-    <BookWrapper onClick={handleEditBookModalOpen} data-book={JSON.stringify(book)}>
+    <BookWrapper onClick={handleEditBookModalOpen}>
       <BookThumbnail src={SampleThumbnail} alt="thumbnail" />
 
       <BookInfoContainer>
