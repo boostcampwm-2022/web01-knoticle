@@ -43,6 +43,8 @@ const editBook = async (req: Request, res: Response) => {
 
   const book = await booksService.editBook(req.body);
 
+  // 스크랩 update로직 추가 필요
+
   res.status(200).send(book);
 };
 

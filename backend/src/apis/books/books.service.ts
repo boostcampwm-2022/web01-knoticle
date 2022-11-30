@@ -114,7 +114,7 @@ const createBook = async ({ title, userId }: CreateBook) => {
 
 const editBook = async (dto: any) => {
   console.log(dto);
-  const { id, title, thumbnail_image, scraps } = dto;
+  const { id, title, thumbnail_image } = dto;
   const book = await prisma.book.update({
     where: {
       id,
@@ -122,7 +122,6 @@ const editBook = async (dto: any) => {
     data: {
       title,
       thumbnail_image: thumbnail_image,
-      // scraps,
     },
   });
 
