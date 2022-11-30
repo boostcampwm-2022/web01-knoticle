@@ -38,6 +38,8 @@ jobs:
         working-directory: backend
 
   build:
+    name: Build CI
+
     runs-on: ubuntu-latest
 
     steps:
