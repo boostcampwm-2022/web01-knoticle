@@ -74,6 +74,7 @@ export default function BookListTab({
             knottedBookList.map((book) =>
               isEditing ? (
                 <EditBookWrapper
+                  key={book.id}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleEditBookModalOpen(book.id);
@@ -82,7 +83,7 @@ export default function BookListTab({
                   <MinusButton>
                     <MinusIcon src={MinusWhite} alt="책 삭제" />
                   </MinusButton>
-                  <Book key={book.id} book={book} />
+                  <Book book={book} />
                 </EditBookWrapper>
               ) : (
                 <Book key={book.id} book={book} />
