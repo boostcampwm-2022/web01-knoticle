@@ -1,5 +1,6 @@
-import signInStatusState from '@atoms/signInStatus';
 import { useRecoilValue } from 'recoil';
+
+import signInStatusState from '@atoms/signInStatus';
 
 import { FilterButton, FilterGroup, FilterLabel, FilterWrapper } from './styled';
 
