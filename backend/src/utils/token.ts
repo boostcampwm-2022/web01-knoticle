@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { prisma } from '@config/orm.config';
 import { Message, Unauthorized } from '@errors';
 
-const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number; nickname?: string } = {}) => {
+const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number } = {}) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
 };
 
@@ -15,8 +15,8 @@ const decodeJWT = (token: string) => {
   return jwt.decode(token) as JwtPayload;
 };
 
-const getTokens = (userId: number, nickname: string) => {
-  const accessToken = generateJWT('3h', { id: userId, nickname });
+const getTokens = (userId: number) => {
+  const accessToken = generateJWT('3h', { id: userId });
   const refreshToken = generateJWT('7d');
 
   return {

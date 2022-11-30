@@ -51,7 +51,20 @@ const getUserByNickname = async (nickname: string) => {
   return user;
 };
 
+const getUserById = async (id: number) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) throw new NotFound(Message.USER_NOTFOUND);
+
+  return user;
+};
+
 export default {
   findUserProfile,
   updateUserProfile,
+  getUserById,
 };
