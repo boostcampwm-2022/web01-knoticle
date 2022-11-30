@@ -4,14 +4,6 @@ import { hash, compare } from 'bcrypt';
 import { prisma } from '@config/orm.config';
 import { ResourceConflict, Message, Unauthorized } from '@errors';
 
-const DEFAULT_USER_PROFILE_IMAGE =
-  'https://kr.object.ncloudstorage.com/j027/522da4f3-c9d7-403d-a98f-2b09cabefc47.png';
-
-/* 유저 기본 이미지 링크 - 깃헙 기본 이미지
-const DEFAULT_USER_PROFILE_IMAGE =
-'https://kr.object.ncloudstorage.com/j027/c170bccf-4f0a-4d1b-9e65-de2885e1a5ee.png';
-*/
-
 const getSignedUser = async (username: string, password: string) => {
   const user = await prisma.user.findFirst({
     where: {
@@ -79,7 +71,6 @@ const signUpGithubUser = async (username: string, provider_id: string) => {
       nickname,
       provider: 'github',
       password: '',
-      profile_image: DEFAULT_USER_PROFILE_IMAGE,
       description: `안녕하세요 ${nickname}입니다.`,
     },
   });
@@ -137,7 +128,6 @@ const signUpLocalUser = async (username: string, password: string, nickname: str
       nickname,
       provider: 'local',
       password: encryptedPassword,
-      profile_image: DEFAULT_USER_PROFILE_IMAGE,
       description: `안녕하세요 ${nickname}입니다.`,
     },
   });
