@@ -26,6 +26,7 @@ export default function BookListTab() {
     if (!curbook) return;
     setModalShown(true);
     setCurEditBook(curbook);
+    console.log(curbook);
   };
   const handleModalClose = () => {
     setModalShown(false);

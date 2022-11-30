@@ -6,12 +6,11 @@ import { editBookApi } from '@apis/bookApi';
 import { createImageApi } from '@apis/imageApi';
 import Edit from '@assets/ico_edit.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
-import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { IBookScraps } from '@interfaces';
-import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
+import { FlexSpaceBetween } from '@styles/layout';
 
 import {
   BookWrapper,
@@ -27,6 +26,7 @@ import {
   EditBookWapper,
   EditBookThumbnailWrapper,
   EditBookThumbnailIcon,
+  MoreContentsIconWrapper,
 } from './styled';
 
 interface BookProps {
@@ -38,7 +38,9 @@ export default function EditBook({ book }: BookProps) {
   const { value: titleData, onChange: onTitleChange } = useInput(title);
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
   const { data: editBookData, execute: editBook } = useFetch(editBookApi);
-  const [scrapList, setScrapList] = useState(scraps);
+  // const [scrapList, setScrapList] = useState(scraps);
+
+  const [isContentsShown, setIsContentsShown] = useState(false);
 
   const inputFile = useRef<HTMLInputElement | null>(null);
 
@@ -59,65 +61,65 @@ export default function EditBook({ book }: BookProps) {
   };
 
   const handleCompletedBtnClick = () => {
-    console.log(id);
-    console.log(titleData);
-    console.log('click', imgFile.imagePath);
-    console.log(thumbnail_image);
-    console.log(scrapList);
     editBook({
       id,
       title: titleData,
       thumbnail_image: imgFile.imagePath || thumbnail_image,
-      scraps: scrapList,
+      scraps,
     });
+  };
+
+  const handleContentsOnClick = () => {
+    setIsContentsShown((prev) => !prev);
   };
 
   return (
     <EditBookWapper>
       <BookWrapper>
-        <EditBookThumbnailWrapper>
-          <BookThumbnail
-            src={imgFile?.imagePath || thumbnail_image}
-            alt="thumbnail"
-            width={318}
-            height={220}
-          />
-          <EditBookThumbnailIcon onClick={handleEditBookImgClick}>
-            <Image src={Edit} alt="profile_edit" width={20} />
-            <input
-              type="file"
-              id="file"
-              ref={inputFile}
-              style={{ display: 'none' }}
-              onChange={handleFileUpload}
+        {isContentsShown ? null : (
+          <EditBookThumbnailWrapper>
+            <BookThumbnail
+              src={imgFile?.imagePath || thumbnail_image}
+              alt="thumbnail"
+              width={318}
+              height={220}
             />
-          </EditBookThumbnailIcon>
-        </EditBookThumbnailWrapper>
+            <EditBookThumbnailIcon onClick={handleEditBookImgClick}>
+              <Image src={Edit} alt="profile_edit" width={20} />
+              <input
+                type="file"
+                id="file"
+                ref={inputFile}
+                style={{ display: 'none' }}
+                onChange={handleFileUpload}
+              />
+            </EditBookThumbnailIcon>
+          </EditBookThumbnailWrapper>
+        )}
         <BookInfoContainer>
-          <FlexSpaceBetween>
-            <BookTitle>
-              <Input type="text" defaultValue={title} onChange={onTitleChange} />
-              <Author>by {user.nickname}</Author>
-            </BookTitle>
-          </FlexSpaceBetween>
+          {isContentsShown ? null : (
+            <FlexSpaceBetween>
+              <BookTitle>
+                <Input type="text" defaultValue={titleData} onChange={onTitleChange} />
+                <Author>by {user.nickname}</Author>
+              </BookTitle>
+            </FlexSpaceBetween>
+          )}
 
           <BookContentsInfo>
             <BookContent>Contents</BookContent>
             <BookContents>
-              {scraps.map(
-                (scrap, idx) =>
-                  idx < 4 && (
-                    <Article key={scrap.article.id}>
-                      {idx + 1}. {scrap.article.title}
-                    </Article>
-                  )
-              )}
+              {scraps.map((scrap, idx) => (
+                <Article key={scrap.article.id}>
+                  {idx + 1}. {scrap.article.title}
+                </Article>
+              ))}
             </BookContents>
           </BookContentsInfo>
-          <FlexCenter>
-            <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
-          </FlexCenter>
         </BookInfoContainer>
+        <MoreContentsIconWrapper onClick={handleContentsOnClick}>
+          <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
+        </MoreContentsIconWrapper>
       </BookWrapper>
       <Button theme="primary" onClick={handleCompletedBtnClick}>
         수정 완료

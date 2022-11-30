@@ -3,7 +3,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 import { TextXSmall, TextSmall } from '@styles/common';
-import { FlexColumn, FlexColumnCenter } from '@styles/layout';
+import { FlexCenter, FlexColumn, FlexColumnCenter } from '@styles/layout';
 
 export const EditBookWapper = styled(FlexColumnCenter)`
   width: 320px;
@@ -106,3 +106,5 @@ export const EditBookThumbnailIcon = styled.div`
   background-color: var(--white-color);
   cursor: pointer;
 `;
+
+export const MoreContentsIconWrapper = styled(FlexCenter)``;
