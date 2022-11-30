@@ -27,8 +27,18 @@ const getBooks = async (req: Request, res: Response) => {
 
   res.status(200).send(books);
 };
+const createBook = async (req: Request, res: Response) => {
+  const { title } = req.body;
+
+  const userId = res.locals.user.id;
+
+  const book = await booksService.createBook({ title, userId });
+
+  res.status(200).send(book);
+};
 
 export default {
   getBook,
   getBooks,
+  createBook,
 };
