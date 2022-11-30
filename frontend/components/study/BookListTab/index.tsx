@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
+import { useRecoilState } from 'recoil';
+
 import MinusWhite from '@assets/ico_minus_white.svg';
+import curKnottedBookListState from '@atoms/curKnottedBookList';
 import Book from '@components/common/Book';
 import Modal from '@components/common/Modal';
 import EditBook from '@components/study/EditBook';
@@ -29,6 +32,8 @@ export default function BookListTab({
   bookmarkedBookList,
   isUserMatched,
 }: BookListTabProps) {
+  const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
+
   const [isModalShown, setModalShown] = useState(false);
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
   const [tabStatus, setTabStatus] = useState<'knotted' | 'bookmarked'>('knotted');
@@ -44,6 +49,11 @@ export default function BookListTab({
 
   const handleModalClose = () => {
     setModalShown(false);
+  };
+
+  const handleMinusBtnClick = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+    e.stopPropagation();
+    setCurKnottedBookList([...curKnottedBookList.filter((book) => id !== book.id)]);
   };
 
   return (
@@ -82,8 +92,7 @@ export default function BookListTab({
                 >
                   <MinusButton
                     onClick={(e) => {
-                      e.stopPropagation();
-                      console.log(book.id);
+                      handleMinusBtnClick(e, book.id);
                     }}
                   >
                     <MinusIcon src={MinusWhite} alt="책 삭제" />
