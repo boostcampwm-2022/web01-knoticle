@@ -97,6 +97,7 @@ const findBooks = async ({ order, take, userId, editor }: FindBooks) => {
 };
 
 const searchBooks = async ({ query, userId, page }: SearchBooks) => {
+  const take = 10;
   const skip = (page - 1) * 10;
 
   const books = await prisma.book.findMany({
@@ -138,10 +139,13 @@ const searchBooks = async ({ query, userId, page }: SearchBooks) => {
       },
     },
     skip,
-    take: 10,
+    take,
   });
 
-  return books;
+  return {
+    data: books,
+    hasNextPage: books.length === take,
+  };
 };
 
 export default {

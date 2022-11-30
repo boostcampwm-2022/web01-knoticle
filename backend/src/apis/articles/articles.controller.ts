@@ -7,9 +7,9 @@ import scrapsService from '@apis/scraps/scraps.service';
 const searchArticles = async (req: Request, res: Response) => {
   const { query, page, userId } = req.query as unknown as SearchArticles;
 
-  const articles = await articlesService.searchArticles({ query, page, userId });
+  const searchResult = await articlesService.searchArticles({ query, page, userId });
 
-  res.status(200).send(articles);
+  res.status(200).send(searchResult);
 };
 
 const getArticle = async (req: Request, res: Response) => {
