@@ -60,7 +60,9 @@ const findBooks = async ({ order, take, userId, editor, type }: FindBooks) => {
         },
       },
       scraps: {
+        orderBy: { order: 'asc' },
         select: {
+          id: true,
           order: true,
           article: {
             select: {
@@ -125,6 +127,7 @@ const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
       },
       scraps: {
         select: {
+          id: true,
           order: true,
           article: {
             select: {

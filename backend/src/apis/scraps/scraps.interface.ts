@@ -4,3 +4,11 @@ export interface CreateScrap {
   book_id: number;
   article_id: number;
 }
+export interface IScrap {
+  id: number;
+  order: number;
+  article: {
+    id: number;
+    title: string;
+  };
+}

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { FindBooks, SearchBooks } from '@apis/books/books.interface';
 import booksService from '@apis/books/books.service';
+import scrapsService from '@apis/scraps/scraps.service';
 
 const getBook = async (req: Request, res: Response) => {
   const { bookId } = req.params;
@@ -45,15 +46,13 @@ const createBook = async (req: Request, res: Response) => {
   res.status(201).send(book);
 };
 const editBook = async (req: Request, res: Response) => {
-  // const userId = res.locals.user.id;
+  const { id, title, thumbnail_image, scraps } = req.body;
 
-  console.log(req.body);
+  const book = await booksService.editBook({ id, title, thumbnail_image });
 
-  const book = await booksService.editBook(req.body);
+  const scrap = await scrapsService.updateScraps(scraps);
 
-  // 스크랩 update로직 추가 필요
-
-  res.status(200).send(book);
+  res.status(200).send({ book, scrap });
 };
 
 export default {
