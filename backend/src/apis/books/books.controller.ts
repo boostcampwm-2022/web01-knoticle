@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 
+import { FindBooks, SearchBooks } from '@apis/books/books.interface';
 import booksService from '@apis/books/books.service';
-
-import { FindBooks } from './books.interface';
 
 const getBook = async (req: Request, res: Response) => {
   const { bookId } = req.params;
@@ -27,6 +26,15 @@ const getBooks = async (req: Request, res: Response) => {
 
   res.status(200).send(books);
 };
+
+const searchBooks = async (req: Request, res: Response) => {
+  const { query, page, take, userId } = req.query as unknown as SearchBooks;
+
+  const books = await booksService.searchBooks({ query, userId, take, page });
+
+  res.status(200).send(books);
+};
+
 const createBook = async (req: Request, res: Response) => {
   const { title } = req.body;
 
@@ -40,5 +48,6 @@ const createBook = async (req: Request, res: Response) => {
 export default {
   getBook,
   getBooks,
+  searchBooks,
   createBook,
 };
