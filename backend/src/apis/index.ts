@@ -34,6 +34,7 @@ router.get('/books/search', catchAsync(booksController.searchBooks));
 router.get('/books/:bookId', decoder, catchAsync(booksController.getBook));
 router.get('/books', decoder, catchAsync(booksController.getBooks));
 router.post('/books', catchAsync(guard), catchAsync(booksController.createBook));
+router.patch('/books', catchAsync(booksController.editBook));
 
 router.post('/bookmarks', catchAsync(guard), catchAsync(bookmarksController.createBookmark));
 router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));

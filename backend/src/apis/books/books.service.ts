@@ -159,9 +159,26 @@ const createBook = async ({ title, userId }: CreateBook) => {
   return book;
 };
 
+const editBook = async (dto: any) => {
+  console.log(dto);
+  const { id, title, thumbnail_image } = dto;
+  const book = await prisma.book.update({
+    where: {
+      id,
+    },
+    data: {
+      title,
+      thumbnail_image: thumbnail_image,
+    },
+  });
+
+  return book;
+};
+
 export default {
   findBook,
   findBooks,
   searchBooks,
   createBook,
+  editBook,
 };

@@ -44,10 +44,22 @@ const createBook = async (req: Request, res: Response) => {
 
   res.status(201).send(book);
 };
+const editBook = async (req: Request, res: Response) => {
+  // const userId = res.locals.user.id;
+
+  console.log(req.body);
+
+  const book = await booksService.editBook(req.body);
+
+  // 스크랩 update로직 추가 필요
+
+  res.status(200).send(book);
+};
 
 export default {
   getBook,
   getBooks,
   searchBooks,
   createBook,
+  editBook,
 };
