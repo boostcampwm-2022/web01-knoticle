@@ -44,7 +44,9 @@ export default function Search() {
         <PageInnerSmall>
           <SearchBar handleSearchbarOnChange={handleSearchbarOnChange} />
           <SearchFilter handleFilter={handleFilter} />
-          {articles?.length > 0 && filter.type === 'article' && <ArticleList articles={articles} />}
+          {articles?.length > 0 && filter.type === 'article' && (
+            <ArticleList articles={articles} keyword={debouncedKeyword} />
+          )}
           {books?.length > 0 && filter.type === 'book' && <BookList />}
         </PageInnerSmall>
       </PageWrapper>
