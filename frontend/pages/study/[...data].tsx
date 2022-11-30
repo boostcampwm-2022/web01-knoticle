@@ -18,7 +18,7 @@ import { PageInnerLarge, PageWrapper } from '@styles/layout';
 export default function Study() {
   const router = useRouter();
   const { data: userProfile, execute: getUserProfile } = useFetch(getUserProfileApi);
-  const { execute: updateUserProfile } = useFetch(updateUserProfileApi);
+  const { data: updatedUserProfile, execute: updateUserProfile } = useFetch(updateUserProfileApi);
   const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
   const [curUserProfile, setCurUserProfile] = useState<IUser | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -26,13 +26,7 @@ export default function Study() {
   const handleEditFinishBtnClick = () => {
     if (!curUserProfile) return;
 
-    setIsEditing(false);
     updateUserProfile(curUserProfile);
-    setSignInStatus({
-      ...signInStatus,
-      nickname: curUserProfile.nickname,
-    });
-    window.history.pushState(null, '', `/study/${curUserProfile.nickname}`);
   };
 
   useEffect(() => {
@@ -49,6 +43,17 @@ export default function Study() {
       ...userProfile,
     });
   }, [userProfile]);
+
+  useEffect(() => {
+    if (updatedUserProfile === undefined || !curUserProfile) return;
+
+    setIsEditing(false);
+    setSignInStatus({
+      ...signInStatus,
+      nickname: curUserProfile.nickname,
+    });
+    window.history.pushState(null, '', `/study/${curUserProfile.nickname}`);
+  }, [updatedUserProfile]);
 
   return (
     <>

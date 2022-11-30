@@ -27,7 +27,7 @@ const updateUserProfile = async (dto: UpdateUserProfile) => {
   const user = await getUserByNickname(nickname);
   if (user && user.id !== id) throw new ResourceConflict(Message.AUTH_NICKNAME_OVERLAP);
 
-  await prisma.user.update({
+  const userProfile = await prisma.user.update({
     where: {
       id,
     },
@@ -37,6 +37,8 @@ const updateUserProfile = async (dto: UpdateUserProfile) => {
       description,
     },
   });
+
+  return userProfile;
 };
 
 const getUserByNickname = async (nickname: string) => {

@@ -14,11 +14,9 @@ const getUserProfile = async (req: Request, res: Response) => {
 const editUserProfile = async (req: Request, res: Response) => {
   // const userId = Number(req.params.userId);
 
-  console.log('editUserProfile', req.params, req.body);
+  const userProfile = await usersService.updateUserProfile(req.body);
 
-  await usersService.updateUserProfile(req.body);
-
-  res.status(204).send();
+  res.status(200).send(userProfile);
 };
 
 export default {
