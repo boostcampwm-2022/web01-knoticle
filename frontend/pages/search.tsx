@@ -9,19 +9,17 @@ import SearchBar from '@components/search/SearchBar';
 import SearchFilter from '@components/search/SearchFilter';
 import useDebounce from '@hooks/useDebounce';
 import useFetch from '@hooks/useFetch';
+import useInput from '@hooks/useInput';
 import { PageInnerSmall, PageWrapper } from '@styles/layout';
 
 export default function Search() {
   const { data: articles, execute: searchArticles } = useFetch(searchArticlesApi);
   const { data: books, execute: searchBooks } = useFetch(searchBooksApi);
 
-  const [keyword, setKeyword] = useState('');
-  const [filter, setFilter] = useState({ type: 'article', userId: 0 });
-  const debouncedKeyword = useDebounce(keyword, 1000);
+  const keyword = useInput();
+  const debouncedKeyword = useDebounce(keyword.value, 1000);
 
-  const handleSearchbarOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  };
+  const [filter, setFilter] = useState({ type: 'article', userId: 0 });
 
   useEffect(() => {
     // 데이터 받아오기
@@ -39,7 +37,7 @@ export default function Search() {
       <GNB />
       <PageWrapper>
         <PageInnerSmall>
-          <SearchBar handleSearchbarOnChange={handleSearchbarOnChange} />
+          <SearchBar {...keyword} />
           <SearchFilter handleFilter={handleFilter} />
           {filter.type === 'article' && <ArticleList />}
           {filter.type === 'book' && <BookList />}
