@@ -1,8 +1,9 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { localLoginApi } from '@apis/authApi';
+import { localSignInApi } from '@apis/authApi';
 import GithubIcon from '@assets/ico_github.svg';
 import LabeledInput from '@components/common/LabeledInput';
 import Button from '@components/common/Modal/ModalButton';
@@ -23,12 +24,8 @@ export default function SignInModal({
     username: '',
     password: '',
   });
-  const { data: localLoginData, execute: localLogin } = useFetch(localLoginApi);
-
-  useEffect(() => {
-    if (!localLoginData) return;
-    handleModalClose();
-  }, [localLoginData]);
+  const { data: user, execute: localSignIn } = useFetch(localSignInApi);
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInfo({
@@ -44,8 +41,18 @@ export default function SignInModal({
   };
 
   const handleSignInBtnOnClick = () => {
-    localLogin({ username: info.username, password: info.password });
+    localSignIn({
+      username: info.username,
+      password: info.password,
+    });
   };
+
+  useEffect(() => {
+    if (!user) return;
+
+    handleModalClose();
+    router.reload();
+  }, [user]);
 
   return (
     <SignInModalWrapper>

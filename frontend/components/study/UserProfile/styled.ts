@@ -30,15 +30,30 @@ export const Username = styled(TextLarge)``;
 
 export const UserDescription = styled(TextSmall)``;
 
-export const ProfileEditButton = styled.button`
+export const ButtonGroup = styled.div<{ isVisible: boolean }>`
+  display: flex;
+  gap: 8px;
+  ${(props) => (props.isVisible ? '' : 'visibility : hidden')}
+`;
+
+const Button = styled.button`
+  padding: 4px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 30px 0 30px;
+`;
+
+export const ProfileEditButton = styled(Button)`
   width: 120px;
   height: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 8px;
+
   border-radius: 10px;
   border: 1px solid var(--grey-01-color);
-  margin: 30px 0 30px;
-  cursor: pointer;
+`;
+
+export const LogoutButton = styled(Button)`
+  border: 1px solid var(--grey-01-color);
 `;

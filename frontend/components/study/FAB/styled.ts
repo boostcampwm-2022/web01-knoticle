@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const FABWrapper = styled.div`
+export const FabWrapper = styled.div`
   position: fixed;
   display: flex;
   justify-content: space-between;
@@ -9,7 +9,7 @@ export const FABWrapper = styled.div`
   width: 110px;
 `;
 
-export const Button = styled.button<{ isGreen?: boolean }>`
+export const FabButton = styled.button<{ isGreen?: boolean }>`
   display: center;
   justify-content: center;
   align-items: center;

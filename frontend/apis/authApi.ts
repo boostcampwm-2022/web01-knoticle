@@ -1,24 +1,51 @@
 import api from '@utils/api';
 
-interface LocalLoginApi {
+interface LocalSignInApi {
   username: string;
-  password: number;
+  password: string;
 }
 
-interface CreateUserApi extends LocalLoginApi {
+interface GithubSignInApi {
+  code: string;
+}
+
+interface CreateUserApi extends LocalSignInApi {
   nickname: string;
 }
 
-export const createUserApi = async (data: CreateUserApi) => {
-  const url = `/api/auth/signup`;
+export const localSignInApi = async (data: LocalSignInApi) => {
+  const url = '/api/auth/signin/local';
+  const response = await api({ url, method: 'POST', data });
+
+  return response.data;
+};
+
+export const githubSignInApi = async (data: GithubSignInApi) => {
+  const url = '/api/auth/signin/github';
 
   const response = await api({ url, method: 'POST', data });
 
   return response.data;
 };
 
-export const localLoginApi = async (data: LocalLoginApi) => {
-  const url = `/api/auth/signin/local`;
+export const checkSignInApi = async () => {
+  const url = '/api/auth';
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};
+
+export const signOutApi = async () => {
+  const url = '/api/auth/signout';
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};
+
+export const createUserApi = async (data: CreateUserApi) => {
+  const url = '/api/auth/signup';
 
   const response = await api({ url, method: 'POST', data });
 

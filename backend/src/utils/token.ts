@@ -1,6 +1,7 @@
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
 import { prisma } from '@config/orm.config';
 import { Message, Unauthorized } from '@errors';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number; nickname?: string } = {}) => {
   return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });

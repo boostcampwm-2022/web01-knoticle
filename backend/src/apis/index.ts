@@ -17,6 +17,8 @@ const router = Router();
 router.post('/auth/signin/local', catchAsync(authController.signIn));
 router.post('/auth/signin/github', catchAsync(authController.signInGithub));
 router.post('/auth/signup', catchAsync(authController.signUp));
+router.get('/auth/signout', catchAsync(authController.signOut));
+router.get('/auth', decoder, catchAsync(authController.checkSignInStatus));
 
 router.get('/articles/search', catchAsync(articlesController.searchArticles));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
@@ -30,6 +32,7 @@ router.post('/image', multer().single('image'), catchAsync(imagesController.crea
 router.get('/books/search', catchAsync(booksController.getSearchedBooks));
 router.get('/books/:bookId', decoder, catchAsync(booksController.getBook));
 router.get('/books', decoder, catchAsync(booksController.getBooks));
+router.post('/books', catchAsync(guard), catchAsync(booksController.createBook));
 
 router.post('/bookmarks', catchAsync(guard), catchAsync(bookmarksController.createBookmark));
 router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));
