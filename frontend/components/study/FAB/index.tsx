@@ -29,7 +29,7 @@ export default function FAB() {
       </FabButton>
       {isModalShown && (
         <Modal title="책 추가하기" handleModalClose={handleModalClose}>
-          <AddBook />
+          <AddBook handleModalClose={handleModalClose} />
         </Modal>
       )}
     </FabWrapper>
