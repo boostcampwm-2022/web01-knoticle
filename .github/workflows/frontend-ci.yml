@@ -1,0 +1,123 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'frontend/**'
+
+jobs:
+  lint:
+    name: Lint CI
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        id: frontend-cache
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - if: ${{ steps.frontend-cache.outputs.cache-hit != 'true' }}
+        name: Install Dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Check Lint
+        run: npm run lint
+        env:
+          CI: true
+        working-directory: frontend
+
+  lighthouse:
+    name: Lighthouse CI
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        id: frontend-cache
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - if: ${{ steps.frontend-cache.outputs.cache-hit != 'true' }}
+        name: Install Dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Build
+        run: npm run build
+        working-directory: frontend
+
+      - name: Run Lighthouse CI
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+        working-directory: frontend
+
+      - name: Format Lighthouse Score
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+
+            const results = JSON.parse(fs.readFileSync('frontend/lighthouse_reports/manifest.json'));
+
+            const summaryTotal = {};
+
+            results.forEach((result) => {
+              const { summary } = result;
+
+              const formatResult = (res) => Math.round(res * 100);
+
+              Object.keys(summary).forEach((key) => {
+                if (key in summaryTotal) summaryTotal[key] += formatResult(summary[key]);
+                else summaryTotal[key] = formatResult(summary[key]);
+              });
+            });
+
+            Object.keys(summaryTotal).forEach((key) => {
+              summaryTotal[key] = Math.round(summaryTotal[key] / results.length);
+            });
+
+            const score = (res) => (res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴');
+
+            const comment = [
+              `⚡️ Lighthouse report!`,
+              `| Category | Score |`,
+              `| --- | --- |`,
+              `| ${score(summaryTotal.performance)} Performance | ${summaryTotal.performance} |`,
+              `| ${score(summaryTotal.accessibility)} Accessibility | ${summaryTotal.accessibility} |`,
+              `| ${score(summaryTotal['best-practices'])} Best Practices | ${summaryTotal['best-practices']} |`,
+              `| ${score(summaryTotal.seo)} SEO | ${summaryTotal.seo} |`,
+              `| ${score(summaryTotal.pwa)} PWA | ${summaryTotal.pwa} |`,
+            ].join('\n');
+
+            core.setOutput('comment', comment)
+
+      - name: Comment Lighthouse Report
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: ${{ steps.format_lighthouse_score.outputs.comment}}

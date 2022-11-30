@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "src",
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "noImplicitAny": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@apis/*": ["./apis/*"],
+      "@apis": ["./apis"],
+      "@errors/*": ["./errors/*"],
+      "@errors": ["./errors"],
+      "@config/*": ["./config/*"],
+      "@utils/*": ["./utils/*"],
+      "@middlewares/*": ["./middlewares/*"]
+    }
+  }
+}
