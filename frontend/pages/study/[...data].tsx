@@ -87,8 +87,8 @@ export default function Study() {
               knottedBookList={knottedBookList}
               bookmarkedBookList={bookmarkedBookList}
             />
+            {signInStatus.id === curUserProfile.id && <FAB />}
           </PageInnerLarge>
-          <FAB />
         </PageWrapper>
       )}
     </>

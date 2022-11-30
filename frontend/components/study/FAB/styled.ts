@@ -5,8 +5,8 @@ export const FabWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   bottom: 60px;
-  right: 330px;
-  width: 110px;
+  right: 200px;
+  gap: 10px;
 `;
 
 export const FabButton = styled.button<{ isGreen?: boolean }>`
