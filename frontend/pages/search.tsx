@@ -36,36 +36,37 @@ export default function Search() {
   useEffect(() => {
     if (!debouncedKeyword) return;
 
-    if (filter.type === 'article') {
-      setArticles([]);
-      searchArticles({ query: debouncedKeyword, userId: filter.userId, page: 1 });
-      setArticlePage({
-        hasNextPage: true,
-        pageNumber: 2,
-      });
-    } else if (filter.type === 'book') {
-      setBooks([]);
-      searchBooks({ query: debouncedKeyword, userId: filter.userId, page: 1 });
-      setBookPage({
-        hasNextPage: true,
-        pageNumber: 2,
-      });
-    }
+    setArticles([]);
+    searchArticles({ query: debouncedKeyword, userId: filter.userId, page: 1 });
+    setArticlePage({
+      hasNextPage: true,
+      pageNumber: 2,
+    });
+    setBooks([]);
+    searchBooks({ query: debouncedKeyword, userId: filter.userId, page: 1 });
+    setBookPage({
+      hasNextPage: true,
+      pageNumber: 2,
+    });
   }, [debouncedKeyword, filter.userId]);
 
   useEffect(() => {
-    if (!isIntersecting) return;
+    if (!isIntersecting || !debouncedKeyword) return;
 
     if (filter.type === 'article') {
       if (!articlePage.hasNextPage) return;
-      searchArticles({ query: debouncedKeyword, userId: filter.userId, page: articlePage });
+      searchArticles({
+        query: debouncedKeyword,
+        userId: filter.userId,
+        page: articlePage.pageNumber,
+      });
       setArticlePage({
         ...articlePage,
         pageNumber: articlePage.pageNumber + 1,
       });
     } else if (filter.type === 'book') {
       if (!bookPage.hasNextPage) return;
-      searchBooks({ query: debouncedKeyword, userId: filter.userId, page: bookPage });
+      searchBooks({ query: debouncedKeyword, userId: filter.userId, page: bookPage.pageNumber });
       setBookPage({
         ...bookPage,
         pageNumber: bookPage.pageNumber + 1,
@@ -76,11 +77,19 @@ export default function Search() {
   useEffect(() => {
     if (!newArticles) return;
     setArticles(articles.concat(newArticles.data));
+    setArticlePage({
+      ...articlePage,
+      hasNextPage: newArticles.hasNextPage,
+    });
   }, [newArticles]);
 
   useEffect(() => {
     if (!newBooks) return;
     setBooks(books.concat(newBooks.data));
+    setBookPage({
+      ...bookPage,
+      hasNextPage: newBooks.hasNextPage,
+    });
   }, [newBooks]);
 
   const handleFilter = (value: { [value: string]: string | number }) => {
