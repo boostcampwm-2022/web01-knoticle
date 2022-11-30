@@ -107,7 +107,7 @@ export default function Search() {
           <SearchBar handleSearchbarOnChange={handleSearchbarOnChange} />
           <SearchFilter handleFilter={handleFilter} />
           {articles?.length > 0 && filter.type === 'article' && <ArticleList articles={articles} />}
-          {books?.length > 0 && filter.type === 'book' && <BookList />}
+          {books?.length > 0 && filter.type === 'book' && <BookList books={books} />}
           <div ref={target} />
         </PageInnerSmall>
       </PageWrapper>
