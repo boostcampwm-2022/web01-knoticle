@@ -41,7 +41,7 @@ export default function GNB() {
         </Link>
 
         {signInStatus.id !== 0 ? (
-          <Link href={`/study/${signInStatus.id}`}>
+          <Link href={`/study/${signInStatus.nickname}`}>
             <Icon src={PersonIcon} alt="Person Icon" />
           </Link>
         ) : (

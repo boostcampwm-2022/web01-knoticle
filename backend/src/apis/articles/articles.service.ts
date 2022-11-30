@@ -6,9 +6,8 @@ import {
 import { prisma } from '@config/orm.config';
 
 const searchArticles = async (searchArticles: SearchArticles) => {
-  const { query, page, userId } = searchArticles;
+  const { query, page, take, userId } = searchArticles;
 
-  const take = 10;
   const skip = (page - 1) * take;
 
   const matchUserCondition = Number(userId)

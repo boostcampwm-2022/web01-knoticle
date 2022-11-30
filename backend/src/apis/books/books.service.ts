@@ -1,6 +1,5 @@
+import { FindBooks, SearchBooks, CreateBook } from '@apis/books/books.interface';
 import { prisma } from '@config/orm.config';
-
-import { FindBooks, SearchBooks } from './books.interface';
 
 const findBook = async (bookId: number, userId: number) => {
   const book = await prisma.book.findFirst({
@@ -96,9 +95,8 @@ const findBooks = async ({ order, take, userId, editor }: FindBooks) => {
   return books;
 };
 
-const searchBooks = async ({ query, userId, page }: SearchBooks) => {
-  const take = 10;
-  const skip = (page - 1) * 10;
+const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
+  const skip = (page - 1) * take;
 
   const books = await prisma.book.findMany({
     select: {
@@ -148,8 +146,25 @@ const searchBooks = async ({ query, userId, page }: SearchBooks) => {
   };
 };
 
+const createBook = async ({ title, userId }: CreateBook) => {
+  const book = await prisma.book.create({
+    data: {
+      title,
+      thumbnail_image:
+        'https://kr.object.ncloudstorage.com/j027/3947d647-f26e-43cc-9834-82d59703cd9c.png',
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+    },
+  });
+  return book;
+};
+
 export default {
   findBook,
   findBooks,
   searchBooks,
+  createBook,
 };
