@@ -5,9 +5,9 @@ import articlesService from '@apis/articles/articles.service';
 import scrapsService from '@apis/scraps/scraps.service';
 
 const searchArticles = async (req: Request, res: Response) => {
-  const { query, page, userId } = req.query as unknown as SearchArticles;
+  const { query, page, take, userId } = req.query as unknown as SearchArticles;
 
-  const articles = await articlesService.searchArticles({ query, page, userId });
+  const articles = await articlesService.searchArticles({ query, page, take, userId });
 
   res.status(200).send(articles);
 };

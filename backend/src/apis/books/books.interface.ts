@@ -8,5 +8,6 @@ export interface FindBooks {
 export interface SearchBooks {
   query: string;
   page: number;
+  take: number;
   userId?: number;
 }
