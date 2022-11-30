@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import { useEffect, useRef, useState } from 'react';
 
+import { editBookApi } from '@apis/bookApi';
 import { createImageApi } from '@apis/imageApi';
 import Edit from '@assets/ico_edit.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
@@ -33,9 +34,10 @@ interface BookProps {
 }
 
 export default function EditBook({ book }: BookProps) {
-  const { id, title, user, scraps } = book;
+  const { id, title, user, scraps, thumbnail_image } = book;
   const { value: titleData, onChange: onTitleChange } = useInput(title);
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
+  const { data: editBookData, execute: editBook } = useFetch(editBookApi);
   const [scrapList, setScrapList] = useState(scraps);
 
   const inputFile = useRef<HTMLInputElement | null>(null);
@@ -59,15 +61,27 @@ export default function EditBook({ book }: BookProps) {
   const handleCompletedBtnClick = () => {
     console.log(id);
     console.log(titleData);
-    console.log('click', imgFile);
+    console.log('click', imgFile.imagePath);
+    console.log(thumbnail_image);
     console.log(scrapList);
+    editBook({
+      id,
+      title: titleData,
+      thumbnail_image: imgFile.imagePath || thumbnail_image,
+      scraps: scrapList,
+    });
   };
 
   return (
     <EditBookWapper>
       <BookWrapper>
         <EditBookThumbnailWrapper>
-          <BookThumbnail src={SampleThumbnail} alt="thumbnail" />
+          <BookThumbnail
+            src={imgFile?.imagePath || thumbnail_image}
+            alt="thumbnail"
+            width={318}
+            height={220}
+          />
           <EditBookThumbnailIcon onClick={handleEditBookImgClick}>
             <Image src={Edit} alt="profile_edit" width={20} />
             <input

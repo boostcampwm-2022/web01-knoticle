@@ -36,9 +36,19 @@ const createBook = async (req: Request, res: Response) => {
 
   res.status(201).send(book);
 };
+const editBook = async (req: Request, res: Response) => {
+  // const userId = res.locals.user.id;
+
+  console.log(req.body);
+
+  const book = await booksService.editBook(req.body);
+
+  res.status(200).send(book);
+};
 
 export default {
   getBook,
   getBooks,
   createBook,
+  editBook,
 };
