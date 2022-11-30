@@ -40,7 +40,7 @@ export default function AddBook({ handleModalClose }: AddBookProps) {
   useEffect(() => {
     if (!addBookData) return;
     handleModalClose();
-    // 토스트 메세지, reload 중 어떤 방식으로 처리해야할까?
+    // 토스트 메세지, reload 중 어떤 방식으로 처리해야할까? -> 우선 민형님 작업이 끝나고 합치면서 확정예정
     toastSuccess(`${addBookData.title}책이 추가되었습니다!`);
     router.reload();
   }, [addBookData]);

@@ -12,7 +12,6 @@ import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './style
 export default function BookListTab() {
   // 일단 에러 안 뜨게 새로 엮은 책 보여주기
   const [isModalShown, setModalShown] = useState(false);
-  // const [currentModalState, setCurrentModalState] = useState<'EditBook' | 'AddBook'>('EditBook');
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
 
   const { data: newestBookList, execute: getNewestBookList } =
