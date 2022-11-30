@@ -1,9 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import styled from 'styled-components';
-
 import { TopBar } from '@styles/layout';
+import styled from 'styled-components';
 
 export const GNBbar = styled(TopBar)`
   width: 100%;
@@ -11,7 +10,7 @@ export const GNBbar = styled(TopBar)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 50px;
+  padding: 4px 30px;
   box-sizing: border-box;
   background-color: var(--light-yellow-color);
 `;
@@ -20,7 +19,7 @@ export const Logo = styled(Link)`
   font-family: 'Sofia';
   font-style: normal;
   font-weight: 500;
-  font-size: 44px;
+  font-size: 32px;
   line-height: 57px;
   color: var(--title-active-color);
   text-decoration: none;
