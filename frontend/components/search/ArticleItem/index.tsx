@@ -31,7 +31,7 @@ export default function ArticleItem({ keyword, title, content, nickname }: Artic
     return (
       <>
         {text.slice(0, startIndex)}
-        <b style={{ fontWeight: 700 }}>{text.slice(startIndex, endIndex)}</b>
+        <b>{text.slice(startIndex, endIndex)}</b>
         {highlightWord(text.slice(endIndex), word)}
       </>
     );
