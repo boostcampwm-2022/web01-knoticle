@@ -46,6 +46,7 @@ const createBook = async (req: Request, res: Response) => {
 
   res.status(201).send(bookData);
 };
+
 const editBook = async (req: Request, res: Response) => {
   // const userId = res.locals.user.id;
 
@@ -58,10 +59,19 @@ const editBook = async (req: Request, res: Response) => {
   res.status(200).send(book);
 };
 
+const deleteBook = async (req: Request, res: Response) => {
+  const bookId = Number(req.params.bookId);
+
+  await booksService.deleteBook(bookId);
+
+  res.status(200).send();
+};
+
 export default {
   getBook,
   getBooks,
   searchBooks,
   createBook,
   editBook,
+  deleteBook,
 };

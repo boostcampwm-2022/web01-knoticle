@@ -80,7 +80,12 @@ export default function BookListTab({
                     handleEditBookModalOpen(book.id);
                   }}
                 >
-                  <MinusButton>
+                  <MinusButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log(book.id);
+                    }}
+                  >
                     <MinusIcon src={MinusWhite} alt="책 삭제" />
                   </MinusButton>
                   <Book book={book} />
