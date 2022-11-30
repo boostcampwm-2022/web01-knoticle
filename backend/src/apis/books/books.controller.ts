@@ -31,9 +31,9 @@ const getBooks = async (req: Request, res: Response) => {
 const getSearchedBooks = async (req: Request, res: Response) => {
   const { query, page, userId } = req.query as unknown as SearchBooks;
 
-  const books = await booksService.searchBooks({ query, userId, page });
+  const searchResult = await booksService.searchBooks({ query, userId, page });
 
-  res.status(200).send(books);
+  res.status(200).send(searchResult);
 };
 
 export default {

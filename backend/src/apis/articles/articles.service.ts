@@ -53,7 +53,10 @@ const searchArticles = async (searchArticles: SearchArticles) => {
     skip,
   });
 
-  return articles;
+  return {
+    data: articles,
+    hasNextPage: articles.length === take,
+  };
 };
 
 const getArticle = async (articleId: number) => {
