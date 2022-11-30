@@ -16,13 +16,13 @@ const getBook = async (req: Request, res: Response) => {
 };
 
 const getBooks = async (req: Request, res: Response) => {
-  const { order, take, editor } = req.query as unknown as FindBooks;
+  const { order, take, editor, type } = req.query as unknown as FindBooks;
 
   let userId = res.locals.user?.id;
 
   if (!userId) userId = 0;
 
-  const books = await booksService.findBooks({ order, take: +take, userId, editor });
+  const books = await booksService.findBooks({ order, take: +take, userId, editor, type });
 
   res.status(200).send(books);
 };

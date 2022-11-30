@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { getOrderedBookListApi } from '@apis/bookApi';
 import Book from '@components/common/Book';
 import Modal from '@components/common/Modal';
-import useFetch from '@hooks/useFetch';
+import EditBook from '@components/study/EditBook';
+import FAB from '@components/study/FAB';
 import { IBookScraps } from '@interfaces';
 
-import EditBook from '../EditBook';
 import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './styled';
 
-export default function BookListTab() {
-  // 일단 에러 안 뜨게 새로 엮은 책 보여주기
+interface BookListTabProps {
+  knottedBookList: IBookScraps[];
+  bookmarkedBookList: IBookScraps[];
+  isUserMatched: boolean;
+}
+
+export default function BookListTab({
+  knottedBookList,
+  bookmarkedBookList,
+  isUserMatched,
+}: BookListTabProps) {
   const [isModalShown, setModalShown] = useState(false);
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
-
-  const { data: newestBookList, execute: getNewestBookList } =
-    useFetch<IBookScraps[]>(getOrderedBookListApi);
-
-  useEffect(() => {
-    getNewestBookList('newest');
-  }, []);
+  const [tabStatus, setTabStatus] = useState<'knotted' | 'bookmarked'>('knotted');
 
   const handleEditBookModalOpen = (id: number) => {
-    const curbook = newestBookList?.find((v) => v.id === id);
+    const curbook = knottedBookList?.find((v) => v.id === id);
     if (!curbook) return;
     setModalShown(true);
     setCurEditBook(curbook);
@@ -35,21 +37,53 @@ export default function BookListTab() {
   return (
     <BookListTabWrapper>
       <TabTitle>
-        <TabTitleContent>엮은 책</TabTitleContent>
-        <TabTitleContent>북마크한 책</TabTitleContent>
+        <TabTitleContent
+          onClick={() => {
+            setTabStatus('knotted');
+          }}
+          isActive={tabStatus === 'knotted'}
+        >
+          엮은 책
+        </TabTitleContent>
+        <TabTitleContent
+          onClick={() => {
+            setTabStatus('bookmarked');
+          }}
+          isActive={tabStatus === 'bookmarked'}
+        >
+          북마크한 책
+        </TabTitleContent>
       </TabTitle>
-      <BookGrid>
-        {newestBookList &&
-          newestBookList.map((book) => (
-            <Book
-              key={book.id}
-              book={book}
-              handleEditBookModalOpen={() => {
-                handleEditBookModalOpen(book.id);
-              }}
-            />
-          ))}
-      </BookGrid>
+      {tabStatus === 'knotted' ? (
+        <BookGrid>
+          {knottedBookList &&
+            knottedBookList.map((book) => (
+              <Book
+                key={book.id}
+                book={book}
+                handleEditBookModalOpen={() => {
+                  handleEditBookModalOpen(book.id);
+                }}
+              />
+            ))}
+        </BookGrid>
+      ) : (
+        <BookGrid>
+          {bookmarkedBookList &&
+            bookmarkedBookList.map((book) => (
+              <Book
+                key={book.id}
+                book={book}
+                handleEditBookModalOpen={() => {
+                  handleEditBookModalOpen(book.id);
+                }}
+              />
+            ))}
+        </BookGrid>
+      )}
+
+      {isUserMatched && tabStatus === 'knotted' && <FAB />}
+
       {isModalShown && (
         <Modal title="내 책 수정하기" handleModalClose={handleModalClose}>
           {curEditBook && <EditBook book={curEditBook} />}
