@@ -1,3 +1,6 @@
+import signInStatusState from '@atoms/signInStatus';
+import { useRecoilValue } from 'recoil';
+
 import { FilterButton, FilterGroup, FilterLabel, FilterWrapper } from './styled';
 
 interface SearchFilterProps {
@@ -5,6 +8,8 @@ interface SearchFilterProps {
 }
 
 export default function SearchFilter({ handleFilter }: SearchFilterProps) {
+  const signInStatus = useRecoilValue(signInStatusState);
+
   return (
     <FilterWrapper>
       <FilterGroup>
@@ -25,7 +30,7 @@ export default function SearchFilter({ handleFilter }: SearchFilterProps) {
       <FilterLabel>
         <FilterButton
           type="checkbox"
-          onChange={(e) => handleFilter({ userId: e.target.checked ? 1 : 0 })}
+          onChange={(e) => handleFilter({ userId: e.target.checked ? signInStatus.id : 0 })}
         />
         내 책에서 검색
       </FilterLabel>
