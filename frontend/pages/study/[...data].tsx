@@ -52,7 +52,7 @@ export default function Study() {
       ...signInStatus,
       nickname: curUserProfile.nickname,
     });
-    window.history.pushState(null, '', `/study/${curUserProfile.nickname}`);
+    window.history.replaceState(null, '', `/study/${curUserProfile.nickname}`);
   }, [updatedUserProfile]);
 
   return (
