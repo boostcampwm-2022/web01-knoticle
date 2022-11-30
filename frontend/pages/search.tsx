@@ -21,7 +21,7 @@ export default function Search() {
   const { data: newBooks, execute: searchBooks } = useFetch(searchBooksApi);
 
   const keyword = useInput();
-  const debouncedKeyword = useDebounce(keyword.value, 1000);
+  const debouncedKeyword = useDebounce(keyword.value, 300);
 
   const target = useRef() as RefObject<HTMLDivElement>;
   const isIntersecting = useIntersectionObserver(target);
@@ -35,13 +35,23 @@ export default function Search() {
     if (!debouncedKeyword) return;
 
     setArticles([]);
-    searchArticles({ query: debouncedKeyword, userId: filter.userId, page: 1 });
+    searchArticles({
+      query: debouncedKeyword,
+      userId: filter.userId,
+      page: 1,
+      take: 12,
+    });
     setArticlePage({
       hasNextPage: true,
       pageNumber: 2,
     });
     setBooks([]);
-    searchBooks({ query: debouncedKeyword, userId: filter.userId, page: 1 });
+    searchBooks({
+      query: debouncedKeyword,
+      userId: filter.userId,
+      page: 1,
+      take: 12,
+    });
     setBookPage({
       hasNextPage: true,
       pageNumber: 2,
@@ -57,6 +67,7 @@ export default function Search() {
         query: debouncedKeyword,
         userId: filter.userId,
         page: articlePage.pageNumber,
+        take: 12,
       });
       setArticlePage({
         ...articlePage,
@@ -64,7 +75,12 @@ export default function Search() {
       });
     } else if (filter.type === 'book') {
       if (!bookPage.hasNextPage) return;
-      searchBooks({ query: debouncedKeyword, userId: filter.userId, page: bookPage.pageNumber });
+      searchBooks({
+        query: debouncedKeyword,
+        userId: filter.userId,
+        page: bookPage.pageNumber,
+        take: 12,
+      });
       setBookPage({
         ...bookPage,
         pageNumber: bookPage.pageNumber + 1,
