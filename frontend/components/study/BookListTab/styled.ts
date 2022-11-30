@@ -11,9 +11,13 @@ export const TabTitle = styled.div`
   padding: 10px;
   gap: 30px;
 `;
-export const TabTitleContent = styled(TextLinkMedium)`
+export const TabTitleContent = styled(TextLinkMedium)<{ isActive: boolean }>`
   cursor: pointer;
+  font-size: 18px;
+  line-height: 24px;
+  ${(props) => (props.isActive ? 'color: var(--primary-color); text-decoration:underline' : '')}
 `;
+
 export const BookGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
