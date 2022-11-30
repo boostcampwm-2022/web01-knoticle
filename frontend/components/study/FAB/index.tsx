@@ -32,24 +32,21 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
       </FabButton>
 
       {isEditing ? (
-        <FabButton isGreen>
-          <Image
-            src={CheckWhite}
-            alt="책 수정 완료"
-            onClick={() => {
-              setIsEditing(false);
-            }}
-          />
+        <FabButton
+          isGreen
+          onClick={() => {
+            setIsEditing(false);
+          }}
+        >
+          <Image src={CheckWhite} alt="책 수정 완료" />
         </FabButton>
       ) : (
-        <FabButton>
-          <Image
-            src={EditWhite}
-            alt="책 수정"
-            onClick={() => {
-              setIsEditing(true);
-            }}
-          />
+        <FabButton
+          onClick={() => {
+            setIsEditing(true);
+          }}
+        >
+          <Image src={EditWhite} alt="책 수정" />
         </FabButton>
       )}
       {isModalShown && (
