@@ -22,7 +22,10 @@ export default function Search() {
   const [filter, setFilter] = useState({ type: 'article', userId: 0 });
 
   useEffect(() => {
-    // 데이터 받아오기
+    if (!debouncedKeyword) return;
+
+    if (filter.type === 'article') searchArticles({ query: debouncedKeyword, userId: 1, page: 1 });
+    else if (filter.type === 'book') searchBooks({ query: debouncedKeyword, userId: 1, page: 1 });
   }, [debouncedKeyword]);
 
   const handleFilter = (value: { [value: string]: string | number }) => {
@@ -39,8 +42,8 @@ export default function Search() {
         <PageInnerSmall>
           <SearchBar {...keyword} />
           <SearchFilter handleFilter={handleFilter} />
-          {filter.type === 'article' && <ArticleList />}
-          {filter.type === 'book' && <BookList />}
+          {articles?.length > 0 && filter.type === 'article' && <ArticleList articles={articles} />}
+          {books?.length > 0 && filter.type === 'book' && <BookList />}
         </PageInnerSmall>
       </PageWrapper>
     </>

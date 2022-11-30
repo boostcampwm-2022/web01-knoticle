@@ -1,12 +1,20 @@
-import SearchListItem from '@components/search/SearchListItem';
+import ArticleItem from '@components/search/ArticleItem';
+import { IArticleBook } from '@interfaces';
 
-export default function ArticleList() {
-  const items = Array.from({ length: 50 }, (_, i) => i);
+interface ArticleListProps {
+  articles: IArticleBook[];
+}
 
+export default function ArticleList({ articles }: ArticleListProps) {
   return (
     <>
-      {items.map((item) => (
-        <SearchListItem key={item} />
+      {articles.map((article) => (
+        <ArticleItem
+          key={article.id}
+          title={article.title}
+          content={article.content}
+          nickname={article.book.user.nickname}
+        />
       ))}
     </>
   );
