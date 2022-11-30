@@ -170,6 +170,7 @@ const createBook = async ({ title, userId }: CreateBook) => {
       },
     },
   });
+
   return book;
 };
 

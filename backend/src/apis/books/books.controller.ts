@@ -42,7 +42,9 @@ const createBook = async (req: Request, res: Response) => {
 
   const book = await booksService.createBook({ title, userId });
 
-  res.status(201).send(book);
+  const bookData = await booksService.findBook(book.id, userId);
+
+  res.status(201).send(bookData);
 };
 const editBook = async (req: Request, res: Response) => {
   // const userId = res.locals.user.id;

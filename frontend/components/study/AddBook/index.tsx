@@ -1,15 +1,15 @@
-import { useRouter } from 'next/router';
-
 import { useEffect } from 'react';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { addBookApi } from '@apis/bookApi';
 import SampleThumbnail from '@assets/img_sample_thumbnail.jpg';
+import curKnottedBookListState from '@atoms/curKnottedBookList';
 import signInStatusState from '@atoms/signInStatus';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
+import { IBookScraps } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
 import { toastSuccess } from '@utils/toast';
 
@@ -31,18 +31,18 @@ interface AddBookProps {
 }
 
 export default function AddBook({ handleModalClose }: AddBookProps) {
+  const [curKnottedBookList, setCurKnottedBookList] =
+    useRecoilState<IBookScraps[]>(curKnottedBookListState);
   const user = useRecoilValue(signInStatusState);
   const title = useInput('');
   const { data: addBookData, execute: addBook } = useFetch(addBookApi);
 
-  const router = useRouter();
-
   useEffect(() => {
     if (!addBookData) return;
-    handleModalClose();
     // 토스트 메세지, reload 중 어떤 방식으로 처리해야할까? -> 우선 민형님 작업이 끝나고 합치면서 확정예정
+    setCurKnottedBookList([...curKnottedBookList, addBookData]);
+    handleModalClose();
     toastSuccess(`${addBookData.title}책이 추가되었습니다!`);
-    router.reload();
   }, [addBookData]);
 
   const handleAddBookBtnClick = () => {
