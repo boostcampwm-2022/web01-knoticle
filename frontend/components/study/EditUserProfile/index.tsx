@@ -33,10 +33,12 @@ export default function EditUserProfile({
   handleEditFinishBtnClick,
 }: EditUserProfileProps) {
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
+
   const { value: nicknameValue, onChange: onNicknameChange } = useInput(curUserProfile.nickname);
   const { value: descriptionValue, onChange: onDescriptionChange } = useInput(
     curUserProfile.description
   );
+
   const inputFile = useRef<HTMLInputElement | null>(null);
 
   const handleEditThumbnailClick = () => {
