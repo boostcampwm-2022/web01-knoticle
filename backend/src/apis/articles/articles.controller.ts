@@ -51,7 +51,7 @@ const getTemporaryArticle = async (req: Request, res: Response) => {
 
   const temporaryArticle = await articlesService.getTemporaryArticle(userId);
 
-  res.status(201).send({ temporaryArticle });
+  res.status(200).send({ temporaryArticle });
 };
 
 const craeteTemporaryArticle = async (req: Request, res: Response) => {
