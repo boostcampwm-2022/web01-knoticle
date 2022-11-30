@@ -6,12 +6,11 @@ import {
 import { prisma } from '@config/orm.config';
 
 const searchArticles = async (searchArticles: SearchArticles) => {
-  const { query, page, userId } = searchArticles;
+  const { query, page, take, userId } = searchArticles;
 
-  const take = 10;
   const skip = (page - 1) * take;
 
-  const matchUserCondition = userId
+  const matchUserCondition = Number(userId)
     ? {
         book: {
           user: {
@@ -53,7 +52,10 @@ const searchArticles = async (searchArticles: SearchArticles) => {
     skip,
   });
 
-  return articles;
+  return {
+    data: articles,
+    hasNextPage: articles.length === take,
+  };
 };
 
 const getArticle = async (articleId: number) => {

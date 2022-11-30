@@ -16,8 +16,9 @@ model User {
   username String @db.VarChar(20)
   password String @db.VarChar(100)
   nickname String @db.VarChar(20) @unique
+  description String @db.VarChar(100)
+  profile_image String @db.VarChar(255) @default("https://kr.object.ncloudstorage.com/j027/522da4f3-c9d7-403d-a98f-2b09cabefc47.png")
   provider String @db.VarChar(20)
-  profile_image String @db.VarChar(255)
   created_at DateTime @default(now())
   deleted_at DateTime?
   books Book[]
@@ -27,8 +28,8 @@ model User {
 }
 
 model Book {
-  id  Int @id @default(autoincrement())
-  thumbnail_image String @db.VarChar(255)
+  id  Int @id @default(autoincrement()) 
+  thumbnail_image String @db.VarChar(255) @default("https://kr.object.ncloudstorage.com/j027/3947d647-f26e-43cc-9834-82d59703cd9c.png")
   title String @db.VarChar(50)
   created_at DateTime @default(now())
   deleted_at DateTime?

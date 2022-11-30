@@ -5,14 +5,17 @@ import { ToastContainer } from 'react-toastify';
 
 import { RecoilRoot } from 'recoil';
 
+import CheckSignInByToken from '@components/CheckSignInByToken';
 import GlobalStyle from '@styles/GlobalStyle';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
-      <GlobalStyle />
-      <Component {...pageProps} />
-      <ToastContainer limit={3} />
+      <CheckSignInByToken>
+        <GlobalStyle />
+        <Component {...pageProps} />
+        <ToastContainer limit={3} />
+      </CheckSignInByToken>
     </RecoilRoot>
   );
 }
