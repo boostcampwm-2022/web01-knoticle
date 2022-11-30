@@ -1,6 +1,6 @@
 import { prisma } from '@config/orm.config';
 
-import { FindBooks } from './books.interface';
+import { FindBooks, SearchBooks } from './books.interface';
 
 const findBook = async (bookId: number, userId: number) => {
   const book = await prisma.book.findFirst({
@@ -96,7 +96,56 @@ const findBooks = async ({ order, take, userId, editor }: FindBooks) => {
   return books;
 };
 
+const searchBooks = async ({ query, userId, page }: SearchBooks) => {
+  const skip = (page - 1) * 10;
+
+  const books = await prisma.book.findMany({
+    select: {
+      id: true,
+      title: true,
+      thumbnail_image: true,
+      created_at: true,
+      user: {
+        select: {
+          nickname: true,
+        },
+      },
+      scraps: {
+        select: {
+          order: true,
+          article: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+      },
+      bookmarks: {
+        where: {
+          user_id: userId ? Number(userId) : 0,
+        },
+      },
+      _count: {
+        select: { bookmarks: true },
+      },
+    },
+    where: {
+      deleted_at: null,
+      user_id: userId ? Number(userId) : undefined,
+      title: {
+        search: `${query}*`,
+      },
+    },
+    skip,
+    take: 10,
+  });
+
+  return books;
+};
+
 export default {
   findBook,
   findBooks,
+  searchBooks,
 };

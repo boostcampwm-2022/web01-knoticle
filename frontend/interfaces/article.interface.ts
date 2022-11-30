@@ -1,5 +1,3 @@
-// import { IBook } from './book.interface';
-
 export interface IArticle {
   id: number;
   title: string;
@@ -7,5 +5,4 @@ export interface IArticle {
   created_at: string;
   deleted_at: string;
   book_id: number;
-  // book: IBook;
 }
