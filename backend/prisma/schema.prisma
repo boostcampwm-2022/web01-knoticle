@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -37,6 +38,8 @@ model Book {
   articles Article[]
   scraps Scrap[]
   bookmarks Bookmark[]
+
+  @@fulltext([title])
 }
 
 model Article {
@@ -48,6 +51,8 @@ model Article {
   book Book @relation(fields: [book_id], references: [id])
   book_id Int
   scraps Scrap[]
+
+  @@fulltext([content, title])
 }
 
 model Scrap {
