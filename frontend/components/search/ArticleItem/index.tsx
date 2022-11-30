@@ -21,18 +21,26 @@ interface ArticleItemProps {
 }
 
 export default function ArticleItem({ keyword, title, content, nickname }: ArticleItemProps) {
-  const highlightWord = (text: string, word: string): React.ReactNode => {
-    const startIndex = text.toLowerCase().indexOf(word.toLowerCase());
+  const highlightWord = (text: string, words: string[]): React.ReactNode => {
+    let wordIndexList = words.map((word) => text.toLowerCase().indexOf(word.toLowerCase()));
 
-    if (startIndex === -1) return text;
+    // eslint-disable-next-line no-param-reassign
+    words = words.filter((_, index) => wordIndexList[index] !== -1);
+    wordIndexList = wordIndexList.filter((index) => index !== -1);
 
-    const endIndex = startIndex + word.length;
+    if (wordIndexList.length === 0) return text;
+
+    const startIndex = Math.min(...wordIndexList);
+
+    const targetWord = words[wordIndexList.indexOf(startIndex)];
+
+    const endIndex = startIndex + targetWord.length;
 
     return (
       <>
         {text.slice(0, startIndex)}
         <b>{text.slice(startIndex, endIndex)}</b>
-        {highlightWord(text.slice(endIndex), word)}
+        {highlightWord(text.slice(endIndex), words)}
       </>
     );
   };
@@ -40,8 +48,8 @@ export default function ArticleItem({ keyword, title, content, nickname }: Artic
   return (
     <ItemWrapper>
       <ItemGroup>
-        <ItemTitle>{highlightWord(title, keyword)}</ItemTitle>
-        <ItemContent>{highlightWord(content, keyword)}</ItemContent>
+        <ItemTitle>{highlightWord(title, keyword.trim().split(' '))}</ItemTitle>
+        <ItemContent>{highlightWord(content, keyword.trim().split(' '))}</ItemContent>
       </ItemGroup>
       <UserProfile>
         <ProfileDescription>
