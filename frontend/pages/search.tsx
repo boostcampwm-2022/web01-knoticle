@@ -24,7 +24,10 @@ export default function Search() {
   };
 
   useEffect(() => {
-    // 데이터 받아오기
+    if (!debouncedKeyword) return;
+
+    if (filter.type === 'article') searchArticles({ query: debouncedKeyword, userId: 1, page: 1 });
+    else if (filter.type === 'book') searchBooks({ query: debouncedKeyword, userId: 1, page: 1 });
   }, [debouncedKeyword]);
 
   const handleFilter = (value: { [value: string]: string | number }) => {
@@ -41,8 +44,8 @@ export default function Search() {
         <PageInnerSmall>
           <SearchBar handleSearchbarOnChange={handleSearchbarOnChange} />
           <SearchFilter handleFilter={handleFilter} />
-          {filter.type === 'article' && <ArticleList />}
-          {filter.type === 'book' && <BookList />}
+          {articles?.length > 0 && filter.type === 'article' && <ArticleList articles={articles} />}
+          {books?.length > 0 && filter.type === 'book' && <BookList />}
         </PageInnerSmall>
       </PageWrapper>
     </>
