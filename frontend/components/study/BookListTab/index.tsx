@@ -2,18 +2,23 @@ import React, { useState } from 'react';
 
 import Book from '@components/common/Book';
 import Modal from '@components/common/Modal';
+import EditBook from '@components/study/EditBook';
+import FAB from '@components/study/FAB';
 import { IBookScraps } from '@interfaces';
 
-import EditBook from '../EditBook';
 import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './styled';
 
 interface BookListTabProps {
   knottedBookList: IBookScraps[];
   bookmarkedBookList: IBookScraps[];
+  isUserMatched: boolean;
 }
 
-export default function BookListTab({ knottedBookList, bookmarkedBookList }: BookListTabProps) {
-  // 일단 에러 안 뜨게 새로 엮은 책 보여주기
+export default function BookListTab({
+  knottedBookList,
+  bookmarkedBookList,
+  isUserMatched,
+}: BookListTabProps) {
   const [isModalShown, setModalShown] = useState(false);
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
   const [tabStatus, setTabStatus] = useState<'knotted' | 'bookmarked'>('knotted');
@@ -75,6 +80,8 @@ export default function BookListTab({ knottedBookList, bookmarkedBookList }: Boo
             ))}
         </BookGrid>
       )}
+
+      {isUserMatched && tabStatus === 'knotted' && <FAB />}
 
       {isModalShown && (
         <Modal title="내 책 수정하기" handleModalClose={handleModalClose}>

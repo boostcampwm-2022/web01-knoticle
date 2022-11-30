@@ -10,7 +10,6 @@ import signInStatusState from '@atoms/signInStatus';
 import GNB from '@components/common/GNB';
 import BookListTab from '@components/study/BookListTab';
 import EditUserProfile from '@components/study/EditUserProfile';
-import FAB from '@components/study/FAB';
 import UserProfile from '@components/study/UserProfile';
 import useFetch from '@hooks/useFetch';
 import { IUser } from '@interfaces';
@@ -86,8 +85,8 @@ export default function Study() {
             <BookListTab
               knottedBookList={knottedBookList}
               bookmarkedBookList={bookmarkedBookList}
+              isUserMatched={signInStatus.id === curUserProfile.id}
             />
-            {signInStatus.id === curUserProfile.id && <FAB />}
           </PageInnerLarge>
         </PageWrapper>
       )}
