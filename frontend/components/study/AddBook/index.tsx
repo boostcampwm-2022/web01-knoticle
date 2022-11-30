@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { useEffect } from 'react';
 
 import { useRecoilValue } from 'recoil';
@@ -24,15 +26,23 @@ import {
   BookContent,
 } from './styled';
 
-export default function AddBook(handleModalClose: () => void) {
+interface AddBookProps {
+  handleModalClose: () => void;
+}
+
+export default function AddBook({ handleModalClose }: AddBookProps) {
   const user = useRecoilValue(signInStatusState);
   const title = useInput('');
   const { data: addBookData, execute: addBook } = useFetch(addBookApi);
 
+  const router = useRouter();
+
   useEffect(() => {
     if (!addBookData) return;
     handleModalClose();
+    // 토스트 메세지, reload 중 어떤 방식으로 처리해야할까?
     toastSuccess(`${addBookData.title}책이 추가되었습니다!`);
+    router.reload();
   }, [addBookData]);
 
   const handleAddBookBtnClick = () => {
