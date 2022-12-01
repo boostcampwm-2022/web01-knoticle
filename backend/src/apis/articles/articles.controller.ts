@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { SearchArticles } from '@apis/articles/articles.interface';
 import articlesService from '@apis/articles/articles.service';
+import { IScrap } from '@apis/scraps/scraps.interface';
 import scrapsService from '@apis/scraps/scraps.service';
 
 const searchArticles = async (req: Request, res: Response) => {
@@ -20,22 +21,30 @@ const getArticle = async (req: Request, res: Response) => {
 };
 
 const createArticle = async (req: Request, res: Response) => {
-  const { title, content, book_id, order } = req.body;
+  const { article, scraps } = req.body;
 
-  const article = await articlesService.createArticle({
-    title,
-    content,
-    book_id,
+  const createdArticle = await articlesService.createArticle({
+    title: article.title,
+    content: article.content,
+    book_id: article.book_id,
   });
-
-  const scrap = await scrapsService.createScrap({
-    order,
-    is_original: true,
-    book_id,
-    article_id: article.id,
+  // forEach와 async,await을 같이사용하는 것이 맞나? 다른방법은 없나?
+  const result: any[] = [];
+  scraps.forEach(async (scrap: IScrap) => {
+    if (scrap.id === 0) {
+      result.push(
+        await scrapsService.createScrap({
+          order: scrap.order,
+          is_original: true,
+          book_id: article.book_id,
+          article_id: createdArticle.id,
+        })
+      );
+    } else {
+      result.push(await scrapsService.updateScraps(scrap));
+    }
   });
-
-  res.status(201).send({ article, scrap });
+  res.status(201).send({ createdArticle, result });
 };
 
 const deleteArticle = async (req: Request, res: Response) => {
