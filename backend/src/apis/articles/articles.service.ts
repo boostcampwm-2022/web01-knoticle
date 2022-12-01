@@ -28,6 +28,7 @@ const searchArticles = async (searchArticles: SearchArticles) => {
       created_at: true,
       book: {
         select: {
+          id: true,
           user: {
             select: {
               id: true,
