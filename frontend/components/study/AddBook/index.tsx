@@ -39,7 +39,6 @@ export default function AddBook({ handleModalClose }: AddBookProps) {
 
   useEffect(() => {
     if (!addBookData) return;
-    console.log(addBookData);
     setCurKnottedBookList([...curKnottedBookList, addBookData]);
     handleModalClose();
     toastSuccess(`${addBookData.title}책이 추가되었습니다!`);
