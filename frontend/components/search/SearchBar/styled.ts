@@ -15,4 +15,5 @@ export const SearchBarInput = styled.input`
   border: none;
   outline: none;
   font-size: 32px;
+  font-family: Noto Sans KR;
 `;

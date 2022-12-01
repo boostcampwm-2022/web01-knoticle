@@ -63,21 +63,25 @@ export const BookContentsInfo = styled(FlexColumn)`
 export const BookContents = styled(TextXSmall)`
   display: flex;
   flex-direction: column;
-
-  a {
-    border-bottom: 1px solid var(--grey-02-color);
-    height: 28px;
-    display: flex;
-    align-items: center;
-  }
 `;
 
 export const ArticleLink = styled(Link)`
   font-size: 14px;
-  line-height: 20px;
   text-decoration: none;
   color: inherit;
-  display: block;
+  display: flex;
+  align-items: center;
+
+  border-bottom: 1px solid var(--grey-02-color);
+  height: 28px;
+
+  span {
+    line-height: 30px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 export const AuthorLink = styled(Link)`

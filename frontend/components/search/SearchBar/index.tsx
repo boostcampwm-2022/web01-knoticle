@@ -12,7 +12,7 @@ interface SearchBarProps {
 export default function SearchBar({ value, onChange }: SearchBarProps) {
   return (
     <SearchBarWrapper>
-      <SearchBarInput value={value} onChange={onChange} />
+      <SearchBarInput value={value} onChange={onChange} placeholder="검색어를 입력해주세요." />
       <Image src={SearchIcon} alt="Search Icon" />
     </SearchBarWrapper>
   );
