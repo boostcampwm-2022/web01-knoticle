@@ -1,13 +1,14 @@
 import Image from 'next/image';
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { editBookApi } from '@apis/bookApi';
 import { createImageApi } from '@apis/imageApi';
 import Edit from '@assets/ico_edit.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
+import curKnottedBookListState from '@atoms/curKnottedBookList';
+import editInfoState from '@atoms/editInfo';
 import scrapState from '@atoms/scrap';
 import DragArticle from '@components/common/DragDrop';
 import Button from '@components/common/Modal/ModalButton';
@@ -34,13 +35,17 @@ import {
 
 interface BookProps {
   book: IBookScraps;
+  handleModalClose: () => void;
 }
 
-export default function EditBook({ book }: BookProps) {
+export default function EditBook({ book, handleModalClose }: BookProps) {
   const { id, title, user, scraps } = book;
-  const { value: titleData, onChange: onTitleChange } = useInput(title);
+
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
-  const { data: editBookData, execute: editBook } = useFetch(editBookApi);
+  const { value: titleData, onChange: onTitleChange } = useInput(title);
+
+  const [editInfo, setEditInfo] = useRecoilState(editInfoState);
+  const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
   const [scrapList] = useRecoilState<any>(scrapState);
 
   const [isContentsShown, setIsContentsShown] = useState(false);
@@ -65,12 +70,37 @@ export default function EditBook({ book }: BookProps) {
 
   const handleCompletedBtnClick = () => {
     const editScraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
-    editBook({
-      id,
-      title: titleData,
-      thumbnail_image: imgFile?.imagePath || book.thumbnail_image,
-      scraps: editScraps,
+
+    // 해당하는 책을 찾아서 전역에서 관리하고 있는 애를 변경해서 업데이트
+    setCurKnottedBookList([
+      ...curKnottedBookList.map((curBook) => {
+        if (id === curBook.id) {
+          return {
+            ...curBook,
+            title: titleData,
+            thumbnail_image: imgFile?.imagePath || book.thumbnail_image,
+            scraps: editScraps,
+          };
+        }
+        return curBook;
+      }),
+    ]);
+
+    // editInfo에 정보 담아놓기
+    setEditInfo({
+      ...editInfo,
+      editted: [
+        ...editInfo.editted,
+        {
+          id,
+          title: titleData,
+          thumbnail_image: imgFile?.imagePath || book.thumbnail_image,
+          scraps: editScraps,
+        },
+      ],
     });
+
+    handleModalClose();
   };
 
   const handleContentsOnClick = () => {
