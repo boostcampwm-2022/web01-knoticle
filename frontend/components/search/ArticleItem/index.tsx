@@ -24,15 +24,14 @@ export default function ArticleItem({ keyword, title, content, nickname }: Artic
   const highlightWord = (text: string, words: string[]): React.ReactNode => {
     let wordIndexList = words.map((word) => text.toLowerCase().indexOf(word.toLowerCase()));
 
-    // eslint-disable-next-line no-param-reassign
-    words = words.filter((_, index) => wordIndexList[index] !== -1);
-    wordIndexList = wordIndexList.filter((index) => index !== -1);
+    const filteredWords = words.filter((_, index) => wordIndexList[index] !== -1);
+    wordIndexList = wordIndexList.filter((wordIndex) => wordIndex !== -1);
 
     if (wordIndexList.length === 0) return text;
 
     const startIndex = Math.min(...wordIndexList);
 
-    const targetWord = words[wordIndexList.indexOf(startIndex)];
+    const targetWord = filteredWords[wordIndexList.indexOf(startIndex)];
 
     const endIndex = startIndex + targetWord.length;
 
