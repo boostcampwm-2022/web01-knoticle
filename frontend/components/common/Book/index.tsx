@@ -24,10 +24,9 @@ import {
 
 interface BookProps {
   book: IBookScraps;
-  handleEditBookModalOpen?: () => void;
 }
 
-export default function Book({ book, handleEditBookModalOpen }: BookProps) {
+export default function Book({ book }: BookProps) {
   const { id, title, user, scraps, thumbnail_image, _count, bookmarks } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
     bookmarks.length ? bookmarks[0].id : null,
@@ -36,7 +35,7 @@ export default function Book({ book, handleEditBookModalOpen }: BookProps) {
   );
   return (
     // 수정모드일때만 아래 onclick이 실행되도록 수정해야함 -> 민형님 작업 후
-    <BookWrapper onClick={handleEditBookModalOpen}>
+    <BookWrapper>
       <BookThumbnail
         src={thumbnail_image || sampleImage}
         alt="thumbnail"
@@ -82,6 +81,3 @@ export default function Book({ book, handleEditBookModalOpen }: BookProps) {
     </BookWrapper>
   );
 }
-Book.defaultProps = {
-  handleEditBookModalOpen: null,
-};
