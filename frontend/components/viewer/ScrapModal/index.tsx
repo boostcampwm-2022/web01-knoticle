@@ -1,27 +1,29 @@
-import { useRouter } from 'next/router';
-
 import { useEffect, useState } from 'react';
 
 import { createScrapApi } from '@apis/scrapApi';
+import scrapState from '@atoms/scrap';
+import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IScrap } from '@interfaces';
+import { IBook, IBookScraps, IScrap, IArticle } from '@interfaces';
+import { IEditScrap } from 'interfaces/scrap.interface';
+import { useRecoilState } from 'recoil';
 
-import { Label, ScrapModalWrapper } from './styled';
+import { ArticleWrapper, Label, ScrapModalWrapper } from './styled';
 
 interface ScrapModalProps {
   books: IBookScraps[];
   handleModalClose: () => void;
+  article: IArticle;
 }
 
-export default function ScrapModal({ books, handleModalClose }: ScrapModalProps) {
+export default function ScrapModal({ books, handleModalClose, article }: ScrapModalProps) {
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
-  const [selectedScrapIndex, setSelectedScrapIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const { execute: createScrap } = useFetch(createScrapApi);
 
-  const router = useRouter();
+  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -31,31 +33,33 @@ export default function ScrapModal({ books, handleModalClose }: ScrapModalProps)
       };
     });
 
-  const createScrapDropdownItems = (items: IScrap[]) =>
-    items.map((item) => {
-      return {
-        id: item.id,
-        name: item.article.title,
-      };
+  const createScrapDropdownItems = (items: IEditScrap[]) => {
+    const itemList = [...items];
+
+    itemList.push({
+      id: 0,
+      order: items.length + 1,
+      article: { id: article.id, title: article.title },
     });
+    return itemList;
+  };
 
   useEffect(() => {
     const selectedBook = books.find((book) => book.id === selectedBookIndex);
 
-    setSelectedScrapIndex(-1);
     setFilteredScraps(selectedBook ? selectedBook.scraps : []);
   }, [selectedBookIndex]);
 
+  useEffect(() => {
+    setScrapList(createScrapDropdownItems(filteredScraps));
+  }, [filteredScraps]);
+
   const handleScrapBtnClick = () => {
-    const [bookId, articleId] = router.query.data as string[];
-    if (selectedBookIndex === -1 || selectedScrapIndex === -1) return;
-    // NOTE: 책의 가장 마지막으로 글이 들어감 (임시)
-    createScrap({
-      order: filteredScraps.length,
-      is_original: false,
-      book_id: selectedBookIndex,
-      article_id: +articleId,
-    });
+    if (selectedBookIndex === -1) return;
+
+    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+
+    createScrap({ book_id: selectedBookIndex, article_id: article.id, scraps });
     handleModalClose();
   };
 
@@ -68,13 +72,12 @@ export default function ScrapModal({ books, handleModalClose }: ScrapModalProps)
         selectedId={selectedBookIndex}
         handleItemSelect={(id) => setSelectedBookIndex(id)}
       />
-      <Label>순서 선택</Label>
-      <Dropdown
-        label="글을 넣을 순서를 선택해주세요."
-        items={createScrapDropdownItems(filteredScraps)}
-        selectedId={selectedScrapIndex}
-        handleItemSelect={(id) => setSelectedScrapIndex(id)}
-      />
+      {filteredScraps.length !== 0 && (
+        <ArticleWrapper>
+          <Label>순서 선택</Label>
+          <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
+        </ArticleWrapper>
+      )}
       <ModalButton theme="primary" onClick={handleScrapBtnClick}>
         스크랩하기
       </ModalButton>
