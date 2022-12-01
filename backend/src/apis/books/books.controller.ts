@@ -43,8 +43,11 @@ const createBook = async (req: Request, res: Response) => {
 
   const book = await booksService.createBook({ title, userId });
 
-  res.status(201).send(book);
+  const bookData = await booksService.findBook(book.id, userId);
+
+  res.status(201).send(bookData);
 };
+
 const editBook = async (req: Request, res: Response) => {
   const { id, title, thumbnail_image, scraps } = req.body;
 
@@ -55,10 +58,19 @@ const editBook = async (req: Request, res: Response) => {
   res.status(200).send({ book, scrap });
 };
 
+const deleteBook = async (req: Request, res: Response) => {
+  const bookId = Number(req.params.bookId);
+
+  const book = await booksService.deleteBook(bookId);
+
+  res.status(200).send(book);
+};
+
 export default {
   getBook,
   getBooks,
   searchBooks,
   createBook,
   editBook,
+  deleteBook,
 };

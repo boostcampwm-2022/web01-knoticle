@@ -7,6 +7,7 @@ export const FabWrapper = styled.div`
   bottom: 60px;
   right: 200px;
   gap: 10px;
+  z-index: 14;
 `;
 
 export const FabButton = styled.button<{ isGreen?: boolean }>`

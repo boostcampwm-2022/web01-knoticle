@@ -1,5 +1,6 @@
 import { FindBooks, SearchBooks, CreateBook } from '@apis/books/books.interface';
 import { prisma } from '@config/orm.config';
+import { Message, NotFound } from '@errors';
 
 const findBook = async (bookId: number, userId: number) => {
   const book = await prisma.book.findFirst({
@@ -173,11 +174,11 @@ const createBook = async ({ title, userId }: CreateBook) => {
       },
     },
   });
+
   return book;
 };
 
 const editBook = async (dto: any) => {
-  console.log(dto);
   const { id, title, thumbnail_image } = dto;
   const book = await prisma.book.update({
     where: {
@@ -192,10 +193,24 @@ const editBook = async (dto: any) => {
   return book;
 };
 
+const deleteBook = async (id: number) => {
+  const book = await prisma.book.update({
+    where: {
+      id,
+    },
+    data: {
+      deleted_at: new Date(),
+    },
+  });
+
+  return book;
+};
+
 export default {
   findBook,
   findBooks,
   searchBooks,
   createBook,
   editBook,
+  deleteBook,
 };
