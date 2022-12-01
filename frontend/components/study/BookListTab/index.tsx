@@ -1,57 +1,134 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { getOrderedBookListApi } from '@apis/bookApi';
+import { useRecoilState } from 'recoil';
+
+import MinusWhite from '@assets/ico_minus_white.svg';
+import curKnottedBookListState from '@atoms/curKnottedBookList';
+import editInfoState from '@atoms/editInfo';
 import Book from '@components/common/Book';
 import Modal from '@components/common/Modal';
-import useFetch from '@hooks/useFetch';
+import EditBook from '@components/study/EditBook';
+import FAB from '@components/study/FAB';
 import { IBookScraps } from '@interfaces';
 
-import EditBook from '../EditBook';
-import { BookGrid, BookListTabWrapper, TabTitle, TabTitleContent } from './styled';
+import {
+  BookGrid,
+  BookListTabWrapper,
+  EditBookWrapper,
+  EditModalOpener,
+  EditModeIndicator,
+  MinusButton,
+  MinusIcon,
+  TabTitle,
+  TabTitleContent,
+} from './styled';
 
-export default function BookListTab() {
-  // 일단 에러 안 뜨게 새로 엮은 책 보여주기
+interface BookListTabProps {
+  knottedBookList: IBookScraps[];
+  bookmarkedBookList: IBookScraps[];
+  isUserMatched: boolean;
+}
+
+export default function BookListTab({
+  knottedBookList,
+  bookmarkedBookList,
+  isUserMatched,
+}: BookListTabProps) {
+  const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
+  const [editInfo, setEditInfo] = useRecoilState(editInfoState);
+
   const [isModalShown, setModalShown] = useState(false);
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
-
-  const { data: newestBookList, execute: getNewestBookList } =
-    useFetch<IBookScraps[]>(getOrderedBookListApi);
-
-  useEffect(() => {
-    getNewestBookList('newest');
-  }, []);
+  const [tabStatus, setTabStatus] = useState<'knotted' | 'bookmarked'>('knotted');
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const handleEditBookModalOpen = (id: number) => {
-    const curbook = newestBookList?.find((v) => v.id === id);
+    const curbook = knottedBookList?.find((v) => v.id === id);
     if (!curbook) return;
+
     setModalShown(true);
     setCurEditBook(curbook);
   };
+
   const handleModalClose = () => {
     setModalShown(false);
   };
 
+  const handleMinusBtnClick = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+    e.stopPropagation();
+    setCurKnottedBookList([...curKnottedBookList.filter((book) => id !== book.id)]);
+    setEditInfo({
+      ...editInfo,
+      deleted: [...editInfo.deleted, id],
+    });
+  };
+
+  const handleEditModalOpenerClick = (e: React.MouseEvent<HTMLDivElement>, bookId: number) => {
+    e.stopPropagation();
+    handleEditBookModalOpen(bookId);
+  };
+
   return (
     <BookListTabWrapper>
+      {isEditing && <EditModeIndicator>수정 모드</EditModeIndicator>}
       <TabTitle>
-        <TabTitleContent>엮은 책</TabTitleContent>
-        <TabTitleContent>북마크한 책</TabTitleContent>
+        <TabTitleContent
+          onClick={() => {
+            setTabStatus('knotted');
+          }}
+          isActive={tabStatus === 'knotted'}
+        >
+          엮은 책
+        </TabTitleContent>
+        <TabTitleContent
+          onClick={() => {
+            setTabStatus('bookmarked');
+            setIsEditing(false);
+          }}
+          isActive={tabStatus === 'bookmarked'}
+        >
+          북마크한 책
+        </TabTitleContent>
       </TabTitle>
-      <BookGrid>
-        {newestBookList &&
-          newestBookList.map((book) => (
-            <Book
-              key={book.id}
-              book={book}
-              handleEditBookModalOpen={() => {
-                handleEditBookModalOpen(book.id);
-              }}
-            />
-          ))}
-      </BookGrid>
+      {tabStatus === 'knotted' ? (
+        <BookGrid>
+          {knottedBookList &&
+            knottedBookList.map((book) =>
+              isEditing ? (
+                <EditBookWrapper key={book.id}>
+                  <MinusButton
+                    onClick={(e) => {
+                      handleMinusBtnClick(e, book.id);
+                    }}
+                  >
+                    <MinusIcon src={MinusWhite} alt="책 삭제" />
+                  </MinusButton>
+                  <EditModalOpener
+                    onClick={(e) => {
+                      handleEditModalOpenerClick(e, book.id);
+                    }}
+                  />
+                  <Book book={book} />
+                </EditBookWrapper>
+              ) : (
+                <Book key={book.id} book={book} />
+              )
+            )}
+        </BookGrid>
+      ) : (
+        <BookGrid>
+          {bookmarkedBookList &&
+            bookmarkedBookList.map((book) => <Book key={book.id} book={book} />)}
+        </BookGrid>
+      )}
+
+      {isUserMatched && tabStatus === 'knotted' && (
+        <FAB isEditing={isEditing} setIsEditing={setIsEditing} />
+      )}
+
       {isModalShown && (
         <Modal title="내 책 수정하기" handleModalClose={handleModalClose}>
-          {curEditBook && <EditBook book={curEditBook} />}
+          {curEditBook && <EditBook book={curEditBook} handleModalClose={handleModalClose} />}
         </Modal>
       )}
     </BookListTabWrapper>

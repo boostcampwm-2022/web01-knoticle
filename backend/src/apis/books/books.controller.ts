@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 
 import { FindBooks, SearchBooks } from '@apis/books/books.interface';
 import booksService from '@apis/books/books.service';
+import { IScrap } from '@apis/scraps/scraps.interface';
+import scrapsService from '@apis/scraps/scraps.service';
 
 const getBook = async (req: Request, res: Response) => {
   const { bookId } = req.params;
@@ -16,13 +18,13 @@ const getBook = async (req: Request, res: Response) => {
 };
 
 const getBooks = async (req: Request, res: Response) => {
-  const { order, take, editor } = req.query as unknown as FindBooks;
+  const { order, take, editor, type } = req.query as unknown as FindBooks;
 
   let userId = res.locals.user?.id;
 
   if (!userId) userId = 0;
 
-  const books = await booksService.findBooks({ order, take: +take, userId, editor });
+  const books = await booksService.findBooks({ order, take: +take, userId, editor, type });
 
   res.status(200).send(books);
 };
@@ -42,7 +44,36 @@ const createBook = async (req: Request, res: Response) => {
 
   const book = await booksService.createBook({ title, userId });
 
-  res.status(201).send(book);
+  const bookData = await booksService.findBook(book.id, userId);
+
+  res.status(201).send(bookData);
+};
+
+const editBook = async (req: Request, res: Response) => {
+  const { id, title, thumbnail_image, scraps } = req.body;
+
+  const userId = res.locals.user.id;
+
+  const book = await booksService.editBook({ id, title, thumbnail_image });
+
+  const result: any[] = [];
+  scraps.forEach(async (scrap: IScrap) => {
+    result.push(await scrapsService.updateScraps(scrap));
+  });
+
+  const bookData = await booksService.findBook(book.id, userId);
+
+  res.status(200).send(bookData);
+};
+
+const deleteBook = async (req: Request, res: Response) => {
+  const bookId = Number(req.params.bookId);
+
+  const userId = res.locals.user.id;
+
+  const book = await booksService.deleteBook(bookId, userId);
+
+  res.status(200).send(book);
 };
 
 export default {
@@ -50,4 +81,6 @@ export default {
   getBooks,
   searchBooks,
   createBook,
+  editBook,
+  deleteBook,
 };

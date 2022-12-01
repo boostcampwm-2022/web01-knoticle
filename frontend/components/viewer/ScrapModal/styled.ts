@@ -11,3 +11,8 @@ export const ScrapModalWrapper = styled.div`
 `;
 
 export const Label = styled(TextLarge)``;
+export const ArticleWrapper = styled.div`
+  width: 100%;
+  height: 300px;
+  overflow: auto;
+`;

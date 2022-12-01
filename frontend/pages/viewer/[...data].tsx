@@ -2,8 +2,11 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
+import { useRecoilValue } from 'recoil';
+
 import { getArticleApi } from '@apis/articleApi';
 import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
+import signInStatusState from '@atoms/signInStatus';
 import GNB from '@components/common/GNB';
 import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
@@ -17,6 +20,8 @@ export default function Viewer() {
   const { data: article, execute: getArticle } = useFetch(getArticleApi);
   const { data: book, execute: getBook } = useFetch(getBookApi);
   const { data: userBooks, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
+
+  const user = useRecoilValue(signInStatusState);
 
   const [isOpened, setIsOpened] = useState(true);
 
@@ -37,7 +42,7 @@ export default function Viewer() {
 
       getBook(bookId);
       getArticle(articleId);
-      getUserKnottedBooks('dahyeon');
+      getUserKnottedBooks(user.nickname);
     }
   }, [router.query.data]);
 
@@ -63,7 +68,7 @@ export default function Viewer() {
       )}
       {isModalShown && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
-          <ScrapModal books={userBooks} handleModalClose={handleModalClose} />
+          <ScrapModal books={userBooks} handleModalClose={handleModalClose} article={article} />
         </Modal>
       )}
     </>
