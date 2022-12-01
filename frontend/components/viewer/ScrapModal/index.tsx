@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useRecoilState } from 'recoil';
+
 import { createScrapApi } from '@apis/scrapApi';
 import scrapState from '@atoms/scrap';
 import DragArticle from '@components/common/DragDrop';
@@ -8,7 +10,6 @@ import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IBook, IBookScraps, IScrap, IArticle } from '@interfaces';
 import { IEditScrap } from 'interfaces/scrap.interface';
-import { useRecoilState } from 'recoil';
 
 import { ArticleWrapper, Label, ScrapModalWrapper } from './styled';
 
