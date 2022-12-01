@@ -36,7 +36,11 @@ export default function Dropdown({ label, items, selectedId, handleItemSelect }:
 
   return (
     <DropdownWrapper>
-      <SelectedArea onClick={() => setDropdownSpread(!isDropdownSpread)}>
+      <SelectedArea
+        onClick={() => {
+          setDropdownSpread(!isDropdownSpread);
+        }}
+      >
         <IconWrapper className={isDropdownSpread ? 'open' : 'close'}>
           <Image src={CaretDownIcon} alt="Caret Down Icon" />
         </IconWrapper>

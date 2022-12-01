@@ -14,7 +14,7 @@ import useFetch from '@hooks/useFetch';
 import { IBook, IBookScraps, IScrap } from '@interfaces';
 import { IEditScrap } from 'interfaces/scrap.interface';
 
-import { Label, PublishModalWrapper } from './styled';
+import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
 interface PublishModalProps {
   books: IBookScraps[];
@@ -30,7 +30,7 @@ export default function PublishModal({ books }: PublishModalProps) {
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
-  const [scrapList] = useRecoilState<any>(scrapState);
+  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -58,9 +58,13 @@ export default function PublishModal({ books }: PublishModalProps) {
       book_id: selectedBookIndex,
     });
   }, [selectedBookIndex]);
+  useEffect(() => {
+    setScrapList(createScrapDropdownItems(filteredScraps));
+  }, [filteredScraps]);
 
   const handlePublishBtnClick = () => {
     const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+
     createArticle({ article, scraps });
     router.push('/');
   };
@@ -76,10 +80,10 @@ export default function PublishModal({ books }: PublishModalProps) {
       />
 
       {filteredScraps.length !== 0 && (
-        <>
+        <ArticleWrapper>
           <Label>순서 선택</Label>
           <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
-        </>
+        </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handlePublishBtnClick}>
         발행하기
