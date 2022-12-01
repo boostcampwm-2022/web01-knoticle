@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import TemporaryImage from '@assets/img_profile.png';
 import { TextSmall, TextXSmall } from '@styles/common';
@@ -17,14 +18,17 @@ interface ArticleItemProps {
   title: string;
   content: string;
   nickname: string;
+  link: string;
 }
 
-export default function ArticleItem({ title, content, nickname }: ArticleItemProps) {
+export default function ArticleItem({ title, content, nickname, link }: ArticleItemProps) {
   return (
     <ItemWrapper>
       <ItemGroup>
-        <ItemTitle>{title}</ItemTitle>
-        <ItemContent>{content}</ItemContent>
+        <Link href={link}>
+          <ItemTitle>{title}</ItemTitle>
+          <ItemContent>{content}</ItemContent>
+        </Link>
       </ItemGroup>
       <UserProfile>
         <ProfileDescription>
