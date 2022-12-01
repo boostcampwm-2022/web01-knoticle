@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { TopBar } from '@styles/layout';
 import styled from 'styled-components';
+
+import { TopBar } from '@styles/layout';
 
 export const GNBbar = styled(TopBar)`
   width: 100%;
@@ -26,7 +27,7 @@ export const Logo = styled(Link)`
 `;
 
 export const IconsContainer = styled.div`
-  width: 112px;
+  width: 96px;
   display: flex;
   justify-content: space-between;
   align-items: center;
