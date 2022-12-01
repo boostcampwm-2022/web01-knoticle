@@ -8,6 +8,7 @@ import { FlexColumn } from '@styles/layout';
 
 export const BookWrapper = styled(FlexColumn)`
   min-width: 280px;
+  max-width: 280px;
   height: 480px;
   margin: 0 10px;
   box-sizing: border-box;

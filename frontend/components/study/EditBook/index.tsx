@@ -31,6 +31,7 @@ import {
   EditBookThumbnailWrapper,
   EditBookThumbnailIcon,
   MoreContentsIconWrapper,
+  DragArticleWrapper,
 } from './styled';
 
 interface BookProps {
@@ -142,7 +143,9 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
 
           <BookContentsInfo>
             <BookContent>Contents</BookContent>
-            <DragArticle data={scraps} isContentsShown={isContentsShown} />
+            <DragArticleWrapper isContentsShown={isContentsShown}>
+              <DragArticle data={scraps} isContentsShown={isContentsShown} />
+            </DragArticleWrapper>
           </BookContentsInfo>
         </BookInfoContainer>
         <MoreContentsIconWrapper onClick={handleContentsOnClick}>

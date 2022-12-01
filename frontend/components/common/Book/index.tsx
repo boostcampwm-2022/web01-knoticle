@@ -26,7 +26,6 @@ interface BookProps {
   book: IBookScraps;
 }
 
-
 export default function Book({ book }: BookProps) {
   const { id, title, user, scraps, _count, bookmarks } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(

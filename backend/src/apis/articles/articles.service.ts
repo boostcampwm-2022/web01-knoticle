@@ -89,7 +89,6 @@ const getArticle = async (articleId: number) => {
 
 const createArticle = async (dto: CreateArticle) => {
   const { title, content, book_id } = dto;
-
   const article = await prisma.article.create({
     data: {
       title,
@@ -101,7 +100,6 @@ const createArticle = async (dto: CreateArticle) => {
       },
     },
   });
-
   return article;
 };
 
