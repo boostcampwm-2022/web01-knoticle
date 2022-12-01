@@ -51,8 +51,7 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".ts", ".tsx"] }],
     "react/jsx-props-no-spreading": "off",
-    "react-hooks/exhaustive-deps": "off",
-    "camelcase":"off"
+    "react-hooks/exhaustive-deps": "off"
   },
   "settings": {
     "import/parsers": {
