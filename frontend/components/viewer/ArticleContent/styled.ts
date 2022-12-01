@@ -9,12 +9,14 @@ export const ArticleContainer = styled(Flex)`
 export const ArticleLeftBtn = styled.div`
   position: fixed;
   top: 50%;
-  margin-left: 10px;
+  margin-left: 20px;
+  cursor: pointer;
 `;
 export const ArticleRightBtn = styled.div`
   position: fixed;
   top: 50%;
   right: 25px;
+  cursor: pointer;
 `;
 export const ArticleMain = styled(Flex)`
   flex-direction: column;

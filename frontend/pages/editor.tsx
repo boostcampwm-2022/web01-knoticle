@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { getBooksApi } from '@apis/bookApi';
 import Modal from '@components/common/Modal';
-import EditBar from '@components/edit/EditBar';
 import Editor from '@components/edit/Editor';
 import PublishModal from '@components/edit/PublishModal';
 import useFetch from '@hooks/useFetch';
@@ -21,8 +20,7 @@ export default function EditorPage() {
 
   return (
     <>
-      <EditBar handleModalOpen={() => handleModalOpen()} />
-      <Editor />
+      <Editor handleModalOpen={handleModalOpen} />
       {isModalShown && (
         <Modal title="글 발행하기" handleModalClose={handleModalClose}>
           <PublishModal books={books} />

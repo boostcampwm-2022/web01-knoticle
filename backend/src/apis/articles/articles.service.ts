@@ -10,7 +10,7 @@ const searchArticles = async (searchArticles: SearchArticles) => {
 
   const skip = (page - 1) * take;
 
-  const matchUserCondition = userId
+  const matchUserCondition = Number(userId)
     ? {
         book: {
           user: {
@@ -28,6 +28,7 @@ const searchArticles = async (searchArticles: SearchArticles) => {
       created_at: true,
       book: {
         select: {
+          id: true,
           user: {
             select: {
               id: true,
@@ -52,7 +53,10 @@ const searchArticles = async (searchArticles: SearchArticles) => {
     skip,
   });
 
-  return articles;
+  return {
+    data: articles,
+    hasNextPage: articles.length === take,
+  };
 };
 
 const getArticle = async (articleId: number) => {
