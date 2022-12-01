@@ -65,7 +65,6 @@ export const BookContentsInfo = styled(FlexColumn)`
 export const BookContents = styled(TextXSmall)`
   display: flex;
   flex-direction: column;
-  
   a {
     border-bottom: 1px solid var(--grey-02-color);
     height: 28px;
