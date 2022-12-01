@@ -16,18 +16,18 @@ const slide = keyframes`
 
 export const TocWrapper = styled(Flex)`
   /* 고정크기? %? */
-  flex-basis: 250px;
+  flex-basis: 300px;
   height: calc(100vh - 67px);
+  overflow: hidden;
   background-color: var(--primary-color);
   color: var(--white-color);
   flex-direction: column;
-  position: relative;
+  justify-content: space-between;
   // animation: ${slide} 1s ease-in-out;
 `;
 
 export const TocSideBar = styled.div`
-  padding: 30px;
-  flex-basis: 90%;
+  padding: 30px 24px 10px 24px;
 `;
 
 export const TocIcons = styled(Flex)`
@@ -38,15 +38,25 @@ export const TocTitle = styled.div`
   padding: 10px 0;
   border-bottom: 1px solid var(--white-color);
 `;
+
 export const TocContainer = styled.div`
   background-color: var(--white-color);
-  height: 70%;
   color: var(--grey-01-color);
   border-radius: 20px;
   padding: 20px;
   margin-top: 10px;
   overflow: auto;
+  height: calc(100vh - 357px);
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--grey-02-color);
+    border-radius: 10px;
+  }
 `;
+
 export const TocList = styled.div`
   margin: 5px;
 `;
@@ -67,9 +77,9 @@ export const TocArticle = styled(Link)`
 export const TocProfile = styled(Flex)`
   justify-content: end;
   align-items: end;
-  flex-basis: 10%;
   padding: 20px;
 `;
+
 export const TocProfileText = styled(Flex)`
   flex-direction: column;
   align-items: end;
