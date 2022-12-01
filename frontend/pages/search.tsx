@@ -7,6 +7,7 @@ import ArticleList from '@components/search/ArticleList';
 import BookList from '@components/search/BookList';
 import SearchBar from '@components/search/SearchBar';
 import SearchFilter from '@components/search/SearchFilter';
+import SearchNoResult from '@components/search/SearchNoResult';
 import useDebounce from '@hooks/useDebounce';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
@@ -106,6 +107,9 @@ export default function Search() {
           <SearchFilter handleFilter={handleFilter} />
           {articles?.length > 0 && filter.type === 'article' && <ArticleList articles={articles} />}
           {books?.length > 0 && filter.type === 'book' && <BookList books={books} />}
+          {debouncedKeyword !== '' &&
+            ((articles?.length === 0 && filter.type === 'article') ||
+              (books?.length === 0 && filter.type === 'book')) && <SearchNoResult />}
           <div ref={target} />
         </PageInnerSmall>
       </PageWrapper>
