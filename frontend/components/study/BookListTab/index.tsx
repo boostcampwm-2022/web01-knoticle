@@ -128,7 +128,7 @@ export default function BookListTab({
 
       {isModalShown && (
         <Modal title="내 책 수정하기" handleModalClose={handleModalClose}>
-          {curEditBook && <EditBook book={curEditBook} />}
+          {curEditBook && <EditBook book={curEditBook} handleModalClose={handleModalClose} />}
         </Modal>
       )}
     </BookListTabWrapper>
