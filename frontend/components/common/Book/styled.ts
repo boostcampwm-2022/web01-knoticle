@@ -36,6 +36,11 @@ export const BookTitle = styled.div`
   div:nth-child(1) {
     font-weight: 700;
   }
+
+  b {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
 `;
 
 export const Bookmark = styled(FlexColumn)`
@@ -60,8 +65,7 @@ export const BookContentsInfo = styled(FlexColumn)`
 export const BookContents = styled(TextXSmall)`
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-
+  
   a {
     border-bottom: 1px solid var(--grey-02-color);
     height: 28px;
@@ -72,10 +76,21 @@ export const BookContents = styled(TextXSmall)`
 
 export const ArticleLink = styled(Link)`
   font-size: 14px;
-  line-height: 20px;
   text-decoration: none;
   color: inherit;
-  display: block;
+  display: flex;
+  align-items: center;
+
+  border-bottom: 1px solid var(--grey-02-color);
+  height: 28px;
+
+  span {
+    line-height: 30px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 export const AuthorLink = styled(Link)`

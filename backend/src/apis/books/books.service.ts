@@ -141,7 +141,7 @@ const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
       },
       bookmarks: {
         where: {
-          user_id: userId ? Number(userId) : 0,
+          user_id: Number(userId) ? Number(userId) : 0,
         },
       },
       _count: {
@@ -150,16 +150,19 @@ const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
     },
     where: {
       deleted_at: null,
-      user_id: userId ? Number(userId) : undefined,
+      user_id: Number(userId) ? Number(userId) : undefined,
       title: {
         search: `${query}*`,
       },
     },
     skip,
-    take: 10,
+    take,
   });
 
-  return books;
+  return {
+    data: books,
+    hasNextPage: books.length === take,
+  };
 };
 
 const createBook = async ({ title, userId }: CreateBook) => {

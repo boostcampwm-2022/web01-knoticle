@@ -17,7 +17,9 @@ export const SliderContent = styled(FlexColumn)`
   margin-top: 30px;
 `;
 
-export const SliderInfoContainer = styled(FlexSpaceBetween)``;
+export const SliderInfoContainer = styled(FlexSpaceBetween)`
+  padding: 0px 10px;
+`;
 
 export const SliderInfo = styled.div`
   display: flex;

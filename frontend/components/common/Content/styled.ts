@@ -11,6 +11,8 @@ export const ContentTitle = styled.h1`
 `;
 
 export const ContentBody = styled.div`
+  padding-top: 10px;
+
   > * {
     line-height: 1.4;
   }

@@ -64,6 +64,7 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
     });
   }, [editBookData]);
 
+
   // useEffect(() => {
   //   if (
   //     deletedBook &&
@@ -73,6 +74,7 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
   //   )
   //     toastSuccess(`수정 완료되었습니다`);
   // }, [deletedBook, editBookData, editInfo]);
+
 
   return (
     <FabWrapper>

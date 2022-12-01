@@ -66,7 +66,9 @@ export default function Book({ book }: BookProps) {
               (scrap, idx) =>
                 idx < 4 && (
                   <ArticleLink key={scrap.article.id} href={`/viewer/${id}/${scrap.article.id}`}>
-                    {idx + 1}. {scrap.article.title}
+                    <span>
+                      {idx + 1}. {scrap.article.title}
+                    </span>
                   </ArticleLink>
                 )
             )}

@@ -3,16 +3,18 @@ import api from '@utils/api';
 
 interface SearchBooksApi {
   query: string;
-  page: number;
   userId: number;
+  page: number;
+  take: number;
 }
 
 export const searchBooksApi = async (data: SearchBooksApi) => {
   const url = `/api/books/search`;
   const params = {
     query: data.query,
-    page: data.page,
     userId: data.userId,
+    page: data.page,
+    take: data.take,
   };
 
   const response = await api({ url, method: 'GET', params });

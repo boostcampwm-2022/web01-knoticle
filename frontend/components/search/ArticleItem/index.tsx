@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import TemporaryImage from '@assets/img_profile.png';
 import { TextSmall, TextXSmall } from '@styles/common';
@@ -17,24 +18,36 @@ interface ArticleItemProps {
   title: string;
   content: string;
   nickname: string;
+  articleUrl: string;
+  studyUrl: string;
 }
 
-export default function ArticleItem({ title, content, nickname }: ArticleItemProps) {
+export default function ArticleItem({
+  title,
+  content,
+  nickname,
+  articleUrl,
+  studyUrl,
+}: ArticleItemProps) {
   return (
     <ItemWrapper>
       <ItemGroup>
-        <ItemTitle>{title}</ItemTitle>
-        <ItemContent>{content}</ItemContent>
+        <Link href={articleUrl}>
+          <ItemTitle>{title}</ItemTitle>
+          <ItemContent>{content}</ItemContent>
+        </Link>
       </ItemGroup>
-      <UserProfile>
-        <ProfileDescription>
-          <TextXSmall>Written By</TextXSmall>
-          <TextSmall>{nickname}</TextSmall>
-        </ProfileDescription>
-        <ProfileImage>
-          <Image src={TemporaryImage} alt="profile" width={72} height={72} />
-        </ProfileImage>
-      </UserProfile>
+      <Link href={studyUrl}>
+        <UserProfile>
+          <ProfileDescription>
+            <TextXSmall>Written By</TextXSmall>
+            <TextSmall>{nickname}</TextSmall>
+          </ProfileDescription>
+          <ProfileImage>
+            <Image src={TemporaryImage} alt="profile" width={72} height={72} />
+          </ProfileImage>
+        </UserProfile>
+      </Link>
     </ItemWrapper>
   );
 }
