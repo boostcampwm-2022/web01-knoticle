@@ -1,10 +1,9 @@
 import Image from 'next/image';
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { editBookApi } from '@apis/bookApi';
 import { createImageApi } from '@apis/imageApi';
 import Edit from '@assets/ico_edit.svg';
 import MoreContentsIcon from '@assets/ico_more_contents.svg';
@@ -43,7 +42,6 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
   const { id, title, user, scraps } = book;
 
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
-  const { data: editBookData, execute: editBook } = useFetch(editBookApi);
   const { value: titleData, onChange: onTitleChange } = useInput(title);
 
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
@@ -103,13 +101,6 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
     });
 
     handleModalClose();
-
-    // editBook({
-    //   id,
-    //   title: titleData,
-    //   thumbnail_image: imgFile?.imagePath || book.thumbnail_image,
-    //   scraps: editScraps,
-    // });
   };
 
   const handleContentsOnClick = () => {

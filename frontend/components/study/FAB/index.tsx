@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { deleteBookApi } from '@apis/bookApi';
+import { deleteBookApi, editBookApi } from '@apis/bookApi';
 import Add from '@assets/ico_add.svg';
 import CheckWhite from '@assets/ico_check_white.svg';
 import EditWhite from '@assets/ico_edit_white.svg';
@@ -22,9 +22,10 @@ interface FabProps {
 }
 
 export default function FAB({ isEditing, setIsEditing }: FabProps) {
-  const [editInfo, setEditInfo] = useRecoilState(editInfoState);
-
   const { data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
+  const { data: editBookData, execute: editBook } = useFetch(editBookApi);
+
+  const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
   const [isModalShown, setModalShown] = useState(false);
 
@@ -40,6 +41,9 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
     editInfo.deleted.forEach((bookId) => {
       deleteBook(bookId);
     });
+    editInfo.editted.forEach((edit) => {
+      editBook(edit);
+    });
   };
 
   useEffect(() => {
@@ -49,8 +53,26 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
       ...editInfo,
       deleted: editInfo.deleted.filter((id) => id !== deletedBook.id),
     });
-    toastSuccess(`${deletedBook.title} 책이 성공적으로 삭제되었습니다`);
   }, [deletedBook]);
+
+  useEffect(() => {
+    if (!editBookData) return;
+
+    setEditInfo({
+      ...editInfo,
+      editted: editInfo.editted.filter((edit) => edit.id !== editBookData.id),
+    });
+  }, [editBookData]);
+
+  useEffect(() => {
+    if (
+      deletedBook &&
+      editInfo.deleted.length === 0 &&
+      editBookData &&
+      editInfo.editted.length === 0
+    )
+      toastSuccess(`수정 완료되었습니다`);
+  }, [deletedBook, editBookData, editInfo]);
 
   return (
     <FabWrapper>
