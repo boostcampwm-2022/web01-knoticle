@@ -1,11 +1,13 @@
 import { FindBooks, SearchBooks, CreateBook } from '@apis/books/books.interface';
 import { prisma } from '@config/orm.config';
+import { Message, NotFound } from '@errors';
 
 const findBook = async (bookId: number, userId: number) => {
   const book = await prisma.book.findFirst({
     select: {
       id: true,
       title: true,
+      thumbnail_image: true,
       user: {
         select: {
           nickname: true,
@@ -43,9 +45,8 @@ const findBook = async (bookId: number, userId: number) => {
   return book;
 };
 
-const findBooks = async ({ order, take, userId, editor }: FindBooks) => {
+const findBooks = async ({ order, take, userId, editor, type }: FindBooks) => {
   const sortOptions = [];
-
   if (order === 'bookmark') sortOptions.push({ bookmarks: { _count: 'desc' as const } });
   if (order === 'newest') sortOptions.push({ created_at: 'desc' as const });
 
@@ -61,7 +62,9 @@ const findBooks = async ({ order, take, userId, editor }: FindBooks) => {
         },
       },
       scraps: {
+        orderBy: { order: 'asc' },
         select: {
+          id: true,
           order: true,
           article: {
             select: {
@@ -82,11 +85,26 @@ const findBooks = async ({ order, take, userId, editor }: FindBooks) => {
     },
     where: {
       deleted_at: null,
-      user: {
-        is: {
-          nickname: editor ? editor : undefined,
-        },
-      },
+      user:
+        type === 'bookmark'
+          ? {}
+          : {
+              is: {
+                nickname: editor ? editor : undefined,
+              },
+            },
+      bookmarks:
+        type === 'bookmark'
+          ? {
+              some: {
+                user: {
+                  is: {
+                    nickname: editor ? editor : undefined,
+                  },
+                },
+              },
+            }
+          : {},
     },
     orderBy: sortOptions,
     take,
@@ -111,6 +129,7 @@ const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
       },
       scraps: {
         select: {
+          id: true,
           order: true,
           article: {
             select: {
@@ -159,6 +178,48 @@ const createBook = async ({ title, userId }: CreateBook) => {
       },
     },
   });
+
+  return book;
+};
+
+const editBook = async (dto: any) => {
+  const { id, title, thumbnail_image } = dto;
+  const book = await prisma.book.update({
+    where: {
+      id,
+    },
+    data: {
+      title,
+      thumbnail_image: thumbnail_image,
+    },
+  });
+
+  return book;
+};
+
+const deleteBook = async (id: number, userId: number) => {
+  if (!(await checkBookOwnerCorrect(id, userId))) throw new NotFound(Message.BOOK_NOTFOUND);
+
+  const book = await prisma.book.update({
+    where: {
+      id,
+    },
+    data: {
+      deleted_at: new Date(),
+    },
+  });
+
+  return book;
+};
+
+const checkBookOwnerCorrect = async (id: number, userId: number) => {
+  const book = await prisma.book.findFirst({
+    where: {
+      id,
+      user_id: userId,
+    },
+  });
+
   return book;
 };
 
@@ -167,4 +228,6 @@ export default {
   findBooks,
   searchBooks,
   createBook,
+  editBook,
+  deleteBook,
 };

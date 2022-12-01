@@ -5,3 +5,11 @@ export interface IScrap {
   order: number;
   article: IArticle;
 }
+export interface IEditScrap {
+  id: number;
+  order: number;
+  article: {
+    id: number;
+    title: string;
+  };
+}
