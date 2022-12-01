@@ -15,6 +15,7 @@ import {
   BookGrid,
   BookListTabWrapper,
   EditBookWrapper,
+  EditModalOpener,
   EditModeIndicator,
   MinusButton,
   MinusIcon,
@@ -62,6 +63,11 @@ export default function BookListTab({
     });
   };
 
+  const handleEditModalOpenerClick = (e: React.MouseEvent<HTMLDivElement>, bookId: number) => {
+    e.stopPropagation();
+    handleEditBookModalOpen(bookId);
+  };
+
   return (
     <BookListTabWrapper>
       {isEditing && <EditModeIndicator>수정 모드</EditModeIndicator>}
@@ -89,13 +95,7 @@ export default function BookListTab({
           {knottedBookList &&
             knottedBookList.map((book) =>
               isEditing ? (
-                <EditBookWrapper
-                  key={book.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEditBookModalOpen(book.id);
-                  }}
-                >
+                <EditBookWrapper key={book.id}>
                   <MinusButton
                     onClick={(e) => {
                       handleMinusBtnClick(e, book.id);
@@ -103,6 +103,11 @@ export default function BookListTab({
                   >
                     <MinusIcon src={MinusWhite} alt="책 삭제" />
                   </MinusButton>
+                  <EditModalOpener
+                    onClick={(e) => {
+                      handleEditModalOpenerClick(e, book.id);
+                    }}
+                  />
                   <Book book={book} />
                 </EditBookWrapper>
               ) : (
@@ -123,7 +128,7 @@ export default function BookListTab({
 
       {isModalShown && (
         <Modal title="내 책 수정하기" handleModalClose={handleModalClose}>
-          {curEditBook && <EditBook book={curEditBook} />}
+          {curEditBook && <EditBook book={curEditBook} handleModalClose={handleModalClose} />}
         </Modal>
       )}
     </BookListTabWrapper>

@@ -39,12 +39,20 @@ export const EditModeIndicator = styled(TextLinkMedium)`
 `;
 
 export const EditBookWrapper = styled.div`
-  z-index: 4;
-  cursor: pointer;
   position: relative;
 `;
 
+export const EditModalOpener = styled.div`
+  position: absolute;
+  z-index: 4;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+`;
+
 export const MinusButton = styled.button`
+  z-index: 5;
   position: absolute;
   display: center;
   justify-content: center;

@@ -52,6 +52,8 @@ const createBook = async (req: Request, res: Response) => {
 const editBook = async (req: Request, res: Response) => {
   const { id, title, thumbnail_image, scraps } = req.body;
 
+  const userId = res.locals.user.id;
+
   const book = await booksService.editBook({ id, title, thumbnail_image });
 
   const result: any[] = [];
@@ -59,13 +61,17 @@ const editBook = async (req: Request, res: Response) => {
     result.push(await scrapsService.updateScraps(scrap));
   });
 
-  res.status(200).send({ book, result });
+  const bookData = await booksService.findBook(book.id, userId);
+
+  res.status(200).send(bookData);
 };
 
 const deleteBook = async (req: Request, res: Response) => {
   const bookId = Number(req.params.bookId);
 
-  const book = await booksService.deleteBook(bookId);
+  const userId = res.locals.user.id;
+
+  const book = await booksService.deleteBook(bookId, userId);
 
   res.status(200).send(book);
 };

@@ -73,11 +73,9 @@ export const ProfileEditButton = styled(Button)`
   align-items: center;
 
   border-radius: 10px;
-  border: 1px solid var(--grey-01-color);
-`;
-
-export const LogoutButton = styled(Button)`
-  border: 1px solid var(--grey-01-color);
+  border: 1px solid rgba(148, 173, 46, 1);
+  background-color: var(--green-color);
+  color: var(--white-color);
 `;
 
 export const EditThumbnailIcon = styled.div`
