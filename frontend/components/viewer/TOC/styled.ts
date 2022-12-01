@@ -43,7 +43,7 @@ export const TocContainer = styled.div`
   background-color: var(--white-color);
   color: var(--grey-01-color);
   border-radius: 20px;
-  padding: 20px;
+  padding: 24px;
   margin-top: 10px;
   overflow: auto;
   height: calc(100vh - 357px);
@@ -58,7 +58,7 @@ export const TocContainer = styled.div`
 `;
 
 export const TocList = styled.div`
-  margin: 5px;
+  margin-top: 10px;
 `;
 
 export const TocArticle = styled(Link)`
