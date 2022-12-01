@@ -66,10 +66,8 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
 
   useEffect(() => {
     if (
-      deletedBook &&
-      editInfo.deleted.length === 0 &&
-      editBookData &&
-      editInfo.editted.length === 0
+      (deletedBook && editInfo.deleted.length === 0 && editInfo.editted.length === 0) ||
+      (editBookData && editInfo.deleted.length === 0 && editInfo.editted.length === 0)
     )
       toastSuccess(`수정 완료되었습니다`);
   }, [deletedBook, editBookData, editInfo]);
