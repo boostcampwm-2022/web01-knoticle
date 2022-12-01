@@ -35,6 +35,11 @@ export const BookTitle = styled.div`
   div:nth-child(1) {
     font-weight: 700;
   }
+
+  b {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
 `;
 
 export const Bookmark = styled(FlexColumn)`

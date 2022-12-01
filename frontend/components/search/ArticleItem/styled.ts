@@ -11,6 +11,11 @@ export const ItemWrapper = styled.div`
 
 export const ItemGroup = styled.div`
   flex: 1;
+
+  b {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
 `;
 
 export const ItemTitle = styled(TextMedium)`
