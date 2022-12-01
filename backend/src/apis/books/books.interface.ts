@@ -10,6 +10,7 @@ export interface FindBooks {
   take: number;
   userId?: number;
   editor?: string;
+  type?: 'bookmark';
 }
 
 export interface CreateBook {

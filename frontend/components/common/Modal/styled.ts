@@ -14,14 +14,15 @@ export const ModalWrapper = styled.div`
   top: 0px;
   left: 0px;
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   z-index: 99;
 `;
 
 export const ModalInner = styled.div`
   width: 360px;
-  margin-top: 150px;
   padding: 32px;
   background: var(--white-color);
   border-radius: 30px;

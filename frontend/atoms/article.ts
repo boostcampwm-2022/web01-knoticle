@@ -6,7 +6,6 @@ const articleState = atom({
     title: '',
     content: '',
     book_id: -1,
-    order: -1,
   },
 });
 

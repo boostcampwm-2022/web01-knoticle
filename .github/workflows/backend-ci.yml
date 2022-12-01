@@ -1,0 +1,68 @@
+name: Backend CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'backend/**'
+
+jobs:
+  lint:
+    name: Lint CI
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        id: backend-cache
+        with:
+          path: backend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - if: ${{ steps.backend-cache.outputs.cache-hit != 'true' }}
+        name: Install Dependencies
+        run: npm install
+        working-directory: backend
+
+      - name: Check Lint
+        run: npm run lint
+        env:
+          CI: true
+        working-directory: backend
+
+  build:
+    name: Build CI
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        id: backend-cache
+        with:
+          path: backend/node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - if: ${{ steps.backend-cache.outputs.cache-hit != 'true' }}
+        name: Install Dependencies
+        run: npm install
+        working-directory: backend
+
+      - name: Build
+        run: npm run build
+        env:
+          CI: true
+        working-directory: backend

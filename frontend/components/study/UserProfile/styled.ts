@@ -55,5 +55,7 @@ export const ProfileEditButton = styled(Button)`
 `;
 
 export const LogoutButton = styled(Button)`
-  border: 1px solid var(--grey-01-color);
+  border: 1px solid #8f4c26;
+  background-color: var(--primary-color);
+  color: white;
 `;

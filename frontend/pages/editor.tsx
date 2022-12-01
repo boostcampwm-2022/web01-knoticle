@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { getBooksApi } from '@apis/bookApi';
+import { useRecoilValue } from 'recoil';
+
+import { getUserKnottedBooksApi } from '@apis/bookApi';
+import signInStatusState from '@atoms/signInStatus';
 import Modal from '@components/common/Modal';
-import EditBar from '@components/edit/EditBar';
 import Editor from '@components/edit/Editor';
 import PublishModal from '@components/edit/PublishModal';
 import useFetch from '@hooks/useFetch';
@@ -13,16 +15,17 @@ export default function EditorPage() {
   const handleModalOpen = () => setModalShown(true);
   const handleModalClose = () => setModalShown(false);
 
-  const { data: books, execute: getBooks } = useFetch(getBooksApi);
+  const { data: books, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
+
+  const user = useRecoilValue(signInStatusState);
 
   useEffect(() => {
-    getBooks({ userId: 4 });
+    getUserKnottedBooks(user.nickname);
   }, []);
 
   return (
     <>
-      <EditBar handleModalOpen={() => handleModalOpen()} />
-      <Editor />
+      <Editor handleModalOpen={handleModalOpen} />
       {isModalShown && (
         <Modal title="글 발행하기" handleModalClose={handleModalClose}>
           <PublishModal books={books} />
