@@ -4,9 +4,11 @@ export const FabWrapper = styled.div`
   position: fixed;
   display: flex;
   justify-content: space-between;
-  bottom: 60px;
-  right: 330px;
-  width: 110px;
+  bottom: 0;
+  right: 0;
+  margin: 40px;
+  gap: 10px;
+  z-index: 14;
 `;
 
 export const FabButton = styled.button<{ isGreen?: boolean }>`

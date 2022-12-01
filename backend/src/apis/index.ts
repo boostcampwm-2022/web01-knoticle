@@ -32,8 +32,10 @@ router.post('/image', multer().single('image'), catchAsync(imagesController.crea
 
 router.get('/books/search', catchAsync(booksController.searchBooks));
 router.get('/books/:bookId', decoder, catchAsync(booksController.getBook));
+router.delete('/books/:bookId', catchAsync(guard), catchAsync(booksController.deleteBook));
 router.get('/books', decoder, catchAsync(booksController.getBooks));
 router.post('/books', catchAsync(guard), catchAsync(booksController.createBook));
+router.patch('/books', catchAsync(guard), catchAsync(booksController.editBook));
 
 router.post('/bookmarks', catchAsync(guard), catchAsync(bookmarksController.createBookmark));
 router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));

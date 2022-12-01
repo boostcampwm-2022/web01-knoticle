@@ -3,7 +3,12 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 import { TextXSmall, TextSmall } from '@styles/common';
-import { FlexColumn } from '@styles/layout';
+import { FlexCenter, FlexColumn, FlexColumnCenter } from '@styles/layout';
+
+export const EditBookWapper = styled(FlexColumnCenter)`
+  width: 320px;
+  margin: auto;
+`;
 
 export const BookWrapper = styled(FlexColumn)`
   width: 100%;
@@ -86,3 +91,20 @@ export const Author = styled.div`
   display: block;
   margin-top: 2px;
 `;
+
+export const EditBookThumbnailWrapper = styled.div``;
+export const EditBookThumbnailIcon = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  padding: 10px;
+  box-sizing: content-box;
+  border: 1px solid var(--grey-01-color);
+  transform: translate(650%, -120%);
+  background-color: var(--white-color);
+  cursor: pointer;
+`;
+
+export const MoreContentsIconWrapper = styled(FlexCenter)``;
