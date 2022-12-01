@@ -11,6 +11,7 @@ import useDebounce from '@hooks/useDebounce';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
+import { IArticle, IBook } from '@interfaces';
 import { PageInnerSmall, PageWrapper } from '@styles/layout';
 
 export default function Search() {
@@ -21,7 +22,7 @@ export default function Search() {
   const { data: newBooks, execute: searchBooks } = useFetch(searchBooksApi);
 
   const keyword = useInput();
-  const debouncedKeyword = useDebounce(keyword.value, 1000);
+  const debouncedKeyword = useDebounce(keyword.value, 300);
 
   const target = useRef() as RefObject<HTMLDivElement>;
   const isIntersecting = useIntersectionObserver(target);
@@ -31,17 +32,50 @@ export default function Search() {
 
   const [filter, setFilter] = useState({ type: 'article', userId: 0 });
 
+  const highlightWord = (text: string, words: string[]): React.ReactNode => {
+    let wordIndexList = words.map((word) => text.toLowerCase().indexOf(word.toLowerCase()));
+
+    const filteredWords = words.filter((_, index) => wordIndexList[index] !== -1);
+    wordIndexList = wordIndexList.filter((wordIndex) => wordIndex !== -1);
+
+    if (wordIndexList.length === 0) return text;
+
+    const startIndex = Math.min(...wordIndexList);
+
+    const targetWord = filteredWords[wordIndexList.indexOf(startIndex)];
+
+    const endIndex = startIndex + targetWord.length;
+
+    return (
+      <>
+        {text.slice(0, startIndex)}
+        <b>{text.slice(startIndex, endIndex)}</b>
+        {highlightWord(text.slice(endIndex), words)}
+      </>
+    );
+  };
+
   useEffect(() => {
     if (!debouncedKeyword) return;
 
     setArticles([]);
-    searchArticles({ query: debouncedKeyword, userId: filter.userId, page: 1 });
+    searchArticles({
+      query: debouncedKeyword,
+      userId: filter.userId,
+      page: 1,
+      take: 12,
+    });
     setArticlePage({
       hasNextPage: true,
       pageNumber: 2,
     });
     setBooks([]);
-    searchBooks({ query: debouncedKeyword, userId: filter.userId, page: 1 });
+    searchBooks({
+      query: debouncedKeyword,
+      userId: filter.userId,
+      page: 1,
+      take: 12,
+    });
     setBookPage({
       hasNextPage: true,
       pageNumber: 2,
@@ -57,6 +91,7 @@ export default function Search() {
         query: debouncedKeyword,
         userId: filter.userId,
         page: articlePage.pageNumber,
+        take: 12,
       });
       setArticlePage({
         ...articlePage,
@@ -64,7 +99,12 @@ export default function Search() {
       });
     } else if (filter.type === 'book') {
       if (!bookPage.hasNextPage) return;
-      searchBooks({ query: debouncedKeyword, userId: filter.userId, page: bookPage.pageNumber });
+      searchBooks({
+        query: debouncedKeyword,
+        userId: filter.userId,
+        page: bookPage.pageNumber,
+        take: 12,
+      });
       setBookPage({
         ...bookPage,
         pageNumber: bookPage.pageNumber + 1,
@@ -74,7 +114,19 @@ export default function Search() {
 
   useEffect(() => {
     if (!newArticles) return;
-    setArticles(articles.concat(newArticles.data));
+    setArticles(
+      articles.concat(
+        newArticles.data.map((article: IArticle) => {
+          const keywords = debouncedKeyword.trim().split(' ');
+
+          return {
+            ...article,
+            title: highlightWord(article.title, keywords),
+            content: highlightWord(article.content, keywords),
+          };
+        })
+      )
+    );
     setArticlePage({
       ...articlePage,
       hasNextPage: newArticles.hasNextPage,
@@ -83,7 +135,18 @@ export default function Search() {
 
   useEffect(() => {
     if (!newBooks) return;
-    setBooks(books.concat(newBooks.data));
+    setBooks(
+      books.concat(
+        newBooks.data.map((book: IBook) => {
+          const keywords = debouncedKeyword.trim().split(' ');
+
+          return {
+            ...book,
+            title: highlightWord(book.title, keywords),
+          };
+        })
+      )
+    );
     setBookPage({
       ...bookPage,
       hasNextPage: newBooks.hasNextPage,
