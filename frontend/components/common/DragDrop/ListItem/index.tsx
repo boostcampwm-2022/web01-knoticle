@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { memo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
@@ -31,15 +30,20 @@ export const ListItem = memo(function Scrap({
   isContentsShown,
 }: ScrapProps) {
   const originalIndex = findScrap(id).index;
+
+  // Drag
   const [{ isDragging }, drag] = useDrag(
     () => ({
+      // 타입설정 useDrop의 accept와 일치시켜야함
       type: ItemTypes.Scrap,
       item: { id, originalIndex },
+      // Return array의 첫번째 값에 들어갈 객체를 정의한다.
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
+      // 드래그가 끝났을때 실행한다.
       end: (item, monitor) => {
-        const { id: droppedId, originalIndex } = item;
+        const { id: droppedId } = item;
         const didDrop = monitor.didDrop();
         if (!didDrop) {
           moveScrap(droppedId, originalIndex);
@@ -48,10 +52,11 @@ export const ListItem = memo(function Scrap({
     }),
     [id, originalIndex, moveScrap]
   );
-
+  // Drop
   const [, drop] = useDrop(
     () => ({
       accept: ItemTypes.Scrap,
+
       hover({ id: draggedId }: Item) {
         if (draggedId !== id) {
           const { index: overIndex } = findScrap(id);

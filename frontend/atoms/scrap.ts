@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-const scrapState = atom({
+const scrapState = atom<any>({
   key: 'scrapState',
   default: [],
 });

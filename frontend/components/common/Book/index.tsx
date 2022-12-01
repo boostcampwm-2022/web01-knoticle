@@ -28,7 +28,7 @@ interface BookProps {
 }
 
 export default function Book({ book, handleEditBookModalOpen }: BookProps) {
-  const { id, title, user, scraps, thumbnail_image, _count, bookmarks } = book;
+  const { id, title, user, scraps, _count, bookmarks } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
     bookmarks.length ? bookmarks[0].id : null,
     _count.bookmarks,
@@ -38,7 +38,7 @@ export default function Book({ book, handleEditBookModalOpen }: BookProps) {
     // 수정모드일때만 아래 onclick이 실행되도록 수정해야함 -> 민형님 작업 후
     <BookWrapper onClick={handleEditBookModalOpen}>
       <BookThumbnail
-        src={thumbnail_image || sampleImage}
+        src={book.thumbnail_image || sampleImage}
         alt="thumbnail"
         width={280}
         height={200}

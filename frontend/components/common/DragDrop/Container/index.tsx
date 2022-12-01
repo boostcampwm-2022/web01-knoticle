@@ -1,4 +1,4 @@
-import { FC, useEffect, memo, useCallback, useState } from 'react';
+import { useEffect, memo, useCallback } from 'react';
 import { useDrop } from 'react-dnd';
 
 import update from 'immutability-helper';
@@ -13,22 +13,36 @@ const ItemTypes = {
   Scrap: 'scrap',
 };
 
+export interface EditScrap {
+  id: number;
+  order: number;
+  article: {
+    id: number;
+    title: string;
+  };
+}
 export interface ContainerState {
-  scraps: any[];
+  data: EditScrap[];
+  isContentsShown: boolean;
 }
 
-export const Container: FC = memo(function Container({ data, isContentsShown }: any) {
-  const [scraps, setScraps] = useRecoilState(scrapState);
+export const Container = memo(function Container({ data, isContentsShown }: ContainerState) {
+  const [scraps, setScraps] = useRecoilState<EditScrap[]>(scrapState);
 
   useEffect(() => {
+    if (!data) return;
     setScraps(data);
   }, []);
 
   const findScrap = useCallback(
     (id: string) => {
       const scrap = scraps.filter((c) => `${c.article.id}` === id)[0] as {
+        id: number;
         order: number;
-        article: any;
+        article: {
+          id: number;
+          title: string;
+        };
       };
       return {
         scrap,

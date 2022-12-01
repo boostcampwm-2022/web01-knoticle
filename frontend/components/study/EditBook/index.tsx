@@ -15,6 +15,7 @@ import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { IBookScraps } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
+import { IEditScrap } from 'interfaces/scrap.interface';
 
 import {
   BookWrapper,
@@ -36,7 +37,7 @@ interface BookProps {
 }
 
 export default function EditBook({ book }: BookProps) {
-  const { id, title, user, scraps, thumbnail_image } = book;
+  const { id, title, user, scraps } = book;
   const { value: titleData, onChange: onTitleChange } = useInput(title);
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
   const { data: editBookData, execute: editBook } = useFetch(editBookApi);
@@ -63,11 +64,11 @@ export default function EditBook({ book }: BookProps) {
   };
 
   const handleCompletedBtnClick = () => {
-    const editScraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
+    const editScraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
     editBook({
       id,
       title: titleData,
-      thumbnail_image: imgFile?.imagePath || thumbnail_image,
+      thumbnail_image: imgFile?.imagePath || book.thumbnail_image,
       scraps: editScraps,
     });
   };
@@ -82,7 +83,7 @@ export default function EditBook({ book }: BookProps) {
         {isContentsShown ? null : (
           <EditBookThumbnailWrapper>
             <BookThumbnail
-              src={imgFile?.imagePath || thumbnail_image}
+              src={imgFile?.imagePath || book.thumbnail_image}
               alt="thumbnail"
               width={318}
               height={220}
