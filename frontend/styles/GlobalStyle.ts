@@ -28,6 +28,18 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
+  a {
+    color: var(--title-active-color);
+    text-decoration: none;
+    outline: none
+  }
+
+  a:hover, a:active {
+    color: var(--title-active-color);
+    text-decoration: none;
+    background-color: transparent;
+  }
+
 `;
 
 export default GlobalStyle;
