@@ -61,7 +61,9 @@ const editBook = async (req: Request, res: Response) => {
 const deleteBook = async (req: Request, res: Response) => {
   const bookId = Number(req.params.bookId);
 
-  const book = await booksService.deleteBook(bookId);
+  const userId = res.locals.user.id;
+
+  const book = await booksService.deleteBook(bookId, userId);
 
   res.status(200).send(book);
 };
