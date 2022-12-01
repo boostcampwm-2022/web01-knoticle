@@ -7,6 +7,7 @@ const findBook = async (bookId: number, userId: number) => {
     select: {
       id: true,
       title: true,
+      thumbnail_image: true,
       user: {
         select: {
           nickname: true,
