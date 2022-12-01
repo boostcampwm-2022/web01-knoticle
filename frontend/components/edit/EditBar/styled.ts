@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import { TopBar } from '@styles/layout';
 
 export const Bar = styled(TopBar)`
-  padding: 16px 50px;
-  background-color: var(--light-yellow-color);
-  border-bottom: 1px solid var(--title-active-color);
+  width: 100%;
+  padding: 16px 32px;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  box-shadow: rgb(0 0 0 / 10%) 0px 0px 8px;
 `;
 
 export const ButtonGroup = styled.div`
@@ -19,6 +22,7 @@ export const ButtonGroup = styled.div`
 const Button = styled.button`
   padding: 8px 16px;
   border-radius: 10px;
+  font-family: 'Noto Sans KR';
 `;
 
 export const ExitButton = styled(Button)`
