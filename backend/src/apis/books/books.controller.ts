@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { FindBooks, SearchBooks } from '@apis/books/books.interface';
 import booksService from '@apis/books/books.service';
+import { IScrap } from '@apis/scraps/scraps.interface';
 import scrapsService from '@apis/scraps/scraps.service';
 
 const getBook = async (req: Request, res: Response) => {
@@ -53,9 +54,12 @@ const editBook = async (req: Request, res: Response) => {
 
   const book = await booksService.editBook({ id, title, thumbnail_image });
 
-  const scrap = await scrapsService.updateScraps(scraps);
+  const result: any[] = [];
+  scraps.forEach(async (scrap: IScrap) => {
+    result.push(await scrapsService.updateScraps(scrap));
+  });
 
-  res.status(200).send({ book, scrap });
+  res.status(200).send({ book, result });
 };
 
 const deleteBook = async (req: Request, res: Response) => {
