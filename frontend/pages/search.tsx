@@ -11,6 +11,7 @@ import useDebounce from '@hooks/useDebounce';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
+import { IArticle, IBook } from '@interfaces';
 import { PageInnerSmall, PageWrapper } from '@styles/layout';
 
 export default function Search() {
@@ -30,6 +31,29 @@ export default function Search() {
   const [bookPage, setBookPage] = useState({ hasNextPage: true, pageNumber: 2 });
 
   const [filter, setFilter] = useState({ type: 'article', userId: 0 });
+
+  const highlightWord = (text: string, words: string[]): React.ReactNode => {
+    let wordIndexList = words.map((word) => text.toLowerCase().indexOf(word.toLowerCase()));
+
+    const filteredWords = words.filter((_, index) => wordIndexList[index] !== -1);
+    wordIndexList = wordIndexList.filter((wordIndex) => wordIndex !== -1);
+
+    if (wordIndexList.length === 0) return text;
+
+    const startIndex = Math.min(...wordIndexList);
+
+    const targetWord = filteredWords[wordIndexList.indexOf(startIndex)];
+
+    const endIndex = startIndex + targetWord.length;
+
+    return (
+      <>
+        {text.slice(0, startIndex)}
+        <b>{text.slice(startIndex, endIndex)}</b>
+        {highlightWord(text.slice(endIndex), words)}
+      </>
+    );
+  };
 
   useEffect(() => {
     if (!debouncedKeyword) return;
@@ -90,7 +114,19 @@ export default function Search() {
 
   useEffect(() => {
     if (!newArticles) return;
-    setArticles(articles.concat(newArticles.data));
+    setArticles(
+      articles.concat(
+        newArticles.data.map((article: IArticle) => {
+          const keywords = debouncedKeyword.trim().split(' ');
+
+          return {
+            ...article,
+            title: highlightWord(article.title, keywords),
+            content: highlightWord(article.content, keywords),
+          };
+        })
+      )
+    );
     setArticlePage({
       ...articlePage,
       hasNextPage: newArticles.hasNextPage,
@@ -99,7 +135,18 @@ export default function Search() {
 
   useEffect(() => {
     if (!newBooks) return;
-    setBooks(books.concat(newBooks.data));
+    setBooks(
+      books.concat(
+        newBooks.data.map((book: IBook) => {
+          const keywords = debouncedKeyword.trim().split(' ');
+
+          return {
+            ...book,
+            title: highlightWord(book.title, keywords),
+          };
+        })
+      )
+    );
     setBookPage({
       ...bookPage,
       hasNextPage: newBooks.hasNextPage,
@@ -120,9 +167,7 @@ export default function Search() {
         <PageInnerSmall>
           <SearchBar {...keyword} />
           <SearchFilter handleFilter={handleFilter} />
-          {articles?.length > 0 && filter.type === 'article' && (
-            <ArticleList articles={articles} keyword={debouncedKeyword} />
-          )}
+          {articles?.length > 0 && filter.type === 'article' && <ArticleList articles={articles} />}
           {books?.length > 0 && filter.type === 'book' && <BookList books={books} />}
           <div ref={target} />
         </PageInnerSmall>
