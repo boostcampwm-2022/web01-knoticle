@@ -8,6 +8,20 @@
 
 </div>
 
+<p align="center">
+<img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=fff">
+<img src="https://img.shields.io/badge/styled%2d%2dcomponents-DB7093?style=flat-square&logo=styled-components&logoColor=fff">
+<img src="https://img.shields.io/badge/Recoil-007AF4?style=flat-square&logo=Recoil&logoColor=fff">
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=fff">
+</p>
+<p align="center">
+<img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Node.js&logoColor=fff">
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=fff">
+<img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=flat-square&logo=express&logoColor=%2361DAFB">
+<img src="https://img.shields.io/badge/Prisma-3982CE?style=flat-square&logo=Prisma&logoColor=white">
+
+</p>
+
 ---
 
 ## 소개
@@ -42,6 +56,14 @@ Knoticle은 저희가 인터넷을 통한 학습 과정에서 느낀 불편함�
 | 서재 페이지                                                                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------- |
 | <img src="https://velog.velcdn.com/images/dahyeon405/post/3362cfa7-aec1-4a5e-8b4f-751633b93f21/image.PNG" width="800"></img> |
+
+| 에디터 페이지                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://velog.velcdn.com/images/dahyeon405/post/050d9862-5dec-4697-bf79-82df76014da6/image.PNG" width="800"></img> |
+
+| 검색 페이지                                                                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://velog.velcdn.com/images/dahyeon405/post/7e9b1562-ceb9-4418-b3d1-31ad4d852fb9/image.PNG" width="800"></img> |
 
 <br>
 
