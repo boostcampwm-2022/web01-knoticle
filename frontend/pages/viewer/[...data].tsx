@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
@@ -35,14 +34,11 @@ export default function Viewer({ book, article }: ViewerProps) {
   const handleModalOpen = () => setModalShown(true);
   const handleModalClose = () => setModalShown(false);
 
-  const router = useRouter();
-
   const handleSideBarToggle = () => {
     setIsOpened((prev) => !prev);
   };
 
   useEffect(() => {
-    console.log(book, article);
     getUserKnottedBooks(user.nickname);
   }, []);
 
@@ -76,7 +72,7 @@ export default function Viewer({ book, article }: ViewerProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const [bookId, articleId] = context.query.data;
+  const [bookId, articleId] = context.query.data as string[];
   const book = await getBookApi(bookId);
   const article = await getArticleApi(articleId);
 
