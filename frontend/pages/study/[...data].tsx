@@ -3,11 +3,10 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import axios from 'axios';
 import { useRecoilState } from 'recoil';
 
 import { getUserBookmarkedBooksApi, getUserKnottedBooksApi } from '@apis/bookApi';
-import { updateUserProfileApi } from '@apis/userApi';
+import { getUserProfileApi, updateUserProfileApi } from '@apis/userApi';
 import curKnottedBookListState from '@atoms/curKnottedBookList';
 import signInStatusState from '@atoms/signInStatus';
 import GNB from '@components/common/GNB';
@@ -119,11 +118,8 @@ export default function Study({ userProfile }: StudyProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const nickname = context.query.data;
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users?nickname=${nickname}`
-  );
-  const { data } = response;
+  const nickname = context.query.data as string;
+  const data = await getUserProfileApi(nickname);
 
   return { props: { userProfile: data } };
 };
