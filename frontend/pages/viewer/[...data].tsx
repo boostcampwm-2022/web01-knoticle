@@ -1,3 +1,4 @@
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
@@ -14,11 +15,15 @@ import ClosedSideBar from '@components/viewer/ClosedSideBar';
 import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
 import useFetch from '@hooks/useFetch';
+import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex } from '@styles/layout';
 
-export default function Viewer() {
-  const { data: article, execute: getArticle } = useFetch(getArticleApi);
-  const { data: book, execute: getBook } = useFetch(getBookApi);
+interface ViewerProps {
+  book: IBookScraps;
+  article: IArticleBook;
+}
+
+export default function Viewer({ book, article }: ViewerProps) {
   const { data: userBooks, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
 
   const user = useRecoilValue(signInStatusState);
@@ -37,14 +42,9 @@ export default function Viewer() {
   };
 
   useEffect(() => {
-    if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
-      const [bookId, articleId] = router.query.data;
-
-      getBook(bookId);
-      getArticle(articleId);
-      getUserKnottedBooks(user.nickname);
-    }
-  }, [router.query.data]);
+    console.log(book, article);
+    getUserKnottedBooks(user.nickname);
+  }, []);
 
   return (
     <>
@@ -74,3 +74,11 @@ export default function Viewer() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const [bookId, articleId] = context.query.data;
+  const book = await getBookApi(bookId);
+  const article = await getArticleApi(articleId);
+
+  return { props: { book, article } };
+};
