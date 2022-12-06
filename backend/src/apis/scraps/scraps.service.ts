@@ -51,12 +51,32 @@ const updateScraps = async (scraps: IScrap) => {
   return scrap;
 };
 
+
 const deleteScrap = async (scrapId: number) => {
   await prisma.scrap.delete({
     where: {
       id: scrapId,
     },
   });
+
+const getScraps = async () => {
+  const scraps = await prisma.scrap.findMany({
+    select: {
+      book_id: true,
+      article_id: true,
+    },
+    where: {
+      is_original: true,
+      book: {
+        deleted_at: null,
+      },
+      article: {
+        deleted_at: null,
+      },
+    },
+  });
+
+  return scraps;
 };
 
 export default {
@@ -64,4 +84,5 @@ export default {
   checkScrapExists,
   updateScraps,
   deleteScrap,
+  getScraps,
 };

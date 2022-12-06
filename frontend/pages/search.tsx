@@ -7,6 +7,7 @@ import ArticleList from '@components/search/ArticleList';
 import BookList from '@components/search/BookList';
 import SearchBar from '@components/search/SearchBar';
 import SearchFilter from '@components/search/SearchFilter';
+import SearchHead from '@components/search/SearchHead';
 import SearchNoResult from '@components/search/SearchNoResult';
 import useDebounce from '@hooks/useDebounce';
 import useFetch from '@hooks/useFetch';
@@ -163,6 +164,7 @@ export default function Search() {
 
   return (
     <>
+      <SearchHead />
       <GNB />
       <PageWrapper>
         <PageInnerSmall>

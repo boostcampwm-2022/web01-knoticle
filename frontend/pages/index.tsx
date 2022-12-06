@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { getOrderedBookListApi } from '@apis/bookApi';
 import Footer from '@components/common/Footer';
 import GNB from '@components/common/GNB';
+import HomeHead from '@components/home/HomeHead';
 import Slider from '@components/home/Slider';
 import useFetch from '@hooks/useFetch';
 import { PageInnerLarge, PageWrapper } from '@styles/layout';
@@ -18,6 +19,7 @@ export default function Home() {
 
   return (
     <>
+      <HomeHead />
       <GNB />
       <PageWrapper>
         <PageInnerLarge>

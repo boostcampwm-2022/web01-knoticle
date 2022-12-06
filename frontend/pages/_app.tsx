@@ -7,6 +7,7 @@ import { RecoilRoot } from 'recoil';
 
 import CheckSignInByToken from '@components/CheckSignInByToken';
 import GlobalStyle from '@styles/GlobalStyle';
+import '@styles/font.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
