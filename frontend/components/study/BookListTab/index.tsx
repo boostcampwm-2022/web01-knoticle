@@ -64,12 +64,14 @@ export default function BookListTab({
       if (scrap.is_original) originalArticleList.push(scrap.article.id);
     });
 
-    setCurKnottedBookList([...curKnottedBookList.filter((book) => id !== book.id)]);
-    setEditInfo({
-      ...editInfo,
-      deleted: [...editInfo.deleted, id],
-      deletedArticle: [...editInfo.deletedArticle, ...originalArticleList],
-    });
+    if (window.confirm('이 책에는 원본글이 포함되어 있습니다. 정말로 삭제하시겠습니까?')) {
+      setCurKnottedBookList([...curKnottedBookList.filter((book) => id !== book.id)]);
+      setEditInfo({
+        ...editInfo,
+        deleted: [...editInfo.deleted, id],
+        deletedArticle: [...editInfo.deletedArticle, ...originalArticleList],
+      });
+    }
   };
 
   const handleEditModalOpenerClick = (e: React.MouseEvent<HTMLDivElement>, bookId: number) => {

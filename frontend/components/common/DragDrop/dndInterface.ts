@@ -7,7 +7,9 @@ export interface EditScrap {
     title: string;
   };
 }
+
 export interface ContainerState {
   data: EditScrap[];
   isContentsShown: boolean;
+  isDeleteBtnShown: boolean;
 }

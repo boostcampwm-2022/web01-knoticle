@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 
 import scrapState from '@atoms/scrap';
 
-import { EditScrap } from '../dndInterface';
+import { EditScrap, ContainerState } from '../dndInterface';
 import { ListItem } from '../ListItem';
 import ContainerWapper from './styled';
 
@@ -14,13 +14,7 @@ const ItemTypes = {
   Scrap: 'scrap',
 };
 
-export interface ContainerState {
-  data: EditScrap[];
-  isContentsShown: boolean;
-  isDeleteBtnShown: boolean;
-}
-
-export const Container = memo(function Container({
+const Container = memo(function Container({
   data,
   isContentsShown,
   isDeleteBtnShown,
@@ -78,3 +72,5 @@ export const Container = memo(function Container({
     </ContainerWapper>
   );
 });
+
+export default Container;

@@ -20,9 +20,10 @@ export const MinusButton = styled.div`
   justify-content: center;
   align-items: center;
   width: 30px;
-  height: 30px;
-  border-radius: 100%;
+  border-radius: 50%;
   background-color: var(--red-color);
 `;
 
-export const MinusIcon = styled(Image)``;
+export const MinusIcon = styled(Image)`
+  height: 12px;
+`;
