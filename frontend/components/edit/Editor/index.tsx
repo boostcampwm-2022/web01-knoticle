@@ -29,10 +29,9 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
   useEffect(() => {
     if (originalArticle) {
       setIsModifyMode(true);
-      setArticle({
+      setBuffer({
         title: originalArticle.title,
         content: originalArticle.content,
-        book_id: originalArticle.book_id,
       });
     }
   }, [originalArticle]);
