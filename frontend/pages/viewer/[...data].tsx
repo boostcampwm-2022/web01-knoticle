@@ -2,6 +2,8 @@ import { GetServerSideProps } from 'next';
 
 import { useEffect, useState } from 'react';
 
+import { useRecoilValue } from 'recoil';
+
 import { getArticleApi } from '@apis/articleApi';
 import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
 import signInStatusState from '@atoms/signInStatus';
@@ -15,7 +17,6 @@ import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex } from '@styles/layout';
-import { useRecoilValue } from 'recoil';
 
 interface ViewerProps {
   book: IBookScraps;

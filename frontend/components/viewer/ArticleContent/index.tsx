@@ -3,6 +3,9 @@ import { useRouter } from 'next/router';
 
 import { useEffect } from 'react';
 
+import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
@@ -11,8 +14,6 @@ import signInStatusState from '@atoms/signInStatus';
 import Content from '@components/common/Content';
 import { IArticleBook, IScrap } from '@interfaces';
 import { TextLarge } from '@styles/common';
-import axios from 'axios';
-import { useRecoilValue } from 'recoil';
 
 import ArticleButton from './Button';
 import {
