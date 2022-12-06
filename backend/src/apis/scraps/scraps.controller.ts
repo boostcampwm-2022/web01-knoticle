@@ -19,7 +19,7 @@ const createScrap = async (req: Request, res: Response) => {
         })
       );
     } else {
-      result.push(await scrapsService.updateScraps(scrap));
+      result.push(await scrapsService.updateScrapOrder(scrap));
     }
   });
 

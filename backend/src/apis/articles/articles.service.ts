@@ -149,6 +149,26 @@ const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
   return temporaryArticle;
 };
 
+const updateArticle = async (articleId: number, dto: CreateArticle) => {
+  const { title, content, book_id } = dto;
+
+  const article = await prisma.article.update({
+    where: {
+      id: articleId,
+    },
+    data: {
+      title,
+      content,
+      book: {
+        connect: {
+          id: book_id,
+        },
+      },
+    },
+  });
+  return article;
+};
+
 export default {
   searchArticles,
   getArticle,
@@ -156,4 +176,5 @@ export default {
   deleteArticle,
   getTemporaryArticle,
   createTemporaryArticle,
+  updateArticle,
 };
