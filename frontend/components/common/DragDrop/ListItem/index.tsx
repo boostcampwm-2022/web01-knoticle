@@ -91,10 +91,10 @@ export const ListItem = memo(function Scrap({
           console.log('원본글 삭제!');
           setEditInfo({
             ...editInfo,
-            deletedArticle: [...editInfo.deletedArticle, +id],
+            deletedArticle: [...editInfo.deletedArticle, id],
             deletedScraps: [...editInfo.deletedScraps, scrapId],
           });
-          setScraps(scraps.filter((v) => v.article.id !== +id));
+          setScraps(scraps.filter((v) => v.article.id !== id));
           return;
         }
       }
@@ -103,7 +103,7 @@ export const ListItem = memo(function Scrap({
         ...editInfo,
         deletedScraps: [...editInfo.deletedScraps, scrapId],
       });
-      setScraps(scraps.filter((v) => v.article.id !== +id));
+      setScraps(scraps.filter((v) => v.article.id !== id));
     }
   };
 
