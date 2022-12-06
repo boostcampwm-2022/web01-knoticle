@@ -74,9 +74,15 @@ export default function Article({
     }
   };
 
-  const handleModifyBtnOnClick = () => {};
+  const handleScrapDeleteBtnOnClick = () => {
+    if (window.confirm('해당 글을 책에서 삭제하시겠습니까?')) {
+      //
+    }
+  };
 
-  const handleScrapDeleteBtnOnClick = () => { };
+  const handleModifyBtnOnClick = () => {
+    router.push(`/editor?id=${article.id}`);
+  };
 
   const checkArticleAuthority = (id: number) => {
     if (scraps.find((v: IScrap) => v.article.id === id)) {
