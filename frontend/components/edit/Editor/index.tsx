@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import articleState from '@atoms/article';
 import articleBuffer from '@atoms/articleBuffer';
@@ -18,14 +18,18 @@ interface EditorProps {
 
 export default function Editor({ handleModalOpen }: EditorProps) {
   const { ref, document, replaceDocument } = useCodeMirror();
-  const buffer = useRecoilValue(articleBuffer);
+  const [buffer, setBuffer] = useRecoilState(articleBuffer);
 
   const [article, setArticle] = useRecoilState(articleState);
   const title = useInput();
 
   useEffect(() => {
+    if (!buffer.title && !buffer.content) return;
+
     title.setValue(buffer.title);
     replaceDocument(html2markdown(buffer.content));
+
+    setBuffer({ title: '', content: '' });
   }, [buffer]);
 
   useEffect(() => {
