@@ -51,8 +51,17 @@ const updateScraps = async (scraps: IScrap) => {
   return scrap;
 };
 
+const deleteScrap = async (scrapId: number) => {
+  await prisma.scrap.delete({
+    where: {
+      id: scrapId,
+    },
+  });
+};
+
 export default {
   createScrap,
   checkScrapExists,
   updateScraps,
+  deleteScrap,
 };

@@ -43,3 +43,11 @@ export const createArticleApi = async (data: CreateArticleApi) => {
 
   return response.data;
 };
+
+export const deleteArticleApi = async (articleId: string) => {
+  const url = `/api/articles/${articleId}`;
+
+  const response = await api({ url, method: 'DELETE' });
+
+  return response.data;
+};

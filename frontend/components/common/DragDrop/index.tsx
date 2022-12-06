@@ -6,6 +6,7 @@ import { Container } from '@components/common/DragDrop/Container';
 export interface EditScrap {
   id: number;
   order: number;
+  is_original: boolean;
   article: {
     id: number;
     title: string;

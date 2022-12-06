@@ -11,6 +11,7 @@ interface EditInfoState {
     scraps: IScrap[];
   }[];
   deletedArticle: number[];
+  deletedScraps: number[];
 }
 
 const editInfoState = atom<EditInfoState>({
@@ -19,6 +20,7 @@ const editInfoState = atom<EditInfoState>({
     deleted: [],
     editted: [],
     deletedArticle: [],
+    deletedScraps: [],
   },
 });
 

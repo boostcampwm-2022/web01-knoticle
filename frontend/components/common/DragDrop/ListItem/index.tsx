@@ -1,8 +1,13 @@
 import { memo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-import MinusWhite from '@assets/ico_minus_white.svg';
+import { useRecoilState } from 'recoil';
 
+import MinusWhite from '@assets/ico_minus_white.svg';
+import editInfoState from '@atoms/editInfo';
+import scrapState from '@atoms/scrap';
+
+import { EditScrap } from '../dndInterface';
 import { Article, Text, MinusButton, MinusIcon } from './styled';
 
 const ItemTypes = {
@@ -10,23 +15,27 @@ const ItemTypes = {
 };
 
 export interface ScrapProps {
-  id: string;
+  id: number;
+  scrapId: number;
   text: string;
-  moveScrap: (id: string, to: number) => void;
-  findScrap: (id: string) => { index: number };
+  isOriginal: boolean;
+  moveScrap: (id: number, to: number) => void;
+  findScrap: (id: number) => { index: number };
   isShown: boolean;
   isContentsShown: boolean;
   isDeleteBtnShown: boolean;
 }
 
 interface Item {
-  id: string;
+  id: number;
   originalIndex: number;
 }
 
 export const ListItem = memo(function Scrap({
   id,
+  scrapId,
   text,
+  isOriginal,
   moveScrap,
   findScrap,
   isShown,
@@ -34,6 +43,8 @@ export const ListItem = memo(function Scrap({
   isDeleteBtnShown,
 }: ScrapProps) {
   const originalIndex = findScrap(id).index;
+  const [scraps, setScraps] = useRecoilState<EditScrap[]>(scrapState);
+  const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
   // Drag
   const [{ isDragging }, drag] = useDrag(
@@ -74,10 +85,25 @@ export const ListItem = memo(function Scrap({
   const handleMinusBtnClick = () => {
     // 원본글이 아니면 스크랩에서만 삭제
     // 원본글이면 실제로 삭제
-    if (confirm('글을 책에서 삭제하시겠습니까?')) {
-      console.log('삭제!');
-    } else {
-      console.log(id);
+    if (window.confirm('글을 책에서 삭제하시겠습니까?')) {
+      if (isOriginal) {
+        if (window.confirm('해당 글은 원본글입니다. 정말로 삭제하시겠습니까?')) {
+          console.log('원본글 삭제!');
+          setEditInfo({
+            ...editInfo,
+            deletedArticle: [...editInfo.deletedArticle, +id],
+            deletedScraps: [...editInfo.deletedScraps, scrapId],
+          });
+          setScraps(scraps.filter((v) => v.article.id !== +id));
+          return;
+        }
+      }
+
+      setEditInfo({
+        ...editInfo,
+        deletedScraps: [...editInfo.deletedScraps, scrapId],
+      });
+      setScraps(scraps.filter((v) => v.article.id !== +id));
     }
   };
 

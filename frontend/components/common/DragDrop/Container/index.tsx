@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 
 import scrapState from '@atoms/scrap';
 
+import { EditScrap } from '../dndInterface';
 import { ListItem } from '../ListItem';
 import ContainerWapper from './styled';
 
@@ -13,14 +14,6 @@ const ItemTypes = {
   Scrap: 'scrap',
 };
 
-export interface EditScrap {
-  id: number;
-  order: number;
-  article: {
-    id: number;
-    title: string;
-  };
-}
 export interface ContainerState {
   data: EditScrap[];
   isContentsShown: boolean;
@@ -41,14 +34,7 @@ export const Container = memo(function Container({
 
   const findScrap = useCallback(
     (id: string) => {
-      const scrap = scraps.filter((c) => `${c.article.id}` === id)[0] as {
-        id: number;
-        order: number;
-        article: {
-          id: number;
-          title: string;
-        };
-      };
+      const scrap = scraps.filter((c) => `${c.article.id}` === id)[0] as EditScrap;
       return {
         scrap,
         index: scraps.indexOf(scrap),
@@ -79,7 +65,9 @@ export const Container = memo(function Container({
         <ListItem
           key={scrap.article.id}
           id={`${scrap.article.id}`}
+          scrapId={scrap.id}
           text={scrap.article.title}
+          isOriginal={scrap.is_original}
           moveScrap={moveScrap}
           findScrap={findScrap}
           isShown={index < 4}

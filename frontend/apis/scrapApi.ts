@@ -15,3 +15,11 @@ export const createScrapApi = async (data: CreateScrapApi) => {
 
   return response.data;
 };
+
+export const deleteScrapApi = async (scrapId: string) => {
+  const url = `/api/scraps/${scrapId}`;
+
+  const response = await api({ url, method: 'DELETE' });
+
+  return response.data;
+};
