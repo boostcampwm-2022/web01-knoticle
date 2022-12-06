@@ -10,6 +10,7 @@ import signInStatusState from '@atoms/signInStatus';
 import Modal from '@components/common/Modal';
 import EditHead from '@components/edit/EditHead';
 import Editor from '@components/edit/Editor';
+import ModifyModal from '@components/edit/ModifyModal';
 import PublishModal from '@components/edit/PublishModal';
 import useFetch from '@hooks/useFetch';
 import { IArticle } from '@interfaces';
@@ -51,15 +52,17 @@ export default function EditorPage() {
     <>
       <EditHead />
       <Editor handleModalOpen={handleModalOpen} originalArticle={originalArticle} />
-      {isModalShown && (
-        <Modal title="글 발행하기" handleModalClose={handleModalClose}>
-          {originalArticle ? (
-            <PublishModal books={books} originalArticle={originalArticle} />
-          ) : (
+
+      {isModalShown &&
+        ((originalArticle && (
+          <Modal title="글 수정하기" handleModalClose={handleModalClose}>
+            <ModifyModal books={books} originalArticle={originalArticle} />
+          </Modal>
+        )) || (
+          <Modal title="글 발행하기" handleModalClose={handleModalClose}>
             <PublishModal books={books} />
-          )}
-        </Modal>
-      )}
+          </Modal>
+        ))}
     </>
   );
 }
