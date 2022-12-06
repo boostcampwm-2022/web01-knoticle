@@ -25,6 +25,7 @@ router.get('/articles/search', catchAsync(articlesController.searchArticles));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
 router.post('/articles', catchAsync(articlesController.createArticle));
 router.delete('/articles/:articleId', catchAsync(articlesController.deleteArticle));
+router.patch('/articles/:articleId', catchAsync(articlesController.modifyArticle));
 router.get('/articles/temporary/:userId', catchAsync(articlesController.getTemporaryArticle));
 router.post('/articles/temporary', catchAsync(articlesController.craeteTemporaryArticle));
 
