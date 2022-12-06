@@ -26,8 +26,8 @@ export default function PublishModal({ books, originalArticle }: PublishModalPro
 
   const { id: originalArticleId, book_id: originalBookId } = originalArticle as IArticle;
 
-  const { execute: createArticle } = useFetch(createArticleApi);
-  const { execute: modifyArticle } = useFetch(modifyArticleApi);
+  const { data: createdArticle, execute: createArticle } = useFetch(createArticleApi);
+  const { data: modifiedArticle, execute: modifyArticle } = useFetch(modifyArticleApi);
 
   // 전역으로 관리해야할까?
   const [article, setArticle] = useRecoilState(articleState);
@@ -80,6 +80,10 @@ export default function PublishModal({ books, originalArticle }: PublishModalPro
     modifyArticle(originalArticleId, { article, scraps });
     router.push('/');
   };
+
+  useEffect(() => {
+    if (modifiedArticle || createdArticle) router.push('/');
+  }, [modifiedArticle, createdArticle]);
 
   return (
     <PublishModalWrapper>
