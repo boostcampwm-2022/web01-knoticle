@@ -8,7 +8,6 @@ import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { IUser } from '@interfaces';
 import { TextLinkMedium } from '@styles/common';
-import { Flex, FlexCenter } from '@styles/layout';
 
 import {
   ButtonGroup,
