@@ -44,7 +44,12 @@ export default function PublishModal({ books }: PublishModalProps) {
     // 깔끔하게 리팩토릭 필요
     const itemList = [...items];
 
-    itemList.push({ id: 0, order: items.length + 1, article: { id: 0, title: article.title } });
+    itemList.push({
+      id: 0,
+      order: items.length + 1,
+      is_original: true,
+      article: { id: 0, title: article.title },
+    });
     return itemList;
   };
 
