@@ -43,11 +43,11 @@ export default function BookListTab({
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const handleEditBookModalOpen = (id: number) => {
-    const curbook = knottedBookList?.find((v) => v.id === id);
-    if (!curbook) return;
+    const curBook = knottedBookList?.find((v) => v.id === id);
+    if (!curBook) return;
 
     setModalShown(true);
-    setCurEditBook(curbook);
+    setCurEditBook(curBook);
   };
 
   const handleModalClose = () => {
@@ -56,10 +56,19 @@ export default function BookListTab({
 
   const handleMinusBtnClick = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
     e.stopPropagation();
+    const curBook = knottedBookList.find((book) => book.id === id);
+    if (!curBook) return;
+    const originalArticleList: number[] = [];
+
+    curBook.scraps.forEach((scrap) => {
+      if (scrap.is_original) originalArticleList.push(scrap.article.id);
+    });
+
     setCurKnottedBookList([...curKnottedBookList.filter((book) => id !== book.id)]);
     setEditInfo({
       ...editInfo,
       deleted: [...editInfo.deleted, id],
+      deletedArticle: [...editInfo.deletedArticle, ...originalArticleList],
     });
   };
 

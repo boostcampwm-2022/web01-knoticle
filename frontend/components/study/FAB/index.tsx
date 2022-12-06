@@ -41,7 +41,6 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
   };
 
   const handleEditFinishBtnClick = () => {
-    console.log(editInfo);
     setIsEditing(false);
     editInfo.deleted.forEach((bookId) => {
       deleteBook(bookId);

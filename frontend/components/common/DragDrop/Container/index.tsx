@@ -33,8 +33,8 @@ export const Container = memo(function Container({
   }, []);
 
   const findScrap = useCallback(
-    (id: string) => {
-      const scrap = scraps.filter((c) => `${c.article.id}` === id)[0] as EditScrap;
+    (id: number) => {
+      const scrap = scraps.filter((c) => c.article.id === id)[0] as EditScrap;
       return {
         scrap,
         index: scraps.indexOf(scrap),
@@ -44,7 +44,7 @@ export const Container = memo(function Container({
   );
 
   const moveScrap = useCallback(
-    (id: string, atIndex: number) => {
+    (id: number, atIndex: number) => {
       const { scrap, index } = findScrap(id);
       setScraps(
         update(scraps, {
@@ -64,7 +64,7 @@ export const Container = memo(function Container({
       {scraps.map((scrap, index) => (
         <ListItem
           key={scrap.article.id}
-          id={`${scrap.article.id}`}
+          id={scrap.article.id}
           scrapId={scrap.id}
           text={scrap.article.title}
           isOriginal={scrap.is_original}
