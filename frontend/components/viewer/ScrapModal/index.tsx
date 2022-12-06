@@ -40,6 +40,7 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
     itemList.push({
       id: 0,
       order: items.length + 1,
+      is_original: true,
       article: { id: article.id, title: article.title },
     });
     return itemList;
@@ -76,7 +77,11 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
+          <DragArticle
+            data={createScrapDropdownItems(filteredScraps)}
+            isContentsShown
+            isDeleteBtnShown={false}
+          />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handleScrapBtnClick}>
