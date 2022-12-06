@@ -18,7 +18,9 @@ export default function EditBar({ handleModalOpen }: EditBarProps) {
   return (
     <Bar>
       <ButtonGroup>
-        <ExitButton onClick={() => handleExitButton()}>나가기</ExitButton>
+        <ExitButton tabIndex={-1} onClick={() => handleExitButton()}>
+          나가기
+        </ExitButton>
       </ButtonGroup>
       <ButtonGroup>
         <TemporaryButton>불러오기</TemporaryButton>
