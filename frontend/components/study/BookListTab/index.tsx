@@ -55,7 +55,6 @@ export default function BookListTab({
   };
 
   const handleMinusBtnClick = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
-    e.stopPropagation();
     const curBook = knottedBookList.find((book) => book.id === id);
     if (!curBook) return;
     const originalArticleList: number[] = [];
@@ -75,7 +74,6 @@ export default function BookListTab({
   };
 
   const handleEditModalOpenerClick = (e: React.MouseEvent<HTMLDivElement>, bookId: number) => {
-    e.stopPropagation();
     handleEditBookModalOpen(bookId);
   };
 
