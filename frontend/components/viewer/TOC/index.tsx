@@ -68,7 +68,7 @@ export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps)
           </TocList>
         </TocContainer>
       </TocSideBar>
-      <TocProfile>
+      <TocProfile href={`/study/${user.nickname}`}>
         <TocProfileText>
           <TextSmall>Written by</TextSmall>
           <TextMedium>{user.nickname}</TextMedium>

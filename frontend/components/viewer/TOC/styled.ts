@@ -74,10 +74,13 @@ export const TocArticle = styled(Link)`
   }
 `;
 
-export const TocProfile = styled(Flex)`
+export const TocProfile = styled(Link)`
+  display: flex;
   justify-content: end;
   align-items: end;
   padding: 20px;
+  text-decoration: none;
+  color: inherit;
 `;
 
 export const TocProfileText = styled(Flex)`
