@@ -69,17 +69,13 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
   }, [editBookData]);
 
   useEffect(() => {
-    console.log(deletedBook, editBookData, editInfo);
-    if (
-      (deletedBook || editBookData) &&
-      editInfo.deleted.length === 0 &&
-      editInfo.editted.length === 0
-    ) {
-      setDeletedBook(undefined);
-      setEditBookData(undefined);
-      toastSuccess(`수정 완료되었습니다`);
+    if (deletedBook || editBookData) {
+      if (editInfo.deleted.length === 0) setDeletedBook(undefined);
+      if (editInfo.editted.length === 0) setEditBookData(undefined);
+      if (editInfo.deleted.length === 0 && editInfo.editted.length === 0)
+        toastSuccess(`수정 완료되었습니다`);
     }
-  }, [deletedBook, editBookData]);
+  }, [editInfo]);
 
   return (
     <FabWrapper>

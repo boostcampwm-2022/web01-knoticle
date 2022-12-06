@@ -91,7 +91,7 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
     setEditInfo({
       ...editInfo,
       editted: [
-        ...editInfo.editted,
+        ...editInfo.editted.filter((edit) => edit.id !== id),
         {
           id,
           title: titleData,
