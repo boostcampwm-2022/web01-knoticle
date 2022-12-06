@@ -44,7 +44,6 @@ router.post('/scraps', catchAsync(scrapsController.createScrap));
 router.delete('/scraps/:scrapId', catchAsync(guard), catchAsync(scrapsController.deleteScrap));
 router.get('/scraps', catchAsync(scrapsController.getScraps));
 
-
 router.get('/users', catchAsync(usersController.getUserProfile));
 router.patch('/users/:userId', catchAsync(usersController.editUserProfile));
 

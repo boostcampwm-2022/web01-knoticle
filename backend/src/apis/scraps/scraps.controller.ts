@@ -23,7 +23,6 @@ const createScrap = async (req: Request, res: Response) => {
   res.status(201).send();
 };
 
-
 const deleteScrap = async (req: Request, res: Response) => {
   const scrapId = Number(req.params.scrapId);
   await scrapsService.deleteScrap(scrapId);
@@ -34,7 +33,6 @@ const getScraps = async (req: Request, res: Response) => {
   const scraps = await scrapsService.getScraps();
 
   res.status(200).send(scraps);
-
 };
 
 export default {
