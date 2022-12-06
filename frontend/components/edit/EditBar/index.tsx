@@ -2,9 +2,10 @@ import { Bar, ButtonGroup, ExitButton, PublishButton, TemporaryButton } from './
 
 interface EditBarProps {
   handleModalOpen: () => void;
+  isModifyMode: boolean;
 }
 
-export default function EditBar({ handleModalOpen }: EditBarProps) {
+export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps) {
   return (
     <Bar>
       <ButtonGroup>
@@ -13,7 +14,9 @@ export default function EditBar({ handleModalOpen }: EditBarProps) {
       <ButtonGroup>
         <TemporaryButton>불러오기</TemporaryButton>
         <TemporaryButton>임시 저장</TemporaryButton>
-        <PublishButton onClick={handleModalOpen}>발행</PublishButton>
+        <PublishButton onClick={handleModalOpen}>
+          {isModifyMode ? '수정하기' : '발행'}
+        </PublishButton>
       </ButtonGroup>
     </Bar>
   );

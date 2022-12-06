@@ -4,26 +4,30 @@ import { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
-import { createArticleApi } from '@apis/articleApi';
+import { createArticleApi, modifyArticleApi } from '@apis/articleApi';
 import articleState from '@atoms/article';
 import scrapState from '@atoms/scrap';
 import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IScrap } from '@interfaces';
+import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
 import { IEditScrap } from 'interfaces/scrap.interface';
 
 import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
 interface PublishModalProps {
   books: IBookScraps[];
+  originalArticle?: IArticle;
 }
 
-export default function PublishModal({ books }: PublishModalProps) {
+export default function PublishModal({ books, originalArticle }: PublishModalProps) {
   const router = useRouter();
 
+  const { id: originalArticleId, book_id: originalBookId } = originalArticle as IArticle;
+
   const { execute: createArticle } = useFetch(createArticleApi);
+  const { execute: modifyArticle } = useFetch(modifyArticleApi);
 
   // 전역으로 관리해야할까?
   const [article, setArticle] = useRecoilState(articleState);
@@ -44,7 +48,8 @@ export default function PublishModal({ books }: PublishModalProps) {
     // 깔끔하게 리팩토릭 필요
     const itemList = [...items];
 
-    itemList.push({ id: 0, order: items.length + 1, article: { id: 0, title: article.title } });
+    if (originalBookId !== -1 && selectedBookIndex !== originalBookId)
+      itemList.push({ id: 0, order: items.length + 1, article: { id: 0, title: article.title } });
     return itemList;
   };
 
@@ -69,6 +74,13 @@ export default function PublishModal({ books }: PublishModalProps) {
     router.push('/');
   };
 
+  const handleModifyBtnClick = () => {
+    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+
+    modifyArticle(originalArticleId, { article, scraps });
+    router.push('/');
+  };
+
   return (
     <PublishModalWrapper>
       <Label>책 선택</Label>
@@ -85,9 +97,20 @@ export default function PublishModal({ books }: PublishModalProps) {
           <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
         </ArticleWrapper>
       )}
-      <ModalButton theme="primary" onClick={handlePublishBtnClick}>
-        발행하기
-      </ModalButton>
+
+      {originalBookId !== -1 ? (
+        <ModalButton theme="primary" onClick={handleModifyBtnClick}>
+          수정하기
+        </ModalButton>
+      ) : (
+        <ModalButton theme="primary" onClick={handlePublishBtnClick}>
+          발행하기
+        </ModalButton>
+      )}
     </PublishModalWrapper>
   );
 }
+
+PublishModal.defaultProps = {
+  originalArticle: { id: -1, book_id: -1 },
+};
