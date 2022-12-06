@@ -51,8 +51,29 @@ const updateScraps = async (scraps: IScrap) => {
   return scrap;
 };
 
+const getScraps = async () => {
+  const scraps = await prisma.scrap.findMany({
+    select: {
+      book_id: true,
+      article_id: true,
+    },
+    where: {
+      is_original: true,
+      book: {
+        deleted_at: null,
+      },
+      article: {
+        deleted_at: null,
+      },
+    },
+  });
+
+  return scraps;
+};
+
 export default {
   createScrap,
   checkScrapExists,
   updateScraps,
+  getScraps,
 };

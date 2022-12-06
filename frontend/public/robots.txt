@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+
+# Disallow
+User-agent: *
+Disallow: /editor
+Disallow: /search
+
+# Host
+Host: http://knoticle.app/
+
+# Sitemaps
+Sitemap: https://knoticle.app/sitemap.xml # Index sitemap
