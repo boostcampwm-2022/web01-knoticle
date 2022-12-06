@@ -8,6 +8,7 @@ import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { IUser } from '@interfaces';
 import { TextLinkMedium } from '@styles/common';
+import { Flex, FlexCenter } from '@styles/layout';
 
 import {
   ButtonGroup,
@@ -19,6 +20,8 @@ import {
   UserThumbnail,
   EditThumbnailIcon,
   UserThumbnailGroup,
+  RedNotice,
+  UsernameGroup,
 } from './styled';
 
 interface EditUserProfileProps {
@@ -91,15 +94,22 @@ export default function EditUserProfile({
       </UserThumbnailGroup>
 
       <UserDetailGroup>
-        <EditUsername defaultValue={curUserProfile.nickname} onChange={onNicknameChange} />
+        <UsernameGroup>
+          <EditUsername defaultValue={curUserProfile.nickname} onChange={onNicknameChange} />
+          {nicknameValue === '' && <RedNotice>빈 공백은 닉네임으로 설정할 수 없습니다</RedNotice>}
+        </UsernameGroup>
         <EditUserDescription
           defaultValue={curUserProfile.description}
           onChange={onDescriptionChange}
         />
 
         <ButtonGroup isVisible>
-          <ProfileEditButton type="button" onClick={handleEditFinishBtnClick}>
-            <TextLinkMedium>수정 완료</TextLinkMedium>
+          <ProfileEditButton
+            type="button"
+            onClick={handleEditFinishBtnClick}
+            disabled={nicknameValue === ''}
+          >
+            <TextLinkMedium>{nicknameValue === '' ? '수정 불가' : '수정 완료'}</TextLinkMedium>
           </ProfileEditButton>
         </ButtonGroup>
       </UserDetailGroup>

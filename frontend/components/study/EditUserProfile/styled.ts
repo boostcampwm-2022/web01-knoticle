@@ -2,6 +2,9 @@ import Image from 'next/image';
 
 import styled from 'styled-components';
 
+import { TextSmall } from '@styles/common';
+import { Flex } from '@styles/layout';
+
 export const UserProfileWrapper = styled.div`
   width: 100%;
   margin: 40px 0 20px;
@@ -40,6 +43,10 @@ export const Input = styled.input`
   margin: 5px 0;
 `;
 
+export const UsernameGroup = styled(Flex)`
+  align-items: center;
+`;
+
 export const EditUsername = styled(Input)`
   font-size: 18px;
   line-height: 24px;
@@ -66,16 +73,16 @@ const Button = styled.button`
 `;
 
 export const ProfileEditButton = styled(Button)`
-  padding: 0 10px;
-  height: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 10px;
+  height: 40px;
 
   border-radius: 10px;
-  border: 1px solid rgba(148, 173, 46, 1);
-  background-color: var(--green-color);
   color: var(--white-color);
+  border: 1px solid ${(props) => (props.disabled ? 'var(--red-color)' : 'rgba(148, 173, 46, 1)')};
+  background-color: ${(props) => (props.disabled ? 'var(--red-color)' : 'var(--green-color)')};
 `;
 
 export const EditThumbnailIcon = styled.div`
@@ -90,4 +97,9 @@ export const EditThumbnailIcon = styled.div`
   transform: translate(380%, -100%);
   background-color: var(--light-yellow-color);
   cursor: pointer;
+`;
+
+export const RedNotice = styled(TextSmall)`
+  color: var(--red-color);
+  margin-left: 10px;
 `;
