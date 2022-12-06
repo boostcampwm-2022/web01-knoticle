@@ -24,9 +24,14 @@ export interface EditScrap {
 export interface ContainerState {
   data: EditScrap[];
   isContentsShown: boolean;
+  isDeleteBtnShown: boolean;
 }
 
-export const Container = memo(function Container({ data, isContentsShown }: ContainerState) {
+export const Container = memo(function Container({
+  data,
+  isContentsShown,
+  isDeleteBtnShown,
+}: ContainerState) {
   const [scraps, setScraps] = useRecoilState<EditScrap[]>(scrapState);
 
   useEffect(() => {
@@ -79,6 +84,7 @@ export const Container = memo(function Container({ data, isContentsShown }: Cont
           findScrap={findScrap}
           isShown={index < 4}
           isContentsShown={isContentsShown}
+          isDeleteBtnShown={isDeleteBtnShown}
         />
       ))}
     </ContainerWapper>

@@ -14,12 +14,17 @@ export interface EditScrap {
 export interface ContainerState {
   data: EditScrap[];
   isContentsShown: boolean;
+  isDeleteBtnShown: boolean;
 }
 
-export default function DragArticle({ data, isContentsShown }: any) {
+export default function DragArticle({ data, isContentsShown, isDeleteBtnShown }: ContainerState) {
   return (
     <DndProvider backend={HTML5Backend}>
-      <Container data={data} isContentsShown={isContentsShown} />
+      <Container
+        data={data}
+        isContentsShown={isContentsShown}
+        isDeleteBtnShown={isDeleteBtnShown}
+      />
     </DndProvider>
   );
 }

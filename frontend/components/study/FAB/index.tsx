@@ -44,6 +44,7 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
     editInfo.editted.forEach((edit) => {
       editBook(edit);
     });
+    // 원본글 삭제
   };
 
   useEffect(() => {

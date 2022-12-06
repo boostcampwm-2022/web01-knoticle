@@ -144,7 +144,7 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
           <BookContentsInfo>
             <BookContent>Contents</BookContent>
             <DragArticleWrapper isContentsShown={isContentsShown}>
-              <DragArticle data={scraps} isContentsShown={isContentsShown} />
+              <DragArticle data={scraps} isContentsShown={isContentsShown} isDeleteBtnShown />
             </DragArticleWrapper>
           </BookContentsInfo>
         </BookInfoContainer>
