@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import multer from 'multer';
+
 import articlesController from '@apis/articles/articles.controller';
 import authController from '@apis/auth/auth.controller';
 import bookmarksController from '@apis/bookmarks/bookmarks.controller';
@@ -10,7 +12,6 @@ import usersController from '@apis/users/users.controller';
 import decoder from '@middlewares/tokenDecoder';
 import guard from '@middlewares/tokenValidator';
 import { catchAsync } from '@utils/catch-async';
-import multer from 'multer';
 
 const router = Router();
 
