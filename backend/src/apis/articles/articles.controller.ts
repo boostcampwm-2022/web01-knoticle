@@ -48,7 +48,7 @@ const createArticle = async (req: Request, res: Response) => {
 };
 
 const deleteArticle = async (req: Request, res: Response) => {
-  const articleId = Number(req.params.articleId);
+  const articleId = Number(res.locals.articleId);
 
   await articlesService.deleteArticle(articleId);
 
@@ -56,23 +56,26 @@ const deleteArticle = async (req: Request, res: Response) => {
 };
 
 const getTemporaryArticle = async (req: Request, res: Response) => {
-  const userId = Number(req.params.userId);
+  if (!res.locals.user) return res.status(200).send();
 
+  const userId = res.locals.user.id;
   const temporaryArticle = await articlesService.getTemporaryArticle(userId);
 
-  res.status(200).send({ temporaryArticle });
+  res.status(200).send(temporaryArticle);
 };
 
-const craeteTemporaryArticle = async (req: Request, res: Response) => {
-  const { title, content, user_id } = req.body;
+const createTemporaryArticle = async (req: Request, res: Response) => {
+  const { title, content } = req.body;
+
+  const userId = res.locals.user.id;
 
   const temporaryArticle = await articlesService.createTemporaryArticle({
     title,
     content,
-    user_id,
+    user_id: userId,
   });
 
-  res.status(201).send({ temporaryArticle });
+  res.status(201).send(temporaryArticle);
 };
 
 const modifyArticle = async (req: Request, res: Response) => {
@@ -103,6 +106,6 @@ export default {
   createArticle,
   deleteArticle,
   getTemporaryArticle,
-  craeteTemporaryArticle,
+  createTemporaryArticle,
   modifyArticle,
 };

@@ -1,7 +1,5 @@
 import { Router } from 'express';
 
-import multer from 'multer';
-
 import articlesController from '@apis/articles/articles.controller';
 import authController from '@apis/auth/auth.controller';
 import bookmarksController from '@apis/bookmarks/bookmarks.controller';
@@ -12,6 +10,7 @@ import usersController from '@apis/users/users.controller';
 import decoder from '@middlewares/tokenDecoder';
 import guard from '@middlewares/tokenValidator';
 import { catchAsync } from '@utils/catch-async';
+import multer from 'multer';
 
 const router = Router();
 
@@ -21,13 +20,17 @@ router.post('/auth/signup', catchAsync(authController.signUp));
 router.get('/auth/signout', catchAsync(authController.signOut));
 router.get('/auth', decoder, catchAsync(authController.checkSignInStatus));
 
+router.get('/articles/temporary', decoder, catchAsync(articlesController.getTemporaryArticle));
+router.post(
+  '/articles/temporary',
+  catchAsync(guard),
+  catchAsync(articlesController.createTemporaryArticle)
+);
 router.get('/articles/search', catchAsync(articlesController.searchArticles));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
 router.post('/articles', catchAsync(articlesController.createArticle));
-router.delete('/articles/:articleId', catchAsync(articlesController.deleteArticle));
 router.patch('/articles/:articleId', catchAsync(articlesController.modifyArticle));
-router.get('/articles/temporary/:userId', catchAsync(articlesController.getTemporaryArticle));
-router.post('/articles/temporary', catchAsync(articlesController.craeteTemporaryArticle));
+router.delete('/articles/:articleId', catchAsync(articlesController.deleteArticle));
 
 router.post('/image', multer().single('image'), catchAsync(imagesController.createImage));
 

@@ -51,3 +51,24 @@ export const modifyArticleApi = async (articleId: number, data: CreateArticleApi
 
   return response.data;
 };
+
+export const getTemporaryArticleApi = async () => {
+  const url = '/api/articles/temporary';
+
+  const response = await api({ url, method: 'GET' });
+
+  return response.data;
+};
+
+interface CreateTemporaryArticleApi {
+  title: string;
+  content: string;
+}
+
+export const createTemporaryArticleApi = async (data: CreateTemporaryArticleApi) => {
+  const url = '/api/articles/temporary';
+
+  const response = await api({ url, method: 'POST', data });
+
+  return response.data;
+};

@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
-import rehypeStringify from 'rehype-stringify';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import { unified } from 'unified';
 
 import articleState from '@atoms/article';
+import articleBuffer from '@atoms/articleBuffer';
 import Content from '@components/common/Content';
 import EditBar from '@components/edit/EditBar';
 import useCodeMirror from '@components/edit/Editor/core/useCodeMirror';
 import useInput from '@hooks/useInput';
 import { IArticle } from '@interfaces';
+import { html2markdown, markdown2html } from '@utils/parser';
+
 import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
 
 interface EditorProps {
@@ -20,7 +19,8 @@ interface EditorProps {
 }
 
 export default function Editor({ handleModalOpen, originalArticle }: EditorProps) {
-  const { ref, value } = useCodeMirror();
+  const { ref, document, replaceDocument } = useCodeMirror();
+  const [buffer, setBuffer] = useRecoilState(articleBuffer);
 
   const [isModifyMode, setIsModifyMode] = useState(false);
   const [article, setArticle] = useRecoilState(articleState);
@@ -38,23 +38,21 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
   }, [originalArticle]);
 
   useEffect(() => {
-    setArticle({
-      ...article,
-      title: title.value,
-    });
-  }, [title.value]);
+    if (!buffer.title && !buffer.content) return;
+
+    title.setValue(buffer.title);
+    replaceDocument(html2markdown(buffer.content));
+
+    setBuffer({ title: '', content: '' });
+  }, [buffer]);
 
   useEffect(() => {
     setArticle({
       ...article,
-      content: unified()
-        .use(remarkParse)
-        .use(remarkRehype)
-        .use(rehypeStringify)
-        .processSync(value)
-        .toString(),
+      title: title.value,
+      content: markdown2html(document),
     });
-  }, [value]);
+  }, [title.value, document]);
 
   return (
     <EditorWrapper>
