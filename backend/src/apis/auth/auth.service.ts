@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { hash, compare } from 'bcrypt';
 
+import booksService from '@apis/books/books.service';
 import { prisma } from '@config/orm.config';
 import { ResourceConflict, Message, Unauthorized } from '@errors';
 
@@ -75,6 +76,8 @@ const signUpGithubUser = async (username: string, provider_id: string) => {
     },
   });
 
+  await booksService.createBook({ title: '새로운 책', userId: user.id });
+
   return user;
 };
 
@@ -122,7 +125,7 @@ const checkOverlapBeforeSignUp = async (username: string, nickname: string) => {
 const signUpLocalUser = async (username: string, password: string, nickname: string) => {
   const encryptedPassword = await hash(password, Number(process.env.BCRYPT_SALT));
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       username,
       nickname,
@@ -131,6 +134,8 @@ const signUpLocalUser = async (username: string, password: string, nickname: str
       description: `안녕하세요 ${nickname}입니다.`,
     },
   });
+
+  await booksService.createBook({ title: '새로운 책', userId: user.id });
 };
 
 export default {
