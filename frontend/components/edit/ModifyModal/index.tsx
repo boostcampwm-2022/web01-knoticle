@@ -2,8 +2,6 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import { useRecoilState } from 'recoil';
-
 import { modifyArticleApi } from '@apis/articleApi';
 import articleState from '@atoms/article';
 import scrapState from '@atoms/scrap';
@@ -13,8 +11,9 @@ import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
 import { IEditScrap } from 'interfaces/scrap.interface';
+import { useRecoilState } from 'recoil';
 
-import { ArticleWrapper, Label, ModifyModalWrapper } from './styled';
+import { ArticleWrapper, Label, ModifyModalWrapper, WarningLabel } from './styled';
 
 interface ModifyModalProps {
   books: IBookScraps[];
@@ -34,6 +33,8 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
 
+  const [isSelectedBookUnavailable, setSelectedBookUnavailable] = useState(false);
+
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
       return {
@@ -42,18 +43,37 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
       };
     });
 
+  const checkArticleExistsInBook = (articleId: number, items: IEditScrap[]) => {
+    return items.some((item) => item.article.id === articleId);
+  };
+
   const createScrapDropdownItems = (items: IEditScrap[]) => {
     const itemList = [...items];
 
     if (selectedBookIndex !== originalBookId)
       itemList.push({ id: 0, order: items.length + 1, article: { id: 0, title: article.title } });
+
     return itemList;
   };
 
   useEffect(() => {
+    if (selectedBookIndex === -1) return;
+
     const selectedBook = books.find((book) => book.id === selectedBookIndex);
 
-    setFilteredScraps(selectedBook ? selectedBook.scraps : []);
+    if (
+      !selectedBook ||
+      (selectedBookIndex !== originalBookId &&
+        checkArticleExistsInBook(originalArticleId, selectedBook.scraps))
+    ) {
+      setSelectedBookIndex(-1);
+      setSelectedBookUnavailable(true);
+      setFilteredScraps([]);
+      return;
+    }
+
+    setSelectedBookUnavailable(false);
+    setFilteredScraps(selectedBook.scraps);
 
     setArticle({
       ...article,
@@ -83,6 +103,9 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
         selectedId={selectedBookIndex}
         handleItemSelect={(id) => setSelectedBookIndex(id)}
       />
+      {isSelectedBookUnavailable && (
+        <WarningLabel>선택하신 책에 본 글이 스크랩되어 있습니다.</WarningLabel>
+      )}
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
