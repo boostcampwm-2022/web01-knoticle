@@ -6,7 +6,7 @@ import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
-import SkeletonBook from '@components/SkeletonBook';
+import SkeletonBook from '@components/common/SkeletonBook';
 import { IBookScraps } from '@interfaces';
 
 import {
@@ -19,6 +19,8 @@ import {
   SliderBookContainer,
   SliderInfoContainer,
   SliderIcon,
+  SliderTrack,
+  SliderBookWrapper,
 } from './styled';
 
 interface SliderProps {
@@ -68,10 +70,16 @@ function Slider({ bookList, title, isLoading }: SliderProps) {
           </SliderIndicatorContainer>
         </SliderInfoContainer>
 
-        <SliderBookContainer curBookIndex={curBookIndex}>
-          {isLoading
-            ? SkeletonList.map((key) => <SkeletonBook key={key} />)
-            : bookList.map((book) => <Book key={book.id} book={book} />)}
+        <SliderBookContainer>
+          <SliderTrack curBookIndex={curBookIndex}>
+            {isLoading
+              ? SkeletonList.map((key) => <SkeletonBook key={key} />)
+              : bookList.map((book) => (
+                  <SliderBookWrapper key={book.id}>
+                    <Book book={book} />
+                  </SliderBookWrapper>
+                ))}
+          </SliderTrack>
         </SliderBookContainer>
       </SliderContent>
 

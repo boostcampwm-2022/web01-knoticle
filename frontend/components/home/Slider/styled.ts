@@ -32,11 +32,15 @@ export const SliderTitle = styled.div`
   font-weight: 700;
 `;
 
-export const SliderBookContainer = styled.div<{ curBookIndex: number }>`
+export const SliderBookContainer = styled.div`
+  position: relative;
+`;
+
+export const SliderTrack = styled.div<{ curBookIndex: number }>`
   display: flex;
   ${(props) => `transform: translateX(-${300 * props.curBookIndex}px);`}
   transition: transform 700ms ease 0ms;
-  z-index: 0;
+  z-index: 4;
 `;
 
 export const SliderIndicatorContainer = styled.div`
@@ -44,6 +48,8 @@ export const SliderIndicatorContainer = styled.div`
   align-items: end;
   gap: 4px;
 `;
+
+export const SliderBookWrapper = styled.div``;
 
 export const SliderIndicator = styled.div<{ isActive: boolean }>`
   width: 40px;
