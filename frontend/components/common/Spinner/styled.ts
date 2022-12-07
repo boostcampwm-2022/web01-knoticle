@@ -11,7 +11,7 @@ export const SpinnerWrapper = styled.div<SpinnerWrapperProps>`
 `;
 
 interface SpinnerInnerProps {
-  borderWidth?: number;
+  borderWidth: number;
 }
 
 export const SpinnerInner = styled.div<SpinnerInnerProps>`

@@ -1,19 +1,19 @@
 import { SpinnerInner, SpinnerWrapper } from './styled';
 
-interface SpinnerProps {
+interface SpinnerStyle {
   width: number;
   height: number;
-  borderWidth?: number;
+  borderWidth: number;
 }
 
-export default function Spinner({ width, height, borderWidth }: SpinnerProps) {
+interface SpinnerProps {
+  style: SpinnerStyle;
+}
+
+export default function Spinner({ style }: SpinnerProps) {
   return (
-    <SpinnerWrapper width={width} height={height}>
-      <SpinnerInner borderWidth={borderWidth} />
+    <SpinnerWrapper width={style.width} height={style.height}>
+      <SpinnerInner borderWidth={style.borderWidth} />
     </SpinnerWrapper>
   );
 }
-
-Spinner.defaultProps = {
-  borderWidth: 30,
-};
