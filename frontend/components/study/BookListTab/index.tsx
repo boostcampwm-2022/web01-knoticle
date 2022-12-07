@@ -9,7 +9,7 @@ import Book from '@components/common/Book';
 import Modal from '@components/common/Modal';
 import EditBook from '@components/study/EditBook';
 import FAB from '@components/study/FAB';
-import { IBookScraps } from '@interfaces';
+import { IBookScraps, IEditBookScraps } from '@interfaces';
 
 import {
   BookGrid,
@@ -24,7 +24,7 @@ import {
 } from './styled';
 
 interface BookListTabProps {
-  knottedBookList: IBookScraps[];
+  knottedBookList: IEditBookScraps[];
   bookmarkedBookList: IBookScraps[];
   isUserMatched: boolean;
 }
@@ -38,7 +38,7 @@ export default function BookListTab({
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
   const [isModalShown, setModalShown] = useState(false);
-  const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
+  const [curEditBook, setCurEditBook] = useState<IEditBookScraps | null>(null);
   const [tabStatus, setTabStatus] = useState<'knotted' | 'bookmarked'>('knotted');
   const [isEditing, setIsEditing] = useState<boolean>(false);
 

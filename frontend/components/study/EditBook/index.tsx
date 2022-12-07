@@ -14,7 +14,7 @@ import DragArticle from '@components/common/DragDrop';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
-import { IBookScraps } from '@interfaces';
+import { IEditBookScraps } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
 
 import {
@@ -34,7 +34,7 @@ import {
 } from './styled';
 
 interface BookProps {
-  book: IBookScraps;
+  book: IEditBookScraps;
   handleModalClose: () => void;
 }
 
