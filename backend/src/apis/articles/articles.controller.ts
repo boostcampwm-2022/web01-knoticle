@@ -78,7 +78,7 @@ const createTemporaryArticle = async (req: Request, res: Response) => {
   res.status(201).send(temporaryArticle);
 };
 
-const modifyArticle = async (req: Request, res: Response) => {
+const updateArticle = async (req: Request, res: Response) => {
   const { article, scraps } = req.body;
 
   const articleId = Number(req.params.articleId);
@@ -107,5 +107,5 @@ export default {
   deleteArticle,
   getTemporaryArticle,
   createTemporaryArticle,
-  modifyArticle,
+  updateArticle,
 };
