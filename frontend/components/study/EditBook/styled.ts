@@ -3,9 +3,9 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 import { TextXSmall, TextSmall } from '@styles/common';
-import { FlexCenter, FlexColumn, FlexColumnCenter } from '@styles/layout';
+import { FlexCenter, FlexColumn, FlexColumnAlignCenter } from '@styles/layout';
 
-export const EditBookWapper = styled(FlexColumnCenter)`
+export const EditBookWapper = styled(FlexColumnAlignCenter)`
   width: 320px;
   margin: auto;
 `;

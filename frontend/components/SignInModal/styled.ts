@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { FlexColumnCenter } from '@styles/layout';
+import { FlexColumnAlignCenter } from '@styles/layout';
 
 export const SignInModalWrapper = styled.div`
   margin-top: 56px;
@@ -10,7 +10,7 @@ export const SignInModalWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-export const SignUpContainer = styled(FlexColumnCenter)`
+export const SignUpContainer = styled(FlexColumnAlignCenter)`
   padding: 20px;
   gap: 10px;
 
