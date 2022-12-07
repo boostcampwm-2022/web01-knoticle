@@ -22,12 +22,8 @@ interface FabProps {
 }
 
 export default function FAB({ isEditing, setIsEditing }: FabProps) {
-  const {
-    data: deletedBook,
-    setData: setDeletedBook,
-    execute: deleteBook,
-  } = useFetch(deleteBookApi);
-  const { data: editBookData, setData: setEditBookData, execute: editBook } = useFetch(editBookApi);
+  const { data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
+  const { data: editBookData, execute: editBook } = useFetch(editBookApi);
 
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
@@ -69,11 +65,12 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
   }, [editBookData]);
 
   useEffect(() => {
-    if (deletedBook || editBookData) {
-      if (editInfo.deleted.length === 0) setDeletedBook(undefined);
-      if (editInfo.editted.length === 0) setEditBookData(undefined);
-      if (editInfo.deleted.length === 0 && editInfo.editted.length === 0)
-        toastSuccess(`수정 완료되었습니다`);
+    if (
+      (deletedBook || editBookData) &&
+      editInfo.deleted.length === 0 &&
+      editInfo.editted.length === 0
+    ) {
+      toastSuccess(`수정 완료되었습니다`);
     }
   }, [editInfo]);
 

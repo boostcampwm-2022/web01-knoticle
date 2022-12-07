@@ -16,7 +16,7 @@ const useFetch = <T>(api: (...args: any[]) => Promise<T>) => {
     }
   }, []);
 
-  return { data, setData, execute };
+  return { data, execute };
 };
 
 export default useFetch;
