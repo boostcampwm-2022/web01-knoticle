@@ -8,7 +8,7 @@ import editInfoState from '@atoms/editInfo';
 import scrapState from '@atoms/scrap';
 
 import { EditScrap } from '../dndInterface';
-import { Article, Text, MinusButton, MinusIcon } from './styled';
+import { Article, Text, MinusButton, MinusIcon, OriginalBadge, TextWapper } from './styled';
 
 const ItemTypes = {
   Scrap: 'scrap',
@@ -87,16 +87,13 @@ export const ListItem = memo(function Scrap({
     // 원본글이면 실제로 삭제
     if (window.confirm('글을 책에서 삭제하시겠습니까?')) {
       if (isOriginal) {
-        if (window.confirm('해당 글은 원본글입니다. 정말로 삭제하시겠습니까?')) {
-          console.log('원본글 삭제!');
-          setEditInfo({
-            ...editInfo,
-            deletedArticle: [...editInfo.deletedArticle, id],
-            deletedScraps: [...editInfo.deletedScraps, scrapId],
-          });
-          setScraps(scraps.filter((v) => v.article.id !== id));
-          return;
-        }
+        setEditInfo({
+          ...editInfo,
+          deletedArticle: [...editInfo.deletedArticle, id],
+          deletedScraps: [...editInfo.deletedScraps, scrapId],
+        });
+        setScraps(scraps.filter((v) => v.article.id !== id));
+        return;
       }
 
       setEditInfo({
@@ -109,7 +106,10 @@ export const ListItem = memo(function Scrap({
 
   return (
     <Article ref={(node) => drag(drop(node))} isShown={isContentsShown ? true : isShown}>
-      <Text>{text}</Text>
+      <TextWapper>
+        <Text>{text}</Text>
+        {isOriginal && isDeleteBtnShown && <OriginalBadge>원본</OriginalBadge>}
+      </TextWapper>
       {isDeleteBtnShown && (
         <MinusButton onClick={handleMinusBtnClick}>
           <MinusIcon src={MinusWhite} alt="글 삭제" />
