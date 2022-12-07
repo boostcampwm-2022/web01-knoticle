@@ -14,6 +14,7 @@ import ModifyModal from '@components/edit/ModifyModal';
 import PublishModal from '@components/edit/PublishModal';
 import useFetch from '@hooks/useFetch';
 import { IArticle } from '@interfaces';
+import { toastError } from '@utils/toast';
 
 export default function EditorPage() {
   const [isModalShown, setModalShown] = useState(false);
@@ -41,7 +42,7 @@ export default function EditorPage() {
     if (!article) return;
 
     if (article.book.user.nickname !== user.nickname) {
-      alert('잘못된 접근입니다.');
+      toastError('수정 권한이 없습니다.');
       router.push('/');
       return;
     }
