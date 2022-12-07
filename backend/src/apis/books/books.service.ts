@@ -155,6 +155,13 @@ const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
         search: `${query}*`,
       },
     },
+    orderBy: {
+      _relevance: {
+        fields: ['title'],
+        sort: 'desc',
+        search: `${query}*`,
+      },
+    },
     skip,
     take,
   });
