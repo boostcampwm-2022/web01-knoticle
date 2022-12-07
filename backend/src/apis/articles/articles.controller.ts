@@ -48,7 +48,7 @@ const createArticle = async (req: Request, res: Response) => {
 };
 
 const deleteArticle = async (req: Request, res: Response) => {
-  const articleId = Number(res.locals.articleId);
+  const articleId = Number(req.params.articleId);
 
   await articlesService.deleteArticle(articleId);
 
