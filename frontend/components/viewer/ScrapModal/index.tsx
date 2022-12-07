@@ -11,7 +11,7 @@ import useFetch from '@hooks/useFetch';
 import { IBook, IBookScraps, IScrap, IArticle } from '@interfaces';
 import { IEditScrap } from 'interfaces/scrap.interface';
 
-import { ArticleWrapper, Label, ScrapModalWrapper } from './styled';
+import { ArticleWrapper, Label, ScrapModalWrapper, WarningLabel } from './styled';
 
 interface ScrapModalProps {
   books: IBookScraps[];
@@ -25,6 +25,8 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
   const { execute: createScrap } = useFetch(createScrapApi);
 
   const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
+
+  const [isSelectedBookUnavailable, setSelectedBookUnavailable] = useState(false);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -45,8 +47,24 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
     return itemList;
   };
 
+  const checkArticleExistsInBook = (articleId: number, items: IEditScrap[]) => {
+    return items.some((item) => item.article.id === articleId);
+  };
+
   useEffect(() => {
+    if (selectedBookIndex === -1) return;
+
     const selectedBook = books.find((book) => book.id === selectedBookIndex);
+
+    if (!selectedBook || checkArticleExistsInBook(article.id, selectedBook.scraps)) {
+      setSelectedBookIndex(-1);
+      setSelectedBookUnavailable(true);
+      setFilteredScraps([]);
+      return;
+    }
+
+    setSelectedBookUnavailable(false);
+    setFilteredScraps(selectedBook.scraps);
 
     setFilteredScraps(selectedBook ? selectedBook.scraps : []);
   }, [selectedBookIndex]);
@@ -73,6 +91,9 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
         selectedId={selectedBookIndex}
         handleItemSelect={(id) => setSelectedBookIndex(id)}
       />
+      {isSelectedBookUnavailable && (
+        <WarningLabel>선택하신 책에 이미 동일한 글이 존재합니다.</WarningLabel>
+      )}
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
