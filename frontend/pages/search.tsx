@@ -20,16 +20,8 @@ export default function Search() {
   const [articles, setArticles] = useState([]);
   const [books, setBooks] = useState([]);
 
-  const {
-    data: newArticles,
-    isLoading: isArticleLoading,
-    execute: searchArticles,
-  } = useFetch(searchArticlesApi);
-  const {
-    data: newBooks,
-    isLoading: isBookLoading,
-    execute: searchBooks,
-  } = useFetch(searchBooksApi);
+  const { data: newArticles, execute: searchArticles } = useFetch(searchArticlesApi);
+  const { data: newBooks, execute: searchBooks } = useFetch(searchBooksApi);
 
   const keyword = useInput();
   const debouncedKeyword = useDebounce(keyword.value, 300);
@@ -42,7 +34,8 @@ export default function Search() {
 
   const [filter, setFilter] = useState({ type: 'article', userId: 0 });
 
-  const [isItemLoading, setIsItemLoading] = useState(false);
+  const [isArticleNoResult, setIsArticleNoResult] = useState(false);
+  const [isBookNoResult, setIsBookNoResult] = useState(false);
 
   const highlightWord = (text: string, words: string[]): React.ReactNode => {
     let wordIndexList = words.map((word) => text.toLowerCase().indexOf(word.toLowerCase()));
@@ -68,9 +61,11 @@ export default function Search() {
   };
 
   useEffect(() => {
-    if (!debouncedKeyword) {
+    if (debouncedKeyword === '') {
       setArticles([]);
       setBooks([]);
+      setIsArticleNoResult(false);
+      setIsBookNoResult(false);
       return;
     }
 
@@ -100,7 +95,7 @@ export default function Search() {
   useEffect(() => {
     if (!isIntersecting || !debouncedKeyword) return;
 
-    if (filter.type === 'article') {
+    if (filter.type === 'article' && !isArticleNoResult) {
       if (!articlePage.hasNextPage) return;
       searchArticles({
         query: debouncedKeyword,
@@ -112,7 +107,7 @@ export default function Search() {
         ...articlePage,
         pageNumber: articlePage.pageNumber + 1,
       });
-    } else if (filter.type === 'book') {
+    } else if (filter.type === 'book' && !isBookNoResult) {
       if (!bookPage.hasNextPage) return;
       searchBooks({
         query: debouncedKeyword,
@@ -129,6 +124,14 @@ export default function Search() {
 
   useEffect(() => {
     if (!newArticles) return;
+
+    if (newArticles.data.length === 0 && articlePage.pageNumber === 2) {
+      setArticles([]);
+      setIsArticleNoResult(true);
+      return;
+    }
+
+    setIsArticleNoResult(false);
 
     const newArticlesHighlighted = newArticles.data.map((article: IArticle) => {
       const keywords = debouncedKeyword.trim().split(' ');
@@ -151,6 +154,14 @@ export default function Search() {
 
   useEffect(() => {
     if (!newBooks) return;
+
+    if (newBooks.data.length === 0 && bookPage.pageNumber === 2) {
+      setBooks([]);
+      setIsBookNoResult(true);
+      return;
+    }
+
+    setIsBookNoResult(false);
 
     const newBooksHighlighted = newBooks.data.map((book: IBook) => {
       const keywords = debouncedKeyword.trim().split(' ');
@@ -177,11 +188,6 @@ export default function Search() {
     });
   };
 
-  useEffect(() => {
-    if (isArticleLoading || isBookLoading) setIsItemLoading(true);
-    else setIsItemLoading(false);
-  }, [isArticleLoading, isBookLoading]);
-
   return (
     <>
       <SearchHead />
@@ -190,12 +196,12 @@ export default function Search() {
         <PageInnerSmall>
           <SearchBar {...keyword} />
           <SearchFilter handleFilter={handleFilter} />
-          {articles?.length > 0 && filter.type === 'article' && <ArticleList articles={articles} />}
-          {books?.length > 0 && filter.type === 'book' && <BookList books={books} />}
           {debouncedKeyword !== '' &&
-            !isItemLoading &&
-            ((articles?.length === 0 && filter.type === 'article') ||
-              (books?.length === 0 && filter.type === 'book')) && <SearchNoResult />}
+            filter.type === 'article' &&
+            (isArticleNoResult ? <SearchNoResult /> : <ArticleList articles={articles} />)}
+          {debouncedKeyword !== '' &&
+            filter.type === 'book' &&
+            (isBookNoResult ? <SearchNoResult /> : <BookList books={books} />)}
           <div ref={target} />
         </PageInnerSmall>
       </PageWrapper>
