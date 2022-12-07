@@ -47,7 +47,7 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
     ];
   };
 
-  const checkArticleExistsInBook = (articleId: number, items: IEditScrap[]) => {
+  const checkArticleExistsInBook = (articleId: number, items: IScrap[]) => {
     return items.some((item) => item.article.id === articleId);
   };
 
