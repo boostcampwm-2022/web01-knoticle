@@ -6,20 +6,20 @@ import remarkRehype from 'remark-rehype';
 import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
 
-export const markdown2html = (html: string) => {
+export const markdown2html = (markdown: string) => {
   return unified()
     .use(remarkParse)
     .use(remarkRehype)
     .use(rehypeStringify)
-    .processSync(html)
+    .processSync(markdown)
     .toString();
 };
 
-export const html2markdown = (markdown: string) => {
+export const html2markdown = (html: string) => {
   return unified()
     .use(rehypeParse)
     .use(rehypeRemark)
     .use(remarkStringify)
-    .processSync(markdown)
+    .processSync(html)
     .toString();
 };
