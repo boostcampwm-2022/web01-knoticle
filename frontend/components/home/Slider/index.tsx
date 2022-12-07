@@ -6,7 +6,7 @@ import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
-import SkeletonBook from '@components/SkeletonBook';
+import SkeletonBook from '@components/common/SkeletonBook';
 import { IBookScraps } from '@interfaces';
 
 import {
