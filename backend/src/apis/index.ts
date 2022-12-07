@@ -21,12 +21,20 @@ router.post('/auth/signup', catchAsync(authController.signUp));
 router.get('/auth/signout', catchAsync(authController.signOut));
 router.get('/auth', decoder, catchAsync(authController.checkSignInStatus));
 
+router.get(
+  '/articles/temporary',
+  catchAsync(guard),
+  catchAsync(articlesController.getTemporaryArticle)
+);
+router.post(
+  '/articles/temporary',
+  catchAsync(guard),
+  catchAsync(articlesController.createTemporaryArticle)
+);
 router.get('/articles/search', catchAsync(articlesController.searchArticles));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
 router.post('/articles', catchAsync(articlesController.createArticle));
 router.delete('/articles/:articleId', catchAsync(articlesController.deleteArticle));
-router.get('/articles/temporary/:userId', catchAsync(articlesController.getTemporaryArticle));
-router.post('/articles/temporary', catchAsync(articlesController.craeteTemporaryArticle));
 
 router.post('/image', multer().single('image'), catchAsync(imagesController.createImage));
 
