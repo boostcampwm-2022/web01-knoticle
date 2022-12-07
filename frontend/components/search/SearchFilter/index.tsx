@@ -28,13 +28,15 @@ export default function SearchFilter({ handleFilter }: SearchFilterProps) {
           책
         </FilterLabel>
       </FilterGroup>
-      <FilterLabel>
-        <FilterButton
-          type="checkbox"
-          onChange={(e) => handleFilter({ userId: e.target.checked ? signInStatus.id : 0 })}
-        />
-        내 책에서 검색
-      </FilterLabel>
+      {signInStatus.id !== 0 && (
+        <FilterLabel>
+          <FilterButton
+            type="checkbox"
+            onChange={(e) => handleFilter({ userId: e.target.checked ? signInStatus.id : 0 })}
+          />
+          내 책에서 검색
+        </FilterLabel>
+      )}
     </FilterWrapper>
   );
 }
