@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-import { IScrap } from '@interfaces';
+import { IEditScrap } from '@interfaces';
 
 interface EditInfoState {
   deleted: number[];
@@ -8,7 +8,7 @@ interface EditInfoState {
     id: number;
     title: string;
     thumbnail_image: string;
-    scraps: IScrap[];
+    scraps: IEditScrap[];
   }[];
   deletedArticle: number[];
   deletedScraps: number[];
