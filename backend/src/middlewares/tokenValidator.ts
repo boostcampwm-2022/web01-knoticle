@@ -6,7 +6,9 @@ import token from '@utils/token';
 const guard = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = token.verifyJWT(req.cookies.access_token);
+
     res.locals.user = { id };
+
     next();
   } catch (err) {
     if (err.message === 'jwt expired') {

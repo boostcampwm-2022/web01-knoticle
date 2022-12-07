@@ -28,6 +28,7 @@ const createArticle = async (req: Request, res: Response) => {
     content: article.content,
     book_id: article.book_id,
   });
+
   // forEach와 async,await을 같이사용하는 것이 맞나? 다른방법은 없나?
   scraps.forEach(async (scrap: IScrap) => {
     if (scrap.id === 0) {
@@ -41,7 +42,8 @@ const createArticle = async (req: Request, res: Response) => {
       await scrapsService.updateScrapOrder(scrap);
     }
   });
-  res.status(201).send({ createdArticle });
+
+  return res.status(201).send({ createdArticle });
 };
 
 const deleteArticle = async (req: Request, res: Response) => {
@@ -49,7 +51,7 @@ const deleteArticle = async (req: Request, res: Response) => {
 
   await articlesService.deleteArticle(articleId);
 
-  res.status(204).send();
+  return res.status(204).send();
 };
 
 const getTemporaryArticle = async (req: Request, res: Response) => {
@@ -58,7 +60,7 @@ const getTemporaryArticle = async (req: Request, res: Response) => {
   const userId = res.locals.user.id;
   const temporaryArticle = await articlesService.getTemporaryArticle(userId);
 
-  res.status(200).send(temporaryArticle);
+  return res.status(200).send(temporaryArticle);
 };
 
 const createTemporaryArticle = async (req: Request, res: Response) => {
@@ -72,7 +74,7 @@ const createTemporaryArticle = async (req: Request, res: Response) => {
     user_id: userId,
   });
 
-  res.status(201).send(temporaryArticle);
+  return res.status(201).send(temporaryArticle);
 };
 
 const modifyArticle = async (req: Request, res: Response) => {
@@ -87,6 +89,7 @@ const modifyArticle = async (req: Request, res: Response) => {
   });
 
   const result: any[] = [];
+
   scraps.forEach(async (scrap: IScrap) => {
     if (scrap.id === 0) {
       result.push(await scrapsService.updateScrapBookId(articleId, article.book_id, scrap));
@@ -94,7 +97,8 @@ const modifyArticle = async (req: Request, res: Response) => {
       result.push(await scrapsService.updateScrapOrder(scrap));
     }
   });
-  res.status(201).send({ modifiedArticle, result });
+
+  return res.status(201).send({ modifiedArticle, result });
 };
 
 export default {

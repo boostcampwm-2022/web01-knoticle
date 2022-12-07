@@ -14,7 +14,7 @@ const getBook = async (req: Request, res: Response) => {
 
   const book = await booksService.findBook(+bookId, userId);
 
-  res.status(200).send(book);
+  return res.status(200).send(book);
 };
 
 const getBooks = async (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ const getBooks = async (req: Request, res: Response) => {
 
   const books = await booksService.findBooks({ order, take: +take, userId, editor, type });
 
-  res.status(200).send(books);
+  return res.status(200).send(books);
 };
 
 const searchBooks = async (req: Request, res: Response) => {
@@ -34,7 +34,7 @@ const searchBooks = async (req: Request, res: Response) => {
 
   const searchResult = await booksService.searchBooks({ query, userId, take: +take, page });
 
-  res.status(200).send(searchResult);
+  return res.status(200).send(searchResult);
 };
 
 const createBook = async (req: Request, res: Response) => {
@@ -46,7 +46,7 @@ const createBook = async (req: Request, res: Response) => {
 
   const bookData = await booksService.findBook(book.id, userId);
 
-  res.status(201).send(bookData);
+  return res.status(201).send(bookData);
 };
 
 const editBook = async (req: Request, res: Response) => {
@@ -62,7 +62,7 @@ const editBook = async (req: Request, res: Response) => {
 
   const bookData = await booksService.findBook(book.id, userId);
 
-  res.status(200).send(bookData);
+  return res.status(200).send(bookData);
 };
 
 const deleteBook = async (req: Request, res: Response) => {
@@ -72,7 +72,7 @@ const deleteBook = async (req: Request, res: Response) => {
 
   const book = await booksService.deleteBook(bookId, userId);
 
-  res.status(200).send(book);
+  return res.status(200).send(book);
 };
 
 export default {

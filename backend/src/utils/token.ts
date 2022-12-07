@@ -1,18 +1,18 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import { decode, JwtPayload, sign, verify } from 'jsonwebtoken';
 
 import { prisma } from '@config/orm.config';
 import { Message, Unauthorized } from '@errors';
 
 const generateJWT = (expiresIn: '3h' | '7d', payload: { id?: number } = {}) => {
-  return jwt.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
+  return sign(payload, process.env.JWT_SECRET_KEY, { expiresIn });
 };
 
 const verifyJWT = (token: string) => {
-  return jwt.verify(token, process.env.JWT_SECRET_KEY) as JwtPayload;
+  return verify(token, process.env.JWT_SECRET_KEY) as JwtPayload;
 };
 
 const decodeJWT = (token: string) => {
-  return jwt.decode(token) as JwtPayload;
+  return decode(token) as JwtPayload;
 };
 
 const getTokens = (userId: number) => {

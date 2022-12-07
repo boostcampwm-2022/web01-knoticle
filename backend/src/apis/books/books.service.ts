@@ -47,6 +47,7 @@ const findBook = async (bookId: number, userId: number) => {
 
 const findBooks = async ({ order, take, userId, editor, type }: FindBooks) => {
   const sortOptions = [];
+
   if (order === 'bookmark') sortOptions.push({ bookmarks: { _count: 'desc' as const } });
   if (order === 'newest') sortOptions.push({ created_at: 'desc' as const });
 
