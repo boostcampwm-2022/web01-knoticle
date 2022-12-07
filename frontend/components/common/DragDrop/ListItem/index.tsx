@@ -7,7 +7,6 @@ import MinusWhite from '@assets/ico_minus_white.svg';
 import editInfoState from '@atoms/editInfo';
 import scrapState from '@atoms/scrap';
 
-import { EditScrap } from '../dndInterface';
 import { Article, Text, MinusButton, MinusIcon, OriginalBadge, TextWapper } from './styled';
 
 const ItemTypes = {
@@ -43,7 +42,7 @@ export const ListItem = memo(function Scrap({
   isDeleteBtnShown,
 }: ScrapProps) {
   const originalIndex = findScrap(id).index;
-  const [scraps, setScraps] = useRecoilState<EditScrap[]>(scrapState);
+  const [scraps, setScraps] = useRecoilState(scrapState);
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
   // Drag

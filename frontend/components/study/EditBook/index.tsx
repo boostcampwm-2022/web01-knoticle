@@ -16,7 +16,6 @@ import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { IBookScraps } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
-import { IEditScrap } from 'interfaces/scrap.interface';
 
 import {
   BookWrapper,
@@ -47,7 +46,7 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
 
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
   const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
-  const [scrapList] = useRecoilState<any>(scrapState);
+  const [scrapList] = useRecoilState(scrapState);
 
   const [isContentsShown, setIsContentsShown] = useState(false);
 
@@ -70,7 +69,7 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
   };
 
   const handleCompletedBtnClick = () => {
-    const editScraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+    const editScraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     // 해당하는 책을 찾아서 전역에서 관리하고 있는 애를 변경해서 업데이트
     setCurKnottedBookList([
@@ -91,7 +90,7 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
     setEditInfo({
       ...editInfo,
       editted: [
-        ...editInfo.editted,
+        ...editInfo.editted.filter((edit) => edit.id !== id),
         {
           id,
           title: titleData,

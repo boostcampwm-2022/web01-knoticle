@@ -1,7 +1,7 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import Container from '@components/common/DragDrop/Container';
+import DragContainer from '@components/common/DragDrop/Container';
 
 export interface EditScrap {
   id: number;
@@ -21,7 +21,7 @@ export interface ContainerState {
 export default function DragArticle({ data, isContentsShown, isDeleteBtnShown }: ContainerState) {
   return (
     <DndProvider backend={HTML5Backend}>
-      <Container
+      <DragContainer
         data={data}
         isContentsShown={isContentsShown}
         isDeleteBtnShown={isDeleteBtnShown}

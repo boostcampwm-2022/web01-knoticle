@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { Bar, ButtonGroup, ExitButton, PublishButton, TemporaryButton } from './styled';
 
 interface EditBarProps {
@@ -5,10 +7,20 @@ interface EditBarProps {
 }
 
 export default function EditBar({ handleModalOpen }: EditBarProps) {
+  const router = useRouter();
+
+  const handleExitButton = () => {
+    const confirm = window.confirm('정말 나가시겠습니까?');
+
+    if (confirm) router.push('/');
+  };
+
   return (
     <Bar>
       <ButtonGroup>
-        <ExitButton>나가기</ExitButton>
+        <ExitButton tabIndex={-1} onClick={() => handleExitButton()}>
+          나가기
+        </ExitButton>
       </ButtonGroup>
       <ButtonGroup>
         <TemporaryButton>불러오기</TemporaryButton>

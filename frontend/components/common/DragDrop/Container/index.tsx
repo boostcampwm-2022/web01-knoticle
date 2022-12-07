@@ -5,8 +5,8 @@ import update from 'immutability-helper';
 import { useRecoilState } from 'recoil';
 
 import scrapState from '@atoms/scrap';
+import { IEditScrap } from '@interfaces';
 
-import { EditScrap, ContainerState } from '../dndInterface';
 import { ListItem } from '../ListItem';
 import ContainerWapper from './styled';
 
@@ -14,12 +14,17 @@ const ItemTypes = {
   Scrap: 'scrap',
 };
 
-const Container = memo(function Container({
+export interface ContainerState {
+  data: IEditScrap[];
+  isContentsShown: boolean;
+  isDeleteBtnShown: boolean;
+}
+const DragContainer = memo(function Container({
   data,
   isContentsShown,
   isDeleteBtnShown,
 }: ContainerState) {
-  const [scraps, setScraps] = useRecoilState<EditScrap[]>(scrapState);
+  const [scraps, setScraps] = useRecoilState(scrapState);
 
   useEffect(() => {
     if (!data) return;
@@ -28,7 +33,7 @@ const Container = memo(function Container({
 
   const findScrap = useCallback(
     (id: number) => {
-      const scrap = scraps.filter((c) => c.article.id === id)[0] as EditScrap;
+      const scrap = scraps.filter((c) => c.article.id === id)[0];
       return {
         scrap,
         index: scraps.indexOf(scrap),
@@ -73,4 +78,4 @@ const Container = memo(function Container({
   );
 });
 
-export default Container;
+export default DragContainer;

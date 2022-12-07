@@ -9,7 +9,6 @@ import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IBook, IBookScraps, IScrap, IArticle } from '@interfaces';
-import { IEditScrap } from 'interfaces/scrap.interface';
 
 import { ArticleWrapper, Label, ScrapModalWrapper } from './styled';
 
@@ -24,7 +23,7 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const { execute: createScrap } = useFetch(createScrapApi);
 
-  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
+  const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -34,7 +33,7 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
       };
     });
 
-  const createScrapDropdownItems = (items: IEditScrap[]) => {
+  const createScrapDropdownItems = (items: IScrap[]) => {
     const itemList = [...items];
 
     itemList.push({
@@ -59,7 +58,7 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
   const handleScrapBtnClick = () => {
     if (selectedBookIndex === -1) return;
 
-    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+    const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     createScrap({ book_id: selectedBookIndex, article_id: article.id, scraps });
     handleModalClose();

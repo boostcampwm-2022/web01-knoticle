@@ -11,8 +11,7 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IScrap } from '@interfaces';
-import { IEditScrap } from 'interfaces/scrap.interface';
+import { IBook, IBookScraps, IEditScrap, IScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
@@ -30,7 +29,7 @@ export default function PublishModal({ books }: PublishModalProps) {
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
-  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
+  const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -68,7 +67,7 @@ export default function PublishModal({ books }: PublishModalProps) {
   }, [filteredScraps]);
 
   const handlePublishBtnClick = () => {
-    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+    const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     createArticle({ article, scraps });
     router.push('/');
