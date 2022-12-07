@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { getOrderedBookListApi } from '@apis/bookApi';
 import Footer from '@components/common/Footer';
@@ -9,21 +9,22 @@ import useFetch from '@hooks/useFetch';
 import { PageInnerLarge, PageWrapper } from '@styles/layout';
 
 export default function Home() {
-  const { data: newestBookList, execute: getNewestBookList } = useFetch(getOrderedBookListApi);
-  const { data: popularBookList, execute: getPopularBookList } = useFetch(getOrderedBookListApi);
+  const {
+    data: newestBookList,
+    isLoading: isNewBookListLoading,
+    execute: getNewestBookList,
+  } = useFetch(getOrderedBookListApi);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const {
+    data: popularBookList,
+    isLoading: isPopularBookListLoading,
+    execute: getPopularBookList,
+  } = useFetch(getOrderedBookListApi);
 
   useEffect(() => {
     getNewestBookList('newest');
     getPopularBookList('bookmark');
   }, []);
-
-  useEffect(() => {
-    if (!newestBookList || !popularBookList) return;
-
-    setIsLoading(false);
-  }, [newestBookList, popularBookList]);
 
   return (
     <>
@@ -31,8 +32,12 @@ export default function Home() {
       <GNB />
       <PageWrapper>
         <PageInnerLarge>
-          <Slider bookList={newestBookList} title="새로 엮은 책" isLoading={isLoading} />
-          <Slider bookList={popularBookList} title="가장 인기 있는 책" isLoading={isLoading} />
+          <Slider bookList={newestBookList} title="새로 엮은 책" isLoading={isNewBookListLoading} />
+          <Slider
+            bookList={popularBookList}
+            title="가장 인기 있는 책"
+            isLoading={isPopularBookListLoading}
+          />
           <Footer />
         </PageInnerLarge>
       </PageWrapper>
