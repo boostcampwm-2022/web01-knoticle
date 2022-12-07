@@ -20,6 +20,7 @@ import {
   ArticleLink,
   AuthorLink,
   BookmarkIcon,
+  BookLink,
 } from './styled';
 
 interface BookProps {
@@ -36,17 +37,27 @@ export default function Book({ book }: BookProps) {
   return (
     // 수정모드일때만 아래 onclick이 실행되도록 수정해야함 -> 민형님 작업 후
     <BookWrapper>
-      <BookThumbnail
-        src={book.thumbnail_image || sampleImage}
-        alt="thumbnail"
-        width={280}
-        height={200}
-      />
+      <BookLink
+        isArticleExists={!!scraps[0]}
+        href={scraps[0] ? `/viewer/${id}/${scraps[0].article.id}` : ``}
+      >
+        <BookThumbnail
+          src={book.thumbnail_image || sampleImage}
+          alt="thumbnail"
+          width={280}
+          height={200}
+        />
+      </BookLink>
 
       <BookInfoContainer>
         <FlexSpaceBetween>
           <BookTitle>
-            <TextLarge>{title}</TextLarge>
+            <BookLink
+              isArticleExists={!!scraps[0]}
+              href={scraps[0] ? `/viewer/${id}/${scraps[0].article.id}` : ``}
+            >
+              <TextLarge>{title}</TextLarge>
+            </BookLink>
             <AuthorLink href={`/study/${user.nickname}`}>by {user.nickname}</AuthorLink>
           </BookTitle>
           <Bookmark>
