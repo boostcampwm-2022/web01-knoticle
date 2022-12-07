@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
+import { deleteArticleApi } from '@apis/articleApi';
 import { deleteBookApi, editBookApi } from '@apis/bookApi';
+import { deleteScrapApi } from '@apis/scrapApi';
 import Add from '@assets/ico_add.svg';
 import CheckWhite from '@assets/ico_check_white.svg';
 import EditWhite from '@assets/ico_edit_white.svg';
@@ -24,6 +26,8 @@ interface FabProps {
 export default function FAB({ isEditing, setIsEditing }: FabProps) {
   const { data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
   const { data: editBookData, execute: editBook } = useFetch(editBookApi);
+  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
+  const { data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
 
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
@@ -43,6 +47,14 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
     });
     editInfo.editted.forEach((edit) => {
       editBook(edit);
+    });
+    // 원본글 삭제
+    editInfo.deletedArticle.forEach((articleId) => {
+      deleteArticle(articleId);
+    });
+    // 스크랩 삭제
+    editInfo.deletedScraps.forEach((scrapId) => {
+      deleteScrap(scrapId);
     });
   };
 

@@ -56,9 +56,8 @@ const editBook = async (req: Request, res: Response) => {
 
   const book = await booksService.editBook({ id, title, thumbnail_image });
 
-  const result: any[] = [];
   scraps.forEach(async (scrap: IScrap) => {
-    result.push(await scrapsService.updateScraps(scrap));
+    await scrapsService.updateScraps(scrap);
   });
 
   const bookData = await booksService.findBook(book.id, userId);

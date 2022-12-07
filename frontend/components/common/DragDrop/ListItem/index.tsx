@@ -1,35 +1,49 @@
 import { memo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-import Article from './styled';
+import { useRecoilState } from 'recoil';
+
+import MinusWhite from '@assets/ico_minus_white.svg';
+import editInfoState from '@atoms/editInfo';
+import scrapState from '@atoms/scrap';
+
+import { Article, Text, MinusButton, MinusIcon, OriginalBadge, TextWapper } from './styled';
 
 const ItemTypes = {
   Scrap: 'scrap',
 };
 
 export interface ScrapProps {
-  id: string;
+  id: number;
+  scrapId: number;
   text: string;
-  moveScrap: (id: string, to: number) => void;
-  findScrap: (id: string) => { index: number };
+  isOriginal: boolean;
+  moveScrap: (id: number, to: number) => void;
+  findScrap: (id: number) => { index: number };
   isShown: boolean;
   isContentsShown: boolean;
+  isDeleteBtnShown: boolean;
 }
 
 interface Item {
-  id: string;
+  id: number;
   originalIndex: number;
 }
 
 export const ListItem = memo(function Scrap({
   id,
+  scrapId,
   text,
+  isOriginal,
   moveScrap,
   findScrap,
   isShown,
   isContentsShown,
+  isDeleteBtnShown,
 }: ScrapProps) {
   const originalIndex = findScrap(id).index;
+  const [scraps, setScraps] = useRecoilState(scrapState);
+  const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
   // Drag
   const [{ isDragging }, drag] = useDrag(
@@ -67,9 +81,39 @@ export const ListItem = memo(function Scrap({
     [findScrap, moveScrap]
   );
 
+  const handleMinusBtnClick = () => {
+    // 원본글이 아니면 스크랩에서만 삭제
+    // 원본글이면 실제로 삭제
+    if (window.confirm('글을 책에서 삭제하시겠습니까?')) {
+      if (isOriginal) {
+        setEditInfo({
+          ...editInfo,
+          deletedArticle: [...editInfo.deletedArticle, id],
+          deletedScraps: [...editInfo.deletedScraps, scrapId],
+        });
+        setScraps(scraps.filter((v) => v.article.id !== id));
+        return;
+      }
+
+      setEditInfo({
+        ...editInfo,
+        deletedScraps: [...editInfo.deletedScraps, scrapId],
+      });
+      setScraps(scraps.filter((v) => v.article.id !== id));
+    }
+  };
+
   return (
     <Article ref={(node) => drag(drop(node))} isShown={isContentsShown ? true : isShown}>
-      {text}
+      <TextWapper>
+        <Text>{text}</Text>
+        {isOriginal && isDeleteBtnShown && <OriginalBadge>원본</OriginalBadge>}
+      </TextWapper>
+      {isDeleteBtnShown && (
+        <MinusButton onClick={handleMinusBtnClick}>
+          <MinusIcon src={MinusWhite} alt="글 삭제" />
+        </MinusButton>
+      )}
     </Article>
   );
 });

@@ -11,7 +11,7 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IScrap } from '@interfaces';
+import { IBook, IBookScraps, IEditScrap, IScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
@@ -39,23 +39,16 @@ export default function PublishModal({ books }: PublishModalProps) {
       };
     });
 
-  const createScrapDropdownItems = (items: IScrap[]) => {
-    // 깔끔하게 리팩토릭 필요
-    const itemList = [...items];
-
-    itemList.push({
-      id: 0,
-      order: items.length + 1,
-      article: {
+  const createScrapDropdownItems = (items: IEditScrap[]) => {
+    return [
+      ...items,
+      {
         id: 0,
-        title: article.title,
-        content: '',
-        created_at: '',
-        deleted_at: '',
-        book_id: 0,
+        order: items.length + 1,
+        is_original: true,
+        article: { id: article.id, title: article.title },
       },
-    });
-    return itemList;
+    ];
   };
 
   useEffect(() => {
@@ -92,7 +85,11 @@ export default function PublishModal({ books }: PublishModalProps) {
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
+          <DragArticle
+            data={createScrapDropdownItems(filteredScraps)}
+            isContentsShown
+            isDeleteBtnShown={false}
+          />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handlePublishBtnClick}>
