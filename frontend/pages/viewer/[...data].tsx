@@ -13,6 +13,7 @@ import ArticleContainer from '@components/viewer/ArticleContent';
 import ClosedSideBar from '@components/viewer/ClosedSideBar';
 import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
+import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex } from '@styles/layout';
@@ -44,6 +45,7 @@ export default function Viewer({ book, article }: ViewerProps) {
 
   return (
     <>
+      <ViewerHead articleTitle={article.title} articleContent={article.content} />
       <GNB />
       {book && article ? (
         <Flex>
@@ -56,6 +58,7 @@ export default function Viewer({ book, article }: ViewerProps) {
             article={article}
             scraps={book.scraps}
             bookId={book.id}
+            bookAuthor={book.user.nickname}
             handleScrapBtnClick={handleModalOpen}
           />
         </Flex>

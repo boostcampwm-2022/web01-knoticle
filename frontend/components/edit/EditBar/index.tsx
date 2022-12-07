@@ -13,13 +13,13 @@ import { Bar, ButtonGroup, ExitButton, PublishButton, TemporaryButton } from './
 
 interface EditBarProps {
   handleModalOpen: () => void;
+  isModifyMode: boolean;
 }
 
-export default function EditBar({ handleModalOpen }: EditBarProps) {
-  const router = useRouter();
-
+export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps) {
   const article = useRecoilValue(articleState);
   const setBuffer = useSetRecoilState(articleBuffer);
+  const router = useRouter();
 
   const { data: temporaryArticle, execute: getTemporaryArticle } = useFetch(getTemporaryArticleApi);
   const { execute: createTemporaryArticle } = useFetch(createTemporaryArticleApi);
@@ -57,7 +57,9 @@ export default function EditBar({ handleModalOpen }: EditBarProps) {
       <ButtonGroup>
         <TemporaryButton onClick={() => handleLoadButton()}>불러오기</TemporaryButton>
         <TemporaryButton onClick={() => handleSaveButton()}>저장</TemporaryButton>
-        <PublishButton onClick={handleModalOpen}>발행</PublishButton>
+        <PublishButton onClick={handleModalOpen}>
+          {isModifyMode ? '수정하기' : '발행'}
+        </PublishButton>
       </ButtonGroup>
     </Bar>
   );

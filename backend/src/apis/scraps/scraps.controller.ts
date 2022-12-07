@@ -16,7 +16,7 @@ const createScrap = async (req: Request, res: Response) => {
         article_id: article_id,
       });
     } else {
-      await scrapsService.updateScraps(scrap);
+      await scrapsService.updateScrapOrder(scrap);
     }
   });
 

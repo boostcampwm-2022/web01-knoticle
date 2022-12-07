@@ -11,7 +11,7 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IEditScrap, IScrap } from '@interfaces';
+import { IBook, IBookScraps, IScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
@@ -22,7 +22,7 @@ interface PublishModalProps {
 export default function PublishModal({ books }: PublishModalProps) {
   const router = useRouter();
 
-  const { execute: createArticle } = useFetch(createArticleApi);
+  const { data: createdArticle, execute: createArticle } = useFetch(createArticleApi);
 
   // 전역으로 관리해야할까?
   const [article, setArticle] = useRecoilState(articleState);
@@ -39,7 +39,7 @@ export default function PublishModal({ books }: PublishModalProps) {
       };
     });
 
-  const createScrapDropdownItems = (items: IEditScrap[]) => {
+  const createScrapDropdownItems = (items: IScrap[]) => {
     return [
       ...items,
       {
@@ -61,6 +61,7 @@ export default function PublishModal({ books }: PublishModalProps) {
       book_id: selectedBookIndex,
     });
   }, [selectedBookIndex]);
+
   useEffect(() => {
     setScrapList(createScrapDropdownItems(filteredScraps));
   }, [filteredScraps]);
@@ -69,8 +70,11 @@ export default function PublishModal({ books }: PublishModalProps) {
     const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     createArticle({ article, scraps });
-    router.push('/');
   };
+
+  useEffect(() => {
+    if (createdArticle) router.push('/');
+  }, [createdArticle]);
 
   return (
     <PublishModalWrapper>

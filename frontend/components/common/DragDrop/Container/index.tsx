@@ -5,7 +5,7 @@ import update from 'immutability-helper';
 import { useRecoilState } from 'recoil';
 
 import scrapState from '@atoms/scrap';
-import { IEditScrap } from '@interfaces';
+import { IScrap } from '@interfaces';
 
 import { ListItem } from '../ListItem';
 import ContainerWapper from './styled';
@@ -15,7 +15,7 @@ const ItemTypes = {
 };
 
 export interface ContainerState {
-  data: IEditScrap[];
+  data: IScrap[];
   isContentsShown: boolean;
   isDeleteBtnShown: boolean;
 }

@@ -30,7 +30,7 @@ interface GetBooksApi {
 interface EditBookApi {
   id: number;
   title: string;
-  thumbnail_image: any;
+  thumbnail_image: string;
   scraps: IScrap[];
 }
 

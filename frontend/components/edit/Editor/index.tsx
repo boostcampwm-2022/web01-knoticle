@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
@@ -8,20 +8,33 @@ import Content from '@components/common/Content';
 import EditBar from '@components/edit/EditBar';
 import useCodeMirror from '@components/edit/Editor/core/useCodeMirror';
 import useInput from '@hooks/useInput';
+import { IArticle } from '@interfaces';
 import { html2markdown, markdown2html } from '@utils/parser';
 
 import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
 
 interface EditorProps {
   handleModalOpen: () => void;
+  originalArticle?: IArticle;
 }
 
-export default function Editor({ handleModalOpen }: EditorProps) {
+export default function Editor({ handleModalOpen, originalArticle }: EditorProps) {
   const { ref, document, replaceDocument } = useCodeMirror();
   const [buffer, setBuffer] = useRecoilState(articleBuffer);
 
+  const [isModifyMode, setIsModifyMode] = useState(false);
   const [article, setArticle] = useRecoilState(articleState);
   const title = useInput();
+
+  useEffect(() => {
+    if (originalArticle) {
+      setIsModifyMode(true);
+      setBuffer({
+        title: originalArticle.title,
+        content: originalArticle.content,
+      });
+    }
+  }, [originalArticle]);
 
   useEffect(() => {
     if (!buffer.title && !buffer.content) return;
@@ -47,7 +60,7 @@ export default function Editor({ handleModalOpen }: EditorProps) {
         <CodeMirrorWrapper>
           <div ref={ref} />
         </CodeMirrorWrapper>
-        <EditBar handleModalOpen={handleModalOpen} />
+        <EditBar handleModalOpen={handleModalOpen} isModifyMode={isModifyMode} />
       </EditorInner>
       <EditorInner>
         <Content title={article.title} content={article.content} />
@@ -55,3 +68,7 @@ export default function Editor({ handleModalOpen }: EditorProps) {
     </EditorWrapper>
   );
 }
+
+Editor.defaultProps = {
+  originalArticle: '',
+};

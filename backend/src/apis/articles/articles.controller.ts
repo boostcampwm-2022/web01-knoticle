@@ -38,7 +38,7 @@ const createArticle = async (req: Request, res: Response) => {
         article_id: createdArticle.id,
       });
     } else {
-      await scrapsService.updateScraps(scrap);
+      await scrapsService.updateScrapOrder(scrap);
     }
   });
   res.status(201).send({ createdArticle });
@@ -75,6 +75,28 @@ const createTemporaryArticle = async (req: Request, res: Response) => {
   res.status(201).send(temporaryArticle);
 };
 
+const modifyArticle = async (req: Request, res: Response) => {
+  const { article, scraps } = req.body;
+
+  const articleId = Number(req.params.articleId);
+
+  const modifiedArticle = await articlesService.updateArticle(articleId, {
+    title: article.title,
+    content: article.content,
+    book_id: article.book_id,
+  });
+
+  const result: any[] = [];
+  scraps.forEach(async (scrap: IScrap) => {
+    if (scrap.id === 0) {
+      result.push(await scrapsService.updateScrapBookId(articleId, article.book_id, scrap));
+    } else {
+      result.push(await scrapsService.updateScrapOrder(scrap));
+    }
+  });
+  res.status(201).send({ modifiedArticle, result });
+};
+
 export default {
   searchArticles,
   getArticle,
@@ -82,4 +104,5 @@ export default {
   deleteArticle,
   getTemporaryArticle,
   createTemporaryArticle,
+  modifyArticle,
 };

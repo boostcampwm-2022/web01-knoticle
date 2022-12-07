@@ -34,6 +34,7 @@ router.post(
 router.get('/articles/search', catchAsync(articlesController.searchArticles));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
 router.post('/articles', catchAsync(articlesController.createArticle));
+router.patch('/articles/:articleId', catchAsync(articlesController.modifyArticle));
 router.delete('/articles/:articleId', catchAsync(articlesController.deleteArticle));
 
 router.post('/image', multer().single('image'), catchAsync(imagesController.createImage));

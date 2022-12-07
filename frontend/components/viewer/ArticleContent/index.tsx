@@ -4,11 +4,13 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
 
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
 import Scrap from '@assets/ico_scrap.svg';
+import signInStatusState from '@atoms/signInStatus';
 import Content from '@components/common/Content';
 import { IArticleBook, IScrap } from '@interfaces';
 import { TextLarge } from '@styles/common';
@@ -27,31 +29,37 @@ interface ArticleProps {
   article: IArticleBook;
   scraps: IScrap[];
   bookId: number;
+  bookAuthor: string;
   handleScrapBtnClick: () => void;
 }
 
-const user = {
-  id: 1,
-  nickname: 'moc1ha',
-};
+export default function Article({
+  article,
+  scraps,
+  bookId,
+  bookAuthor,
+  handleScrapBtnClick,
+}: ArticleProps) {
+  const user = useRecoilValue(signInStatusState);
 
-export default function Article({ article, scraps, bookId, handleScrapBtnClick }: ArticleProps) {
   const router = useRouter();
+
   const handleOriginalBtnOnClick = () => {
     router.push(`/viewer/${article.book_id}/${article.id}`);
   };
+
   const handleLeftBtnOnClick = () => {
-    const prevOrder =
-      scraps.filter((scrap: IScrap) => scrap.article.id === article.id)[0].order - 1;
-    const prevArticleId = scraps.filter((scrap: IScrap) => scrap.order === prevOrder)[0].article.id;
+    const prevOrder = scraps.filter((scrap) => scrap.article.id === article.id)[0].order - 1;
+    const prevArticleId = scraps.filter((scrap) => scrap.order === prevOrder)[0].article.id;
     router.push(`/viewer/${bookId}/${prevArticleId}`);
   };
+
   const handleRightBtnOnClick = () => {
-    const nextOrder =
-      scraps.filter((scrap: IScrap) => scrap.article.id === article.id)[0].order + 1;
-    const nextArticleId = scraps.filter((scrap: IScrap) => scrap.order === nextOrder)[0].article.id;
+    const nextOrder = scraps.filter((scrap) => scrap.article.id === article.id)[0].order + 1;
+    const nextArticleId = scraps.filter((scrap) => scrap.order === nextOrder)[0].article.id;
     router.push(`/viewer/${bookId}/${nextArticleId}`);
   };
+
   const handleDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 삭제하시겠습니까?')) {
       axios
@@ -65,8 +73,18 @@ export default function Article({ article, scraps, bookId, handleScrapBtnClick }
     }
   };
 
+  const handleScrapDeleteBtnOnClick = () => {
+    if (window.confirm('해당 글을 책에서 삭제하시겠습니까?')) {
+      //
+    }
+  };
+
+  const handleModifyBtnOnClick = () => {
+    router.push(`/editor?id=${article.id}`);
+  };
+
   const checkArticleAuthority = (id: number) => {
-    if (scraps.find((v: IScrap) => v.article.id === id)) {
+    if (scraps.find((scrap) => scrap.article.id === id)) {
       return true;
     }
     // alert 두번뜨는 현상...
@@ -90,16 +108,22 @@ export default function Article({ article, scraps, bookId, handleScrapBtnClick }
       {!article.deleted_at ? (
         <ArticleMain>
           <ArticleTitle>
-            {/* Global style Large의 크기가 너무 작음 -> 월요일 회의 후 반영 */}
             <TextLarge>{article.title}</TextLarge>
             <ArticleTitleBtnBox>
-              {article.book.user.nickname === user.nickname ? (
-                <ArticleButton onClick={handleDeleteBtnOnClick}>삭제</ArticleButton>
-              ) : (
+              {article.book_id !== bookId && (
                 <ArticleButton onClick={handleOriginalBtnOnClick}>
                   <Image src={Original} alt="Original Icon" width={20} height={15} />
                   원본 글 보기
                 </ArticleButton>
+              )}
+              {article.book_id === bookId && article.book.user.nickname === user.nickname && (
+                <>
+                  <ArticleButton onClick={handleDeleteBtnOnClick}>글 삭제</ArticleButton>
+                  <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
+                </>
+              )}
+              {article.book_id !== bookId && bookAuthor === user.nickname && (
+                <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
               )}
               <ArticleButton onClick={handleScrapBtnClick}>
                 <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />

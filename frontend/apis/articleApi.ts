@@ -44,6 +44,14 @@ export const createArticleApi = async (data: CreateArticleApi) => {
   return response.data;
 };
 
+export const modifyArticleApi = async (articleId: number, data: CreateArticleApi) => {
+  const url = `/api/articles/${articleId}`;
+
+  const response = await api({ url, method: 'PATCH', data });
+
+  return response.data;
+};
+
 export const deleteArticleApi = async (articleId: string) => {
   const url = `/api/articles/${articleId}`;
 
