@@ -27,15 +27,15 @@ interface SliderProps {
   bookList: IBookScraps[];
   title: string;
   isLoading: boolean;
+  numberPerPage: number;
 }
 
-function Slider({ bookList, title, isLoading }: SliderProps) {
+function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   const [curBookIndex, setCurBookIndex] = useState(0);
   const [sliderNumber, setSliderNumber] = useState(1);
-  const [numberPerPage, setNumberPerPage] = useState(4);
 
   // const numberPerPage = 4;
-  const SkeletonList = Array.from({ length: 12 }, (_, i) => i + 1);
+  const SkeletonList = Array.from({ length: numberPerPage }, (_, i) => i + 1);
 
   const sliderIndicatorCount = bookList ? Math.ceil(bookList.length / numberPerPage) : 0;
   const sliderIndicatorNumbersList = Array.from({ length: sliderIndicatorCount }, (_, i) => i + 1);
@@ -49,32 +49,6 @@ function Slider({ bookList, title, isLoading }: SliderProps) {
     setSliderNumber(sliderNumber + 1);
   };
 
-  const resizingHandler = () => {
-    console.log(window.innerWidth);
-    switch (true) {
-      case window.innerWidth < 576:
-        setNumberPerPage(1);
-        break;
-      case window.innerWidth < 992:
-        setNumberPerPage(2);
-        break;
-      case window.innerWidth < 1200:
-        setNumberPerPage(3);
-        break;
-      default:
-        setNumberPerPage(4);
-        break;
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', resizingHandler);
-
-    return () => {
-      window.removeEventListener('resize', resizingHandler);
-    };
-  }, []);
-
   return (
     <SliderWrapper>
       <SliderIcon
@@ -84,7 +58,7 @@ function Slider({ bookList, title, isLoading }: SliderProps) {
         isvisible={(sliderNumber !== 1).toString()}
       />
 
-      <SliderContent>
+      <SliderContent numberPerPage={numberPerPage}>
         <SliderInfoContainer>
           <SliderInfo>
             <Image src={ListIcon} alt="List Icon" />
@@ -104,7 +78,7 @@ function Slider({ bookList, title, isLoading }: SliderProps) {
             {isLoading
               ? SkeletonList.map((key) => <SkeletonBook key={key} />)
               : bookList.map((book) => (
-                  <SliderBookWrapper key={book.id}>
+                  <SliderBookWrapper key={book.id} numberPerPage={numberPerPage}>
                     <Book book={book} />
                   </SliderBookWrapper>
                 ))}

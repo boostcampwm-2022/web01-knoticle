@@ -10,23 +10,18 @@ export const SliderWrapper = styled.div`
   gap: 10px;
 `;
 
-export const SliderContent = styled(FlexColumn)`
+export const SliderContent = styled(FlexColumn)<{ numberPerPage: number }>`
   max-width: 1200px;
   overflow: hidden;
   gap: 10px;
   margin-top: 30px;
 
-  @media ${(props) => props.theme.desktop} {
-    max-width: 900px;
-  }
-
-  @media ${(props) => props.theme.tablet} {
-    max-width: 600px;
-  }
-
-  @media ${(props) => props.theme.mobile} {
-    max-width: 300px;
-  }
+  max-width: ${(props) => {
+    if (props.numberPerPage === 1) return '300px';
+    if (props.numberPerPage === 2) return '600px';
+    if (props.numberPerPage === 3) return '900px';
+    return '1200px';
+  }};
 `;
 
 export const SliderInfoContainer = styled(FlexSpaceBetween)`
@@ -60,7 +55,7 @@ export const SliderIndicatorContainer = styled.div`
   gap: 4px;
 `;
 
-export const SliderBookWrapper = styled.div`
+export const SliderBookWrapper = styled.div<{ numberPerPage: number }>`
   min-width: 300px;
   @media ${(props) => props.theme.desktop} {
     min-width: 300px;
@@ -75,6 +70,12 @@ export const SliderBookWrapper = styled.div`
     min-width: 280px;
     margin: 0 10px;
   }
+
+  ${(props) => {
+    if (props.numberPerPage === 1) return 'min-width: 280px; margin: 0 10px;';
+    if (props.numberPerPage === 2) return 'min-width: 280px; margin: 0 10px;';
+    return 'min-width: 300px;';
+  }};
 `;
 
 export const SliderIndicator = styled.div<{ isActive: boolean }>`
