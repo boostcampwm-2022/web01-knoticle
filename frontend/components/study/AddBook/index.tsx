@@ -9,7 +9,6 @@ import signInStatusState from '@atoms/signInStatus';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
-import { IBookScraps } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
 import { toastSuccess } from '@utils/toast';
 

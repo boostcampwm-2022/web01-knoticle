@@ -11,12 +11,12 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IEditScrap, IScrap } from '@interfaces';
+import { IBook, IEditBookScraps, IEditScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
 interface PublishModalProps {
-  books: IBookScraps[];
+  books: IEditBookScraps[];
 }
 
 export default function PublishModal({ books }: PublishModalProps) {
@@ -28,7 +28,7 @@ export default function PublishModal({ books }: PublishModalProps) {
   const [article, setArticle] = useRecoilState(articleState);
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
-  const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
+  const [filteredScraps, setFilteredScraps] = useState<IEditScrap[]>([]);
   const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>

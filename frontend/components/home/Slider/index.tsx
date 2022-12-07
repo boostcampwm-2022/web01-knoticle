@@ -7,7 +7,7 @@ import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
 import SkeletonBook from '@components/SkeletonBook';
-import { IBookScraps } from '@interfaces';
+import { IEditBookScraps } from '@interfaces';
 
 import {
   SliderContent,
@@ -22,7 +22,7 @@ import {
 } from './styled';
 
 interface SliderProps {
-  bookList: IBookScraps[];
+  bookList: IEditBookScraps[];
   title: string;
   isLoading: boolean;
 }

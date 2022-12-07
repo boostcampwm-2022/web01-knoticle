@@ -11,13 +11,12 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
-import { IEditScrap } from 'interfaces/scrap.interface';
+import { IArticle, IBook, IEditBookScraps, IEditScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, ModifyModalWrapper } from './styled';
 
 interface ModifyModalProps {
-  books: IBookScraps[];
+  books: IEditBookScraps[];
   originalArticle: IArticle;
 }
 
@@ -31,8 +30,8 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
   const [article, setArticle] = useRecoilState(articleState);
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
-  const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
-  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
+  const [filteredScraps, setFilteredScraps] = useState<IEditScrap[]>([]);
+  const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -46,7 +45,12 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
     const itemList = [...items];
 
     if (selectedBookIndex !== originalBookId)
-      itemList.push({ id: 0, order: items.length + 1, article: { id: 0, title: article.title } });
+      itemList.push({
+        id: 0,
+        order: items.length + 1,
+        is_original: false,
+        article: { id: 0, title: article.title },
+      });
     return itemList;
   };
 
@@ -86,7 +90,11 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
+          <DragArticle
+            data={createScrapDropdownItems(filteredScraps)}
+            isContentsShown
+            isDeleteBtnShown={false}
+          />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handleModifyBtnClick}>

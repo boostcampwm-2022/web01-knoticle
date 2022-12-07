@@ -9,7 +9,7 @@ import Book from '@components/common/Book';
 import Modal from '@components/common/Modal';
 import EditBook from '@components/study/EditBook';
 import FAB from '@components/study/FAB';
-import { IBookScraps, IEditBookScraps } from '@interfaces';
+import { IEditBookScraps } from '@interfaces';
 
 import {
   BookGrid,
@@ -25,7 +25,7 @@ import {
 
 interface BookListTabProps {
   knottedBookList: IEditBookScraps[];
-  bookmarkedBookList: IBookScraps[];
+  bookmarkedBookList: IEditBookScraps[];
   isUserMatched: boolean;
 }
 

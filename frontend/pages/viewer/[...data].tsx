@@ -15,11 +15,11 @@ import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
-import { IArticleBook, IBookScraps } from '@interfaces';
+import { IArticleBook, IEditBookScraps } from '@interfaces';
 import { Flex } from '@styles/layout';
 
 interface ViewerProps {
-  book: IBookScraps;
+  book: IEditBookScraps;
   article: IArticleBook;
 }
 
