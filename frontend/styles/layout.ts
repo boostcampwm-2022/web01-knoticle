@@ -38,7 +38,7 @@ export const PageInnerSmall = styled(FlexColumnCenter)`
 
 export const PageInnerLarge = styled(FlexColumnCenter)`
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1500px;
 `;
 
 export const TopBar = styled.nav`
