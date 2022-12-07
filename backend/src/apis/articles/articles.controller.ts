@@ -10,14 +10,14 @@ const searchArticles = async (req: Request, res: Response) => {
 
   const searchResult = await articlesService.searchArticles({ query, page, take: +take, userId });
 
-  res.status(200).send(searchResult);
+  return res.status(200).send(searchResult);
 };
 
 const getArticle = async (req: Request, res: Response) => {
   const articleId = Number(req.params.articleId);
   const articleData = await articlesService.getArticle(articleId);
 
-  res.status(200).send(articleData);
+  return res.status(200).send(articleData);
 };
 
 const createArticle = async (req: Request, res: Response) => {
@@ -44,6 +44,30 @@ const createArticle = async (req: Request, res: Response) => {
   });
 
   return res.status(201).send({ createdArticle });
+};
+
+const updateArticle = async (req: Request, res: Response) => {
+  const { article, scraps } = req.body;
+
+  const articleId = Number(req.params.articleId);
+
+  const modifiedArticle = await articlesService.updateArticle(articleId, {
+    title: article.title,
+    content: article.content,
+    book_id: article.book_id,
+  });
+
+  const result: any[] = [];
+
+  scraps.forEach(async (scrap: IScrap) => {
+    if (scrap.id === 0) {
+      result.push(await scrapsService.updateScrapBookId(articleId, article.book_id, scrap));
+    } else {
+      result.push(await scrapsService.updateScrapOrder(scrap));
+    }
+  });
+
+  return res.status(201).send({ modifiedArticle, result });
 };
 
 const deleteArticle = async (req: Request, res: Response) => {
@@ -77,36 +101,12 @@ const createTemporaryArticle = async (req: Request, res: Response) => {
   return res.status(201).send(temporaryArticle);
 };
 
-const modifyArticle = async (req: Request, res: Response) => {
-  const { article, scraps } = req.body;
-
-  const articleId = Number(req.params.articleId);
-
-  const modifiedArticle = await articlesService.updateArticle(articleId, {
-    title: article.title,
-    content: article.content,
-    book_id: article.book_id,
-  });
-
-  const result: any[] = [];
-
-  scraps.forEach(async (scrap: IScrap) => {
-    if (scrap.id === 0) {
-      result.push(await scrapsService.updateScrapBookId(articleId, article.book_id, scrap));
-    } else {
-      result.push(await scrapsService.updateScrapOrder(scrap));
-    }
-  });
-
-  return res.status(201).send({ modifiedArticle, result });
-};
-
 export default {
   searchArticles,
   getArticle,
   createArticle,
+  updateArticle,
   deleteArticle,
   getTemporaryArticle,
   createTemporaryArticle,
-  modifyArticle,
 };

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { Unauthorized, Message } from '@errors';
+import { catchAsync } from '@utils/catch-async';
 import token from '@utils/token';
 
 const guard = async (req: Request, res: Response, next: NextFunction) => {
@@ -30,4 +31,4 @@ const guard = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default guard;
+export default catchAsync(guard);

@@ -12,7 +12,7 @@ const getBook = async (req: Request, res: Response) => {
 
   if (!userId) userId = 0;
 
-  const book = await booksService.findBook(+bookId, userId);
+  const book = await booksService.getBook(+bookId, userId);
 
   return res.status(200).send(book);
 };
@@ -24,7 +24,7 @@ const getBooks = async (req: Request, res: Response) => {
 
   if (!userId) userId = 0;
 
-  const books = await booksService.findBooks({ order, take: +take, userId, editor, type });
+  const books = await booksService.getBooks({ order, take: +take, userId, editor, type });
 
   return res.status(200).send(books);
 };
@@ -44,23 +44,23 @@ const createBook = async (req: Request, res: Response) => {
 
   const book = await booksService.createBook({ title, userId });
 
-  const bookData = await booksService.findBook(book.id, userId);
+  const bookData = await booksService.getBook(book.id, userId);
 
   return res.status(201).send(bookData);
 };
 
-const editBook = async (req: Request, res: Response) => {
+const updateBook = async (req: Request, res: Response) => {
   const { id, title, thumbnail_image, scraps } = req.body;
 
   const userId = res.locals.user.id;
 
-  const book = await booksService.editBook({ id, title, thumbnail_image });
+  const book = await booksService.updateBook({ id, title, thumbnail_image });
 
   scraps.forEach(async (scrap: IScrap) => {
     await scrapsService.updateScrapOrder(scrap);
   });
 
-  const bookData = await booksService.findBook(book.id, userId);
+  const bookData = await booksService.getBook(book.id, userId);
 
   return res.status(200).send(bookData);
 };
@@ -80,6 +80,6 @@ export default {
   getBooks,
   searchBooks,
   createBook,
-  editBook,
+  updateBook,
   deleteBook,
 };

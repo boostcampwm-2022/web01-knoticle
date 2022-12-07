@@ -182,8 +182,8 @@ export default {
   searchArticles,
   getArticle,
   createArticle,
+  updateArticle,
   deleteArticle,
   getTemporaryArticle,
   createTemporaryArticle,
-  updateArticle,
 };
