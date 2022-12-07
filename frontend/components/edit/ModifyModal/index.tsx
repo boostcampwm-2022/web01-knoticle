@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
+import { useRecoilState } from 'recoil';
+
 import { modifyArticleApi } from '@apis/articleApi';
 import articleState from '@atoms/article';
 import scrapState from '@atoms/scrap';
@@ -11,7 +13,6 @@ import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
 import { IEditScrap } from 'interfaces/scrap.interface';
-import { useRecoilState } from 'recoil';
 
 import { ArticleWrapper, Label, ModifyModalWrapper, WarningLabel } from './styled';
 

@@ -1,5 +1,6 @@
-import { TextLarge, TextMedium } from '@styles/common';
 import styled from 'styled-components';
+
+import { TextLarge, TextMedium } from '@styles/common';
 
 export const ModifyModalWrapper = styled.div`
   margin-top: 32px;
