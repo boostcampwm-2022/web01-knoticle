@@ -12,7 +12,7 @@ import RightBtnIcon from '@assets/ico_rightBtn.svg';
 import Scrap from '@assets/ico_scrap.svg';
 import signInStatusState from '@atoms/signInStatus';
 import Content from '@components/common/Content';
-import { IArticleBook, IEditScrap } from '@interfaces';
+import { IArticleBook, IScrap } from '@interfaces';
 import { TextLarge } from '@styles/common';
 
 import ArticleButton from './Button';
@@ -27,7 +27,7 @@ import {
 
 interface ArticleProps {
   article: IArticleBook;
-  scraps: IEditScrap[];
+  scraps: IScrap[];
   bookId: number;
   bookAuthor: string;
   handleScrapBtnClick: () => void;

@@ -1,9 +1,9 @@
 import { IArticle } from './article.interface';
 import { IBook } from './book.interface';
-import { IEditScrap } from './scrap.interface';
+import { IScrap } from './scrap.interface';
 
-export interface IEditBookScraps extends IBook {
-  scraps: IEditScrap[];
+export interface IBookScraps extends IBook {
+  scraps: IScrap[];
 }
 
 export interface IArticleBook extends IArticle {

@@ -11,12 +11,12 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IArticle, IBook, IEditBookScraps, IEditScrap } from '@interfaces';
+import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, ModifyModalWrapper } from './styled';
 
 interface ModifyModalProps {
-  books: IEditBookScraps[];
+  books: IBookScraps[];
   originalArticle: IArticle;
 }
 
@@ -30,7 +30,7 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
   const [article, setArticle] = useRecoilState(articleState);
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
-  const [filteredScraps, setFilteredScraps] = useState<IEditScrap[]>([]);
+  const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
@@ -41,7 +41,7 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
       };
     });
 
-  const createScrapDropdownItems = (items: IEditScrap[]) => {
+  const createScrapDropdownItems = (items: IScrap[]) => {
     const itemList = [...items];
 
     if (selectedBookIndex !== originalBookId)
@@ -70,7 +70,7 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
   }, [filteredScraps]);
 
   const handleModifyBtnClick = () => {
-    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+    const scraps = scrapList.map((v: IScrap, i: number) => ({ ...v, order: i + 1 }));
     modifyArticle(originalArticleId, { article, scraps });
   };
 

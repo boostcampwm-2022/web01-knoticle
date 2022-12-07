@@ -1,4 +1,4 @@
-export interface IEditScrap {
+export interface IScrap {
   id: number;
   order: number;
   is_original: boolean;

@@ -1,4 +1,4 @@
-import { IEditScrap } from '@interfaces';
+import { IScrap } from '@interfaces';
 import api from '@utils/api';
 
 interface SearchBooksApi {
@@ -31,7 +31,7 @@ interface EditBookApi {
   id: number;
   title: string;
   thumbnail_image: string;
-  scraps: IEditScrap[];
+  scraps: IScrap[];
 }
 
 // NOTE: 서버에서 take가 없을 때 최대로

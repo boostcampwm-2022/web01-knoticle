@@ -1,10 +1,10 @@
 import Book from '@components/common/Book';
-import { IEditBookScraps } from '@interfaces';
+import { IBookScraps } from '@interfaces';
 
 import { BookContainer, BookListWrapper } from './styled';
 
 interface BookListProps {
-  books: IEditBookScraps[];
+  books: IBookScraps[];
 }
 
 export default function BookList({ books }: BookListProps) {
