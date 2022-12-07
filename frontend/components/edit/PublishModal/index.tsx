@@ -12,7 +12,6 @@ import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IBook, IBookScraps, IScrap } from '@interfaces';
-import { IEditScrap } from 'interfaces/scrap.interface';
 
 import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
@@ -30,7 +29,7 @@ export default function PublishModal({ books }: PublishModalProps) {
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
-  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
+  const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -40,11 +39,22 @@ export default function PublishModal({ books }: PublishModalProps) {
       };
     });
 
-  const createScrapDropdownItems = (items: IEditScrap[]) => {
+  const createScrapDropdownItems = (items: IScrap[]) => {
     // 깔끔하게 리팩토릭 필요
     const itemList = [...items];
 
-    itemList.push({ id: 0, order: items.length + 1, article: { id: 0, title: article.title } });
+    itemList.push({
+      id: 0,
+      order: items.length + 1,
+      article: {
+        id: 0,
+        title: article.title,
+        content: '',
+        created_at: '',
+        deleted_at: '',
+        book_id: 0,
+      },
+    });
     return itemList;
   };
 
@@ -63,7 +73,7 @@ export default function PublishModal({ books }: PublishModalProps) {
   }, [filteredScraps]);
 
   const handlePublishBtnClick = () => {
-    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+    const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     createArticle({ article, scraps });
     router.push('/');

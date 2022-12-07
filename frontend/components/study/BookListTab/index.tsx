@@ -60,6 +60,7 @@ export default function BookListTab({
     setEditInfo({
       ...editInfo,
       deleted: [...editInfo.deleted, id],
+      editted: editInfo.editted.filter((edit) => edit.id !== id),
     });
   };
 
