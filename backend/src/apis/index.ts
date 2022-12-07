@@ -21,7 +21,11 @@ router.post('/auth/signup', catchAsync(authController.signUp));
 router.get('/auth/signout', catchAsync(authController.signOut));
 router.get('/auth', decoder, catchAsync(authController.checkSignInStatus));
 
-router.get('/articles/temporary', decoder, catchAsync(articlesController.getTemporaryArticle));
+router.get(
+  '/articles/temporary',
+  catchAsync(guard),
+  catchAsync(articlesController.getTemporaryArticle)
+);
 router.post(
   '/articles/temporary',
   catchAsync(guard),
