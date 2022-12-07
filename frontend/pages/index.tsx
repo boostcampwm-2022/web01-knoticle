@@ -9,8 +9,17 @@ import useFetch from '@hooks/useFetch';
 import { PageInnerLarge, PageWrapper } from '@styles/layout';
 
 export default function Home() {
-  const { data: newestBookList, execute: getNewestBookList } = useFetch(getOrderedBookListApi);
-  const { data: popularBookList, execute: getPopularBookList } = useFetch(getOrderedBookListApi);
+  const {
+    data: newestBookList,
+    isLoading: isNewBookListLoading,
+    execute: getNewestBookList,
+  } = useFetch(getOrderedBookListApi);
+
+  const {
+    data: popularBookList,
+    isLoading: isPopularBookListLoading,
+    execute: getPopularBookList,
+  } = useFetch(getOrderedBookListApi);
 
   useEffect(() => {
     getNewestBookList('newest');
@@ -23,8 +32,12 @@ export default function Home() {
       <GNB />
       <PageWrapper>
         <PageInnerLarge>
-          {newestBookList && <Slider bookList={newestBookList} title="새로 엮은 책" />}
-          {popularBookList && <Slider bookList={popularBookList} title="가장 인기 있는 책" />}
+          <Slider bookList={newestBookList} title="새로 엮은 책" isLoading={isNewBookListLoading} />
+          <Slider
+            bookList={popularBookList}
+            title="가장 인기 있는 책"
+            isLoading={isPopularBookListLoading}
+          />
           <Footer />
         </PageInnerLarge>
       </PageWrapper>

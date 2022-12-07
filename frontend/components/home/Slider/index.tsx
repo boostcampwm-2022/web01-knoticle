@@ -6,6 +6,7 @@ import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
+import SkeletonBook from '@components/SkeletonBook';
 import { IBookScraps } from '@interfaces';
 
 import {
@@ -23,14 +24,17 @@ import {
 interface SliderProps {
   bookList: IBookScraps[];
   title: string;
+  isLoading: boolean;
 }
 
-function Slider({ bookList, title }: SliderProps) {
+function Slider({ bookList, title, isLoading }: SliderProps) {
   const [curBookIndex, setCurBookIndex] = useState(0);
   const [sliderNumber, setSliderNumber] = useState(1);
 
   const numberPerPage = 4;
-  const sliderIndicatorCount = Math.ceil(bookList.length / numberPerPage);
+  const SkeletonList = Array.from({ length: 12 }, (_, i) => i + 1);
+
+  const sliderIndicatorCount = bookList ? Math.ceil(bookList.length / numberPerPage) : 0;
   const sliderIndicatorNumbersList = Array.from({ length: sliderIndicatorCount }, (_, i) => i + 1);
 
   const handleLeftArrowClick = () => {
@@ -65,9 +69,9 @@ function Slider({ bookList, title }: SliderProps) {
         </SliderInfoContainer>
 
         <SliderBookContainer curBookIndex={curBookIndex}>
-          {bookList.map((book) => (
-            <Book key={book.id} book={book} />
-          ))}
+          {isLoading
+            ? SkeletonList.map((key) => <SkeletonBook key={key} />)
+            : bookList.map((book) => <Book key={book.id} book={book} />)}
         </SliderBookContainer>
       </SliderContent>
 
