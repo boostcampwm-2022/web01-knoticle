@@ -41,7 +41,7 @@ export default function Github() {
     <FullPageWrapper>
       <FlexColumnCenter style={{ height: '100%', backgroundColor: 'var(--light-yellow-color)' }}>
         <Spinner style={{ width: 100, height: 100, borderWidth: 16 }} />
-        <div style={{ marginTop: '32px' }}>Github 로그인 중 입니다.</div>
+        <div style={{ marginTop: '32px' }}>GitHub 로그인 중 입니다.</div>
       </FlexColumnCenter>
     </FullPageWrapper>
   );
