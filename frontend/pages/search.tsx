@@ -58,9 +58,11 @@ export default function Search() {
   };
 
   useEffect(() => {
+    setArticles([]);
+    setBooks([]);
+
     if (!debouncedKeyword) return;
 
-    setArticles([]);
     searchArticles({
       query: debouncedKeyword,
       userId: filter.userId,
@@ -71,7 +73,7 @@ export default function Search() {
       hasNextPage: true,
       pageNumber: 2,
     });
-    setBooks([]);
+
     searchBooks({
       query: debouncedKeyword,
       userId: filter.userId,
