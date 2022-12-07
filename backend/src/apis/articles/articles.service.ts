@@ -49,6 +49,13 @@ const searchArticles = async (searchArticles: SearchArticles) => {
       deleted_at: null,
       ...matchUserCondition,
     },
+    orderBy: {
+      _relevance: {
+        fields: ['title', 'content'],
+        sort: 'desc',
+        search: `${query}*`,
+      },
+    },
     take,
     skip,
   });

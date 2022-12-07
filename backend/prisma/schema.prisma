@@ -52,8 +52,6 @@ model Article {
   book_id Int
   scraps Scrap[]
 
-  @@fulltext([content])
-  @@fulltext([title])
   @@fulltext([content, title])
 }
 
