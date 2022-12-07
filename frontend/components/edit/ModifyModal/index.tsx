@@ -12,7 +12,6 @@ import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
-import { IEditScrap } from 'interfaces/scrap.interface';
 
 import { ArticleWrapper, Label, ModifyModalWrapper, WarningLabel } from './styled';
 
@@ -32,7 +31,7 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
-  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
+  const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const [isSelectedBookUnavailable, setSelectedBookUnavailable] = useState(false);
 
@@ -44,16 +43,20 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
       };
     });
 
-  const checkArticleExistsInBook = (articleId: number, items: IEditScrap[]) => {
+  const checkArticleExistsInBook = (articleId: number, items: IScrap[]) => {
     return items.some((item) => item.article.id === articleId);
   };
 
-  const createScrapDropdownItems = (items: IEditScrap[]) => {
+  const createScrapDropdownItems = (items: IScrap[]) => {
     const itemList = [...items];
 
     if (selectedBookIndex !== originalBookId)
-      itemList.push({ id: 0, order: items.length + 1, article: { id: 0, title: article.title } });
-
+      itemList.push({
+        id: 0,
+        order: items.length + 1,
+        is_original: false,
+        article: { id: 0, title: article.title },
+      });
     return itemList;
   };
 
@@ -87,7 +90,7 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
   }, [filteredScraps]);
 
   const handleModifyBtnClick = () => {
-    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+    const scraps = scrapList.map((v: IScrap, i: number) => ({ ...v, order: i + 1 }));
     modifyArticle(originalArticleId, { article, scraps });
   };
 
@@ -110,7 +113,11 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
+          <DragArticle
+            data={createScrapDropdownItems(filteredScraps)}
+            isContentsShown
+            isDeleteBtnShown={false}
+          />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handleModifyBtnClick}>

@@ -49,16 +49,14 @@ export default function Article({
   };
 
   const handleLeftBtnOnClick = () => {
-    const prevOrder =
-      scraps.filter((scrap: IScrap) => scrap.article.id === article.id)[0].order - 1;
-    const prevArticleId = scraps.filter((scrap: IScrap) => scrap.order === prevOrder)[0].article.id;
+    const prevOrder = scraps.filter((scrap) => scrap.article.id === article.id)[0].order - 1;
+    const prevArticleId = scraps.filter((scrap) => scrap.order === prevOrder)[0].article.id;
     router.push(`/viewer/${bookId}/${prevArticleId}`);
   };
 
   const handleRightBtnOnClick = () => {
-    const nextOrder =
-      scraps.filter((scrap: IScrap) => scrap.article.id === article.id)[0].order + 1;
-    const nextArticleId = scraps.filter((scrap: IScrap) => scrap.order === nextOrder)[0].article.id;
+    const nextOrder = scraps.filter((scrap) => scrap.article.id === article.id)[0].order + 1;
+    const nextArticleId = scraps.filter((scrap) => scrap.order === nextOrder)[0].article.id;
     router.push(`/viewer/${bookId}/${nextArticleId}`);
   };
 
@@ -86,7 +84,7 @@ export default function Article({
   };
 
   const checkArticleAuthority = (id: number) => {
-    if (scraps.find((v: IScrap) => v.article.id === id)) {
+    if (scraps.find((scrap) => scrap.article.id === id)) {
       return true;
     }
     // alert 두번뜨는 현상...

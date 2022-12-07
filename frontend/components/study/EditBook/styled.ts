@@ -111,6 +111,6 @@ export const MoreContentsIconWrapper = styled(FlexCenter)``;
 export const DragArticleWrapper = styled.div<{ isContentsShown: true | false }>`
   ${(props) =>
     props.isContentsShown
-      ? { overflow: 'auto', height: '400px' }
+      ? { overflow: 'auto', height: '415px' }
       : { overflow: 'none', height: '120px' }};
 `;

@@ -1,6 +1,8 @@
 import { atom } from 'recoil';
 
-const scrapState = atom<any>({
+import { IScrap } from '@interfaces';
+
+const scrapState = atom<IScrap[]>({
   key: 'scrapState',
   default: [],
 });

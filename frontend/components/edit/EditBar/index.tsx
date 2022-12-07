@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { useEffect } from 'react';
 
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -17,6 +19,7 @@ interface EditBarProps {
 export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps) {
   const article = useRecoilValue(articleState);
   const setBuffer = useSetRecoilState(articleBuffer);
+  const router = useRouter();
 
   const { data: temporaryArticle, execute: getTemporaryArticle } = useFetch(getTemporaryArticleApi);
   const { execute: createTemporaryArticle } = useFetch(createTemporaryArticleApi);
@@ -27,6 +30,12 @@ export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps)
 
   const handleSaveButton = () => {
     createTemporaryArticle({ title: article.title, content: article.content });
+  };
+
+  const handleExitButton = () => {
+    const confirm = window.confirm('정말 나가시겠습니까?');
+
+    if (confirm) router.push('/');
   };
 
   useEffect(() => {
@@ -41,7 +50,9 @@ export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps)
   return (
     <Bar>
       <ButtonGroup>
-        <ExitButton>나가기</ExitButton>
+        <ExitButton tabIndex={-1} onClick={() => handleExitButton()}>
+          나가기
+        </ExitButton>
       </ButtonGroup>
       <ButtonGroup>
         <TemporaryButton onClick={() => handleLoadButton()}>불러오기</TemporaryButton>
