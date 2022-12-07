@@ -18,7 +18,6 @@ export default function Home() {
   const [numberPerPage, setNumberPerPage] = useState(0);
 
   const resizingHandler = () => {
-    console.log(window.innerWidth);
     switch (true) {
       case window.innerWidth > 1300:
         setNumberPerPage(4);

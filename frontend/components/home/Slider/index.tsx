@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
@@ -34,7 +34,6 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   const [curBookIndex, setCurBookIndex] = useState(0);
   const [sliderNumber, setSliderNumber] = useState(1);
 
-  // const numberPerPage = 4;
   const SkeletonList = Array.from({ length: numberPerPage }, (_, i) => i + 1);
 
   const sliderIndicatorCount = bookList ? Math.ceil(bookList.length / numberPerPage) : 0;
