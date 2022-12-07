@@ -125,10 +125,12 @@ export default function Article({
               {article.book_id !== bookId && bookAuthor === user.nickname && (
                 <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
               )}
-              <ArticleButton onClick={handleScrapBtnClick}>
-                <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
-                스크랩
-              </ArticleButton>
+              {user.id !== 0 && (
+                <ArticleButton onClick={handleScrapBtnClick}>
+                  <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
+                  스크랩
+                </ArticleButton>
+              )}
             </ArticleTitleBtnBox>
           </ArticleTitle>
           <Content content={article.content} />
