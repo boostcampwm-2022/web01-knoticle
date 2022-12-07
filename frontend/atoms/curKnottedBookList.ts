@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 
-import { IBookScraps } from '@interfaces';
+import { IEditBookScraps } from '@interfaces';
 
-const curKnottedBookListState = atom<IBookScraps[]>({
+const curKnottedBookListState = atom<IEditBookScraps[]>({
   key: 'curKnottedBookListState',
   default: [],
 });

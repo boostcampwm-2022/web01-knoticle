@@ -11,8 +11,7 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IScrap } from '@interfaces';
-import { IEditScrap } from 'interfaces/scrap.interface';
+import { IBook, IBookScraps, IEditScrap, IScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
@@ -30,7 +29,7 @@ export default function PublishModal({ books }: PublishModalProps) {
 
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
-  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
+  const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -41,11 +40,15 @@ export default function PublishModal({ books }: PublishModalProps) {
     });
 
   const createScrapDropdownItems = (items: IEditScrap[]) => {
-    // 깔끔하게 리팩토릭 필요
-    const itemList = [...items];
-
-    itemList.push({ id: 0, order: items.length + 1, article: { id: 0, title: article.title } });
-    return itemList;
+    return [
+      ...items,
+      {
+        id: 0,
+        order: items.length + 1,
+        is_original: true,
+        article: { id: article.id, title: article.title },
+      },
+    ];
   };
 
   useEffect(() => {
@@ -64,7 +67,8 @@ export default function PublishModal({ books }: PublishModalProps) {
   }, [filteredScraps]);
 
   const handlePublishBtnClick = () => {
-    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+    const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
+
     createArticle({ article, scraps });
   };
 
@@ -85,7 +89,11 @@ export default function PublishModal({ books }: PublishModalProps) {
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
+          <DragArticle
+            data={createScrapDropdownItems(filteredScraps)}
+            isContentsShown
+            isDeleteBtnShown={false}
+          />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handlePublishBtnClick}>

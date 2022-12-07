@@ -29,26 +29,23 @@ const createArticle = async (req: Request, res: Response) => {
     book_id: article.book_id,
   });
   // forEach와 async,await을 같이사용하는 것이 맞나? 다른방법은 없나?
-  const result: any[] = [];
   scraps.forEach(async (scrap: IScrap) => {
     if (scrap.id === 0) {
-      result.push(
-        await scrapsService.createScrap({
-          order: scrap.order,
-          is_original: true,
-          book_id: article.book_id,
-          article_id: createdArticle.id,
-        })
-      );
+      await scrapsService.createScrap({
+        order: scrap.order,
+        is_original: true,
+        book_id: article.book_id,
+        article_id: createdArticle.id,
+      });
     } else {
-      result.push(await scrapsService.updateScrapOrder(scrap));
+      await scrapsService.updateScrapOrder(scrap);
     }
   });
-  res.status(201).send({ createdArticle, result });
+  res.status(201).send({ createdArticle });
 };
 
 const deleteArticle = async (req: Request, res: Response) => {
-  const articleId = Number(res.locals.articleId);
+  const articleId = Number(req.params.articleId);
 
   await articlesService.deleteArticle(articleId);
 

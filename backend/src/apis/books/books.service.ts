@@ -66,6 +66,7 @@ const findBooks = async ({ order, take, userId, editor, type }: FindBooks) => {
         select: {
           id: true,
           order: true,
+          is_original: true,
           article: {
             select: {
               id: true,

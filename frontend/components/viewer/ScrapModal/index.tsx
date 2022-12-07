@@ -8,8 +8,7 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IScrap, IArticle } from '@interfaces';
-import { IEditScrap } from 'interfaces/scrap.interface';
+import { IBook, IBookScraps, IScrap, IArticle, IEditScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, ScrapModalWrapper } from './styled';
 
@@ -24,7 +23,7 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const { execute: createScrap } = useFetch(createScrapApi);
 
-  const [scrapList, setScrapList] = useRecoilState<any>(scrapState);
+  const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -35,14 +34,15 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
     });
 
   const createScrapDropdownItems = (items: IEditScrap[]) => {
-    const itemList = [...items];
-
-    itemList.push({
-      id: 0,
-      order: items.length + 1,
-      article: { id: article.id, title: article.title },
-    });
-    return itemList;
+    return [
+      ...items,
+      {
+        id: 0,
+        order: items.length + 1,
+        is_original: true,
+        article: { id: article.id, title: article.title },
+      },
+    ];
   };
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
   const handleScrapBtnClick = () => {
     if (selectedBookIndex === -1) return;
 
-    const scraps = scrapList.map((v: IEditScrap, i: number) => ({ ...v, order: i + 1 }));
+    const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     createScrap({ book_id: selectedBookIndex, article_id: article.id, scraps });
     handleModalClose();
@@ -76,7 +76,11 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle data={createScrapDropdownItems(filteredScraps)} isContentsShown />
+          <DragArticle
+            data={createScrapDropdownItems(filteredScraps)}
+            isContentsShown
+            isDeleteBtnShown={false}
+          />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handleScrapBtnClick}>

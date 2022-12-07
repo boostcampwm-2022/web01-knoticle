@@ -5,6 +5,7 @@ import update from 'immutability-helper';
 import { useRecoilState } from 'recoil';
 
 import scrapState from '@atoms/scrap';
+import { IEditScrap } from '@interfaces';
 
 import { ListItem } from '../ListItem';
 import ContainerWapper from './styled';
@@ -13,21 +14,17 @@ const ItemTypes = {
   Scrap: 'scrap',
 };
 
-export interface EditScrap {
-  id: number;
-  order: number;
-  article: {
-    id: number;
-    title: string;
-  };
-}
 export interface ContainerState {
-  data: EditScrap[];
+  data: IEditScrap[];
   isContentsShown: boolean;
+  isDeleteBtnShown: boolean;
 }
-
-export const Container = memo(function Container({ data, isContentsShown }: ContainerState) {
-  const [scraps, setScraps] = useRecoilState<EditScrap[]>(scrapState);
+const DragContainer = memo(function Container({
+  data,
+  isContentsShown,
+  isDeleteBtnShown,
+}: ContainerState) {
+  const [scraps, setScraps] = useRecoilState(scrapState);
 
   useEffect(() => {
     if (!data) return;
@@ -35,15 +32,8 @@ export const Container = memo(function Container({ data, isContentsShown }: Cont
   }, []);
 
   const findScrap = useCallback(
-    (id: string) => {
-      const scrap = scraps.filter((c) => `${c.article.id}` === id)[0] as {
-        id: number;
-        order: number;
-        article: {
-          id: number;
-          title: string;
-        };
-      };
+    (id: number) => {
+      const scrap = scraps.filter((c) => c.article.id === id)[0];
       return {
         scrap,
         index: scraps.indexOf(scrap),
@@ -53,7 +43,7 @@ export const Container = memo(function Container({ data, isContentsShown }: Cont
   );
 
   const moveScrap = useCallback(
-    (id: string, atIndex: number) => {
+    (id: number, atIndex: number) => {
       const { scrap, index } = findScrap(id);
       setScraps(
         update(scraps, {
@@ -73,14 +63,19 @@ export const Container = memo(function Container({ data, isContentsShown }: Cont
       {scraps.map((scrap, index) => (
         <ListItem
           key={scrap.article.id}
-          id={`${scrap.article.id}`}
+          id={scrap.article.id}
+          scrapId={scrap.id}
           text={scrap.article.title}
+          isOriginal={scrap.is_original}
           moveScrap={moveScrap}
           findScrap={findScrap}
           isShown={index < 4}
           isContentsShown={isContentsShown}
+          isDeleteBtnShown={isDeleteBtnShown}
         />
       ))}
     </ContainerWapper>
   );
 });
+
+export default DragContainer;
