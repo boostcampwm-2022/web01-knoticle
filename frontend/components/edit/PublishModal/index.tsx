@@ -40,16 +40,15 @@ export default function PublishModal({ books }: PublishModalProps) {
     });
 
   const createScrapDropdownItems = (items: IEditScrap[]) => {
-    // 깔끔하게 리팩토릭 필요
-    const itemList = [...items];
-
-    itemList.push({
-      id: 0,
-      order: items.length + 1,
-      is_original: true,
-      article: { id: 0, title: article.title },
-    });
-    return itemList;
+    return [
+      ...items,
+      {
+        id: 0,
+        order: items.length + 1,
+        is_original: true,
+        article: { id: article.id, title: article.title },
+      },
+    ];
   };
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
-import { IBook, IBookScraps, IScrap, IArticle } from '@interfaces';
+import { IBook, IBookScraps, IScrap, IArticle, IEditScrap } from '@interfaces';
 
 import { ArticleWrapper, Label, ScrapModalWrapper } from './styled';
 
@@ -33,16 +33,16 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
       };
     });
 
-  const createScrapDropdownItems = (items: IScrap[]) => {
-    const itemList = [...items];
-
-    itemList.push({
-      id: 0,
-      order: items.length + 1,
-      is_original: true,
-      article: { id: article.id, title: article.title },
-    });
-    return itemList;
+  const createScrapDropdownItems = (items: IEditScrap[]) => {
+    return [
+      ...items,
+      {
+        id: 0,
+        order: items.length + 1,
+        is_original: true,
+        article: { id: article.id, title: article.title },
+      },
+    ];
   };
 
   useEffect(() => {
