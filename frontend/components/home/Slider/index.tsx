@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
@@ -32,8 +32,9 @@ interface SliderProps {
 function Slider({ bookList, title, isLoading }: SliderProps) {
   const [curBookIndex, setCurBookIndex] = useState(0);
   const [sliderNumber, setSliderNumber] = useState(1);
+  const [numberPerPage, setNumberPerPage] = useState(4);
 
-  const numberPerPage = 4;
+  // const numberPerPage = 4;
   const SkeletonList = Array.from({ length: 12 }, (_, i) => i + 1);
 
   const sliderIndicatorCount = bookList ? Math.ceil(bookList.length / numberPerPage) : 0;
@@ -47,6 +48,32 @@ function Slider({ bookList, title, isLoading }: SliderProps) {
     setCurBookIndex(curBookIndex + numberPerPage);
     setSliderNumber(sliderNumber + 1);
   };
+
+  const resizingHandler = () => {
+    console.log(window.innerWidth);
+    switch (true) {
+      case window.innerWidth < 576:
+        setNumberPerPage(1);
+        break;
+      case window.innerWidth < 992:
+        setNumberPerPage(2);
+        break;
+      case window.innerWidth < 1200:
+        setNumberPerPage(3);
+        break;
+      default:
+        setNumberPerPage(4);
+        break;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', resizingHandler);
+
+    return () => {
+      window.removeEventListener('resize', resizingHandler);
+    };
+  }, []);
 
   return (
     <SliderWrapper>
@@ -63,11 +90,13 @@ function Slider({ bookList, title, isLoading }: SliderProps) {
             <Image src={ListIcon} alt="List Icon" />
             <SliderTitle>{title}</SliderTitle>
           </SliderInfo>
-          <SliderIndicatorContainer>
-            {sliderIndicatorNumbersList.map((number) => {
-              return <SliderIndicator key={number} isActive={number === sliderNumber} />;
-            })}
-          </SliderIndicatorContainer>
+          {numberPerPage !== 1 && (
+            <SliderIndicatorContainer>
+              {sliderIndicatorNumbersList.map((number) => {
+                return <SliderIndicator key={number} isActive={number === sliderNumber} />;
+              })}
+            </SliderIndicatorContainer>
+          )}
         </SliderInfoContainer>
 
         <SliderBookContainer>

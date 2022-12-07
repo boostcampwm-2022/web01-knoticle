@@ -15,6 +15,18 @@ export const SliderContent = styled(FlexColumn)`
   overflow: hidden;
   gap: 10px;
   margin-top: 30px;
+
+  @media ${(props) => props.theme.desktop} {
+    max-width: 900px;
+  }
+
+  @media ${(props) => props.theme.tablet} {
+    max-width: 600px;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    max-width: 300px;
+  }
 `;
 
 export const SliderInfoContainer = styled(FlexSpaceBetween)`
@@ -40,7 +52,6 @@ export const SliderTrack = styled.div<{ curBookIndex: number }>`
   display: flex;
   ${(props) => `transform: translateX(-${300 * props.curBookIndex}px);`}
   transition: transform 700ms ease 0ms;
-  z-index: 4;
 `;
 
 export const SliderIndicatorContainer = styled.div`
@@ -49,7 +60,22 @@ export const SliderIndicatorContainer = styled.div`
   gap: 4px;
 `;
 
-export const SliderBookWrapper = styled.div``;
+export const SliderBookWrapper = styled.div`
+  min-width: 300px;
+  @media ${(props) => props.theme.desktop} {
+    min-width: 300px;
+  }
+
+  @media ${(props) => props.theme.tablet} {
+    min-width: 280px;
+    margin: 0 10px;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    min-width: 280px;
+    margin: 0 10px;
+  }
+`;
 
 export const SliderIndicator = styled.div<{ isActive: boolean }>`
   width: 40px;
