@@ -74,11 +74,11 @@ export default function Book({ book }: BookProps) {
             )}
           </BookContents>
         </BookContentsInfo>
-        {scraps.length > 4 && (
+        {/* {scraps.length > 4 && (
           <FlexCenter>
             <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
           </FlexCenter>
-        )}
+        )} */}
       </BookInfoContainer>
     </BookWrapper>
   );
