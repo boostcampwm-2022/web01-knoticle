@@ -6,14 +6,17 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 
+import { deleteArticleApi } from '@apis/articleApi';
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
 import Scrap from '@assets/ico_scrap.svg';
 import signInStatusState from '@atoms/signInStatus';
 import Content from '@components/common/Content';
+import useFetch from '@hooks/useFetch';
 import { IArticleBook, IScrap } from '@interfaces';
 import { TextLarge } from '@styles/common';
+import { toastSuccess } from '@utils/toast';
 
 import ArticleButton from './Button';
 import {
@@ -40,6 +43,8 @@ export default function Article({
   bookAuthor,
   handleScrapBtnClick,
 }: ArticleProps) {
+  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
+
   const user = useRecoilValue(signInStatusState);
 
   const router = useRouter();
@@ -62,14 +67,7 @@ export default function Article({
 
   const handleDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 삭제하시겠습니까?')) {
-      axios
-        .delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${article.id}`)
-        .catch((err) => {
-          // 추후 에러 핸들링 추가 예정
-          console.log(err);
-        });
-
-      router.push('/');
+      deleteArticle(article.id);
     }
   };
 
@@ -97,6 +95,13 @@ export default function Article({
   useEffect(() => {
     checkArticleAuthority(article.id);
   }, []);
+
+  useEffect(() => {
+    if (!deleteArticleData) return;
+
+    toastSuccess(`<${article.title}> 글이 삭제되었습니다`);
+    router.push('/');
+  }, [deleteArticleData]);
 
   return (
     <ArticleContainer>
