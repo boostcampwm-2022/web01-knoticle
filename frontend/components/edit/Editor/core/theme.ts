@@ -5,7 +5,7 @@ export default function theme() {
   const highlightStyle = HighlightStyle.define([
     { tag: tags.heading1, fontSize: '24px', fontWeight: '700' },
     { tag: tags.heading2, fontSize: '20px', fontWeight: '700' },
-    { tag: tags.heading3, fontSize: '16px', fontWeight: '700' },
+    { tag: tags.heading3, fontSize: '18px', fontWeight: '700' },
     { tag: tags.link, textDecoration: 'underline' },
     { tag: tags.strikethrough, textDecoration: 'line-through' },
     { tag: tags.invalid, color: '#cb2431' },
