@@ -10,6 +10,9 @@ export const UserProfileWrapper = styled.div`
   display: flex;
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
   }
 `;
 
