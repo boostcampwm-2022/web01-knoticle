@@ -7,8 +7,7 @@ import { TextXSmall } from '@styles/common';
 import { FlexColumn } from '@styles/layout';
 
 export const BookWrapper = styled(FlexColumn)`
-  min-width: 280px;
-  max-width: 280px;
+  width: 280px;
   height: 480px;
   margin: 0 10px;
   box-sizing: border-box;
@@ -19,12 +18,24 @@ export const BookWrapper = styled(FlexColumn)`
   overflow: hidden;
 
   color: var(--grey-01-color);
+  aspect-ratio: 280/480;
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    height: auto;
+    overflow: none;
+  }
 `;
 
 export const BookThumbnail = styled(Image)`
   width: 280px;
-  height: 200px;
   min-height: 200px;
+  object-fit: cover;
+  aspect-ratio: 280/200;
+
+  @media ${(props) => props.theme.tablet} {
+    width: 100%;
+    min-height: auto;
+  }
 `;
 
 export const BookInfoContainer = styled(FlexColumn)`

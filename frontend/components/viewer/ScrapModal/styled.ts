@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { TextLarge } from '@styles/common';
+import { TextLarge, TextMedium } from '@styles/common';
 
 export const ScrapModalWrapper = styled.div`
   margin-top: 32px;
@@ -15,4 +15,8 @@ export const ArticleWrapper = styled.div`
   width: 100%;
   height: 300px;
   overflow: auto;
+`;
+
+export const WarningLabel = styled(TextMedium)`
+  color: var(--red-color);
 `;

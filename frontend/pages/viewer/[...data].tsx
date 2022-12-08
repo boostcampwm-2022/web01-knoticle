@@ -41,7 +41,7 @@ export default function Viewer({ book, article }: ViewerProps) {
 
   useEffect(() => {
     getUserKnottedBooks(user.nickname);
-  }, []);
+  }, [user.nickname]);
 
   return (
     <>
