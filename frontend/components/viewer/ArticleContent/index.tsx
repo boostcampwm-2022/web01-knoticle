@@ -6,12 +6,15 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 
+import { deleteArticleApi } from '@apis/articleApi';
+import { deleteScrapApi, updateScrapsOrderApi } from '@apis/scrapApi';
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
 import Scrap from '@assets/ico_scrap.svg';
 import signInStatusState from '@atoms/signInStatus';
 import Content from '@components/common/Content';
+import useFetch from '@hooks/useFetch';
 import { IArticleBook, IScrap } from '@interfaces';
 import { TextLarge } from '@styles/common';
 
@@ -42,6 +45,10 @@ export default function Article({
 }: ArticleProps) {
   const user = useRecoilValue(signInStatusState);
 
+  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
+  const { data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
+  const { execute: updateScrapsOrder } = useFetch(updateScrapsOrderApi);
+
   const router = useRouter();
 
   const handleOriginalBtnOnClick = () => {
@@ -62,20 +69,23 @@ export default function Article({
 
   const handleDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 삭제하시겠습니까?')) {
-      axios
-        .delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${article.id}`)
-        .catch((err) => {
-          // 추후 에러 핸들링 추가 예정
-          console.log(err);
-        });
-
-      router.push('/');
+      deleteArticle(article.id);
     }
   };
 
   const handleScrapDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 책에서 삭제하시겠습니까?')) {
-      //
+      const curScrap = scraps.find((scrap) => scrap.article.id === article.id);
+      if (!curScrap) return;
+      const nextOrder = curScrap.order + 1;
+      const nextArticleId = scraps.filter((scrap) => scrap.order === nextOrder)[0].article.id;
+
+      const newScraps = scraps
+        .filter((scrap) => scrap.id !== curScrap.id)
+        .map((v, i) => ({ ...v, order: i + 1 }));
+      updateScrapsOrder(newScraps);
+      deleteScrap(curScrap?.id);
+      router.push(`/viewer/${bookId}/${nextArticleId}`);
     }
   };
 
@@ -87,16 +97,13 @@ export default function Article({
     if (scraps.find((scrap) => scrap.article.id === id)) {
       return true;
     }
-    // alert 두번뜨는 현상...
-    // 404 페이지로 처리? 고민 중
-    // alert('잘못된 접근입니다.');
     router.push('/');
     return false;
   };
 
   useEffect(() => {
-    checkArticleAuthority(article.id);
-  }, []);
+    if (deleteArticleData !== undefined) router.push('/');
+  }, [deleteArticleData]);
 
   return (
     <ArticleContainer>
@@ -122,9 +129,9 @@ export default function Article({
                   <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
                 </>
               )}
-              {article.book_id !== bookId && bookAuthor === user.nickname && (
+              {/* {article.book_id !== bookId && bookAuthor === user.nickname && (
                 <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
-              )}
+              )} */}
               {user.id !== 0 && (
                 <ArticleButton onClick={handleScrapBtnClick}>
                   <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />

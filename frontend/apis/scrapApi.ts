@@ -1,3 +1,4 @@
+import { IScrap } from '@interfaces';
 import api from '@utils/api';
 
 export const getScrapsApi = async () => {
@@ -27,6 +28,13 @@ export const deleteScrapApi = async (scrapId: string) => {
   const url = `/api/scraps/${scrapId}`;
 
   const response = await api({ url, method: 'DELETE' });
+
+  return response.data;
+};
+export const updateScrapsOrderApi = async (data: IScrap[]) => {
+  const url = `/api/scraps`;
+  console.log(data);
+  const response = await api({ url, method: 'PATCH', data });
 
   return response.data;
 };
