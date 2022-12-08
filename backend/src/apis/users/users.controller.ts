@@ -7,7 +7,7 @@ const getUserProfile = async (req: Request, res: Response) => {
 
   const userProfile = await usersService.findUserProfile(userNickname);
 
-  res.status(200).send(userProfile);
+  return res.status(200).send(userProfile);
 };
 
 // PATCH인데 id가 req.body에 담겨서 오다보니 params를 확인할 일이 없는데...
@@ -16,7 +16,7 @@ const editUserProfile = async (req: Request, res: Response) => {
 
   const userProfile = await usersService.updateUserProfile(req.body);
 
-  res.status(200).send(userProfile);
+  return res.status(200).send(userProfile);
 };
 
 export default {

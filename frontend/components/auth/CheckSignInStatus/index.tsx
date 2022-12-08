@@ -6,11 +6,11 @@ import { checkSignInApi } from '@apis/authApi';
 import signInStatusState from '@atoms/signInStatus';
 import useFetch from '@hooks/useFetch';
 
-interface CheckSignInByTokenProps {
+interface CheckSignInStatus {
   children: React.ReactNode;
 }
 
-export default function CheckSignInByToken({ children }: CheckSignInByTokenProps) {
+export default function CheckSignInStatus({ children }: CheckSignInStatus) {
   const { data: user, execute: checkSignIn } = useFetch(checkSignInApi);
   const setSignInStatus = useSetRecoilState(signInStatusState);
 

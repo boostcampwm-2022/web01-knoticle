@@ -24,6 +24,7 @@ import {
   ArticleRightBtn,
   ArticleTitle,
   ArticleTitleBtnBox,
+  ArticleContentsWrapper,
 } from './styled';
 
 interface ArticleProps {
@@ -86,12 +87,18 @@ export default function Article({
     <ArticleContainer>
       {article.id === scraps.at(0)?.article.id ? null : (
         <ArticleLeftBtn onClick={handleLeftBtnOnClick}>
-          <Image src={LeftBtnIcon} alt="Viewer Icon" />
+          <Image src={LeftBtnIcon} width={24} height={24} alt="Left Arrow Icon" />
         </ArticleLeftBtn>
       )}
-      <ArticleMain>
-        <ArticleTitle>
-          <TextLarge>{article.title}</TextLarge>
+      {!article.deleted_at ? (
+        <ArticleMain>
+          <ArticleContentsWrapper>
+            <ArticleTitle>
+              <TextLarge>{article.title}</TextLarge>
+            </ArticleTitle>
+            <Content content={article.content} />
+          </ArticleContentsWrapper>
+
           <ArticleTitleBtnBox>
             {article.book_id !== bookId && (
               <ArticleButton onClick={handleOriginalBtnOnClick}>
@@ -115,17 +122,14 @@ export default function Article({
               </ArticleButton>
             )}
           </ArticleTitleBtnBox>
-        </ArticleTitle>
-        {!article.deleted_at ? (
-          <Content content={article.content} />
-        ) : (
-          <ArticleMain>삭제된 글입니다.</ArticleMain>
-        )}
-      </ArticleMain>
-      )
+        </ArticleMain>
+      ) : (
+        <ArticleMain>삭제된 글입니다.</ArticleMain>
+      )}
+
       {article.id === scraps.at(-1)?.article.id ? null : (
         <ArticleRightBtn onClick={handleRightBtnOnClick}>
-          <Image src={RightBtnIcon} alt="Viewer Icon" />
+          <Image src={RightBtnIcon} width={24} height={24} alt="Right Arrow Icon" />
         </ArticleRightBtn>
       )}
     </ArticleContainer>
