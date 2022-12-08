@@ -24,10 +24,14 @@ interface FabProps {
 }
 
 export default function FAB({ isEditing, setIsEditing }: FabProps) {
-  const { data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
-  const { data: editBookData, execute: editBook } = useFetch(editBookApi);
-  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
-  const { data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
+  const { isLoading: aaa, data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
+  const { isLoading: bbb, data: editBookData, execute: editBook } = useFetch(editBookApi);
+  const {
+    isLoading: ccc,
+    data: deleteArticleData,
+    execute: deleteArticle,
+  } = useFetch(deleteArticleApi);
+  const { isLoading: ddd, data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
 
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
@@ -48,11 +52,9 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
     editInfo.editted.forEach((edit) => {
       editBook(edit);
     });
-    // 원본글 삭제
     editInfo.deletedArticle.forEach((articleId) => {
       deleteArticle(articleId);
     });
-    // 스크랩 삭제
     editInfo.deletedScraps.forEach((scrapId) => {
       deleteScrap(scrapId);
     });
@@ -68,19 +70,48 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
   }, [deletedBook]);
 
   useEffect(() => {
-    if (!editBookData) return;
+    console.log('editBookData', editBookData);
+    if (!editBookData || !deleteScrapData) return;
+
+    if (aaa || bbb || ccc || ddd) return;
 
     setEditInfo({
       ...editInfo,
       editted: editInfo.editted.filter((edit) => edit.id !== editBookData.id),
+      deletedScraps: editInfo.deletedScraps.filter((scrapId) => scrapId !== deleteScrapData.id),
     });
-  }, [editBookData]);
+  }, [editBookData, deleteScrapData]);
 
   useEffect(() => {
+    if (!deleteArticleData) return;
+    console.log('deleteArticleData', deleteArticleData);
+
+    setEditInfo({
+      ...editInfo,
+      deletedArticle: editInfo.deletedArticle.filter(
+        (articleId) => articleId !== deleteArticleData.id
+      ),
+    });
+  }, [deleteArticleData]);
+
+  // useEffect(() => {
+  //   if (!deleteScrapData) return;
+  //   console.log('deleteScrapData', deleteScrapData);
+
+  //   setEditInfo({
+  //     ...editInfo,
+  //     deletedScraps: editInfo.deletedScraps.filter((scrapId) => scrapId !== deleteScrapData.id),
+  //   });
+  // }, [deleteScrapData]);
+
+  useEffect(() => {
+    console.log(deletedBook, editBookData, deleteArticleData, deleteScrapData, editInfo);
     if (
-      (deletedBook || editBookData) &&
+      (deletedBook || editBookData || deleteArticleData || deleteScrapData) &&
       editInfo.deleted.length === 0 &&
-      editInfo.editted.length === 0
+      editInfo.editted.length === 0 &&
+      editInfo.deletedArticle.length === 0 &&
+      editInfo.deletedScraps.length === 0
     ) {
       toastSuccess(`수정 완료되었습니다`);
     }

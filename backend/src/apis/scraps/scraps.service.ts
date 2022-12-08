@@ -53,11 +53,13 @@ const updateScrapOrder = async (scraps: IScrap) => {
 };
 
 const deleteScrap = async (scrapId: number) => {
-  await prisma.scrap.delete({
+  const scrap = await prisma.scrap.delete({
     where: {
       id: scrapId,
     },
   });
+
+  return scrap;
 };
 
 const getScraps = async () => {

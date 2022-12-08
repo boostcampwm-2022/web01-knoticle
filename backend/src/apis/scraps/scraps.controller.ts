@@ -26,10 +26,11 @@ const createScrap = async (req: Request, res: Response) => {
 const deleteScrap = async (req: Request, res: Response) => {
   const scrapId = Number(req.params.scrapId);
 
-  await scrapsService.deleteScrap(scrapId);
+  const scrap = await scrapsService.deleteScrap(scrapId);
 
-  return res.status(200).send();
+  return res.status(200).send(scrap);
 };
+
 const getScraps = async (req: Request, res: Response) => {
   const scraps = await scrapsService.getScraps();
 

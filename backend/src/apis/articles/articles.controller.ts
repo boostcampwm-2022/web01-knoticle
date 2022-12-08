@@ -73,9 +73,9 @@ const updateArticle = async (req: Request, res: Response) => {
 const deleteArticle = async (req: Request, res: Response) => {
   const articleId = Number(req.params.articleId);
 
-  await articlesService.deleteArticle(articleId);
+  const article = await articlesService.deleteArticle(articleId);
 
-  return res.status(204).send();
+  return res.status(200).send(article);
 };
 
 const getTemporaryArticle = async (req: Request, res: Response) => {
