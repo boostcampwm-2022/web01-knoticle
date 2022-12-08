@@ -19,7 +19,7 @@ export const ArticleLeftBtn = styled.div`
 export const ArticleRightBtn = styled.div`
   position: fixed;
   top: 50%;
-  right: 25px;s
+  right: 25px;
   cursor: pointer;
 
   @media ${(props) => props.theme.mobile} {
