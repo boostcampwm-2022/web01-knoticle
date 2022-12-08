@@ -6,12 +6,14 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 
+import { deleteArticleApi } from '@apis/articleApi';
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
 import Scrap from '@assets/ico_scrap.svg';
 import signInStatusState from '@atoms/signInStatus';
 import Content from '@components/common/Content';
+import useFetch from '@hooks/useFetch';
 import { IArticleBook, IScrap } from '@interfaces';
 import { TextLarge } from '@styles/common';
 
@@ -43,6 +45,7 @@ export default function Article({
   const user = useRecoilValue(signInStatusState);
 
   const router = useRouter();
+  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
 
   const handleOriginalBtnOnClick = () => {
     router.push(`/viewer/${article.book_id}/${article.id}`);
@@ -62,14 +65,7 @@ export default function Article({
 
   const handleDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 삭제하시겠습니까?')) {
-      axios
-        .delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${article.id}`)
-        .catch((err) => {
-          // 추후 에러 핸들링 추가 예정
-          console.log(err);
-        });
-
-      router.push('/');
+      deleteArticle(article.id);
     }
   };
 
@@ -82,6 +78,11 @@ export default function Article({
   const handleModifyBtnOnClick = () => {
     router.push(`/editor?id=${article.id}`);
   };
+
+  useEffect(() => {
+    console.log(deleteArticleData);
+    if (deleteArticleData !== undefined) router.push('/');
+  }, [deleteArticleData]);
 
   const checkArticleAuthority = (id: number) => {
     if (scraps.find((scrap) => scrap.article.id === id)) {
