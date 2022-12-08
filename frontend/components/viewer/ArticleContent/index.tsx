@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
@@ -46,7 +46,7 @@ export default function Article({
   const user = useRecoilValue(signInStatusState);
 
   const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
-  const { data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
+  const { execute: deleteScrap } = useFetch(deleteScrapApi);
   const { data: updateScrapsData, execute: updateScrapsOrder } = useFetch(updateScrapsOrderApi);
 
   const router = useRouter();

@@ -33,7 +33,6 @@ export const deleteScrapApi = async (scrapId: string) => {
 };
 export const updateScrapsOrderApi = async (data: IScrap[]) => {
   const url = `/api/scraps`;
-  console.log(data);
   const response = await api({ url, method: 'PATCH', data });
 
   return response.data;
