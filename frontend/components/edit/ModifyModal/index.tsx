@@ -13,7 +13,7 @@ import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
 
-import { ArticleWrapper, Label, ModifyModalWrapper } from './styled';
+import { ArticleWrapper, Label, ModifyModalWrapper, WarningLabel } from './styled';
 
 interface ModifyModalProps {
   books: IBookScraps[];
@@ -33,6 +33,8 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const [scrapList, setScrapList] = useRecoilState(scrapState);
 
+  const [isSelectedBookUnavailable, setSelectedBookUnavailable] = useState(false);
+
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
       return {
@@ -40,6 +42,10 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
         name: item.title,
       };
     });
+
+  const checkArticleExistsInBook = (articleId: number, items: IScrap[]) => {
+    return items.some((item) => item.article.id === articleId);
+  };
 
   const createScrapDropdownItems = (items: IScrap[]) => {
     const itemList = [...items];
@@ -55,9 +61,23 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
   };
 
   useEffect(() => {
+    if (selectedBookIndex === -1) return;
+
     const selectedBook = books.find((book) => book.id === selectedBookIndex);
 
-    setFilteredScraps(selectedBook ? selectedBook.scraps : []);
+    if (
+      !selectedBook ||
+      (selectedBookIndex !== originalBookId &&
+        checkArticleExistsInBook(originalArticleId, selectedBook.scraps))
+    ) {
+      setSelectedBookIndex(-1);
+      setSelectedBookUnavailable(true);
+      setFilteredScraps([]);
+      return;
+    }
+
+    setSelectedBookUnavailable(false);
+    setFilteredScraps(selectedBook.scraps);
 
     setArticle({
       ...article,
@@ -87,6 +107,9 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
         selectedId={selectedBookIndex}
         handleItemSelect={(id) => setSelectedBookIndex(id)}
       />
+      {isSelectedBookUnavailable && (
+        <WarningLabel>선택하신 책에 본 글이 스크랩되어 있습니다.</WarningLabel>
+      )}
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
