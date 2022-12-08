@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
 import { EditorState } from '@codemirror/state';
 import { placeholder } from '@codemirror/view';
 import { EditorView } from 'codemirror';
@@ -72,7 +73,7 @@ export default function useCodeMirror() {
 
     const markdownImage = (path: string) => `![image](${path})\n`;
 
-    const insert = markdownImage(image.imagePath);
+    const insert = markdownImage(image?.imagePath);
 
     editorView.dispatch({
       changes: {
@@ -89,11 +90,15 @@ export default function useCodeMirror() {
 
     const editorState = EditorState.create({
       extensions: [
-        markdown({ base: markdownLanguage }),
+        markdown({
+          base: markdownLanguage,
+          codeLanguages: languages,
+        }),
         placeholder('내용을 입력해주세요.'),
         theme(),
         onChange(),
         onPaste(),
+        EditorView.lineWrapping,
       ],
     });
 
