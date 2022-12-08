@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
@@ -27,6 +28,7 @@ export default function Viewer({ book, article }: ViewerProps) {
   const { data: userBooks, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
 
   const user = useRecoilValue(signInStatusState);
+  const router = useRouter();
 
   const [isOpened, setIsOpened] = useState(false);
 
@@ -43,6 +45,16 @@ export default function Viewer({ book, article }: ViewerProps) {
     getUserKnottedBooks(user.nickname);
   }, [user.nickname]);
 
+  const checkArticleAuthority = (id: number) => {
+    if (book.scraps.find((scrap) => scrap.article.id === id)) {
+      return true;
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    if (!checkArticleAuthority(article.id)) router.push('/404');
+  });
   useEffect(() => {
     if (window.innerWidth > 576) setIsOpened(true);
   }, []);
@@ -58,13 +70,17 @@ export default function Viewer({ book, article }: ViewerProps) {
           ) : (
             <ClosedSideBar handleSideBarOnClick={handleSideBarToggle} />
           )}
-          <ArticleContainer
-            article={article}
-            scraps={book.scraps}
-            bookId={book.id}
-            bookAuthor={book.user.nickname}
-            handleScrapBtnClick={handleModalOpen}
-          />
+          {book.scraps.find((scrap) => scrap.article.id === article.id) ? (
+            <ArticleContainer
+              article={article}
+              scraps={book.scraps}
+              bookId={book.id}
+              bookAuthor={book.user.nickname}
+              handleScrapBtnClick={handleModalOpen}
+            />
+          ) : (
+            <div>올바르지 않은 접근입니다.</div>
+          )}
         </Flex>
       ) : (
         <div>loading</div>
