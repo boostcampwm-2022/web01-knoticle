@@ -7,6 +7,8 @@ export const ItemWrapper = styled.div`
   display: flex;
   gap: 32px;
   border-bottom: 1px solid var(--grey-02-color);
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 export const ItemGroup = styled.div`

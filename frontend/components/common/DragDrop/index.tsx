@@ -1,5 +1,5 @@
 import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
 
 import DragContainer from '@components/common/DragDrop/Container';
 
@@ -20,7 +20,7 @@ export interface ContainerState {
 
 export default function DragArticle({ data, isContentsShown, isDeleteBtnShown }: ContainerState) {
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
       <DragContainer
         data={data}
         isContentsShown={isContentsShown}
