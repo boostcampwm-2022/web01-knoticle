@@ -48,6 +48,7 @@ const updateScrapOrder = async (scraps: IScrap) => {
       order: scraps.order,
     },
   });
+
   return scrap;
 };
 
@@ -96,6 +97,7 @@ const updateScrapBookId = async (articleId: number, bookId: number, scraps: IScr
       order: scraps.order,
     },
   });
+
   return scrap;
 };
 

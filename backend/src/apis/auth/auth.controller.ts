@@ -20,7 +20,7 @@ const signIn = async (req: Request, res: Response) => {
   res.cookie('access_token', accessToken, { httpOnly: true });
   res.cookie('refresh_token', refreshToken, { httpOnly: true });
 
-  res.status(200).send({ id: user.id, nickname: user.nickname });
+  return res.status(200).send({ id: user.id, nickname: user.nickname });
 };
 
 const signInGithub = async (req: Request, res: Response) => {
@@ -41,7 +41,7 @@ const signInGithub = async (req: Request, res: Response) => {
   res.cookie('access_token', accessToken, { httpOnly: true });
   res.cookie('refresh_token', refreshToken, { httpOnly: true });
 
-  res.status(200).send({ id: githubUser.id, nickname: githubUser.nickname });
+  return res.status(200).send({ id: githubUser.id, nickname: githubUser.nickname });
 };
 
 const signUp = async (req: Request, res: Response) => {
@@ -51,7 +51,7 @@ const signUp = async (req: Request, res: Response) => {
 
   await authService.signUpLocalUser(username, password, nickname);
 
-  res.status(201).send();
+  return res.status(201).send();
 };
 
 const checkSignInStatus = async (req: Request, res: Response) => {
@@ -62,14 +62,15 @@ const checkSignInStatus = async (req: Request, res: Response) => {
 
     return res.status(200).send({ id: user.id, nickname: user.nickname });
   }
-  res.status(200).send({ id: 0, nickname: '' });
+
+  return res.status(200).send({ id: 0, nickname: '' });
 };
 
 const signOut = async (req: Request, res: Response) => {
   res.clearCookie('access_token');
   res.clearCookie('refresh_token');
 
-  res.status(200).send({ id: 0, nickname: '' });
+  return res.status(200).send({ id: 0, nickname: '' });
 };
 
 export default {

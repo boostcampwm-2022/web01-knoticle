@@ -6,6 +6,7 @@ import logger from 'morgan';
 
 import router from '@apis';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   const { status, message } = err;
 

@@ -38,6 +38,7 @@ const getGithubAccessToken = async (code: string) => {
       },
     }
   );
+
   return data.access_token;
 };
 
@@ -60,6 +61,7 @@ const getUserByLocalDB = async (provider_id: string) => {
       nickname: true,
     },
   });
+
   return user;
 };
 
