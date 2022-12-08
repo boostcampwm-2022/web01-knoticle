@@ -105,9 +105,9 @@ export default function Article({
                 <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
               </>
             )}
-            {article.book_id !== bookId && bookAuthor === user.nickname && (
+            {/* {article.book_id !== bookId && bookAuthor === user.nickname && (
               <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
-            )}
+            )} */}
             {user.id !== 0 && (
               <ArticleButton onClick={handleScrapBtnClick}>
                 <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
