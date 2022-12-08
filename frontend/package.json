@@ -11,6 +11,7 @@
   "dependencies": {
     "@codemirror/lang-markdown": "^6.0.5",
     "@codemirror/language": "^6.3.1",
+    "@codemirror/language-data": "^6.1.0",
     "@codemirror/state": "^6.1.4",
     "@codemirror/view": "^6.6.0",
     "@lezer/highlight": "^1.1.2",
