@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
@@ -47,7 +47,7 @@ export default function Article({
 
   const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
   const { data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
-  const { execute: updateScrapsOrder } = useFetch(updateScrapsOrderApi);
+  const { data: updateScrapsData, execute: updateScrapsOrder } = useFetch(updateScrapsOrderApi);
 
   const router = useRouter();
 
@@ -69,6 +69,8 @@ export default function Article({
 
   const handleDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 삭제하시겠습니까?')) {
+      const curScrap = scraps.find((scrap) => scrap.article.id === article.id);
+      deleteScrap(curScrap?.id);
       deleteArticle(article.id);
     }
   };
@@ -77,15 +79,11 @@ export default function Article({
     if (window.confirm('해당 글을 책에서 삭제하시겠습니까?')) {
       const curScrap = scraps.find((scrap) => scrap.article.id === article.id);
       if (!curScrap) return;
-      const nextOrder = curScrap.order + 1;
-      const nextArticleId = scraps.filter((scrap) => scrap.order === nextOrder)[0].article.id;
-
       const newScraps = scraps
         .filter((scrap) => scrap.id !== curScrap.id)
         .map((v, i) => ({ ...v, order: i + 1 }));
       updateScrapsOrder(newScraps);
-      deleteScrap(curScrap?.id);
-      router.push(`/viewer/${bookId}/${nextArticleId}`);
+      deleteScrap(curScrap.id);
     }
   };
 
@@ -93,17 +91,19 @@ export default function Article({
     router.push(`/editor?id=${article.id}`);
   };
 
-  const checkArticleAuthority = (id: number) => {
-    if (scraps.find((scrap) => scrap.article.id === id)) {
-      return true;
-    }
-    router.push('/');
-    return false;
-  };
-
   useEffect(() => {
     if (deleteArticleData !== undefined) router.push('/');
   }, [deleteArticleData]);
+
+  useEffect(() => {
+    if (updateScrapsData === undefined) return;
+
+    if (updateScrapsData.length !== 0) {
+      router.push(`/viewer/${bookId}/${updateScrapsData[0].article.id}`);
+      return;
+    }
+    router.push('/');
+  }, [updateScrapsData]);
 
   return (
     <ArticleContainer>
@@ -134,9 +134,9 @@ export default function Article({
                 <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
               </>
             )}
-            {/* {article.book_id !== bookId && bookAuthor === user.nickname && (
+            {article.book_id !== bookId && bookAuthor === user.nickname && (
               <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
-            )} */}
+            )}
             {user.id !== 0 && (
               <ArticleButton onClick={handleScrapBtnClick}>
                 <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />

@@ -77,7 +77,9 @@ const getBook = async (bookId: number, userId: number) => {
       scraps: {
         orderBy: { order: 'asc' },
         select: {
+          id: true,
           order: true,
+          is_original: true,
           article: {
             select: {
               id: true,
