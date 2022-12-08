@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 
 import { useEffect } from 'react';
 
-import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 
 import { deleteArticleApi } from '@apis/articleApi';
@@ -44,8 +43,8 @@ export default function Article({
 }: ArticleProps) {
   const user = useRecoilValue(signInStatusState);
 
-  const router = useRouter();
   const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
+  const router = useRouter();
 
   const handleOriginalBtnOnClick = () => {
     router.push(`/viewer/${article.book_id}/${article.id}`);
@@ -80,24 +79,8 @@ export default function Article({
   };
 
   useEffect(() => {
-    console.log(deleteArticleData);
     if (deleteArticleData !== undefined) router.push('/');
   }, [deleteArticleData]);
-
-  const checkArticleAuthority = (id: number) => {
-    if (scraps.find((scrap) => scrap.article.id === id)) {
-      return true;
-    }
-    // alert 두번뜨는 현상...
-    // 404 페이지로 처리? 고민 중
-    // alert('잘못된 접근입니다.');
-    router.push('/');
-    return false;
-  };
-
-  useEffect(() => {
-    checkArticleAuthority(article.id);
-  }, []);
 
   return (
     <ArticleContainer>
@@ -106,39 +89,40 @@ export default function Article({
           <Image src={LeftBtnIcon} alt="Viewer Icon" />
         </ArticleLeftBtn>
       )}
-      {!article.deleted_at ? (
-        <ArticleMain>
-          <ArticleTitle>
-            <TextLarge>{article.title}</TextLarge>
-            <ArticleTitleBtnBox>
-              {article.book_id !== bookId && (
-                <ArticleButton onClick={handleOriginalBtnOnClick}>
-                  <Image src={Original} alt="Original Icon" width={20} height={15} />
-                  원본 글 보기
-                </ArticleButton>
-              )}
-              {article.book_id === bookId && article.book.user.nickname === user.nickname && (
-                <>
-                  <ArticleButton onClick={handleDeleteBtnOnClick}>글 삭제</ArticleButton>
-                  <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
-                </>
-              )}
-              {article.book_id !== bookId && bookAuthor === user.nickname && (
-                <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
-              )}
-              {user.id !== 0 && (
-                <ArticleButton onClick={handleScrapBtnClick}>
-                  <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
-                  스크랩
-                </ArticleButton>
-              )}
-            </ArticleTitleBtnBox>
-          </ArticleTitle>
+      <ArticleMain>
+        <ArticleTitle>
+          <TextLarge>{article.title}</TextLarge>
+          <ArticleTitleBtnBox>
+            {article.book_id !== bookId && (
+              <ArticleButton onClick={handleOriginalBtnOnClick}>
+                <Image src={Original} alt="Original Icon" width={20} height={15} />
+                원본 글 보기
+              </ArticleButton>
+            )}
+            {article.book_id === bookId && article.book.user.nickname === user.nickname && (
+              <>
+                <ArticleButton onClick={handleDeleteBtnOnClick}>글 삭제</ArticleButton>
+                <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
+              </>
+            )}
+            {article.book_id !== bookId && bookAuthor === user.nickname && (
+              <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
+            )}
+            {user.id !== 0 && (
+              <ArticleButton onClick={handleScrapBtnClick}>
+                <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
+                스크랩
+              </ArticleButton>
+            )}
+          </ArticleTitleBtnBox>
+        </ArticleTitle>
+        {!article.deleted_at ? (
           <Content content={article.content} />
-        </ArticleMain>
-      ) : (
-        <ArticleMain>삭제된 글입니다.</ArticleMain>
-      )}
+        ) : (
+          <ArticleMain>삭제된 글입니다.</ArticleMain>
+        )}
+      </ArticleMain>
+      )
       {article.id === scraps.at(-1)?.article.id ? null : (
         <ArticleRightBtn onClick={handleRightBtnOnClick}>
           <Image src={RightBtnIcon} alt="Viewer Icon" />
