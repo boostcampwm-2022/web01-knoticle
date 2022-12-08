@@ -1,3 +1,4 @@
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
@@ -11,15 +12,24 @@ import signInStatusState from '@atoms/signInStatus';
 import GNB from '@components/common/GNB';
 import BookListTab from '@components/study/BookListTab';
 import EditUserProfile from '@components/study/EditUserProfile';
+import StudyHead from '@components/study/StudyHead';
 import UserProfile from '@components/study/UserProfile';
 import useFetch from '@hooks/useFetch';
 import { IUser } from '@interfaces';
 import { PageInnerLarge, PageWrapper } from '@styles/layout';
 
-export default function Study() {
+interface StudyProps {
+  userProfile: {
+    id: number;
+    profile_image: string;
+    nickname: string;
+    description: string;
+  };
+}
+
+export default function Study({ userProfile }: StudyProps) {
   const router = useRouter();
 
-  const { data: userProfile, execute: getUserProfile } = useFetch(getUserProfileApi);
   const { data: updatedUserProfile, execute: updateUserProfile } = useFetch(updateUserProfileApi);
   const { data: knottedBookList, execute: getKnottedBookList } = useFetch(getUserKnottedBooksApi);
   const { data: bookmarkedBookList, execute: getBookmarkedBookList } =
@@ -41,7 +51,6 @@ export default function Study() {
     if (!router.query.data) return;
 
     const nickname = router.query.data;
-    getUserProfile(nickname);
     getKnottedBookList(nickname);
     getBookmarkedBookList(nickname);
   }, [router.query.data]);
@@ -73,6 +82,11 @@ export default function Study() {
 
   return (
     <>
+      <StudyHead
+        userNickname={userProfile.nickname}
+        userDescription={userProfile.description}
+        userImage={userProfile.profile_image}
+      />
       <GNB />
       {curUserProfile && (
         <PageWrapper>
@@ -102,3 +116,10 @@ export default function Study() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const nickname = context.query.data as string;
+  const data = await getUserProfileApi(nickname);
+
+  return { props: { userProfile: data } };
+};

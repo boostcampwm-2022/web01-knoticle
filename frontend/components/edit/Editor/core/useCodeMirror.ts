@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
 import { EditorState } from '@codemirror/state';
 import { placeholder } from '@codemirror/view';
 import { EditorView } from 'codemirror';
@@ -15,7 +16,7 @@ export default function useCodeMirror() {
 
   const [editorView, setEditorView] = useState<EditorView>();
 
-  const [value, setValue] = useState('');
+  const [document, setDocument] = useState('');
   const [element, setElement] = useState<HTMLElement>();
 
   const ref = useCallback((node: HTMLElement | null) => {
@@ -24,9 +25,21 @@ export default function useCodeMirror() {
     setElement(node);
   }, []);
 
+  const replaceDocument = (insert: string) => {
+    if (!editorView) return;
+
+    editorView.dispatch({
+      changes: {
+        from: 0,
+        to: editorView.state.doc.length,
+        insert,
+      },
+    });
+  };
+
   const onChange = () => {
     return EditorView.updateListener.of(({ view, docChanged }) => {
-      if (docChanged) setValue(view.state.doc.toString());
+      if (docChanged) setDocument(view.state.doc.toString());
     });
   };
 
@@ -60,7 +73,7 @@ export default function useCodeMirror() {
 
     const markdownImage = (path: string) => `![image](${path})\n`;
 
-    const insert = markdownImage(image.imagePath);
+    const insert = markdownImage(image?.imagePath);
 
     editorView.dispatch({
       changes: {
@@ -77,11 +90,15 @@ export default function useCodeMirror() {
 
     const editorState = EditorState.create({
       extensions: [
-        markdown({ base: markdownLanguage }),
+        markdown({
+          base: markdownLanguage,
+          codeLanguages: languages,
+        }),
         placeholder('내용을 입력해주세요.'),
         theme(),
         onChange(),
         onPaste(),
+        EditorView.lineWrapping,
       ],
     });
 
@@ -96,5 +113,5 @@ export default function useCodeMirror() {
     return () => view?.destroy();
   }, [element]);
 
-  return { ref, value };
+  return { ref, document, replaceDocument };
 }

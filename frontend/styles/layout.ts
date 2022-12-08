@@ -1,28 +1,35 @@
 import styled from 'styled-components';
 
-export const FlexCenter = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 export const Flex = styled.div`
   display: flex;
 `;
 
-export const FlexColumn = styled.div`
-  display: flex;
+export const FlexCenter = styled(Flex)`
+  justify-content: center;
+  align-items: center;
+`;
+
+export const FlexColumn = styled(Flex)`
   flex-direction: column;
 `;
 
-export const FlexSpaceBetween = styled.div`
+export const FlexSpaceBetween = styled(Flex)`
   display: flex;
   justify-content: space-between;
 `;
 
-export const FlexColumnCenter = styled.div`
-  display: flex;
-  flex-direction: column;
+export const FlexColumnCenter = styled(FlexColumn)`
+  justify-content: center;
   align-items: center;
+`;
+
+export const FlexColumnAlignCenter = styled(FlexColumn)`
+  align-items: center;
+`;
+
+export const FullPageWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
 `;
 
 export const PageWrapper = styled.div`
@@ -31,14 +38,15 @@ export const PageWrapper = styled.div`
   background-color: var(--light-yellow-color);
 `;
 
-export const PageInnerSmall = styled(FlexColumnCenter)`
+export const PageInnerSmall = styled(FlexColumnAlignCenter)`
   margin: 0 auto;
   max-width: 900px;
+  padding: 0px 10px;
 `;
 
-export const PageInnerLarge = styled(FlexColumnCenter)`
+export const PageInnerLarge = styled(FlexColumnAlignCenter)`
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1500px;
 `;
 
 export const TopBar = styled.nav`

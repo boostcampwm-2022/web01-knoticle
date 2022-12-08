@@ -3,11 +3,15 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 import { TextXSmall, TextSmall } from '@styles/common';
-import { FlexCenter, FlexColumn, FlexColumnCenter } from '@styles/layout';
+import { FlexCenter, FlexColumn, FlexColumnAlignCenter } from '@styles/layout';
 
-export const EditBookWapper = styled(FlexColumnCenter)`
+export const EditBookWapper = styled(FlexColumnAlignCenter)`
   width: 320px;
   margin: auto;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 300px;
+  }
 `;
 
 export const BookWrapper = styled(FlexColumn)`
@@ -111,6 +115,6 @@ export const MoreContentsIconWrapper = styled(FlexCenter)``;
 export const DragArticleWrapper = styled.div<{ isContentsShown: true | false }>`
   ${(props) =>
     props.isContentsShown
-      ? { overflow: 'auto', height: '400px' }
+      ? { overflow: 'auto', height: '415px' }
       : { overflow: 'none', height: '120px' }};
 `;

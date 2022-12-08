@@ -49,6 +49,13 @@ const searchArticles = async (searchArticles: SearchArticles) => {
       deleted_at: null,
       ...matchUserCondition,
     },
+    orderBy: {
+      _relevance: {
+        fields: ['title', 'content'],
+        sort: 'desc',
+        search: `${query}*`,
+      },
+    },
     take,
     skip,
   });
@@ -100,6 +107,7 @@ const createArticle = async (dto: CreateArticle) => {
       },
     },
   });
+
   return article;
 };
 
@@ -149,10 +157,32 @@ const createTemporaryArticle = async (dto: CreateTemporaryArticle) => {
   return temporaryArticle;
 };
 
+const updateArticle = async (articleId: number, dto: CreateArticle) => {
+  const { title, content, book_id } = dto;
+
+  const article = await prisma.article.update({
+    where: {
+      id: articleId,
+    },
+    data: {
+      title,
+      content,
+      book: {
+        connect: {
+          id: book_id,
+        },
+      },
+    },
+  });
+
+  return article;
+};
+
 export default {
   searchArticles,
   getArticle,
   createArticle,
+  updateArticle,
   deleteArticle,
   getTemporaryArticle,
   createTemporaryArticle,

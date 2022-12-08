@@ -1,12 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { Unauthorized, Message } from '@errors';
+import { catchAsync } from '@utils/catch-async';
 import token from '@utils/token';
 
 const guard = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = token.verifyJWT(req.cookies.access_token);
+
     res.locals.user = { id };
+
     next();
   } catch (err) {
     if (err.message === 'jwt expired') {
@@ -28,4 +31,4 @@ const guard = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default guard;
+export default catchAsync(guard);

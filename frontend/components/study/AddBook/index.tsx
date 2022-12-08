@@ -9,7 +9,6 @@ import signInStatusState from '@atoms/signInStatus';
 import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
-import { IBookScraps } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
 import { toastSuccess } from '@utils/toast';
 
@@ -31,8 +30,7 @@ interface AddBookProps {
 }
 
 export default function AddBook({ handleModalClose }: AddBookProps) {
-  const [curKnottedBookList, setCurKnottedBookList] =
-    useRecoilState<IBookScraps[]>(curKnottedBookListState);
+  const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
   const user = useRecoilValue(signInStatusState);
   const title = useInput('');
   const { data: addBookData, execute: addBook } = useFetch(addBookApi);
@@ -41,7 +39,7 @@ export default function AddBook({ handleModalClose }: AddBookProps) {
     if (!addBookData) return;
     setCurKnottedBookList([...curKnottedBookList, addBookData]);
     handleModalClose();
-    toastSuccess(`${addBookData.title}책이 추가되었습니다!`);
+    toastSuccess(`<${addBookData.title}>책이 생성되었습니다!`);
   }, [addBookData]);
 
   const handleAddBookBtnClick = () => {

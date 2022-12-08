@@ -7,6 +7,7 @@ import ArticleList from '@components/search/ArticleList';
 import BookList from '@components/search/BookList';
 import SearchBar from '@components/search/SearchBar';
 import SearchFilter from '@components/search/SearchFilter';
+import SearchHead from '@components/search/SearchHead';
 import SearchNoResult from '@components/search/SearchNoResult';
 import useDebounce from '@hooks/useDebounce';
 import useFetch from '@hooks/useFetch';
@@ -33,6 +34,9 @@ export default function Search() {
 
   const [filter, setFilter] = useState({ type: 'article', userId: 0 });
 
+  const [isArticleNoResult, setIsArticleNoResult] = useState(false);
+  const [isBookNoResult, setIsBookNoResult] = useState(false);
+
   const highlightWord = (text: string, words: string[]): React.ReactNode => {
     let wordIndexList = words.map((word) => text.toLowerCase().indexOf(word.toLowerCase()));
 
@@ -57,9 +61,14 @@ export default function Search() {
   };
 
   useEffect(() => {
-    if (!debouncedKeyword) return;
+    if (debouncedKeyword === '') {
+      setArticles([]);
+      setBooks([]);
+      setIsArticleNoResult(false);
+      setIsBookNoResult(false);
+      return;
+    }
 
-    setArticles([]);
     searchArticles({
       query: debouncedKeyword,
       userId: filter.userId,
@@ -70,7 +79,7 @@ export default function Search() {
       hasNextPage: true,
       pageNumber: 2,
     });
-    setBooks([]);
+
     searchBooks({
       query: debouncedKeyword,
       userId: filter.userId,
@@ -86,7 +95,7 @@ export default function Search() {
   useEffect(() => {
     if (!isIntersecting || !debouncedKeyword) return;
 
-    if (filter.type === 'article') {
+    if (filter.type === 'article' && !isArticleNoResult) {
       if (!articlePage.hasNextPage) return;
       searchArticles({
         query: debouncedKeyword,
@@ -98,7 +107,7 @@ export default function Search() {
         ...articlePage,
         pageNumber: articlePage.pageNumber + 1,
       });
-    } else if (filter.type === 'book') {
+    } else if (filter.type === 'book' && !isBookNoResult) {
       if (!bookPage.hasNextPage) return;
       searchBooks({
         query: debouncedKeyword,
@@ -115,19 +124,28 @@ export default function Search() {
 
   useEffect(() => {
     if (!newArticles) return;
-    setArticles(
-      articles.concat(
-        newArticles.data.map((article: IArticle) => {
-          const keywords = debouncedKeyword.trim().split(' ');
 
-          return {
-            ...article,
-            title: highlightWord(article.title, keywords),
-            content: highlightWord(article.content, keywords),
-          };
-        })
-      )
-    );
+    if (newArticles.data.length === 0 && articlePage.pageNumber === 2) {
+      setArticles([]);
+      setIsArticleNoResult(true);
+      return;
+    }
+
+    setIsArticleNoResult(false);
+
+    const newArticlesHighlighted = newArticles.data.map((article: IArticle) => {
+      const keywords = debouncedKeyword.trim().split(' ');
+
+      return {
+        ...article,
+        title: highlightWord(article.title, keywords),
+        content: highlightWord(article.content, keywords),
+      };
+    });
+
+    if (articlePage.pageNumber === 2) setArticles(newArticlesHighlighted);
+    else setArticles(articles.concat(newArticlesHighlighted));
+
     setArticlePage({
       ...articlePage,
       hasNextPage: newArticles.hasNextPage,
@@ -136,18 +154,27 @@ export default function Search() {
 
   useEffect(() => {
     if (!newBooks) return;
-    setBooks(
-      books.concat(
-        newBooks.data.map((book: IBook) => {
-          const keywords = debouncedKeyword.trim().split(' ');
 
-          return {
-            ...book,
-            title: highlightWord(book.title, keywords),
-          };
-        })
-      )
-    );
+    if (newBooks.data.length === 0 && bookPage.pageNumber === 2) {
+      setBooks([]);
+      setIsBookNoResult(true);
+      return;
+    }
+
+    setIsBookNoResult(false);
+
+    const newBooksHighlighted = newBooks.data.map((book: IBook) => {
+      const keywords = debouncedKeyword.trim().split(' ');
+
+      return {
+        ...book,
+        title: highlightWord(book.title, keywords),
+      };
+    });
+
+    if (bookPage.pageNumber === 2) setBooks(newBooksHighlighted);
+    setBooks(books.concat(newBooksHighlighted));
+
     setBookPage({
       ...bookPage,
       hasNextPage: newBooks.hasNextPage,
@@ -163,16 +190,18 @@ export default function Search() {
 
   return (
     <>
+      <SearchHead />
       <GNB />
       <PageWrapper>
         <PageInnerSmall>
           <SearchBar {...keyword} />
           <SearchFilter handleFilter={handleFilter} />
-          {articles?.length > 0 && filter.type === 'article' && <ArticleList articles={articles} />}
-          {books?.length > 0 && filter.type === 'book' && <BookList books={books} />}
           {debouncedKeyword !== '' &&
-            ((articles?.length === 0 && filter.type === 'article') ||
-              (books?.length === 0 && filter.type === 'book')) && <SearchNoResult />}
+            filter.type === 'article' &&
+            (isArticleNoResult ? <SearchNoResult /> : <ArticleList articles={articles} />)}
+          {debouncedKeyword !== '' &&
+            filter.type === 'book' &&
+            (isBookNoResult ? <SearchNoResult /> : <BookList books={books} />)}
           <div ref={target} />
         </PageInnerSmall>
       </PageWrapper>

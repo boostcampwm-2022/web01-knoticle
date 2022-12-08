@@ -24,6 +24,12 @@ export const TocWrapper = styled(Flex)`
   flex-direction: column;
   justify-content: space-between;
   // animation: ${slide} 1s ease-in-out;
+
+  @media ${(props) => props.theme.mobile} {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+  }
 `;
 
 export const TocSideBar = styled.div`
@@ -74,10 +80,13 @@ export const TocArticle = styled(Link)`
   }
 `;
 
-export const TocProfile = styled(Flex)`
+export const TocProfile = styled(Link)`
+  display: flex;
   justify-content: end;
   align-items: end;
   padding: 20px;
+  text-decoration: none;
+  color: inherit;
 `;
 
 export const TocProfileText = styled(Flex)`

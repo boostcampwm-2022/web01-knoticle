@@ -6,6 +6,7 @@ import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
+import SkeletonBook from '@components/common/SkeletonBook';
 import { IBookScraps } from '@interfaces';
 
 import {
@@ -18,19 +19,24 @@ import {
   SliderBookContainer,
   SliderInfoContainer,
   SliderIcon,
+  SliderTrack,
+  SliderBookWrapper,
 } from './styled';
 
 interface SliderProps {
   bookList: IBookScraps[];
   title: string;
+  isLoading: boolean;
+  numberPerPage: number;
 }
 
-function Slider({ bookList, title }: SliderProps) {
+function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   const [curBookIndex, setCurBookIndex] = useState(0);
   const [sliderNumber, setSliderNumber] = useState(1);
 
-  const numberPerPage = 4;
-  const sliderIndicatorCount = Math.ceil(bookList.length / numberPerPage);
+  const SkeletonList = Array.from({ length: numberPerPage }, (_, i) => i + 1);
+
+  const sliderIndicatorCount = bookList ? Math.ceil(bookList.length / numberPerPage) : 0;
   const sliderIndicatorNumbersList = Array.from({ length: sliderIndicatorCount }, (_, i) => i + 1);
 
   const handleLeftArrowClick = () => {
@@ -51,23 +57,31 @@ function Slider({ bookList, title }: SliderProps) {
         isvisible={(sliderNumber !== 1).toString()}
       />
 
-      <SliderContent>
+      <SliderContent numberPerPage={numberPerPage}>
         <SliderInfoContainer>
           <SliderInfo>
             <Image src={ListIcon} alt="List Icon" />
             <SliderTitle>{title}</SliderTitle>
           </SliderInfo>
-          <SliderIndicatorContainer>
-            {sliderIndicatorNumbersList.map((number) => {
-              return <SliderIndicator key={number} isActive={number === sliderNumber} />;
-            })}
-          </SliderIndicatorContainer>
+          {numberPerPage !== 1 && (
+            <SliderIndicatorContainer>
+              {sliderIndicatorNumbersList.map((number) => {
+                return <SliderIndicator key={number} isActive={number === sliderNumber} />;
+              })}
+            </SliderIndicatorContainer>
+          )}
         </SliderInfoContainer>
 
-        <SliderBookContainer curBookIndex={curBookIndex}>
-          {bookList.map((book) => (
-            <Book key={book.id} book={book} />
-          ))}
+        <SliderBookContainer>
+          <SliderTrack curBookIndex={curBookIndex}>
+            {isLoading
+              ? SkeletonList.map((key) => <SkeletonBook key={key} />)
+              : bookList.map((book) => (
+                  <SliderBookWrapper key={book.id} numberPerPage={numberPerPage}>
+                    <Book book={book} />
+                  </SliderBookWrapper>
+                ))}
+          </SliderTrack>
         </SliderBookContainer>
       </SliderContent>
 

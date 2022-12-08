@@ -5,4 +5,4 @@ import { IArticleBook, IBookScraps } from './combined.interface';
 import { IScrap } from './scrap.interface';
 import { IUser } from './user.interface';
 
-export type { IArticle, IBook, IBookmark, IScrap, IUser, IBookScraps, IArticleBook };
+export type { IArticle, IBook, IBookmark, IScrap, IUser, IArticleBook, IBookScraps };
