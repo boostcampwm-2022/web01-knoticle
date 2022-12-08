@@ -41,6 +41,7 @@ export const PageWrapper = styled.div`
 export const PageInnerSmall = styled(FlexColumnAlignCenter)`
   margin: 0 auto;
   max-width: 900px;
+  padding: 0px 10px;
 `;
 
 export const PageInnerLarge = styled(FlexColumnAlignCenter)`

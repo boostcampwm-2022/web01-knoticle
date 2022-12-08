@@ -29,7 +29,7 @@ export default function Viewer({ book, article }: ViewerProps) {
 
   const user = useRecoilValue(signInStatusState);
 
-  const [isOpened, setIsOpened] = useState(true);
+  const [isOpened, setIsOpened] = useState(false);
 
   const [isModalShown, setModalShown] = useState(false);
 
@@ -55,6 +55,9 @@ export default function Viewer({ book, article }: ViewerProps) {
   useEffect(() => {
     if (!checkArticleAuthority(article.id)) router.push('/404');
   });
+  useEffect(() => {
+    if (window.innerWidth > 576) setIsOpened(true);
+  }, []);
 
   return (
     <>

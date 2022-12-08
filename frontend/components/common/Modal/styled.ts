@@ -27,6 +27,11 @@ export const ModalInner = styled.div`
   background: var(--white-color);
   border-radius: 30px;
   z-index: 100;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 320px;
+    padding: 32px 20px;
+  }
 `;
 
 export const ButtonWrapper = styled.div<{ hasBackward?: boolean }>`

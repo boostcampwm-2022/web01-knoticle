@@ -15,7 +15,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   const defaultFields = [
     {
-      loc: `${process.env.NEXT_PUBLIC_NEXT_URL}`,
+      loc: `${process.env.NEXT_PUBLIC_CLIENT_URL}`,
       changefreq: 'daily',
       priority: '1.0',
       lastmod,
@@ -23,7 +23,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   ];
 
   const scrapFields = scraps.map((scrap: { book_id: number; article_id: number }) => ({
-    loc: `${process.env.NEXT_PUBLIC_NEXT_URL}/viewer/${scrap.book_id}/${scrap.article_id}`,
+    loc: `${process.env.NEXT_PUBLIC_CLIENT_URL}/viewer/${scrap.book_id}/${scrap.article_id}`,
     changefreq: 'daily',
     priority: '1.0',
     lastmod,

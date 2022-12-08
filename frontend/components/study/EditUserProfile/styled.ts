@@ -6,11 +6,15 @@ import { TextSmall } from '@styles/common';
 import { Flex } from '@styles/layout';
 
 export const UserProfileWrapper = styled.div`
-  width: 100%;
-  margin: 40px 0 20px;
+  margin: 40px 0 20px 0;
+  width: 78%;
   display: flex;
-  align-items: flex-end;
-  /* justify-content: flex-start; */
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
 `;
 
 export const UserThumbnailGroup = styled.div``;
@@ -26,7 +30,9 @@ export const UserDetailGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 30px;
-  /* background-color: red; */
+  @media ${(props) => props.theme.mobile} {
+    margin-top: 20px;
+  }
 `;
 
 export const Input = styled.input`
@@ -56,7 +62,10 @@ export const EditUsername = styled(Input)`
 export const EditUserDescription = styled(Input)`
   font-size: 14px;
   line-height: 20px;
-  width: 340px;
+  width: 400px;
+  @media ${(props) => props.theme.tablet} {
+    width: 250px;
+  }
 `;
 
 export const ButtonGroup = styled.div<{ isVisible: boolean }>`

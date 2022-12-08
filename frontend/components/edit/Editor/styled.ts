@@ -15,6 +15,12 @@ export const EditorInner = styled.div`
   overflow: auto;
   padding: 32px;
   position: relative;
+
+  @media ${(props) => props.theme.tablet} {
+    &:nth-child(2) {
+      display: none;
+    }
+  }
 `;
 
 export const CodeMirrorWrapper = styled.div`

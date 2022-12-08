@@ -20,19 +20,20 @@ const createScrap = async (req: Request, res: Response) => {
     }
   });
 
-  res.status(201).send();
+  return res.status(201).send();
 };
 
 const deleteScrap = async (req: Request, res: Response) => {
   const scrapId = Number(req.params.scrapId);
+
   await scrapsService.deleteScrap(scrapId);
 
-  res.status(200).send();
+  return res.status(200).send();
 };
 const getScraps = async (req: Request, res: Response) => {
   const scraps = await scrapsService.getScraps();
 
-  res.status(200).send(scraps);
+  return res.status(200).send(scraps);
 };
 
 const updateScrapsOrder = async (req: Request, res: Response) => {

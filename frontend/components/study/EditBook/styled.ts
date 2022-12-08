@@ -8,6 +8,10 @@ import { FlexCenter, FlexColumn, FlexColumnAlignCenter } from '@styles/layout';
 export const EditBookWapper = styled(FlexColumnAlignCenter)`
   width: 320px;
   margin: auto;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 300px;
+  }
 `;
 
 export const BookWrapper = styled(FlexColumn)`

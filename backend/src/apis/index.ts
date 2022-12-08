@@ -21,16 +21,8 @@ router.post('/auth/signup', catchAsync(authController.signUp));
 router.get('/auth/signout', catchAsync(authController.signOut));
 router.get('/auth', decoder, catchAsync(authController.checkSignInStatus));
 
-router.get(
-  '/articles/temporary',
-  catchAsync(guard),
-  catchAsync(articlesController.getTemporaryArticle)
-);
-router.post(
-  '/articles/temporary',
-  catchAsync(guard),
-  catchAsync(articlesController.createTemporaryArticle)
-);
+router.get('/articles/temporary', guard, catchAsync(articlesController.getTemporaryArticle));
+router.post('/articles/temporary', guard, catchAsync(articlesController.createTemporaryArticle));
 router.get('/articles/search', catchAsync(articlesController.searchArticles));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
 router.post('/articles', catchAsync(articlesController.createArticle));
@@ -41,18 +33,18 @@ router.post('/image', multer().single('image'), catchAsync(imagesController.crea
 
 router.get('/books/search', catchAsync(booksController.searchBooks));
 router.get('/books/:bookId', decoder, catchAsync(booksController.getBook));
-router.delete('/books/:bookId', catchAsync(guard), catchAsync(booksController.deleteBook));
 router.get('/books', decoder, catchAsync(booksController.getBooks));
-router.post('/books', catchAsync(guard), catchAsync(booksController.createBook));
-router.patch('/books', catchAsync(guard), catchAsync(booksController.editBook));
+router.post('/books', guard, catchAsync(booksController.createBook));
+router.patch('/books', guard, catchAsync(booksController.updateBook));
+router.delete('/books/:bookId', guard, catchAsync(booksController.deleteBook));
 
-router.post('/bookmarks', catchAsync(guard), catchAsync(bookmarksController.createBookmark));
+router.post('/bookmarks', guard, catchAsync(bookmarksController.createBookmark));
 router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));
 
-router.post('/scraps', catchAsync(scrapsController.createScrap));
-router.delete('/scraps/:scrapId', catchAsync(guard), catchAsync(scrapsController.deleteScrap));
 router.get('/scraps', catchAsync(scrapsController.getScraps));
 router.patch('/scraps', catchAsync(guard), catchAsync(scrapsController.updateScrapsOrder));
+router.post('/scraps', catchAsync(scrapsController.createScrap));
+router.delete('/scraps/:scrapId', guard, catchAsync(scrapsController.deleteScrap));
 
 router.get('/users', catchAsync(usersController.getUserProfile));
 router.patch('/users/:userId', catchAsync(usersController.editUserProfile));

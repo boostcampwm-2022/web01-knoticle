@@ -107,6 +107,7 @@ const createArticle = async (dto: CreateArticle) => {
       },
     },
   });
+
   return article;
 };
 
@@ -173,6 +174,7 @@ const updateArticle = async (articleId: number, dto: CreateArticle) => {
       },
     },
   });
+
   return article;
 };
 
@@ -180,8 +182,8 @@ export default {
   searchArticles,
   getArticle,
   createArticle,
+  updateArticle,
   deleteArticle,
   getTemporaryArticle,
   createTemporaryArticle,
-  updateArticle,
 };

@@ -2,7 +2,67 @@ import { FindBooks, SearchBooks, CreateBook } from '@apis/books/books.interface'
 import { prisma } from '@config/orm.config';
 import { Message, NotFound } from '@errors';
 
-const findBook = async (bookId: number, userId: number) => {
+const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
+  const skip = (page - 1) * take;
+
+  const books = await prisma.book.findMany({
+    select: {
+      id: true,
+      title: true,
+      thumbnail_image: true,
+      created_at: true,
+      user: {
+        select: {
+          nickname: true,
+        },
+      },
+      scraps: {
+        select: {
+          id: true,
+          order: true,
+          is_original: true,
+          article: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+        },
+      },
+      bookmarks: {
+        where: {
+          user_id: Number(userId) ? Number(userId) : 0,
+        },
+      },
+      _count: {
+        select: { bookmarks: true },
+      },
+    },
+    where: {
+      deleted_at: null,
+      user_id: Number(userId) ? Number(userId) : undefined,
+      title: {
+        search: `${query}*`,
+      },
+    },
+    orderBy: {
+      _relevance: {
+        fields: ['title'],
+        sort: 'desc',
+        search: `${query}*`,
+      },
+    },
+    skip,
+    take,
+  });
+
+  return {
+    data: books,
+    hasNextPage: books.length === take,
+  };
+};
+
+const getBook = async (bookId: number, userId: number) => {
   const book = await prisma.book.findFirst({
     select: {
       id: true,
@@ -17,9 +77,7 @@ const findBook = async (bookId: number, userId: number) => {
       scraps: {
         orderBy: { order: 'asc' },
         select: {
-          id: true,
           order: true,
-          is_original: true,
           article: {
             select: {
               id: true,
@@ -47,8 +105,9 @@ const findBook = async (bookId: number, userId: number) => {
   return book;
 };
 
-const findBooks = async ({ order, take, userId, editor, type }: FindBooks) => {
+const getBooks = async ({ order, take, userId, editor, type }: FindBooks) => {
   const sortOptions = [];
+
   if (order === 'bookmark') sortOptions.push({ bookmarks: { _count: 'desc' as const } });
   if (order === 'newest') sortOptions.push({ created_at: 'desc' as const });
 
@@ -116,65 +175,6 @@ const findBooks = async ({ order, take, userId, editor, type }: FindBooks) => {
   return books;
 };
 
-const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
-  const skip = (page - 1) * take;
-
-  const books = await prisma.book.findMany({
-    select: {
-      id: true,
-      title: true,
-      thumbnail_image: true,
-      created_at: true,
-      user: {
-        select: {
-          nickname: true,
-        },
-      },
-      scraps: {
-        select: {
-          id: true,
-          order: true,
-          article: {
-            select: {
-              id: true,
-              title: true,
-            },
-          },
-        },
-      },
-      bookmarks: {
-        where: {
-          user_id: Number(userId) ? Number(userId) : 0,
-        },
-      },
-      _count: {
-        select: { bookmarks: true },
-      },
-    },
-    where: {
-      deleted_at: null,
-      user_id: Number(userId) ? Number(userId) : undefined,
-      title: {
-        search: `${query}*`,
-      },
-    },
-    orderBy: {
-      _relevance: {
-        fields: ['title'],
-        sort: 'desc',
-        search: `${query}*`,
-      },
-    },
-    skip,
-    take,
-  });
-
-  return {
-    data: books,
-    hasNextPage: books.length === take,
-  };
-};
-
 const createBook = async ({ title, userId }: CreateBook) => {
   const book = await prisma.book.create({
     data: {
@@ -192,7 +192,7 @@ const createBook = async ({ title, userId }: CreateBook) => {
   return book;
 };
 
-const editBook = async (dto: any) => {
+const updateBook = async (dto: any) => {
   const { id, title, thumbnail_image } = dto;
   const book = await prisma.book.update({
     where: {
@@ -234,10 +234,10 @@ const checkBookOwnerCorrect = async (id: number, userId: number) => {
 };
 
 export default {
-  findBook,
-  findBooks,
   searchBooks,
+  getBook,
+  getBooks,
   createBook,
-  editBook,
+  updateBook,
   deleteBook,
 };
