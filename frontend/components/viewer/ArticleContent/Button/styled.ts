@@ -7,7 +7,7 @@ export const ViewerButton = styled.button`
   border-radius: 10px;
   border: 1px solid var(--grey-02-color);
   background-color: white;
-  margin-left: 10px;
+  width: fit-content;
 `;
 
 export const ViewerLabel = styled(TextSmall)`

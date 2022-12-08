@@ -24,6 +24,12 @@ export const TocWrapper = styled(Flex)`
   flex-direction: column;
   justify-content: space-between;
   // animation: ${slide} 1s ease-in-out;
+
+  @media ${(props) => props.theme.mobile} {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+  }
 `;
 
 export const TocSideBar = styled.div`
