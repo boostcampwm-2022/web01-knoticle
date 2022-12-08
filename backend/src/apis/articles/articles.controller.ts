@@ -99,6 +99,7 @@ const createTemporaryArticle = async (req: Request, res: Response) => {
   });
 
   return res.status(201).send(temporaryArticle);
+  res.status(201).send(temporaryArticle);
 };
 
 export default {

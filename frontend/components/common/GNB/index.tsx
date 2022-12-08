@@ -8,9 +8,9 @@ import ArticleIcon from '@assets/ico_article.svg';
 import PersonIcon from '@assets/ico_person.svg';
 import SearchIcon from '@assets/ico_search.svg';
 import signInStatusState from '@atoms/signInStatus';
+import SignInModal from '@components/auth/SignInModal';
+import SignUpModal from '@components/auth/SignUpModal';
 import Modal from '@components/common/Modal';
-import SignInModal from '@components/SignInModal';
-import SignUpModal from '@components/SignUpModal';
 
 import { GNBbar, Icon, IconsContainer, Logo } from './styled';
 
