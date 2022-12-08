@@ -6,10 +6,14 @@ import { TextLarge, TextSmall } from '@styles/common';
 
 export const UserProfileWrapper = styled.div`
   width: 100%;
-  margin: 40px 0 20px;
+  margin: 40px 0 20px 40px;
   display: flex;
-  align-items: flex-end;
-  /* justify-content: flex-start; */
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
 `;
 
 export const UserThumbnail = styled(Image)`
@@ -24,6 +28,9 @@ export const UserDetailGroup = styled.div`
   flex-direction: column;
   margin-left: 30px;
   /* background-color: red; */
+  @media ${(props) => props.theme.mobile} {
+    margin-top: 20px;
+  }
 `;
 
 export const Username = styled(TextLarge)``;
