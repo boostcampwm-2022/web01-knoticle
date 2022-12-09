@@ -28,7 +28,6 @@ export default function Viewer({ article }: ViewerProps) {
   const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
 
   const user = useRecoilValue(signInStatusState);
-  const router = useRouter();
 
   const [isOpened, setIsOpened] = useState(false);
 
@@ -36,6 +35,7 @@ export default function Viewer({ article }: ViewerProps) {
 
   const handleModalOpen = () => setModalShown(true);
   const handleModalClose = () => setModalShown(false);
+  const router = useRouter();
 
   const handleSideBarToggle = () => {
     setIsOpened((prev) => !prev);
