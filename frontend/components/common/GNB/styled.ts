@@ -17,8 +17,6 @@ export const GNBbar = styled(TopBar)`
   background-color: var(--light-yellow-color);
 `;
 
-export const SpaceBox = styled.div``;
-
 export const LogoWrapper = styled(FlexCenter)`
   position: absolute;
   width: 110px;

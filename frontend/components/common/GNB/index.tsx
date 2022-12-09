@@ -12,7 +12,7 @@ import SignInModal from '@components/auth/SignInModal';
 import SignUpModal from '@components/auth/SignUpModal';
 import Modal from '@components/common/Modal';
 
-import { GNBbar, Icon, IconsContainer, Logo, LogoWrapper, SpaceBox } from './styled';
+import { GNBbar, Icon, IconsContainer, Logo, LogoWrapper } from './styled';
 
 export default function GNB() {
   const [isModalShown, setModalShown] = useState(false);
@@ -29,7 +29,6 @@ export default function GNB() {
 
   return (
     <GNBbar>
-      <SpaceBox />
       <LogoWrapper>
         <Logo href="/">knoticle</Logo>
       </LogoWrapper>
