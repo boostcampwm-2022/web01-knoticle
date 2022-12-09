@@ -42,12 +42,10 @@ export const ContentBody = styled.div`
 
   ol {
     list-style-type: decimal;
-    list-style-position: inside;
   }
 
   ul {
     list-style-type: disc;
-    list-style-position: inside;
   }
 
   p {
