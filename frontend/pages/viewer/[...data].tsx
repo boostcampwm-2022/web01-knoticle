@@ -80,7 +80,7 @@ export default function Viewer({ book, article }: ViewerProps) {
       )}
       {isModalShown && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
-          <ScrapModal handleModalClose={handleModalClose} article={article} />
+          <ScrapModal bookId={book.id} handleModalClose={handleModalClose} article={article} />
         </Modal>
       )}
     </>

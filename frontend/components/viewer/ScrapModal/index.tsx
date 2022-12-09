@@ -17,11 +17,12 @@ import { IBook, IArticle, IScrap, IBookScraps } from '@interfaces';
 import { ArticleWrapper, Label, ScrapModalWrapper, WarningLabel } from './styled';
 
 interface ScrapModalProps {
+  bookId: number;
   handleModalClose: () => void;
   article: IArticle;
 }
 
-export default function ScrapModal({ handleModalClose, article }: ScrapModalProps) {
+export default function ScrapModal({ bookId, handleModalClose, article }: ScrapModalProps) {
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const { data: createScrapData, execute: createScrap } = useFetch(createScrapApi);
@@ -95,7 +96,7 @@ export default function ScrapModal({ handleModalClose, article }: ScrapModalProp
 
   useEffect(() => {
     if (createScrapData === undefined) return;
-    router.push(`/viewer/${selectedBookIndex}/${article.id}`);
+    router.push(`/viewer/${bookId}/${article.id}`);
     handleModalClose();
   }, [createScrapData]);
 
