@@ -37,7 +37,7 @@ export default function Search() {
   const [isArticleNoResult, setIsArticleNoResult] = useState(false);
   const [isBookNoResult, setIsBookNoResult] = useState(false);
 
-  const highlightWord = (text: string, words: string[]): React.ReactNode => {
+  const highlightWord = (text: string, words: string[], isFirst = false): React.ReactNode => {
     let wordIndexList = words.map((word) => text.toLowerCase().indexOf(word.toLowerCase()));
 
     const filteredWords = words.filter((_, index) => wordIndexList[index] !== -1);
@@ -51,11 +51,19 @@ export default function Search() {
 
     const endIndex = startIndex + targetWord.length;
 
+    let paddingIndex = 0;
+
+    if (isFirst) {
+      const regex = /(<([^>]+)>)/g;
+
+      while (regex.test(text.slice(0, startIndex))) paddingIndex = regex.lastIndex;
+    }
+
     return (
       <>
-        {text.slice(0, startIndex)}
+        {text.slice(paddingIndex, startIndex)}
         <b>{text.slice(startIndex, endIndex)}</b>
-        {highlightWord(text.slice(endIndex), words)}
+        {highlightWord(text.slice(endIndex).replace(/(<([^>]+)>)/gi, ''), words)}
       </>
     );
   };
@@ -140,8 +148,11 @@ export default function Search() {
         ...article,
         title: highlightWord(article.title, keywords),
         content: highlightWord(
-          article.content.slice(0, 400).replace(/(<([^>]+)>)/gi, ''),
-          keywords
+          // article.content.replace(/(<([^>]+)>)/gi, ''),
+          // article.content.slice(0, 400).replace(/(<([^>]+)>)/gi, ''),
+          article.content,
+          keywords,
+          true
         ),
       };
     });
