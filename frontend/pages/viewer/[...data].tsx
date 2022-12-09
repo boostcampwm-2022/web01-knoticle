@@ -20,12 +20,12 @@ import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex, PageNoScrollWrapper } from '@styles/layout';
 
 interface ViewerProps {
-  book: IBookScraps;
   article: IArticleBook;
 }
 
-export default function Viewer({ book, article }: ViewerProps) {
+export default function Viewer({ article }: ViewerProps) {
   const { data: userBooks, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
+  const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
 
   const user = useRecoilValue(signInStatusState);
   const router = useRouter();
@@ -45,16 +45,24 @@ export default function Viewer({ book, article }: ViewerProps) {
     getUserKnottedBooks(user.nickname);
   }, [user.nickname]);
 
-  const checkArticleAuthority = (id: number) => {
-    if (book.scraps.find((scrap) => scrap.article.id === id)) {
+  const checkArticleAuthority = (targetBook: IBookScraps, id: number) => {
+    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) {
       return true;
     }
     return false;
   };
 
   useEffect(() => {
-    if (!checkArticleAuthority(article.id)) router.push('/404');
-  });
+    if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
+      const bookId = router.query.data[0];
+      getBook(bookId);
+    }
+  }, [router.query.data]);
+
+  useEffect(() => {
+    if (!book) return;
+    if (!checkArticleAuthority(book, article.id)) router.push('/404');
+  }, [book]);
 
   const syncHeight = () => {
     document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
@@ -69,7 +77,7 @@ export default function Viewer({ book, article }: ViewerProps) {
 
   return (
     <PageNoScrollWrapper>
-      <ViewerHead articleTitle={article.title} articleContent={article.content} />
+      {article && <ViewerHead articleTitle={article.title} articleContent={article.content} />}
       <GNB />
       {book && article ? (
         <Flex>
@@ -104,8 +112,7 @@ export default function Viewer({ book, article }: ViewerProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const [bookId, articleId] = context.query.data as string[];
-  const book = await getBookApi(bookId);
   const article = await getArticleApi(articleId);
 
-  return { props: { book, article } };
+  return { props: { article } };
 };
