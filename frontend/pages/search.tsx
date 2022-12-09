@@ -139,7 +139,10 @@ export default function Search() {
       return {
         ...article,
         title: highlightWord(article.title, keywords),
-        content: highlightWord(article.content, keywords),
+        content: highlightWord(
+          article.content.slice(0, 400).replace(/(<([^>]+)>)/gi, ''),
+          keywords
+        ),
       };
     });
 
