@@ -3,11 +3,8 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import { useRecoilValue } from 'recoil';
-
 import { getArticleApi } from '@apis/articleApi';
 import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
-import signInStatusState from '@atoms/signInStatus';
 import GNB from '@components/common/GNB';
 import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
@@ -24,10 +21,8 @@ interface ViewerProps {
 }
 
 export default function Viewer({ article }: ViewerProps) {
-  const { data: userBooks, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
   const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
-
-  const user = useRecoilValue(signInStatusState);
+  const router = useRouter();
 
   const [isOpened, setIsOpened] = useState(false);
 
@@ -35,15 +30,10 @@ export default function Viewer({ article }: ViewerProps) {
 
   const handleModalOpen = () => setModalShown(true);
   const handleModalClose = () => setModalShown(false);
-  const router = useRouter();
 
   const handleSideBarToggle = () => {
     setIsOpened((prev) => !prev);
   };
-
-  useEffect(() => {
-    getUserKnottedBooks(user.nickname);
-  }, [user.nickname]);
 
   const checkArticleAuthority = (targetBook: IBookScraps, id: number) => {
     if (targetBook.scraps.find((scrap) => scrap.article.id === id)) {
@@ -101,9 +91,9 @@ export default function Viewer({ article }: ViewerProps) {
       ) : (
         <div>loading</div>
       )}
-      {isModalShown && (
+      {isModalShown && book && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
-          <ScrapModal books={userBooks} handleModalClose={handleModalClose} article={article} />
+          <ScrapModal bookId={book.id} handleModalClose={handleModalClose} article={article} />
         </Modal>
       )}
     </PageNoScrollWrapper>
