@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const EditorWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: calc(var(--window-inner-height));
   display: flex;
 
   > div:nth-child(2) {
@@ -25,7 +25,7 @@ export const EditorInner = styled.div`
 
 export const CodeMirrorWrapper = styled.div`
   font-size: 16px;
-  height: calc(100vh - 160px);
+  height: calc(var(--window-inner-height) - 160px);
   overflow: auto;
 
   .cm-editor.cm-focused {

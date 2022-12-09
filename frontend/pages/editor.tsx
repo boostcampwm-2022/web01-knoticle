@@ -14,6 +14,7 @@ import ModifyModal from '@components/edit/ModifyModal';
 import PublishModal from '@components/edit/PublishModal';
 import useFetch from '@hooks/useFetch';
 import { IArticle } from '@interfaces';
+import { PageNoScrollWrapper } from '@styles/layout';
 import { toastError } from '@utils/toast';
 
 export default function EditorPage() {
@@ -49,8 +50,18 @@ export default function EditorPage() {
     setOriginalArticle(article);
   }, [article]);
 
+  const syncHeight = () => {
+    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
+  };
+
+  useEffect(() => {
+    syncHeight();
+    window.addEventListener('resize', syncHeight);
+    return () => window.removeEventListener('resize', syncHeight);
+  }, []);
+
   return (
-    <>
+    <PageNoScrollWrapper>
       <EditHead />
       <Editor handleModalOpen={handleModalOpen} originalArticle={originalArticle} />
 
@@ -64,6 +75,6 @@ export default function EditorPage() {
             <PublishModal books={books} />
           </Modal>
         ))}
-    </>
+    </PageNoScrollWrapper>
   );
 }
