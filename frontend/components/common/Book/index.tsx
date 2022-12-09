@@ -38,7 +38,7 @@ export default function Book({ book }: BookProps) {
     // 수정모드일때만 아래 onclick이 실행되도록 수정해야함 -> 민형님 작업 후
     <BookWrapper>
       <BookLink
-        isArticleExists={!!scraps[0]}
+        isarticleexists={scraps[0] ? 'true' : 'false'}
         href={scraps[0] ? `/viewer/${id}/${scraps[0].article.id}` : ``}
       >
         <BookThumbnail
@@ -53,7 +53,7 @@ export default function Book({ book }: BookProps) {
         <FlexSpaceBetween>
           <BookTitle>
             <BookLink
-              isArticleExists={!!scraps[0]}
+              isarticleexists={scraps[0] ? 'true' : 'false'}
               href={scraps[0] ? `/viewer/${id}/${scraps[0].article.id}` : ``}
             >
               <TextLarge>{title}</TextLarge>
