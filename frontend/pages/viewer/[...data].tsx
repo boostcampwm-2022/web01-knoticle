@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { getArticleApi } from '@apis/articleApi';
-import { getBookApi } from '@apis/bookApi';
+import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
 import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
@@ -12,15 +12,16 @@ import ClosedSideBar from '@components/viewer/ClosedSideBar';
 import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
+import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex } from '@styles/layout';
 
 interface ViewerProps {
-  book: IBookScraps;
   article: IArticleBook;
 }
 
-export default function Viewer({ book, article }: ViewerProps) {
+export default function Viewer({ article }: ViewerProps) {
+  const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
   const router = useRouter();
 
   const [isOpened, setIsOpened] = useState(false);
@@ -34,23 +35,32 @@ export default function Viewer({ book, article }: ViewerProps) {
     setIsOpened((prev) => !prev);
   };
 
-  const checkArticleAuthority = (id: number) => {
-    if (book.scraps.find((scrap) => scrap.article.id === id)) {
+  const checkArticleAuthority = (targetBook: IBookScraps, id: number) => {
+    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) {
       return true;
     }
     return false;
   };
 
   useEffect(() => {
-    if (!checkArticleAuthority(article.id)) router.push('/404');
-  });
+    if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
+      const bookId = router.query.data[0];
+      getBook(bookId);
+    }
+  }, [router.query.data]);
+
+  useEffect(() => {
+    if (!book) return;
+    if (!checkArticleAuthority(book, article.id)) router.push('/404');
+  }, [book]);
+
   useEffect(() => {
     if (window.innerWidth > 576) setIsOpened(true);
   }, []);
 
   return (
     <>
-      <ViewerHead articleTitle={article.title} articleContent={article.content} />
+      {article && <ViewerHead articleTitle={article.title} articleContent={article.content} />}
       <GNB />
       {book && article ? (
         <Flex>
@@ -74,7 +84,7 @@ export default function Viewer({ book, article }: ViewerProps) {
       ) : (
         <div>loading</div>
       )}
-      {isModalShown && (
+      {isModalShown && book && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
           <ScrapModal bookId={book.id} handleModalClose={handleModalClose} article={article} />
         </Modal>
@@ -85,8 +95,7 @@ export default function Viewer({ book, article }: ViewerProps) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const [bookId, articleId] = context.query.data as string[];
-  const book = await getBookApi(bookId);
   const article = await getArticleApi(articleId);
 
-  return { props: { book, article } };
+  return { props: { article } };
 };

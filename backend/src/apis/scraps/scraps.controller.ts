@@ -36,8 +36,19 @@ const getScraps = async (req: Request, res: Response) => {
   return res.status(200).send(scraps);
 };
 
+const updateScrapsOrder = async (req: Request, res: Response) => {
+  const scraps = req.body;
+
+  scraps.forEach(async (scrap: IScrap) => {
+    await scrapsService.updateScrapOrder(scrap);
+  });
+
+  res.status(200).send(scraps);
+};
+
 export default {
   createScrap,
   deleteScrap,
   getScraps,
+  updateScrapsOrder,
 };

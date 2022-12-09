@@ -68,8 +68,6 @@ export const ContentBody = styled.div`
   blockquote {
     margin: 24px 0;
     padding: 24px 16px;
-    /* background-color: var(--light-orange-color); */
-    /* border-radius: 4px; */
     border-left: 8px solid var(--light-orange-color);
   }
 
@@ -90,6 +88,7 @@ export const ContentBody = styled.div`
 
     code {
       padding: 0;
+      white-space: pre-wrap;
     }
   }
 `;
