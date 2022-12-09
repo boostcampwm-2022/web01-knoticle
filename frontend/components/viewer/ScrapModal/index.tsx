@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
@@ -21,11 +23,13 @@ interface ScrapModalProps {
 export default function ScrapModal({ books, handleModalClose, article }: ScrapModalProps) {
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
-  const { execute: createScrap } = useFetch(createScrapApi);
+  const { data: createScrapData, execute: createScrap } = useFetch(createScrapApi);
 
   const [scrapList, setScrapList] = useRecoilState(scrapState);
 
   const [isSelectedBookUnavailable, setSelectedBookUnavailable] = useState(false);
+
+  const router = useRouter();
 
   const createBookDropdownItems = (items: IBook[]) =>
     items.map((item) => {
@@ -55,6 +59,7 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
     if (selectedBookIndex === -1) return;
 
     const selectedBook = books.find((book) => book.id === selectedBookIndex);
+    console.log(books);
 
     if (!selectedBook || checkArticleExistsInBook(article.id, selectedBook.scraps)) {
       setSelectedBookIndex(-1);
@@ -79,8 +84,13 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
     const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     createScrap({ book_id: selectedBookIndex, article_id: article.id, scraps });
-    handleModalClose();
   };
+
+  useEffect(() => {
+    if (createScrapData === undefined) return;
+    router.push(`/viewer/${selectedBookIndex}/${article.id}`);
+    handleModalClose();
+  }, [createScrapData]);
 
   return (
     <ScrapModalWrapper>

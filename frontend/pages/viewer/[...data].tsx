@@ -42,6 +42,7 @@ export default function Viewer({ book, article }: ViewerProps) {
   };
 
   useEffect(() => {
+    // 스크랩이 완료되면 해당 부분이 실행되도록 해야함!
     getUserKnottedBooks(user.nickname);
   }, [user.nickname]);
 
