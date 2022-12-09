@@ -1,3 +1,4 @@
+import rehypeHighlight from 'rehype-highlight';
 import rehypeParse from 'rehype-parse';
 import rehypeRemark from 'rehype-remark';
 import rehypeStringify from 'rehype-stringify';
@@ -7,11 +8,18 @@ import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
 
 export const markdown2html = (markdown: string) => {
-  return unified()
+  const html = unified()
     .use(remarkParse)
     .use(remarkRehype)
     .use(rehypeStringify)
     .processSync(markdown)
+    .toString();
+
+  return unified()
+    .use(rehypeParse)
+    .use(rehypeHighlight, { ignoreMissing: true })
+    .use(rehypeStringify)
+    .processSync(html)
     .toString();
 };
 

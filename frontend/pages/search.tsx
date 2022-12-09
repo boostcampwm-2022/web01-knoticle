@@ -139,7 +139,10 @@ export default function Search() {
       return {
         ...article,
         title: highlightWord(article.title, keywords),
-        content: highlightWord(article.content, keywords),
+        content: highlightWord(
+          article.content.slice(0, 400).replace(/(<([^>]+)>)/gi, ''),
+          keywords
+        ),
       };
     });
 
@@ -173,7 +176,7 @@ export default function Search() {
     });
 
     if (bookPage.pageNumber === 2) setBooks(newBooksHighlighted);
-    setBooks(books.concat(newBooksHighlighted));
+    else setBooks(books.concat(newBooksHighlighted));
 
     setBookPage({
       ...bookPage,

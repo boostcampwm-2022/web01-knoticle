@@ -1,5 +1,7 @@
 import { ContentBody, ContentTitle, ContentWrapper } from './styled';
 
+import 'highlight.js/styles/github.css';
+
 interface ContentProps {
   title?: string;
   content: string;

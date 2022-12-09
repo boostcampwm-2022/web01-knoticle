@@ -3,20 +3,36 @@ import Link from 'next/link';
 
 import styled from 'styled-components';
 
-import { TopBar } from '@styles/layout';
+import { FlexCenter, TopBar } from '@styles/layout';
 
 export const GNBbar = styled(TopBar)`
+  position: relative;
   width: 100%;
   border-bottom: 1px solid #222222;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 4px 30px;
   box-sizing: border-box;
   background-color: var(--light-yellow-color);
 `;
 
+export const LogoWrapper = styled(FlexCenter)`
+  position: absolute;
+  width: 110px;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  @media ${(props) => props.theme.mobile} {
+    left: 0;
+    right: none;
+    margin-left: 30px;
+  }
+`;
+
 export const Logo = styled(Link)`
+  margin: auto;
   font-family: 'Sofia';
   font-style: normal;
   font-weight: 500;
@@ -27,7 +43,8 @@ export const Logo = styled(Link)`
 `;
 
 export const IconsContainer = styled.div`
-  width: 96px;
+  /* width: 96px; */
+  gap: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;

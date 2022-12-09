@@ -42,6 +42,7 @@ router.post('/bookmarks', guard, catchAsync(bookmarksController.createBookmark))
 router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));
 
 router.get('/scraps', catchAsync(scrapsController.getScraps));
+router.patch('/scraps', catchAsync(guard), catchAsync(scrapsController.updateScrapsOrder));
 router.post('/scraps', catchAsync(scrapsController.createScrap));
 router.delete('/scraps/:scrapId', guard, catchAsync(scrapsController.deleteScrap));
 

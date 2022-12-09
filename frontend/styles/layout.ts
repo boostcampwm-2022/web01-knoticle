@@ -52,3 +52,10 @@ export const PageInnerLarge = styled(FlexColumnAlignCenter)`
 export const TopBar = styled.nav`
   height: 67px;
 `;
+
+export const PageNoScrollWrapper = styled.div`
+  overflow: hidden;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+`;

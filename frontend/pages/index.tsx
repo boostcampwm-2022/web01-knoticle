@@ -63,15 +63,15 @@ export default function Home() {
           {numberPerPage !== 0 && (
             <>
               <Slider
-                bookList={newestBookList}
-                title="새로 엮은 책"
-                isLoading={isNewBookListLoading}
-                numberPerPage={numberPerPage}
-              />
-              <Slider
                 bookList={popularBookList}
                 title="가장 인기 있는 책"
                 isLoading={isPopularBookListLoading}
+                numberPerPage={numberPerPage}
+              />
+              <Slider
+                bookList={newestBookList}
+                title="새로 엮은 책"
+                isLoading={isNewBookListLoading}
                 numberPerPage={numberPerPage}
               />
               <Footer />

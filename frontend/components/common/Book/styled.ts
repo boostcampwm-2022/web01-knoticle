@@ -112,7 +112,7 @@ export const AuthorLink = styled(Link)`
   margin-top: 2px;
 `;
 
-export const BookLink = styled(Link)<{ isArticleExists: boolean }>`
+export const BookLink = styled(Link)<{ isarticleexists: string }>`
   text-decoration: none;
-  ${(props) => (props.isArticleExists ? '' : 'pointer-events: none;')}
+  ${(props) => (props.isarticleexists === 'true' ? '' : 'pointer-events: none;')}
 `;

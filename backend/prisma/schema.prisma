@@ -1,8 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
@@ -12,77 +9,77 @@ datasource db {
 }
 
 model User {
-  id  Int @id @default(autoincrement())
-  username String @db.VarChar(20)
-  password String @db.VarChar(100)
-  nickname String @db.VarChar(20) @unique
-  description String @db.VarChar(100)
-  profile_image String @db.VarChar(255) @default("https://kr.object.ncloudstorage.com/j027/522da4f3-c9d7-403d-a98f-2b09cabefc47.png")
-  provider String @db.VarChar(20)
-  created_at DateTime @default(now())
-  deleted_at DateTime?
-  books Book[]
-  bookmarks Bookmark[]
+  id                Int               @id @default(autoincrement())
+  username          String            @db.VarChar(20)
+  password          String            @db.VarChar(100)
+  nickname          String            @unique @db.VarChar(20)
+  description       String            @db.VarChar(100)
+  profile_image     String            @default("https://kr.object.ncloudstorage.com/j027/522da4f3-c9d7-403d-a98f-2b09cabefc47.png") @db.VarChar(255)
+  provider          String            @db.VarChar(20)
+  created_at        DateTime          @default(now())
+  deleted_at        DateTime?
+  books             Book[]
+  bookmarks         Bookmark[]
   temporary_article TemporaryArticle?
-  token Token?
+  token             Token?
 }
 
 model Book {
-  id  Int @id @default(autoincrement()) 
-  thumbnail_image String @db.VarChar(255) @default("https://kr.object.ncloudstorage.com/j027/3947d647-f26e-43cc-9834-82d59703cd9c.png")
-  title String @db.VarChar(50)
-  created_at DateTime @default(now())
-  deleted_at DateTime?
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
-  articles Article[]
-  scraps Scrap[]
-  bookmarks Bookmark[]
+  id              Int        @id @default(autoincrement())
+  thumbnail_image String     @default("https://kr.object.ncloudstorage.com/j027/3947d647-f26e-43cc-9834-82d59703cd9c.png") @db.VarChar(255)
+  title           String     @db.VarChar(50)
+  created_at      DateTime   @default(now())
+  deleted_at      DateTime?
+  user            User       @relation(fields: [user_id], references: [id])
+  user_id         Int
+  articles        Article[]
+  scraps          Scrap[]
+  bookmarks       Bookmark[]
 
-  @@fulltext([title])
+  @@fulltext([title], map: "title")
 }
 
 model Article {
-  id  Int @id @default(autoincrement())
-  title String @db.VarChar(50)
-  content String @db.Text
-  created_at DateTime @default(now())
+  id         Int       @id @default(autoincrement())
+  title      String    @db.VarChar(100)
+  content    String    @db.Text
+  created_at DateTime  @default(now())
   deleted_at DateTime?
-  book Book @relation(fields: [book_id], references: [id])
-  book_id Int
-  scraps Scrap[]
+  book       Book      @relation(fields: [book_id], references: [id])
+  book_id    Int
+  scraps     Scrap[]
 
-  @@fulltext([content, title])
+  @@fulltext([title, content], map: "title_content")
 }
 
 model Scrap {
-  id  Int @id @default(autoincrement())
-  order Int
+  id          Int     @id @default(autoincrement())
+  order       Int
   is_original Boolean
-  article Article @relation(fields: [article_id], references: [id])
-  article_id Int
-  book Book @relation(fields: [book_id], references: [id])
-  book_id Int
+  article     Article @relation(fields: [article_id], references: [id])
+  article_id  Int
+  book        Book    @relation(fields: [book_id], references: [id])
+  book_id     Int
 }
 
 model Bookmark {
-  id  Int @id @default(autoincrement())
-  user User @relation(fields: [user_id], references: [id])
+  id      Int  @id @default(autoincrement())
+  user    User @relation(fields: [user_id], references: [id])
   user_id Int
-  book Book @relation(fields: [book_id], references: [id])
+  book    Book @relation(fields: [book_id], references: [id])
   book_id Int
 }
 
 model TemporaryArticle {
-  id  Int @id @default(autoincrement())
-  title String @db.VarChar(50)
+  id      Int    @id @default(autoincrement())
+  title   String @db.VarChar(50)
   content String @db.Text
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int @unique
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id Int    @unique
 }
 
 model Token {
   refresh_token String @db.VarChar(200)
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int @unique
+  user          User   @relation(fields: [user_id], references: [id])
+  user_id       Int    @unique
 }
