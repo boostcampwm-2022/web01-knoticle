@@ -55,8 +55,16 @@ export default function Viewer({ book, article }: ViewerProps) {
   useEffect(() => {
     if (!checkArticleAuthority(article.id)) router.push('/404');
   });
+
+  const syncHeight = () => {
+    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
+  };
+
   useEffect(() => {
     if (window.innerWidth > 576) setIsOpened(true);
+    syncHeight();
+    window.addEventListener('resize', syncHeight);
+    return () => window.removeEventListener('resize', syncHeight);
   }, []);
 
   return (

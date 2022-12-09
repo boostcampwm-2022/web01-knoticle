@@ -4,7 +4,7 @@ import { Flex, FlexColumn } from '@styles/layout';
 
 export const ArticleContainer = styled(Flex)`
   flex: 1;
-  height: calc(100vh - 67px);
+  height: calc(var(--window-inner-height) - 67px);
 `;
 export const ArticleLeftBtn = styled.div`
   position: fixed;
@@ -57,6 +57,7 @@ export const ArticleTitleBtnBox = styled(Flex)`
   margin-top: 16px;
   border-top: 1px solid var(--grey-02-color);
   padding-top: 10px;
+  margin-bottom: 30px;
 `;
 export const ArticleContents = styled.div`
   margin-top: 20px;

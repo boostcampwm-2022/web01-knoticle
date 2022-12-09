@@ -52,7 +52,7 @@ export const TocContainer = styled.div`
   padding: 24px;
   margin-top: 10px;
   overflow: auto;
-  height: calc(100vh - 357px);
+  height: calc(var(--window-inner-height) - 357px);
 
   ::-webkit-scrollbar {
     width: 10px;
