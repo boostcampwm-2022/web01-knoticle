@@ -4,7 +4,7 @@ import { FlexCenter } from '@styles/layout';
 
 export const ClosedSideBarWrapper = styled.div`
   min-width: 30px;
-  height: calc(100vh - 67px);
+  height: calc(var(--window-inner-height) - 67px);
   background-color: var(--primary-color);
 `;
 

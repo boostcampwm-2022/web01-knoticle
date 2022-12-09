@@ -17,7 +17,7 @@ import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
-import { Flex } from '@styles/layout';
+import { Flex, PageNoScrollWrapper } from '@styles/layout';
 
 interface ViewerProps {
   article: IArticleBook;
@@ -64,12 +64,19 @@ export default function Viewer({ article }: ViewerProps) {
     if (!checkArticleAuthority(book, article.id)) router.push('/404');
   }, [book]);
 
+  const syncHeight = () => {
+    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
+  };
+
   useEffect(() => {
     if (window.innerWidth > 576) setIsOpened(true);
+    syncHeight();
+    window.addEventListener('resize', syncHeight);
+    return () => window.removeEventListener('resize', syncHeight);
   }, []);
 
   return (
-    <>
+    <PageNoScrollWrapper>
       {article && <ViewerHead articleTitle={article.title} articleContent={article.content} />}
       <GNB />
       {book && article ? (
@@ -99,7 +106,7 @@ export default function Viewer({ article }: ViewerProps) {
           <ScrapModal books={userBooks} handleModalClose={handleModalClose} article={article} />
         </Modal>
       )}
-    </>
+    </PageNoScrollWrapper>
   );
 }
 
