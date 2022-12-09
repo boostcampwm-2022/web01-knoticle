@@ -17,7 +17,7 @@ import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
-import { Flex } from '@styles/layout';
+import { Flex, PageNoScrollWrapper } from '@styles/layout';
 
 interface ViewerProps {
   book: IBookScraps;
@@ -68,7 +68,7 @@ export default function Viewer({ book, article }: ViewerProps) {
   }, []);
 
   return (
-    <>
+    <PageNoScrollWrapper>
       <ViewerHead articleTitle={article.title} articleContent={article.content} />
       <GNB />
       {book && article ? (
@@ -98,7 +98,7 @@ export default function Viewer({ book, article }: ViewerProps) {
           <ScrapModal books={userBooks} handleModalClose={handleModalClose} article={article} />
         </Modal>
       )}
-    </>
+    </PageNoScrollWrapper>
   );
 }
 

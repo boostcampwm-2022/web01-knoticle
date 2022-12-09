@@ -17,7 +17,7 @@ const slide = keyframes`
 export const TocWrapper = styled(Flex)`
   /* 고정크기? %? */
   flex-basis: 300px;
-  height: calc(100vh - 67px);
+  height: calc(var(--window-inner-height) - 67px);
   overflow: hidden;
   background-color: var(--primary-color);
   color: var(--white-color);
