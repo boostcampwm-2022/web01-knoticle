@@ -6,8 +6,13 @@ import { FlexCenter, FlexColumn, FlexSpaceBetween } from '@styles/layout';
 
 export const SliderWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
+
+  @media ${(props) => props.theme.mobile} {
+    gap: 0;
+  }
 `;
 
 export const SliderContent = styled(FlexColumn)<{ numberPerPage: number }>`
