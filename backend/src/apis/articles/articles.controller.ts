@@ -4,6 +4,7 @@ import { SearchArticles } from '@apis/articles/articles.interface';
 import articlesService from '@apis/articles/articles.service';
 import { IScrap } from '@apis/scraps/scraps.interface';
 import scrapsService from '@apis/scraps/scraps.service';
+import { Forbidden, Message } from '@errors';
 
 const searchArticles = async (req: Request, res: Response) => {
   const { query, page, take, userId } = req.query as unknown as SearchArticles;
@@ -22,6 +23,8 @@ const getArticle = async (req: Request, res: Response) => {
 
 const createArticle = async (req: Request, res: Response) => {
   const { article, scraps } = req.body;
+
+  if (!article.title.length) throw new Forbidden(Message.ARTICLE_INVALID_TITLE);
 
   const createdArticle = await articlesService.createArticle({
     title: article.title,
@@ -48,6 +51,8 @@ const createArticle = async (req: Request, res: Response) => {
 
 const updateArticle = async (req: Request, res: Response) => {
   const { article, scraps } = req.body;
+
+  if (!article.title.length) throw new Forbidden(Message.ARTICLE_INVALID_TITLE);
 
   const articleId = Number(req.params.articleId);
 
