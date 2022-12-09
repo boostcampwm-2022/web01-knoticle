@@ -25,6 +25,12 @@ export const LogoWrapper = styled(FlexCenter)`
   left: 0;
   right: 0;
   margin: auto;
+
+  @media ${(props) => props.theme.mobile} {
+    left: 0;
+    right: none;
+    margin-left: 30px;
+  }
 `;
 
 export const Logo = styled(Link)`
