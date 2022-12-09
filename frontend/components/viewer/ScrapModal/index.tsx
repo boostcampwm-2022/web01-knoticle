@@ -2,10 +2,12 @@ import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { getUserKnottedBooksApi } from '@apis/bookApi';
 import { createScrapApi } from '@apis/scrapApi';
 import scrapState from '@atoms/scrap';
+import signInStatusState from '@atoms/signInStatus';
 import DragArticle from '@components/common/DragDrop';
 import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
@@ -15,15 +17,18 @@ import { IBook, IArticle, IScrap, IBookScraps } from '@interfaces';
 import { ArticleWrapper, Label, ScrapModalWrapper, WarningLabel } from './styled';
 
 interface ScrapModalProps {
-  books: IBookScraps[];
   handleModalClose: () => void;
   article: IArticle;
 }
 
-export default function ScrapModal({ books, handleModalClose, article }: ScrapModalProps) {
+export default function ScrapModal({ handleModalClose, article }: ScrapModalProps) {
   const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const { data: createScrapData, execute: createScrap } = useFetch(createScrapApi);
+  const { data: books, execute: getUserKnottedBooks } =
+    useFetch<IBookScraps[]>(getUserKnottedBooksApi);
+
+  const user = useRecoilValue(signInStatusState);
 
   const [scrapList, setScrapList] = useRecoilState(scrapState);
 
@@ -55,11 +60,21 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
     return items.some((item) => item.article.id === articleId);
   };
 
-  useEffect(() => {
+  const handleScrapBtnClick = () => {
     if (selectedBookIndex === -1) return;
 
+    const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
+
+    createScrap({ book_id: selectedBookIndex, article_id: article.id, scraps });
+  };
+  useEffect(() => {
+    getUserKnottedBooks(user.nickname);
+  }, [user.nickname]);
+
+  useEffect(() => {
+    if (selectedBookIndex === -1 || !books) return;
+
     const selectedBook = books.find((book) => book.id === selectedBookIndex);
-    console.log(books);
 
     if (!selectedBook || checkArticleExistsInBook(article.id, selectedBook.scraps)) {
       setSelectedBookIndex(-1);
@@ -78,14 +93,6 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
     setScrapList(createScrapDropdownItems(filteredScraps));
   }, [filteredScraps]);
 
-  const handleScrapBtnClick = () => {
-    if (selectedBookIndex === -1) return;
-
-    const scraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
-
-    createScrap({ book_id: selectedBookIndex, article_id: article.id, scraps });
-  };
-
   useEffect(() => {
     if (createScrapData === undefined) return;
     router.push(`/viewer/${selectedBookIndex}/${article.id}`);
@@ -95,12 +102,14 @@ export default function ScrapModal({ books, handleModalClose, article }: ScrapMo
   return (
     <ScrapModalWrapper>
       <Label>책 선택</Label>
-      <Dropdown
-        label="글이 담길 책을 선택해주세요."
-        items={createBookDropdownItems(books)}
-        selectedId={selectedBookIndex}
-        handleItemSelect={(id) => setSelectedBookIndex(id)}
-      />
+      {books && (
+        <Dropdown
+          label="글이 담길 책을 선택해주세요."
+          items={createBookDropdownItems(books)}
+          selectedId={selectedBookIndex}
+          handleItemSelect={(id) => setSelectedBookIndex(id)}
+        />
+      )}
       {isSelectedBookUnavailable && (
         <WarningLabel>선택하신 책에 이미 동일한 글이 존재합니다.</WarningLabel>
       )}

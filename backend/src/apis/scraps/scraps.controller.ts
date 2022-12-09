@@ -20,7 +20,7 @@ const createScrap = async (req: Request, res: Response) => {
     }
   });
 
-  return res.status(201).send();
+  return res.status(201).send({ book_id, article_id });
 };
 
 const deleteScrap = async (req: Request, res: Response) => {

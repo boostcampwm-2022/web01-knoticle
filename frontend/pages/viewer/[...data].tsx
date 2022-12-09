@@ -25,9 +25,6 @@ interface ViewerProps {
 }
 
 export default function Viewer({ book, article }: ViewerProps) {
-  const { data: userBooks, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
-
-  const user = useRecoilValue(signInStatusState);
   const router = useRouter();
 
   const [isOpened, setIsOpened] = useState(false);
@@ -40,11 +37,6 @@ export default function Viewer({ book, article }: ViewerProps) {
   const handleSideBarToggle = () => {
     setIsOpened((prev) => !prev);
   };
-
-  useEffect(() => {
-    // 스크랩이 완료되면 해당 부분이 실행되도록 해야함!
-    getUserKnottedBooks(user.nickname);
-  }, [user.nickname]);
 
   const checkArticleAuthority = (id: number) => {
     if (book.scraps.find((scrap) => scrap.article.id === id)) {
@@ -88,7 +80,7 @@ export default function Viewer({ book, article }: ViewerProps) {
       )}
       {isModalShown && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
-          <ScrapModal books={userBooks} handleModalClose={handleModalClose} article={article} />
+          <ScrapModal handleModalClose={handleModalClose} article={article} />
         </Modal>
       )}
     </>
