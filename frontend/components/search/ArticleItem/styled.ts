@@ -25,6 +25,7 @@ export const ItemTitle = styled(TextMedium)`
 `;
 
 export const ItemContent = styled(TextSmall)`
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
