@@ -31,10 +31,17 @@ interface ArticleProps {
   article: IArticleBook;
   scraps: IScrap[];
   bookId: number;
+  bookAuthor: string;
   handleScrapBtnClick: () => void;
 }
 
-export default function Article({ article, scraps, bookId, handleScrapBtnClick }: ArticleProps) {
+export default function Article({
+  article,
+  scraps,
+  bookId,
+  bookAuthor,
+  handleScrapBtnClick,
+}: ArticleProps) {
   const user = useRecoilValue(signInStatusState);
 
   const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
