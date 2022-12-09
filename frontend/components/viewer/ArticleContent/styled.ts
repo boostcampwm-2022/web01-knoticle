@@ -45,11 +45,13 @@ export const ArticleMain = styled(Flex)`
     padding: 50px 16px;
   }
 `;
-export const ArticleTitle = styled.div`
+export const ArticleTitle = styled.h1`
   width: 100%;
   border-bottom: 1px solid black;
   padding: 25px 0;
   text-align: left;
+  font-size: 24px;
+  font-weight: 700;
 `;
 export const ArticleTitleBtnBox = styled(Flex)`
   flex-wrap: wrap;
