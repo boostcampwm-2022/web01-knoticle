@@ -18,6 +18,8 @@ import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex } from '@styles/layout';
+import { html2markdown } from '@utils/parser';
+import articleToc from '@utils/toc';
 
 interface ViewerProps {
   book: IBookScraps;
@@ -66,7 +68,12 @@ export default function Viewer({ book, article }: ViewerProps) {
       {book && article ? (
         <Flex>
           {isOpened ? (
-            <TOC book={book} articleId={article.id} handleSideBarOnClick={handleSideBarToggle} />
+            <TOC
+              book={book}
+              articleToc={articleToc(article.content)}
+              articleId={article.id}
+              handleSideBarOnClick={handleSideBarToggle}
+            />
           ) : (
             <ClosedSideBar handleSideBarOnClick={handleSideBarToggle} />
           )}

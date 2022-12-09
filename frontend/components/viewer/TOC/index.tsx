@@ -19,16 +19,21 @@ import {
   TocProfileText,
   TocImgWrapper,
   TocArticle,
+  TocArticleTitle,
 } from './styled';
 
 interface TocProps {
   // book 객체에 대한 interface 추가 예정
   articleId: number;
+  articleToc: {
+    title: string;
+    count: number;
+  }[];
   book: IBookScraps;
   handleSideBarOnClick: () => void;
 }
 
-export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps) {
+export default function TOC({ articleId, articleToc, book, handleSideBarOnClick }: TocProps) {
   const { id, title, user, scraps, _count, bookmarks } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
     bookmarks.length ? bookmarks[0].id : null,
@@ -62,6 +67,16 @@ export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps)
                   className={v.article.id === articleId ? 'current' : ''}
                 >
                   {v.order}.{v.article.title}
+                  {v.article.id === articleId &&
+                    articleToc.map((article, idx) => (
+                      <TocArticleTitle
+                        href={`#${article.title}`}
+                        key={article.title}
+                        count={article.count}
+                      >
+                        {article.title}
+                      </TocArticleTitle>
+                    ))}
                 </TocArticle>
               );
             })}

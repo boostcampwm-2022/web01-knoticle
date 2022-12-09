@@ -79,6 +79,15 @@ export const TocArticle = styled(Link)`
     color: #ca7647;
   }
 `;
+export const TocArticleTitle = styled(Link)<{ count: number }>`
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: none;
+  color: #c29880;
+  display: block;
+  margin-bottom: 5px;
+  padding-left: ${(props) => `${props.count}px`};
+`;
 
 export const TocProfile = styled(Link)`
   display: flex;
