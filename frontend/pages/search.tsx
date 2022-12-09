@@ -173,7 +173,7 @@ export default function Search() {
     });
 
     if (bookPage.pageNumber === 2) setBooks(newBooksHighlighted);
-    setBooks(books.concat(newBooksHighlighted));
+    else setBooks(books.concat(newBooksHighlighted));
 
     setBookPage({
       ...bookPage,
