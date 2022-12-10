@@ -29,7 +29,7 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
 
   const [article, setArticle] = useRecoilState(articleState);
 
-  const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
+  const [selectedBookIndex, setSelectedBookIndex] = useState(originalBookId);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const [scrapList, setScrapList] = useRecoilState(scrapState);
 
