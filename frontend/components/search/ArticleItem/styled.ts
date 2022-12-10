@@ -22,9 +22,15 @@ export const ItemGroup = styled.div`
 
 export const ItemTitle = styled(TextMedium)`
   margin-bottom: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 `;
 
 export const ItemContent = styled(TextSmall)`
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

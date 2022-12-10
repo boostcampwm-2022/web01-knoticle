@@ -115,9 +115,7 @@ export default function Article({
       {!article.deleted_at ? (
         <ArticleMain>
           <ArticleContentsWrapper>
-            <ArticleTitle>
-              <TextLarge>{article.title}</TextLarge>
-            </ArticleTitle>
+            <ArticleTitle>{article.title}</ArticleTitle>
             <Content content={article.content} />
           </ArticleContentsWrapper>
 

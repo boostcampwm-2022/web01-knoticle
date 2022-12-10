@@ -40,6 +40,11 @@ export const ContentBody = styled.div`
     margin: 16px 0 8px 0;
   }
 
+  ol,
+  ul {
+    padding-left: 16px;
+  }
+
   ol {
     list-style-type: decimal;
   }
