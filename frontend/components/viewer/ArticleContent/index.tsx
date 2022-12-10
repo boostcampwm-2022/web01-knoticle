@@ -35,7 +35,7 @@ interface ArticleProps {
   bookId: number;
   bookAuthor: string;
   handleScrapBtnClick: () => void;
-  setIsScrollDown: Dispatch<SetStateAction<string>>;
+  setIsScrollDown: Dispatch<SetStateAction<'true' | 'false'>>;
 }
 
 export default function Article({

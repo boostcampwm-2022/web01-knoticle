@@ -48,7 +48,7 @@ export const ArticleMain = styled(Flex)`
   }
 
   @media ${(props) => props.theme.mobile} {
-    padding: 80px 16px 32px 16px;
+    padding: 112px 16px 32px 16px;
   }
 `;
 export const ArticleTitle = styled.h1`

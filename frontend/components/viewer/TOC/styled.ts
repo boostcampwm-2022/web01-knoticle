@@ -30,10 +30,15 @@ export const TocWrapper = styled(FlexColumnSpaceBetween)<TocWrapperProps>`
   }
 `;
 
-export const TocOpenButton = styled.button`
+export const TocOpenButton = styled.button<{ isscrolldown: 'true' | 'false' }>`
   position: absolute;
   margin-top: 24px;
   z-index: 0;
+
+  @media ${(props) => props.theme.mobile} {
+    top: ${(props) => (props.isscrolldown === 'true' ? '-127px' : '60px')};
+    transition: top 0.2s ease-in-out;
+  }
 `;
 
 export const TocSideBar = styled.div`

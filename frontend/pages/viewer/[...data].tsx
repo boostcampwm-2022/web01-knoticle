@@ -67,7 +67,7 @@ export default function Viewer({ article }: ViewerProps) {
     if (!checkArticleAuthority(book, article.id)) router.push('/404');
   }, [book]);
 
-  const [isScrollDown, setIsScrollDown] = useState('false');
+  const [isScrollDown, setIsScrollDown] = useState<'true' | 'false'>('false');
 
   return (
     <PageNoScrollWrapper>
@@ -82,6 +82,7 @@ export default function Viewer({ article }: ViewerProps) {
             articleId={article.id}
             isOpen={isSideBarOpen}
             handleSideBarToggle={handleSideBarToggle}
+            isscrolldown={isScrollDown}
           />
 
           {book.scraps.find((scrap) => scrap.article.id === article.id) ? (
