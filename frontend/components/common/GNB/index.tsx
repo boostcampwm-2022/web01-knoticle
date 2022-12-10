@@ -35,13 +35,15 @@ export default function GNB() {
         <Logo href="/">knoticle</Logo>
       </LogoWrapper>
       <IconsContainer>
-        <Link href="/editor">
-          <Icon
-            src={ArticleIcon}
-            alt="Article Icon"
-            isvisible={(signInStatus.id !== 0).toString()}
-          />
-        </Link>
+        {signInStatus.id !== 0 && (
+          <Link href="/editor">
+            <Icon
+              src={ArticleIcon}
+              alt="Article Icon"
+              isvisible={(signInStatus.id !== 0).toString()}
+            />
+          </Link>
+        )}
 
         {signInStatus.id !== 0 ? (
           <Link href={`/study/${signInStatus.nickname}`}>
