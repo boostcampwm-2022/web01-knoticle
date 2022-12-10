@@ -107,11 +107,6 @@ export default function Article({
 
   return (
     <ArticleContainer>
-      {article.id === scraps.at(0)?.article.id ? null : (
-        <ArticleLeftBtn onClick={handleLeftBtnOnClick}>
-          <Image src={LeftBtnIcon} width={24} height={24} alt="Left Arrow Icon" />
-        </ArticleLeftBtn>
-      )}
       {!article.deleted_at ? (
         <ArticleMain>
           <ArticleContentsWrapper>
@@ -147,6 +142,11 @@ export default function Article({
         <ArticleMain>삭제된 글입니다.</ArticleMain>
       )}
 
+      {article.id === scraps.at(0)?.article.id ? null : (
+        <ArticleLeftBtn onClick={handleLeftBtnOnClick}>
+          <Image src={LeftBtnIcon} width={24} height={24} alt="Left Arrow Icon" />
+        </ArticleLeftBtn>
+      )}
       {article.id === scraps.at(-1)?.article.id ? null : (
         <ArticleRightBtn onClick={handleRightBtnOnClick}>
           <Image src={RightBtnIcon} width={24} height={24} alt="Right Arrow Icon" />

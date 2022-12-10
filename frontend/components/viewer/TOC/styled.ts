@@ -26,6 +26,7 @@ export const TocWrapper = styled(FlexColumnSpaceBetween)<TocWrapperProps>`
     position: absolute;
     z-index: 5;
     width: ${(props) => (props.isOpen ? '100%' : '0')};
+    height: calc(var(--window-inner-height));
   }
 `;
 
@@ -63,6 +64,10 @@ export const TocContainer = styled.div`
   ::-webkit-scrollbar-thumb {
     background-color: var(--grey-02-color);
     border-radius: 10px;
+  }
+
+  @media ${(props) => props.theme.mobile} {
+    height: calc(var(--window-inner-height)-290px);
   }
 `;
 

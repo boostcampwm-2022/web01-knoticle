@@ -5,6 +5,9 @@ import { Flex, FlexColumn } from '@styles/layout';
 export const ArticleContainer = styled(Flex)`
   flex: 1;
   height: calc(var(--window-inner-height) - 67px);
+  @media ${(props) => props.theme.mobile} {
+    height: calc(var(--window-inner-height));
+  }
 `;
 export const ArticleLeftBtn = styled.div`
   position: fixed;
