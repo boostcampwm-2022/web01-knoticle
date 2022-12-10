@@ -4,10 +4,10 @@ import Bookmark from '@assets/ico_bookmark.svg';
 import BookmarkFilled from '@assets/ico_bookmark_white_filled.svg';
 import Hide from '@assets/ico_hide.svg';
 import Open from '@assets/ico_open.svg';
-import SampleProflie from '@assets/ico_sampleProfile.svg';
 import useBookmark from '@hooks/useBookmark';
 import { IBookScraps } from '@interfaces';
 import { TextMedium, TextSmall } from '@styles/common';
+import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
 
 import {
   TocWrapper,
@@ -42,16 +42,20 @@ export default function TOC({ articleId, book, isOpen, handleSideBarToggle }: To
     <>
       <TocWrapper isOpen={isOpen}>
         <TocSideBar>
-          <TocIcons>
-            <Image
-              src={curBookmarkId ? BookmarkFilled : Bookmark}
-              alt="Filled Bookmark Icon"
-              onClick={handleBookmarkClick}
-            />
-
+          <FlexSpaceBetween>
+            <FlexCenter style={{ gap: 8 }}>
+              <TocIcons>
+                <Image
+                  src={curBookmarkId ? BookmarkFilled : Bookmark}
+                  alt="Filled Bookmark Icon"
+                  onClick={handleBookmarkClick}
+                />
+              </TocIcons>
+              <TextSmall>{curBookmarkCnt}</TextSmall>
+            </FlexCenter>
             <Image src={Hide} alt="Closed Sidebar Icon" onClick={handleSideBarToggle} />
-          </TocIcons>
-          <TextSmall>{curBookmarkCnt}</TextSmall>
+          </FlexSpaceBetween>
+
           <TocTitle>{title}</TocTitle>
 
           <TocContainer>
@@ -73,10 +77,10 @@ export default function TOC({ articleId, book, isOpen, handleSideBarToggle }: To
         </TocSideBar>
         <TocProfile href={`/study/${user.nickname}`}>
           <TocProfileText>
-            <TextSmall>Written by</TextSmall>
+            <TextSmall>Knotted by</TextSmall>
             <TextMedium>{user.nickname}</TextMedium>
           </TocProfileText>
-          <TocImgWrapper src={SampleProflie} alt="Viewer Icon" />
+          <TocImgWrapper src={user.profile_image} width={70} height={70} alt="Viewer Icon" />
         </TocProfile>
       </TocWrapper>
 
