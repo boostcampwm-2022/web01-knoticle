@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useEffect } from 'react';
+import { Dispatch, RefObject, SetStateAction, useEffect, useRef } from 'react';
 
 import { useRecoilValue } from 'recoil';
 
@@ -14,8 +14,8 @@ import Scrap from '@assets/ico_scrap.svg';
 import signInStatusState from '@atoms/signInStatus';
 import Content from '@components/common/Content';
 import useFetch from '@hooks/useFetch';
+import useScrollDetector from '@hooks/useScrollDetector';
 import { IArticleBook, IScrap } from '@interfaces';
-import { TextLarge } from '@styles/common';
 
 import ArticleButton from './Button';
 import {
@@ -34,6 +34,7 @@ interface ArticleProps {
   bookId: number;
   bookAuthor: string;
   handleScrapBtnClick: () => void;
+  setIsScrollDown: Dispatch<SetStateAction<string>>;
 }
 
 export default function Article({
@@ -42,6 +43,7 @@ export default function Article({
   bookId,
   bookAuthor,
   handleScrapBtnClick,
+  setIsScrollDown,
 }: ArticleProps) {
   const user = useRecoilValue(signInStatusState);
 
@@ -105,10 +107,17 @@ export default function Article({
     router.push('/');
   }, [updateScrapsData]);
 
+  const scrollTarget = useRef() as RefObject<HTMLDivElement>;
+  const isScrollDown = useScrollDetector(scrollTarget, 5);
+
+  useEffect(() => {
+    setIsScrollDown(isScrollDown ? 'true' : 'false');
+  }, [isScrollDown]);
+
   return (
     <ArticleContainer>
       {!article.deleted_at ? (
-        <ArticleMain>
+        <ArticleMain ref={scrollTarget}>
           <ArticleContentsWrapper>
             <ArticleTitle>{article.title}</ArticleTitle>
             <Content content={article.content} />

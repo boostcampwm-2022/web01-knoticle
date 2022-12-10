@@ -13,7 +13,7 @@ import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
-import { Flex, PageNoScrollWrapper } from '@styles/layout';
+import { Flex, PageGNBHide, PageNoScrollWrapper } from '@styles/layout';
 
 interface ViewerProps {
   article: IArticleBook;
@@ -67,10 +67,14 @@ export default function Viewer({ article }: ViewerProps) {
     if (!checkArticleAuthority(book, article.id)) router.push('/404');
   }, [book]);
 
+  const [isScrollDown, setIsScrollDown] = useState('false');
+
   return (
     <PageNoScrollWrapper>
       {article && <ViewerHead articleTitle={article.title} articleContent={article.content} />}
-      <GNB />
+      <PageGNBHide isscrolldown={isScrollDown}>
+        <GNB />
+      </PageGNBHide>
       {book && article ? (
         <Flex>
           <TOC
@@ -87,6 +91,7 @@ export default function Viewer({ article }: ViewerProps) {
               bookId={book.id}
               bookAuthor={book.user.nickname}
               handleScrapBtnClick={handleModalOpen}
+              setIsScrollDown={setIsScrollDown}
             />
           ) : (
             <div>올바르지 않은 접근입니다.</div>
