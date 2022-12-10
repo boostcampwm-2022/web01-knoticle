@@ -92,10 +92,8 @@ export const ListItem = memo(function Scrap({
           deletedScraps: [...editInfo.deletedScraps, scrapId],
         });
         setScraps(scraps.filter((v) => v.article.id !== id));
-        return;
       }
-    }
-    if (window.confirm('글을 책에서 삭제하시겠습니까?')) {
+    } else if (window.confirm('글을 책에서 삭제하시겠습니까?')) {
       setEditInfo({
         ...editInfo,
         deletedScraps: [...editInfo.deletedScraps, scrapId],
