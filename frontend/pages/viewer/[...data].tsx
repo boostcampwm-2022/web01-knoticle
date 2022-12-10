@@ -35,9 +35,7 @@ export default function Viewer({ article }: ViewerProps) {
   };
 
   const checkArticleAuthority = (targetBook: IBookScraps, id: number) => {
-    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) {
-      return true;
-    }
+    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) return true;
     return false;
   };
 
@@ -71,7 +69,7 @@ export default function Viewer({ article }: ViewerProps) {
     <PageNoScrollWrapper>
       {article && <ViewerHead articleTitle={article.title} articleContent={article.content} />}
       <GNB />
-      {book && article ? (
+      {book && article && (
         <Flex>
           <TOC
             book={book}
@@ -80,7 +78,7 @@ export default function Viewer({ article }: ViewerProps) {
             handleSideBarToggle={handleSideBarToggle}
           />
 
-          {book.scraps.find((scrap) => scrap.article.id === article.id) ? (
+          {book.scraps.find((scrap) => scrap.article.id === article.id) && (
             <ArticleContainer
               article={article}
               scraps={book.scraps}
@@ -88,12 +86,8 @@ export default function Viewer({ article }: ViewerProps) {
               bookAuthor={book.user.nickname}
               handleScrapBtnClick={handleModalOpen}
             />
-          ) : (
-            <div>올바르지 않은 접근입니다.</div>
           )}
         </Flex>
-      ) : (
-        <div>loading</div>
       )}
       {isModalShown && book && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
