@@ -1,38 +1,41 @@
 import styled from 'styled-components';
 
-import { Flex, FlexColumn } from '@styles/layout';
+import { Flex, FlexColumn, FlexSpaceBetween } from '@styles/layout';
 
-export const ArticleContainer = styled(Flex)`
+export const ArticleContainer = styled(FlexColumn)`
   flex: 1;
   height: calc(var(--window-inner-height) - 67px);
   @media ${(props) => props.theme.mobile} {
     height: calc(var(--window-inner-height));
   }
 `;
-export const ArticleLeftBtn = styled.div`
+export const ArticleLeftBtn = styled.div<{ visibility: string }>`
   position: fixed;
   top: 50%;
-  margin-left: 20px;
+  transform: translateX(-36px);
+  visibility: ${(props) => props.visibility};
   cursor: pointer;
 
   @media ${(props) => props.theme.mobile} {
-    top: 97px;
+    transform: translateX(0px);
+    position: static;
   }
 `;
-export const ArticleRightBtn = styled.div`
+export const ArticleRightBtn = styled.div<{ visibility: string }>`
   position: fixed;
   top: 50%;
   right: 25px;
   cursor: pointer;
+  visibility: ${(props) => props.visibility};
 
   @media ${(props) => props.theme.mobile} {
-    top: 97px;
+    position: static;
   }
 `;
 export const ArticleMain = styled(Flex)`
   flex-direction: column;
   width: 100%;
-  padding: 50px;
+  padding: 36px 50px;
   overflow-y: scroll;
   box-sizing: border-box;
 
@@ -45,7 +48,7 @@ export const ArticleMain = styled(Flex)`
   }
 
   @media ${(props) => props.theme.mobile} {
-    padding: 50px 16px;
+    padding: 80px 16px 32px 16px;
   }
 `;
 export const ArticleTitle = styled.h1`
@@ -70,3 +73,5 @@ export const ArticleContents = styled.div`
 `;
 
 export const ArticleContentsWrapper = styled(FlexColumn)``;
+
+export const ArticleMoveBtnContainer = styled(FlexSpaceBetween)``;

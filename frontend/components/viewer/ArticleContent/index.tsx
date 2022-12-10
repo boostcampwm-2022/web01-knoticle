@@ -26,6 +26,7 @@ import {
   ArticleTitle,
   ArticleTitleBtnBox,
   ArticleContentsWrapper,
+  ArticleMoveBtnContainer,
 } from './styled';
 
 interface ArticleProps {
@@ -116,51 +117,57 @@ export default function Article({
 
   return (
     <ArticleContainer>
-      {!article.deleted_at ? (
-        <ArticleMain ref={scrollTarget}>
-          <ArticleContentsWrapper>
-            <ArticleTitle>{article.title}</ArticleTitle>
-            <Content content={article.content} />
-          </ArticleContentsWrapper>
+      <ArticleMain ref={scrollTarget}>
+        {!article.deleted_at ? (
+          <>
+            <ArticleContentsWrapper>
+              <ArticleTitle>{article.title}</ArticleTitle>
+              <Content content={article.content} />
+            </ArticleContentsWrapper>
 
-          <ArticleTitleBtnBox>
-            {article.book_id !== bookId && (
-              <ArticleButton onClick={handleOriginalBtnOnClick}>
-                <Image src={Original} alt="Original Icon" width={20} height={15} />
-                원본 글 보기
-              </ArticleButton>
-            )}
-            {article.book_id === bookId && article.book.user.nickname === user.nickname && (
-              <>
-                <ArticleButton onClick={handleDeleteBtnOnClick}>글 삭제</ArticleButton>
-                <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
-              </>
-            )}
-            {article.book_id !== bookId && bookAuthor === user.nickname && (
-              <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
-            )}
-            {user.id !== 0 && (
-              <ArticleButton onClick={handleScrapBtnClick}>
-                <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
-                스크랩
-              </ArticleButton>
-            )}
-          </ArticleTitleBtnBox>
-        </ArticleMain>
-      ) : (
-        <ArticleMain>삭제된 글입니다.</ArticleMain>
-      )}
+            <ArticleTitleBtnBox>
+              {article.book_id !== bookId && (
+                <ArticleButton onClick={handleOriginalBtnOnClick}>
+                  <Image src={Original} alt="Original Icon" width={20} height={15} />
+                  원본 글 보기
+                </ArticleButton>
+              )}
+              {article.book_id === bookId && article.book.user.nickname === user.nickname && (
+                <>
+                  <ArticleButton onClick={handleDeleteBtnOnClick}>글 삭제</ArticleButton>
+                  <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
+                </>
+              )}
+              {article.book_id !== bookId && bookAuthor === user.nickname && (
+                <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
+              )}
+              {user.id !== 0 && (
+                <ArticleButton onClick={handleScrapBtnClick}>
+                  <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
+                  스크랩
+                </ArticleButton>
+              )}
+            </ArticleTitleBtnBox>
+          </>
+        ) : (
+          <div>삭제된 글입니다.</div>
+        )}
 
-      {article.id === scraps.at(0)?.article.id ? null : (
-        <ArticleLeftBtn onClick={handleLeftBtnOnClick}>
-          <Image src={LeftBtnIcon} width={24} height={24} alt="Left Arrow Icon" />
-        </ArticleLeftBtn>
-      )}
-      {article.id === scraps.at(-1)?.article.id ? null : (
-        <ArticleRightBtn onClick={handleRightBtnOnClick}>
-          <Image src={RightBtnIcon} width={24} height={24} alt="Right Arrow Icon" />
-        </ArticleRightBtn>
-      )}
+        <ArticleMoveBtnContainer>
+          <ArticleLeftBtn
+            onClick={handleLeftBtnOnClick}
+            visibility={article.id === scraps.at(0)?.article.id ? 'hidden' : 'visible'}
+          >
+            <Image src={LeftBtnIcon} width={24} height={24} alt="Left Arrow Icon" />
+          </ArticleLeftBtn>
+          <ArticleRightBtn
+            onClick={handleRightBtnOnClick}
+            visibility={article.id === scraps.at(-1)?.article.id ? 'hidden' : 'visible'}
+          >
+            <Image src={RightBtnIcon} width={24} height={24} alt="Right Arrow Icon" />
+          </ArticleRightBtn>
+        </ArticleMoveBtnContainer>
+      </ArticleMain>
     </ArticleContainer>
   );
 }
