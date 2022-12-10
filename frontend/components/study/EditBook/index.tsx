@@ -6,7 +6,6 @@ import { useRecoilState } from 'recoil';
 
 import { createImageApi } from '@apis/imageApi';
 import Edit from '@assets/ico_edit.svg';
-import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import curKnottedBookListState from '@atoms/curKnottedBookList';
 import editInfoState from '@atoms/editInfo';
 import scrapState from '@atoms/scrap';
@@ -29,8 +28,10 @@ import {
   EditBookWapper,
   EditBookThumbnailWrapper,
   EditBookThumbnailIcon,
-  MoreContentsIconWrapper,
+  EditArticle,
   DragArticleWrapper,
+  ContentsWrapper,
+  DragArticleText,
 } from './styled';
 
 interface BookProps {
@@ -141,15 +142,18 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
           )}
 
           <BookContentsInfo>
-            <BookContent>Contents</BookContent>
+            <ContentsWrapper>
+              <BookContent>Contents</BookContent>
+              <EditArticle onClick={handleContentsOnClick}>수정</EditArticle>
+            </ContentsWrapper>
             <DragArticleWrapper isContentsShown={isContentsShown}>
               <DragArticle data={scraps} isContentsShown={isContentsShown} isDeleteBtnShown />
             </DragArticleWrapper>
+            {isContentsShown && (
+              <DragArticleText>드래그앤드롭으로 글의 순서를 변경할 수 있습니다.</DragArticleText>
+            )}
           </BookContentsInfo>
         </BookInfoContainer>
-        <MoreContentsIconWrapper onClick={handleContentsOnClick}>
-          <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
-        </MoreContentsIconWrapper>
       </BookWrapper>
       <Button theme="primary" onClick={handleCompletedBtnClick}>
         수정 완료
