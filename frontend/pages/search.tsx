@@ -142,18 +142,15 @@ export default function Search() {
     setIsArticleNoResult(false);
 
     const newArticlesHighlighted = newArticles.data.map((article: IArticle) => {
-      const keywords = debouncedKeyword.trim().split(' ');
+      const keywords = debouncedKeyword
+        .trim()
+        .split(' ')
+        .filter((word: string) => word);
 
       return {
         ...article,
         title: highlightWord(article.title, keywords),
-        content: highlightWord(
-          // article.content.replace(/(<([^>]+)>)/gi, ''),
-          // article.content.slice(0, 400).replace(/(<([^>]+)>)/gi, ''),
-          article.content,
-          keywords,
-          true
-        ),
+        content: highlightWord(article.content, keywords, true),
       };
     });
 
@@ -178,7 +175,10 @@ export default function Search() {
     setIsBookNoResult(false);
 
     const newBooksHighlighted = newBooks.data.map((book: IBook) => {
-      const keywords = debouncedKeyword.trim().split(' ');
+      const keywords = debouncedKeyword
+        .trim()
+        .split(' ')
+        .filter((word: string) => word);
 
       return {
         ...book,
