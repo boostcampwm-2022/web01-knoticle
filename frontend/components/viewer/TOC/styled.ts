@@ -1,35 +1,38 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-import { Flex } from '@styles/layout';
+import { Flex, FlexColumnSpaceBetween } from '@styles/layout';
 
-const slide = keyframes`
-0% {
-    width:0px;
+interface TocWrapperProps {
+  isOpen: boolean;
 }
-100% {
-    width:250px;
-}
-`;
 
-export const TocWrapper = styled(Flex)`
-  /* 고정크기? %? */
-  flex-basis: 300px;
+export const TocWrapper = styled(FlexColumnSpaceBetween)<TocWrapperProps>`
+  flex-basis: ${(props) => (props.isOpen ? '300px' : '0')};
   height: calc(var(--window-inner-height) - 67px);
-  overflow: hidden;
-  background-color: var(--primary-color);
   color: var(--white-color);
-  flex-direction: column;
-  justify-content: space-between;
-  // animation: ${slide} 1s ease-in-out;
+  background-color: var(--primary-color);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  z-index: 100;
+
+  * {
+    white-space: nowrap;
+  }
 
   @media ${(props) => props.theme.mobile} {
     position: absolute;
     z-index: 5;
-    width: 100%;
+    width: ${(props) => (props.isOpen ? '100%' : '0')};
   }
+`;
+
+export const TocOpenButton = styled.button`
+  position: absolute;
+  margin-top: 24px;
+  z-index: 0;
 `;
 
 export const TocSideBar = styled.div`
