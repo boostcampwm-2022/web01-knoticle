@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 import { useState } from 'react';
@@ -8,13 +9,14 @@ import ArticleIcon from '@assets/ico_article.svg';
 import PersonIcon from '@assets/ico_person.svg';
 import SearchIcon from '@assets/ico_search.svg';
 import signInStatusState from '@atoms/signInStatus';
-import SignInModal from '@components/auth/SignInModal';
-import SignUpModal from '@components/auth/SignUpModal';
-import Modal from '@components/common/Modal';
 
 import { GNBbar, Icon, IconsContainer, Logo, LogoWrapper } from './styled';
 
 export default function GNB() {
+  const Modal = dynamic(() => import('@components/common/Modal'));
+  const SignInModal = dynamic(() => import('@components/auth/SignInModal'));
+  const SignUpModal = dynamic(() => import('@components/auth/SignUpModal'));
+
   const [isModalShown, setModalShown] = useState(false);
   const [currentModalState, setCurrentModalState] = useState<'SignIn' | 'SignUp'>('SignIn');
   const signInStatus = useRecoilValue(signInStatusState);

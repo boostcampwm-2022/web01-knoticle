@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
@@ -6,10 +7,8 @@ import { useEffect, useState } from 'react';
 import { getArticleApi } from '@apis/articleApi';
 import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
-import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
 import ClosedSideBar from '@components/viewer/ClosedSideBar';
-import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
@@ -21,6 +20,9 @@ interface ViewerProps {
 }
 
 export default function Viewer({ article }: ViewerProps) {
+  const Modal = dynamic(() => import('@components/common/Modal'));
+  const ScrapModal = dynamic(() => import('@components/viewer/ScrapModal'));
+
   const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
   const router = useRouter();
 
