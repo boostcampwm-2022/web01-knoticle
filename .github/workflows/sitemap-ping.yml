@@ -11,5 +11,4 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
-        curl https://www.google.com/ping\?sitemap\=https://www.knoticle.app/sitemap.xml
+      - run: curl https://www.google.com/ping\?sitemap\=https://www.knoticle.app/sitemap.xml
