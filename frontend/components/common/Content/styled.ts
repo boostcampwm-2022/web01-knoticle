@@ -40,14 +40,17 @@ export const ContentBody = styled.div`
     margin: 16px 0 8px 0;
   }
 
+  ol,
+  ul {
+    padding-left: 16px;
+  }
+
   ol {
     list-style-type: decimal;
-    list-style-position: inside;
   }
 
   ul {
     list-style-type: disc;
-    list-style-position: inside;
   }
 
   p {
@@ -68,8 +71,6 @@ export const ContentBody = styled.div`
   blockquote {
     margin: 24px 0;
     padding: 24px 16px;
-    /* background-color: var(--light-orange-color); */
-    /* border-radius: 4px; */
     border-left: 8px solid var(--light-orange-color);
   }
 
@@ -90,6 +91,7 @@ export const ContentBody = styled.div`
 
     code {
       padding: 0;
+      white-space: pre-wrap;
     }
   }
 `;

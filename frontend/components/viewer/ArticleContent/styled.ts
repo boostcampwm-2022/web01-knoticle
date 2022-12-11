@@ -4,7 +4,7 @@ import { Flex, FlexColumn } from '@styles/layout';
 
 export const ArticleContainer = styled(Flex)`
   flex: 1;
-  height: calc(100vh - 67px);
+  height: calc(var(--window-inner-height) - 67px);
 `;
 export const ArticleLeftBtn = styled.div`
   position: fixed;
@@ -45,11 +45,13 @@ export const ArticleMain = styled(Flex)`
     padding: 50px 16px;
   }
 `;
-export const ArticleTitle = styled.div`
+export const ArticleTitle = styled.h1`
   width: 100%;
   border-bottom: 1px solid black;
   padding: 25px 0;
   text-align: left;
+  font-size: 24px;
+  font-weight: 700;
 `;
 export const ArticleTitleBtnBox = styled(Flex)`
   flex-wrap: wrap;
@@ -57,6 +59,7 @@ export const ArticleTitleBtnBox = styled(Flex)`
   margin-top: 16px;
   border-top: 1px solid var(--grey-02-color);
   padding-top: 10px;
+  margin-bottom: 30px;
 `;
 export const ArticleContents = styled.div`
   margin-top: 20px;

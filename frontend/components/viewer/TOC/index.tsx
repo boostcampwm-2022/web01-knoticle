@@ -27,7 +27,7 @@ interface TocProps {
   articleId: number;
   articleToc: {
     title: string;
-    count: number;
+    count: number | undefined;
   }[];
   book: IBookScraps;
   handleSideBarOnClick: () => void;

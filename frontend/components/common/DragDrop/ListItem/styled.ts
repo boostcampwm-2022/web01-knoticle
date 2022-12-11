@@ -22,7 +22,8 @@ export const MinusButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background-color: var(--red-color);
 `;

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { deleteArticleApi } from '@apis/articleApi';
+import { deleteScrapApi, updateScrapsOrderApi } from '@apis/scrapApi';
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
@@ -45,6 +46,9 @@ export default function Article({
   const user = useRecoilValue(signInStatusState);
 
   const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
+  const { execute: deleteScrap } = useFetch(deleteScrapApi);
+  const { data: updateScrapsData, execute: updateScrapsOrder } = useFetch(updateScrapsOrderApi);
+
   const router = useRouter();
 
   const handleOriginalBtnOnClick = () => {
@@ -65,13 +69,21 @@ export default function Article({
 
   const handleDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 삭제하시겠습니까?')) {
+      const curScrap = scraps.find((scrap) => scrap.article.id === article.id);
+      deleteScrap(curScrap?.id);
       deleteArticle(article.id);
     }
   };
 
   const handleScrapDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 책에서 삭제하시겠습니까?')) {
-      //
+      const curScrap = scraps.find((scrap) => scrap.article.id === article.id);
+      if (!curScrap) return;
+      const newScraps = scraps
+        .filter((scrap) => scrap.id !== curScrap.id)
+        .map((v, i) => ({ ...v, order: i + 1 }));
+      updateScrapsOrder(newScraps);
+      deleteScrap(curScrap.id);
     }
   };
 
@@ -83,6 +95,16 @@ export default function Article({
     if (deleteArticleData !== undefined) router.push('/');
   }, [deleteArticleData]);
 
+  useEffect(() => {
+    if (updateScrapsData === undefined) return;
+
+    if (updateScrapsData.length !== 0) {
+      router.push(`/viewer/${bookId}/${updateScrapsData[0].article.id}`);
+      return;
+    }
+    router.push('/');
+  }, [updateScrapsData]);
+
   return (
     <ArticleContainer>
       {article.id === scraps.at(0)?.article.id ? null : (
@@ -93,9 +115,7 @@ export default function Article({
       {!article.deleted_at ? (
         <ArticleMain>
           <ArticleContentsWrapper>
-            <ArticleTitle>
-              <TextLarge>{article.title}</TextLarge>
-            </ArticleTitle>
+            <ArticleTitle>{article.title}</ArticleTitle>
             <Content content={article.content} />
           </ArticleContentsWrapper>
 
@@ -112,9 +132,9 @@ export default function Article({
                 <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
               </>
             )}
-            {/* {article.book_id !== bookId && bookAuthor === user.nickname && (
+            {article.book_id !== bookId && bookAuthor === user.nickname && (
               <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
-            )} */}
+            )}
             {user.id !== 0 && (
               <ArticleButton onClick={handleScrapBtnClick}>
                 <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
