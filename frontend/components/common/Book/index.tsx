@@ -25,8 +25,6 @@ interface BookProps {
 }
 
 export default function Book({ book }: BookProps) {
-  console.log(book);
-
   const { id, title, user, scraps } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(book);
 

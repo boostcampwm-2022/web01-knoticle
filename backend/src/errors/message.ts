@@ -7,6 +7,7 @@ export default {
   TOKEN_MALFORMED: '로그인이 필요합니다.',
   BOOK_NOTFOUND: '일치하는 책이 없습니다.',
   BOOK_INVALID_TITLE: '책 제목이 비어있습니다.',
+  BOOKMARK_ALREADY_EXISTS: '이미 북마크된 책입니다',
   BOOKMARK_NOTFOUND: '북마크된 책이 아닙니다.',
   ARTICLE_NOTFOUND: '일치하는 글이 없습니다.',
   ARTICLE_INVALID_TITLE: '글 제목이 비어있습니다.',
