@@ -29,12 +29,8 @@ interface TocProps {
 }
 
 export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps) {
-  const { id, title, user, scraps, _count, bookmarks } = book;
-  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
-    bookmarks.length ? bookmarks[0].id : null,
-    _count.bookmarks,
-    id
-  );
+  const { id, title, user, scraps } = book;
+  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(book);
 
   return (
     <TocWrapper>
