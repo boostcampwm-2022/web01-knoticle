@@ -85,7 +85,7 @@ export const TitleInput = styled.input`
 
 export const CodeMirrorWrapper = styled.div`
   font-size: 16px;
-  height: calc(var(--window-inner-height) - 160px);
+  height: calc(var(--window-inner-height) - 220px);
   overflow: auto;
 
   .cm-editor.cm-focused {
