@@ -34,10 +34,11 @@ export const CodeMirrorWrapper = styled.div`
 `;
 
 export const TitleInput = styled.input`
-  padding-left: 6px;
+  padding: 0;
   width: 100%;
   border: none;
   outline: none;
+  font-family: 'Noto Sans KR';
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 16px;

@@ -8,6 +8,9 @@ export const ContentTitle = styled.h1`
   margin-bottom: 16px;
   font-size: 24px;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  height: 35px;
 `;
 
 export const ContentBody = styled.div`
