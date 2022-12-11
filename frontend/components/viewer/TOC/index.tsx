@@ -45,12 +45,9 @@ export default function TOC({
   isOpen,
   handleSideBarToggle,
 }: TocProps) {
-  const { id, title, user, scraps, _count, bookmarks } = book;
-  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
-    bookmarks.length ? bookmarks[0].id : null,
-    _count.bookmarks,
-    id
-  );
+  const { id, title, user, scraps } = book;
+  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(book);
+
   const [isArticleShown, setIsArticleShown] = useState(true);
 
   const handleCurrentArticle = () => {
