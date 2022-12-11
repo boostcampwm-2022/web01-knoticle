@@ -15,11 +15,6 @@ import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import useSessionStorage from '@hooks/useSessionStorage';
 import { PageInnerSmall, PageWrapperWithHeight } from '@styles/layout';
 
-interface PageInfo {
-  hasNextPage: boolean;
-  pageNumber: number;
-}
-
 export default function Search() {
   const { value: articles, setValue: setArticles } = useSessionStorage('articles', []);
   const { value: books, setValue: setBooks } = useSessionStorage('books', []);
@@ -27,8 +22,14 @@ export default function Search() {
   const { data: newArticles, execute: searchArticles } = useFetch(searchArticlesApi);
   const { data: newBooks, execute: searchBooks } = useFetch(searchBooksApi);
 
-  const { setValue: setScrollTop } = useSessionStorage('scroll', 0);
-  const [initialHeight, setInitialHeight] = useState(0);
+  const { value: articlePage, setValue: setArticlePage } = useSessionStorage('articlePage', {
+    hasNextPage: true,
+    pageNumber: 2,
+  });
+  const { value: bookPage, setValue: setBookPage } = useSessionStorage('bookPage', {
+    hasNextPage: true,
+    pageNumber: 2,
+  });
 
   const {
     value: filter,
@@ -53,20 +54,11 @@ export default function Search() {
 
   const [isInitialRendering, setIsInitialRendering] = useState(true);
 
-  const { value: articlePage, setValue: setArticlePage } = useSessionStorage<PageInfo>(
-    'articlePage',
-    {
-      hasNextPage: true,
-      pageNumber: 2,
-    }
-  );
-  const { value: bookPage, setValue: setBookPage } = useSessionStorage<PageInfo>('bookPage', {
-    hasNextPage: true,
-    pageNumber: 2,
-  });
-
   const [isArticleNoResult, setIsArticleNoResult] = useState(false);
   const [isBookNoResult, setIsBookNoResult] = useState(false);
+
+  const { setValue: setScrollTop } = useSessionStorage('scroll', 0);
+  const [initialHeight, setInitialHeight] = useState(0);
 
   useEffect(() => {
     setKeywords(
@@ -213,6 +205,7 @@ export default function Search() {
       ...filter,
       ...value,
     });
+    if (initialHeight !== 0) setInitialHeight(0);
   };
 
   const handleKeywordOnChange = (e: ChangeEvent<HTMLInputElement>) => {
