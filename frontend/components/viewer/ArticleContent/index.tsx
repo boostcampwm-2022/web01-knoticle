@@ -34,6 +34,7 @@ interface ArticleProps {
   scraps: IScrap[];
   bookId: number;
   bookAuthor: string;
+  articleData: string;
   handleScrapBtnClick: () => void;
   setIsScrollDown: Dispatch<SetStateAction<'true' | 'false'>>;
 }
@@ -43,6 +44,7 @@ export default function Article({
   scraps,
   bookId,
   bookAuthor,
+  articleData,
   handleScrapBtnClick,
   setIsScrollDown,
 }: ArticleProps) {
@@ -122,7 +124,7 @@ export default function Article({
           <>
             <ArticleContentsWrapper>
               <ArticleTitle>{article.title}</ArticleTitle>
-              <Content content={article.content} />
+              <Content content={articleData} />
             </ArticleContentsWrapper>
 
             <ArticleTitleBtnBox>

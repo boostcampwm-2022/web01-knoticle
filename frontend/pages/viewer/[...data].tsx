@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
@@ -6,20 +7,22 @@ import { useEffect, useState } from 'react';
 import { getArticleApi } from '@apis/articleApi';
 import { getBookApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
-import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
-import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex, PageGNBHide, PageNoScrollWrapper } from '@styles/layout';
+import { articleToc, articleConversion } from '@utils/articleConversion';
 
 interface ViewerProps {
   article: IArticleBook;
 }
 
 export default function Viewer({ article }: ViewerProps) {
+  const Modal = dynamic(() => import('@components/common/Modal'));
+  const ScrapModal = dynamic(() => import('@components/viewer/ScrapModal'));
+
   const router = useRouter();
 
   const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
@@ -35,9 +38,7 @@ export default function Viewer({ article }: ViewerProps) {
   };
 
   const checkArticleAuthority = (targetBook: IBookScraps, id: number) => {
-    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) {
-      return true;
-    }
+    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) return true;
     return false;
   };
 
@@ -75,31 +76,29 @@ export default function Viewer({ article }: ViewerProps) {
       <PageGNBHide isscrolldown={isScrollDown}>
         <GNB />
       </PageGNBHide>
-      {book && article ? (
+      {book && article && (
         <Flex>
           <TOC
             book={book}
             articleId={article.id}
+            articleToc={articleToc(article.content)}
             isOpen={isSideBarOpen}
             handleSideBarToggle={handleSideBarToggle}
             isscrolldown={isScrollDown}
           />
 
-          {book.scraps.find((scrap) => scrap.article.id === article.id) ? (
+          {book.scraps.find((scrap) => scrap.article.id === article.id) && (
             <ArticleContainer
               article={article}
               scraps={book.scraps}
               bookId={book.id}
               bookAuthor={book.user.nickname}
+              articleData={articleConversion(article.content)}
               handleScrapBtnClick={handleModalOpen}
               setIsScrollDown={setIsScrollDown}
             />
-          ) : (
-            <div>올바르지 않은 접근입니다.</div>
           )}
         </Flex>
-      ) : (
-        <div>loading</div>
       )}
       {isModalShown && book && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>

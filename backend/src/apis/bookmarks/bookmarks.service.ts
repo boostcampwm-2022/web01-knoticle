@@ -1,7 +1,16 @@
 import { prisma } from '@config/orm.config';
-import { Message, NotFound } from '@errors';
+import { Message, NotFound, ResourceConflict } from '@errors';
 
 const createBookmark = async (user_id: number, book_id: number) => {
+  const bookmark = await prisma.bookmark.findFirst({
+    where: {
+      user_id,
+      book_id,
+    },
+  });
+
+  if (bookmark) throw new ResourceConflict(Message.BOOKMARK_ALREADY_EXISTS);
+
   const { id } = await prisma.bookmark.create({
     data: {
       user_id,
@@ -14,11 +23,13 @@ const createBookmark = async (user_id: number, book_id: number) => {
 
 const deleteBookmark = async (id: number) => {
   try {
-    await prisma.bookmark.delete({
+    const bookmark = await prisma.bookmark.delete({
       where: {
         id,
       },
     });
+
+    return bookmark;
   } catch (err) {
     throw new NotFound(Message.BOOKMARK_NOTFOUND);
   }

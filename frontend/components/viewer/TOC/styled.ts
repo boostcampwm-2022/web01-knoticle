@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import styled from 'styled-components';
 
-import { Flex, FlexColumnSpaceBetween } from '@styles/layout';
+import { Flex, FlexColumn, FlexColumnSpaceBetween } from '@styles/layout';
 
 interface TocWrapperProps {
   isOpen: boolean;
@@ -41,8 +41,10 @@ export const TocOpenButton = styled.button<{ isscrolldown: 'true' | 'false' }>`
   }
 `;
 
-export const TocSideBar = styled.div`
-  padding: 30px 24px 10px 24px;
+export const TocSideBar = styled(FlexColumn)`
+  height: 100%;
+  padding: 24px 24px 0 24px;
+  gap: 8px;
 `;
 
 export const TocIcons = styled(Flex)`
@@ -55,13 +57,13 @@ export const TocTitle = styled.div`
 `;
 
 export const TocContainer = styled.div`
-  background-color: var(--white-color);
-  color: var(--grey-01-color);
-  border-radius: 20px;
-  padding: 24px;
+  flex: 1 1 0;
   margin-top: 10px;
+  padding: 24px;
+  color: var(--grey-01-color);
+  background-color: var(--white-color);
+  border-radius: 16px;
   overflow: auto;
-  height: calc(var(--window-inner-height) - 357px);
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -87,17 +89,30 @@ export const TocArticle = styled(Link)`
   color: inherit;
   display: block;
   margin-bottom: 5px;
+`;
+export const TocCurrentArticle = styled.div`
+  font-size: 14px;
+  line-height: 20px;
+  display: block;
+  margin-bottom: 5px;
 
-  &.current {
-    color: #ca7647;
-  }
+  color: #ca7647;
+`;
+export const TocArticleTitle = styled(Link)<{ count: number | undefined }>`
+  font-size: 14px;
+  line-height: 20px;
+  text-decoration: none;
+  color: #c29880;
+  display: block;
+  margin-bottom: 5px;
+  padding-left: ${(props) => `${props.count}px`};
 `;
 
 export const TocProfile = styled(Link)`
   display: flex;
   justify-content: end;
   align-items: end;
-  padding: 20px;
+  padding: 16px 24px;
   text-decoration: none;
   color: inherit;
 `;
@@ -115,4 +130,5 @@ export const TocImgWrapper = styled(Image)`
   position: relative;
   margin-left: 10px;
   border-radius: 50%;
+  object-fit: cover;
 `;

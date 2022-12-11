@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 
 import { getUserBookmarkedBooksApi, getUserKnottedBooksApi } from '@apis/bookApi';
 import { getUserProfileApi, updateUserProfileApi } from '@apis/userApi';
+import curBookmarkedBookListState from '@atoms/curBookmarkedBookList';
 import curKnottedBookListState from '@atoms/curKnottedBookList';
 import signInStatusState from '@atoms/signInStatus';
 import GNB from '@components/common/GNB';
@@ -37,6 +38,9 @@ export default function Study({ userProfile }: StudyProps) {
 
   const [signInStatus, setSignInStatus] = useRecoilState(signInStatusState);
   const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
+  const [curBookmarkedBookList, setCurBookmarkedBookList] = useRecoilState(
+    curBookmarkedBookListState
+  );
 
   const [curUserProfile, setCurUserProfile] = useState<IUser | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -80,6 +84,12 @@ export default function Study({ userProfile }: StudyProps) {
     setCurKnottedBookList(knottedBookList);
   }, [knottedBookList]);
 
+  useEffect(() => {
+    if (!bookmarkedBookList) return;
+
+    setCurBookmarkedBookList(bookmarkedBookList);
+  }, [bookmarkedBookList]);
+
   return (
     <>
       <StudyHead
@@ -107,7 +117,7 @@ export default function Study({ userProfile }: StudyProps) {
             )}
             <BookListTab
               knottedBookList={curKnottedBookList}
-              bookmarkedBookList={bookmarkedBookList}
+              bookmarkedBookList={curBookmarkedBookList}
               isUserMatched={signInStatus.id === curUserProfile.id}
             />
           </PageInnerLarge>

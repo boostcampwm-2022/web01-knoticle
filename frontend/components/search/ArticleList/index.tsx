@@ -14,6 +14,7 @@ export default function ArticleList({ articles }: ArticleListProps) {
           title={article.title}
           content={article.content}
           nickname={article.book.user.nickname}
+          profileImage={article.book.user.profile_image}
           articleUrl={`/viewer/${article.book.id}/${article.id}`}
           studyUrl={`/study/${article.book.user.nickname}`}
         />
