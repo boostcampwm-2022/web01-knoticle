@@ -21,11 +21,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Noto Sans KR';
     font-weight: 500;
     
-    scrollbar-width: none;
-    -ms-overflow-style: none; 
-  }
-  body::-webkit-scrollbar {
-    display: none;
   }
     
   button {

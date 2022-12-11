@@ -110,7 +110,6 @@ jobs:
               `| ${score(summaryTotal.accessibility)} Accessibility | ${summaryTotal.accessibility} |`,
               `| ${score(summaryTotal['best-practices'])} Best Practices | ${summaryTotal['best-practices']} |`,
               `| ${score(summaryTotal.seo)} SEO | ${summaryTotal.seo} |`,
-              `| ${score(summaryTotal.pwa)} PWA | ${summaryTotal.pwa} |`,
             ].join('\n');
 
             core.setOutput('comment', comment)
