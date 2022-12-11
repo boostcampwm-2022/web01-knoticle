@@ -134,6 +134,8 @@ export default function useCodeMirror() {
   const insertCursor = (text: string) => {
     if (!editorView) return;
 
+    editorView.focus();
+
     const cursor = editorView.state.selection.main.head;
 
     editorView.dispatch({
@@ -217,5 +219,13 @@ export default function useCodeMirror() {
     return () => view?.destroy();
   }, [element]);
 
-  return { ref, document, replaceDocument, insertStartToggle, insertBetweenToggle, handleImage };
+  return {
+    ref,
+    document,
+    replaceDocument,
+    insertStartToggle,
+    insertBetweenToggle,
+    insertCursor,
+    handleImage,
+  };
 }

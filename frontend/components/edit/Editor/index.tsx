@@ -11,6 +11,7 @@ import H2Icon from '@assets/ico_h2.svg';
 import H3Icon from '@assets/ico_h3.svg';
 import ImageIcon from '@assets/ico_image.svg';
 import ItalicIcon from '@assets/ico_italic.svg';
+import LinkIcon from '@assets/ico_link.svg';
 import QuoteIcon from '@assets/ico_quote.svg';
 import articleState from '@atoms/article';
 import articleBuffer from '@atoms/articleBuffer';
@@ -38,8 +39,15 @@ interface EditorProps {
 }
 
 export default function Editor({ handleModalOpen, originalArticle }: EditorProps) {
-  const { ref, document, replaceDocument, insertStartToggle, insertBetweenToggle, handleImage } =
-    useCodeMirror();
+  const {
+    ref,
+    document,
+    replaceDocument,
+    insertStartToggle,
+    insertBetweenToggle,
+    insertCursor,
+    handleImage,
+  } = useCodeMirror();
   const [buffer, setBuffer] = useRecoilState(articleBuffer);
 
   const [isModifyMode, setIsModifyMode] = useState(false);
@@ -102,6 +110,9 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
             <Image src={CodeIcon} alt="Code Icon" />
           </EditorButton>
           <EditorButtonSplit />
+          <EditorButton onClick={() => insertCursor('[텍스트](주소)')}>
+            <Image src={LinkIcon} alt="Link Icon" />
+          </EditorButton>
           <EditorButton>
             <label htmlFor="image">
               <Image src={ImageIcon} alt="Image Icon" />
