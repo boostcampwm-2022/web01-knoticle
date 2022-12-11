@@ -128,6 +128,17 @@ export default function useCodeMirror() {
     });
   };
 
+  const insertCursor = (text: string) => {
+    if (!editorView) return;
+
+    const cursor = editorView.state.selection.main.head;
+
+    editorView.dispatch({
+      changes: { from: cursor, to: cursor, insert: text },
+      selection: { anchor: cursor + text.length },
+    });
+  };
+
   const eventHandler = () => {
     return EditorView.domEventHandlers({
       paste(event) {
@@ -158,16 +169,10 @@ export default function useCodeMirror() {
   useEffect(() => {
     if (!editorView) return;
 
-    const cursor = editorView.state.selection.main.head;
+    const markdownImage = (path: string) => `![image](${path})`;
+    const text = markdownImage(image?.imagePath);
 
-    const markdownImage = (path: string) => `\n![image](${path})`;
-
-    const insert = markdownImage(image?.imagePath);
-
-    editorView.dispatch({
-      changes: { from: cursor, to: cursor, insert },
-      selection: { anchor: cursor + insert.length },
-    });
+    insertCursor(text);
   }, [image]);
 
   useEffect(() => {
@@ -209,5 +214,5 @@ export default function useCodeMirror() {
     return () => view?.destroy();
   }, [element]);
 
-  return { ref, document, replaceDocument, insertStartToggle, insertBetweenToggle };
+  return { ref, document, replaceDocument, insertStartToggle, insertBetweenToggle, handleImage };
 }

@@ -52,7 +52,8 @@ export const EditorButton = styled.button`
     background-color: var(--light-orange-color);
   }
 
-  > img {
+  img,
+  label {
     width: 24px;
     height: 24px;
   }
@@ -60,6 +61,10 @@ export const EditorButton = styled.button`
   > div {
     color: var(--title-active-color);
   }
+`;
+
+export const EditorImageInput = styled.input`
+  display: none;
 `;
 
 export const EditorButtonSplit = styled.div`

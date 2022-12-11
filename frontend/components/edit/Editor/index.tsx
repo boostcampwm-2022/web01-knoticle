@@ -29,6 +29,7 @@ import {
   TitleInput,
   EditorButton,
   EditorButtonSplit,
+  EditorImageInput,
 } from './styled';
 
 interface EditorProps {
@@ -37,7 +38,7 @@ interface EditorProps {
 }
 
 export default function Editor({ handleModalOpen, originalArticle }: EditorProps) {
-  const { ref, document, replaceDocument, insertStartToggle, insertBetweenToggle } =
+  const { ref, document, replaceDocument, insertStartToggle, insertBetweenToggle, handleImage } =
     useCodeMirror();
   const [buffer, setBuffer] = useRecoilState(articleBuffer);
 
@@ -101,8 +102,18 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
             <Image src={CodeIcon} alt="Code Icon" />
           </EditorButton>
           <EditorButtonSplit />
-          <EditorButton onClick={() => insertBetweenToggle('')}>
-            <Image src={ImageIcon} alt="Image Icon" />
+          <EditorButton>
+            <label htmlFor="image">
+              <Image src={ImageIcon} alt="Image Icon" />
+            </label>
+            <EditorImageInput
+              id="image"
+              type="file"
+              accept="image/png,image/jpg,image/jpeg,image/gif"
+              onChange={(event) => {
+                if (event.target.files) handleImage(event.target.files[0]);
+              }}
+            />
           </EditorButton>
         </EditorButtonWrapper>
         <CodeMirrorWrapper>
