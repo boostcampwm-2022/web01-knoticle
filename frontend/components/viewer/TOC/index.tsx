@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { useState } from 'react';
+
 import Bookmark from '@assets/ico_bookmark.svg';
 import BookmarkFilled from '@assets/ico_bookmark_white_filled.svg';
 import Hide from '@assets/ico_hide.svg';
@@ -20,23 +22,40 @@ import {
   TocProfileText,
   TocImgWrapper,
   TocArticle,
+  TocArticleTitle,
+  TocCurrentArticle,
   TocOpenButton,
 } from './styled';
 
 interface TocProps {
   articleId: number;
+  articleToc: {
+    title: string;
+    count: number | undefined;
+  }[];
   book: IBookScraps;
   isOpen: boolean;
   handleSideBarToggle: () => void;
 }
 
-export default function TOC({ articleId, book, isOpen, handleSideBarToggle }: TocProps) {
+export default function TOC({
+  articleId,
+  articleToc,
+  book,
+  isOpen,
+  handleSideBarToggle,
+}: TocProps) {
   const { id, title, user, scraps, _count, bookmarks } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
     bookmarks.length ? bookmarks[0].id : null,
     _count.bookmarks,
     id
   );
+  const [isArticleShown, setIsArticleShown] = useState(true);
+
+  const handleCurrentArticle = () => {
+    setIsArticleShown((prev) => !prev);
+  };
 
   return (
     <>
@@ -62,14 +81,26 @@ export default function TOC({ articleId, book, isOpen, handleSideBarToggle }: To
             <TextMedium>목차</TextMedium>
             <TocList>
               {scraps.map((v) => {
-                return (
-                  <TocArticle
-                    href={`/viewer/${id}/${v.article.id}`}
-                    key={v.order}
-                    className={v.article.id === articleId ? 'current' : ''}
-                  >
+                return v.article.id !== articleId ? (
+                  <TocArticle href={`/viewer/${id}/${v.article.id}`} key={v.order}>
                     {v.order}.{v.article.title}
                   </TocArticle>
+                ) : (
+                  <TocCurrentArticle key={v.order} className="current">
+                    <TextSmall onClick={handleCurrentArticle} style={{ cursor: 'pointer' }}>
+                      {v.order}.{v.article.title}
+                    </TextSmall>
+                    {isArticleShown &&
+                      articleToc.map((article) => (
+                        <TocArticleTitle
+                          href={`#${article.title}`}
+                          key={article.title}
+                          count={article.count}
+                        >
+                          {article.title}
+                        </TocArticleTitle>
+                      ))}
+                  </TocCurrentArticle>
                 );
               })}
             </TocList>

@@ -33,6 +33,7 @@ interface ArticleProps {
   scraps: IScrap[];
   bookId: number;
   bookAuthor: string;
+  articleData: string;
   handleScrapBtnClick: () => void;
 }
 
@@ -41,6 +42,7 @@ export default function Article({
   scraps,
   bookId,
   bookAuthor,
+  articleData,
   handleScrapBtnClick,
 }: ArticleProps) {
   const user = useRecoilValue(signInStatusState);
@@ -116,7 +118,7 @@ export default function Article({
         <ArticleMain>
           <ArticleContentsWrapper>
             <ArticleTitle>{article.title}</ArticleTitle>
-            <Content content={article.content} />
+            <Content content={articleData} />
           </ArticleContentsWrapper>
 
           <ArticleTitleBtnBox>
