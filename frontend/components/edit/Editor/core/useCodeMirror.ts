@@ -71,6 +71,9 @@ export default function useCodeMirror() {
           to,
           insert: `${symbol}${text}`,
         },
+        selection: {
+          anchor: from + text.length + symbol.length,
+        },
       });
 
       return;
