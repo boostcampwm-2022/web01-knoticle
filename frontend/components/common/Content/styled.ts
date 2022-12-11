@@ -86,7 +86,6 @@ export const ContentBody = styled.div`
     border-radius: 4px;
     font-family: 'consolas';
     font-size: 16px;
-    font-weight: 700;
     line-height: 1.4;
 
     code {

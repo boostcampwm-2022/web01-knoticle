@@ -99,6 +99,7 @@ export default function useCodeMirror() {
         onChange(),
         onPaste(),
         EditorView.lineWrapping,
+        EditorView.theme({ '.cm-content': { fontFamily: 'Noto Sans KR' } }),
       ],
     });
 
