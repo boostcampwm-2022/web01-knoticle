@@ -1,7 +1,16 @@
+import Image from 'next/image';
+
 import { useEffect, useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
+import BoldIcon from '@assets/ico_bold.svg';
+import CodeIcon from '@assets/ico_code.svg';
+import H1Icon from '@assets/ico_h1.svg';
+import H2Icon from '@assets/ico_h2.svg';
+import H3Icon from '@assets/ico_h3.svg';
+import ItalicIcon from '@assets/ico_italic.svg';
+import QuoteIcon from '@assets/ico_quote.svg';
 import articleState from '@atoms/article';
 import articleBuffer from '@atoms/articleBuffer';
 import Content from '@components/common/Content';
@@ -11,7 +20,15 @@ import useInput from '@hooks/useInput';
 import { IArticle } from '@interfaces';
 import { html2markdown, markdown2html } from '@utils/parser';
 
-import { CodeMirrorWrapper, EditorInner, EditorWrapper, TitleInput } from './styled';
+import {
+  EditorButtonWrapper,
+  CodeMirrorWrapper,
+  EditorInner,
+  EditorWrapper,
+  TitleInput,
+  EditorButton,
+  EditorButtonSplit,
+} from './styled';
 
 interface EditorProps {
   handleModalOpen: () => void;
@@ -19,7 +36,7 @@ interface EditorProps {
 }
 
 export default function Editor({ handleModalOpen, originalArticle }: EditorProps) {
-  const { ref, document, replaceDocument } = useCodeMirror();
+  const { ref, document, replaceDocument, insertBetween } = useCodeMirror();
   const [buffer, setBuffer] = useRecoilState(articleBuffer);
 
   const [isModifyMode, setIsModifyMode] = useState(false);
@@ -57,6 +74,31 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
     <EditorWrapper>
       <EditorInner>
         <TitleInput placeholder="제목을 입력해주세요" {...title} />
+        <EditorButtonWrapper>
+          <EditorButton onClick={() => insertBetween('# ')}>
+            <Image src={H1Icon} alt="Heading1 Icon" />
+          </EditorButton>
+          <EditorButton onClick={() => insertBetween('## ')}>
+            <Image src={H2Icon} alt="Heading2 Icon" />
+          </EditorButton>
+          <EditorButton onClick={() => insertBetween('### ')}>
+            <Image src={H3Icon} alt="Heading3 Icon" />
+          </EditorButton>
+          <EditorButtonSplit />
+          <EditorButton onClick={() => insertBetween('**')}>
+            <Image src={BoldIcon} alt="Bold Icon" />
+          </EditorButton>
+          <EditorButton onClick={() => insertBetween('_')}>
+            <Image src={ItalicIcon} alt="Italic Icon" />
+          </EditorButton>
+          <EditorButtonSplit />
+          <EditorButton onClick={() => insertBetween('> ')}>
+            <Image src={QuoteIcon} alt="Quote Icon" />
+          </EditorButton>
+          <EditorButton onClick={() => insertBetween('\n```\n')}>
+            <Image src={CodeIcon} alt="Code Icon" />
+          </EditorButton>
+        </EditorButtonWrapper>
         <CodeMirrorWrapper>
           <div ref={ref} />
         </CodeMirrorWrapper>
