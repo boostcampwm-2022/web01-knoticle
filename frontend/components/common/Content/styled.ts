@@ -69,6 +69,10 @@ export const ContentBody = styled.div`
     }
   }
 
+  em {
+    font-style: italic;
+  }
+
   blockquote {
     margin: 24px 0;
     padding: 24px 16px;
