@@ -9,6 +9,7 @@ import CodeIcon from '@assets/ico_code.svg';
 import H1Icon from '@assets/ico_h1.svg';
 import H2Icon from '@assets/ico_h2.svg';
 import H3Icon from '@assets/ico_h3.svg';
+import ImageIcon from '@assets/ico_image.svg';
 import ItalicIcon from '@assets/ico_italic.svg';
 import QuoteIcon from '@assets/ico_quote.svg';
 import articleState from '@atoms/article';
@@ -36,7 +37,8 @@ interface EditorProps {
 }
 
 export default function Editor({ handleModalOpen, originalArticle }: EditorProps) {
-  const { ref, document, replaceDocument, insertStart, insertBetween } = useCodeMirror();
+  const { ref, document, replaceDocument, insertStartToggle, insertBetweenToggle } =
+    useCodeMirror();
   const [buffer, setBuffer] = useRecoilState(articleBuffer);
 
   const [isModifyMode, setIsModifyMode] = useState(false);
@@ -75,28 +77,32 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
       <EditorInner>
         <TitleInput placeholder="제목을 입력해주세요" {...title} />
         <EditorButtonWrapper>
-          <EditorButton onClick={() => insertStart('# ')}>
+          <EditorButton onClick={() => insertStartToggle('# ')}>
             <Image src={H1Icon} alt="Heading1 Icon" />
           </EditorButton>
-          <EditorButton onClick={() => insertStart('## ')}>
+          <EditorButton onClick={() => insertStartToggle('## ')}>
             <Image src={H2Icon} alt="Heading2 Icon" />
           </EditorButton>
-          <EditorButton onClick={() => insertStart('### ')}>
+          <EditorButton onClick={() => insertStartToggle('### ')}>
             <Image src={H3Icon} alt="Heading3 Icon" />
           </EditorButton>
           <EditorButtonSplit />
-          <EditorButton onClick={() => insertBetween('**')}>
+          <EditorButton onClick={() => insertBetweenToggle('**')}>
             <Image src={BoldIcon} alt="Bold Icon" />
           </EditorButton>
-          <EditorButton onClick={() => insertBetween('_')}>
+          <EditorButton onClick={() => insertBetweenToggle('_')}>
             <Image src={ItalicIcon} alt="Italic Icon" />
           </EditorButton>
           <EditorButtonSplit />
-          <EditorButton onClick={() => insertStart('> ')}>
+          <EditorButton onClick={() => insertStartToggle('> ')}>
             <Image src={QuoteIcon} alt="Quote Icon" />
           </EditorButton>
-          <EditorButton onClick={() => insertBetween('\n```\n', '코드')}>
+          <EditorButton onClick={() => insertBetweenToggle('\n```\n', '코드')}>
             <Image src={CodeIcon} alt="Code Icon" />
+          </EditorButton>
+          <EditorButtonSplit />
+          <EditorButton onClick={() => insertBetweenToggle('')}>
+            <Image src={ImageIcon} alt="Image Icon" />
           </EditorButton>
         </EditorButtonWrapper>
         <CodeMirrorWrapper>

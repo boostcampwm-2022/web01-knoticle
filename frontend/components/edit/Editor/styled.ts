@@ -31,6 +31,11 @@ export const EditorButtonWrapper = styled(Flex)`
   border-bottom: 1px solid var(--grey-02-color);
   align-items: center;
   gap: 8px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const EditorButton = styled.button`
@@ -58,9 +63,8 @@ export const EditorButton = styled.button`
 `;
 
 export const EditorButtonSplit = styled.div`
-  width: 2px;
+  border-left: 2px solid var(--grey-02-color);
   height: 16px;
-  background-color: var(--grey-02-color);
 `;
 
 export const TitleInput = styled.input`

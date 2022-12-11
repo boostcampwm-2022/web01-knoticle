@@ -54,7 +54,7 @@ export default function useCodeMirror() {
     });
   };
 
-  const insertStart = (symbol: string) => {
+  const insertStartToggle = (symbol: string) => {
     if (!editorView) return;
 
     editorView.focus();
@@ -85,7 +85,7 @@ export default function useCodeMirror() {
     });
   };
 
-  const insertBetween = (symbol: string, defaultText = '텍스트') => {
+  const insertBetweenToggle = (symbol: string, defaultText = '텍스트') => {
     if (!editorView) return;
 
     editorView.focus();
@@ -209,5 +209,5 @@ export default function useCodeMirror() {
     return () => view?.destroy();
   }, [element]);
 
-  return { ref, document, replaceDocument, insertStart, insertBetween };
+  return { ref, document, replaceDocument, insertStartToggle, insertBetweenToggle };
 }
