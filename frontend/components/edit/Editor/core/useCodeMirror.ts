@@ -54,7 +54,7 @@ export default function useCodeMirror() {
     });
   };
 
-  const insertBetween = (symbol = '**') => {
+  const insertBetween = (symbol: string) => {
     if (!editorView) return;
 
     const { from, to } = editorView.state.selection.ranges[0];
@@ -62,8 +62,8 @@ export default function useCodeMirror() {
     const text = editorView.state.sliceDoc(from, to);
     const defaultText = '텍스트';
 
-    const prefixText = editorView.state.sliceDoc(from - 2, from);
-    const affixText = editorView.state.sliceDoc(to, to + 2);
+    const prefixText = editorView.state.sliceDoc(from - symbol.length, from);
+    const affixText = editorView.state.sliceDoc(to, to + symbol.length);
 
     const hasExist = symbol === prefixText && symbol === affixText;
 
