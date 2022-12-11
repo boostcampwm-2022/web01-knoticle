@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import TemporaryImage from '@assets/img_profile.png';
 import { TextSmall, TextXSmall } from '@styles/common';
 
 import {
@@ -18,6 +17,7 @@ interface ArticleItemProps {
   title: string;
   content: string;
   nickname: string;
+  profileImage: string;
   articleUrl: string;
   studyUrl: string;
 }
@@ -26,6 +26,7 @@ export default function ArticleItem({
   title,
   content,
   nickname,
+  profileImage,
   articleUrl,
   studyUrl,
 }: ArticleItemProps) {
@@ -44,7 +45,7 @@ export default function ArticleItem({
             <TextSmall>{nickname}</TextSmall>
           </ProfileDescription>
           <ProfileImage>
-            <Image src={TemporaryImage} alt="profile" width={72} height={72} />
+            <Image src={profileImage} alt="profile" width={72} height={72} />
           </ProfileImage>
         </UserProfile>
       </Link>

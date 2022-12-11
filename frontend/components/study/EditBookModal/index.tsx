@@ -39,7 +39,7 @@ interface BookProps {
   handleModalClose: () => void;
 }
 
-export default function EditBook({ book, handleModalClose }: BookProps) {
+export default function EditBookModal({ book, handleModalClose }: BookProps) {
   const { id, title, user, scraps } = book;
 
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
