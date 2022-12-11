@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { useState } from 'react';
+
 import Bookmark from '@assets/ico_bookmark.svg';
 import BookmarkFilled from '@assets/ico_bookmark_white_filled.svg';
 import Hide from '@assets/ico_hide.svg';
@@ -20,6 +22,7 @@ import {
   TocImgWrapper,
   TocArticle,
   TocArticleTitle,
+  TocCurrentArticle,
 } from './styled';
 
 interface TocProps {
@@ -40,6 +43,11 @@ export default function TOC({ articleId, articleToc, book, handleSideBarOnClick 
     _count.bookmarks,
     id
   );
+  const [isArticleShown, setIsArticleShown] = useState(true);
+
+  const handleCurrentArticle = () => {
+    setIsArticleShown((prev) => !prev);
+  };
 
   return (
     <TocWrapper>
@@ -60,14 +68,16 @@ export default function TOC({ articleId, articleToc, book, handleSideBarOnClick 
           <TextMedium>목차</TextMedium>
           <TocList>
             {scraps.map((v) => {
-              return (
-                <TocArticle
-                  href={`/viewer/${id}/${v.article.id}`}
-                  key={v.order}
-                  className={v.article.id === articleId ? 'current' : ''}
-                >
+              return v.article.id !== articleId ? (
+                <TocArticle href={`/viewer/${id}/${v.article.id}`} key={v.order}>
                   {v.order}.{v.article.title}
-                  {v.article.id === articleId &&
+                </TocArticle>
+              ) : (
+                <TocCurrentArticle key={v.order} className="current">
+                  <TextSmall onClick={handleCurrentArticle} style={{ cursor: 'pointer' }}>
+                    {v.order}.{v.article.title}
+                  </TextSmall>
+                  {isArticleShown &&
                     articleToc.map((article, idx) => (
                       <TocArticleTitle
                         href={`#${article.title}`}
@@ -77,7 +87,7 @@ export default function TOC({ articleId, articleToc, book, handleSideBarOnClick 
                         {article.title}
                       </TocArticleTitle>
                     ))}
-                </TocArticle>
+                </TocCurrentArticle>
               );
             })}
           </TocList>

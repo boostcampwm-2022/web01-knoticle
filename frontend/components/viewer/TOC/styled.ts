@@ -74,12 +74,16 @@ export const TocArticle = styled(Link)`
   color: inherit;
   display: block;
   margin-bottom: 5px;
-
-  &.current {
-    color: #ca7647;
-  }
 `;
-export const TocArticleTitle = styled(Link)<{ count: number }>`
+export const TocCurrentArticle = styled.div`
+  font-size: 14px;
+  line-height: 20px;
+  display: block;
+  margin-bottom: 5px;
+
+  color: #ca7647;
+`;
+export const TocArticleTitle = styled(Link)<{ count: number | undefined }>`
   font-size: 14px;
   line-height: 20px;
   text-decoration: none;
