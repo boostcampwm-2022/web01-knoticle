@@ -46,13 +46,13 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   const sliderIndicatorNumbersList = Array.from({ length: sliderIndicatorCount }, (_, i) => i + 1);
 
   const handleLeftArrowClick = () => {
-    setCurBookIndex(setNumBetween(curBookIndex - numberPerPage, 0, bookList.length - 1));
-    setSliderNumber(setNumBetween(sliderNumber - 1, 1, sliderIndicatorCount));
+    setCurBookIndex(curBookIndex - numberPerPage);
+    setSliderNumber(sliderNumber - 1);
   };
 
   const handleRightArrowClick = () => {
-    setCurBookIndex(setNumBetween(curBookIndex + numberPerPage, 0, bookList.length - 1));
-    setSliderNumber(setNumBetween(sliderNumber + 1, 1, sliderIndicatorCount));
+    setCurBookIndex(curBookIndex + numberPerPage);
+    setSliderNumber(sliderNumber + 1);
   };
 
   useEffect(() => {
@@ -63,7 +63,7 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
       1,
       sliderIndicatorCount
     );
-    // console.log(newSliderNum, 1, sliderIndicatorCount);
+
     setSliderNumber(newSliderNum);
     setCurBookIndex((newSliderNum - 1) * numberPerPage);
   }, [numberPerPage]);
