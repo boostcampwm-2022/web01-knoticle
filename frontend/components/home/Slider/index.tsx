@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
@@ -30,6 +30,12 @@ interface SliderProps {
   numberPerPage: number;
 }
 
+const setNumBetween = (val: number, min: number, max: number) => {
+  if (val < min) return min;
+  if (val > max) return max;
+  return val;
+};
+
 function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   const [curBookIndex, setCurBookIndex] = useState(0);
   const [sliderNumber, setSliderNumber] = useState(1);
@@ -40,13 +46,23 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   const sliderIndicatorNumbersList = Array.from({ length: sliderIndicatorCount }, (_, i) => i + 1);
 
   const handleLeftArrowClick = () => {
-    setCurBookIndex(curBookIndex - numberPerPage);
-    setSliderNumber(sliderNumber - 1);
+    setCurBookIndex(setNumBetween(curBookIndex - numberPerPage, 0, bookList.length - 1));
+    setSliderNumber(setNumBetween(sliderNumber - 1, 1, sliderIndicatorCount));
   };
+
   const handleRightArrowClick = () => {
-    setCurBookIndex(curBookIndex + numberPerPage);
-    setSliderNumber(sliderNumber + 1);
+    setCurBookIndex(setNumBetween(curBookIndex + numberPerPage, 0, bookList.length - 1));
+    setSliderNumber(setNumBetween(sliderNumber + 1, 1, sliderIndicatorCount));
   };
+
+  useEffect(() => {
+    if (!bookList) return;
+
+    const newSliderNum = Math.round(curBookIndex / numberPerPage) + 1;
+
+    setSliderNumber(setNumBetween(newSliderNum, 1, sliderIndicatorCount));
+    setCurBookIndex(setNumBetween((newSliderNum - 1) * numberPerPage, 0, bookList.length - 1));
+  }, [numberPerPage]);
 
   return (
     <SliderWrapper>
