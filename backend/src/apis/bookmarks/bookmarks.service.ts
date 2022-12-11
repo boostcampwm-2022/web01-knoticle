@@ -14,11 +14,13 @@ const createBookmark = async (user_id: number, book_id: number) => {
 
 const deleteBookmark = async (id: number) => {
   try {
-    await prisma.bookmark.delete({
+    const bookmark = await prisma.bookmark.delete({
       where: {
         id,
       },
     });
+
+    return bookmark;
   } catch (err) {
     throw new NotFound(Message.BOOKMARK_NOTFOUND);
   }

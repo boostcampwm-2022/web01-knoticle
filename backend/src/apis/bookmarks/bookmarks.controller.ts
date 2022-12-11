@@ -14,9 +14,9 @@ const createBookmark = async (req: Request, res: Response) => {
 const deleteBookmark = async (req: Request, res: Response) => {
   const bookmarkId = Number(req.params.bookmarkId);
 
-  await bookmarksService.deleteBookmark(bookmarkId);
+  const bookamrk = await bookmarksService.deleteBookmark(bookmarkId);
 
-  return res.status(200).send();
+  return res.status(200).send(bookamrk);
 };
 
 export default {
