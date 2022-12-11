@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { indentWithTab } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { EditorState } from '@codemirror/state';
-import { placeholder } from '@codemirror/view';
+import { placeholder, keymap } from '@codemirror/view';
 import { EditorView } from 'codemirror';
 
 import { createImageApi } from '@apis/imageApi';
@@ -100,6 +101,7 @@ export default function useCodeMirror() {
         onPaste(),
         EditorView.lineWrapping,
         EditorView.theme({ '.cm-content': { fontFamily: 'Noto Sans KR' } }),
+        keymap.of([indentWithTab]),
       ],
     });
 
