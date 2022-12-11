@@ -2,14 +2,17 @@
   "apps": [
     {
       "name": "knoticle-backend",
-      "script": "npm",
-      "args": "run start",
+      "script": "./dist/index.js",
+      "node_args": "-r ./tsconfig-paths.js",
       "instance": 1,
       "exec_mode": "cluster",
       "wait_ready": true,
       "listen_timeout": 50000,
       "kill_timeout": 5000,
-      "merge_logs": true
+      "merge_logs": true,
+      "env": {
+        "NODE_ENV": "prod"
+      }
     }
   ]
 }
