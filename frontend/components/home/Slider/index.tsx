@@ -58,10 +58,14 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   useEffect(() => {
     if (!bookList) return;
 
-    const newSliderNum = Math.round(curBookIndex / numberPerPage) + 1;
-
-    setSliderNumber(setNumBetween(newSliderNum, 1, sliderIndicatorCount));
-    setCurBookIndex(setNumBetween((newSliderNum - 1) * numberPerPage, 0, bookList.length - 1));
+    const newSliderNum = setNumBetween(
+      Math.round(curBookIndex / numberPerPage) + 1,
+      1,
+      sliderIndicatorCount
+    );
+    // console.log(newSliderNum, 1, sliderIndicatorCount);
+    setSliderNumber(newSliderNum);
+    setCurBookIndex((newSliderNum - 1) * numberPerPage);
   }, [numberPerPage]);
 
   return (
