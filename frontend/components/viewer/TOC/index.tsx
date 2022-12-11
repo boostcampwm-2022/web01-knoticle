@@ -36,6 +36,7 @@ interface TocProps {
   book: IBookScraps;
   isOpen: boolean;
   handleSideBarToggle: () => void;
+  isscrolldown: 'true' | 'false';
 }
 
 export default function TOC({
@@ -44,6 +45,7 @@ export default function TOC({
   book,
   isOpen,
   handleSideBarToggle,
+  isscrolldown,
 }: TocProps) {
   const { id, title, user, scraps } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(book);
@@ -113,7 +115,7 @@ export default function TOC({
       </TocWrapper>
 
       {!isOpen && (
-        <TocOpenButton onClick={handleSideBarToggle}>
+        <TocOpenButton onClick={handleSideBarToggle} isscrolldown={isscrolldown}>
           <Image src={Open} alt="Open Sidebar Icon" />
         </TocOpenButton>
       )}

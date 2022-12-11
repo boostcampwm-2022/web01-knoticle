@@ -12,7 +12,7 @@ import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
-import { Flex, PageNoScrollWrapper } from '@styles/layout';
+import { Flex, PageGNBHide, PageNoScrollWrapper } from '@styles/layout';
 import { articleToc, articleConversion } from '@utils/articleConversion';
 
 interface ViewerProps {
@@ -68,10 +68,14 @@ export default function Viewer({ article }: ViewerProps) {
     if (!checkArticleAuthority(book, article.id)) router.push('/404');
   }, [book]);
 
+  const [isScrollDown, setIsScrollDown] = useState<'true' | 'false'>('false');
+
   return (
     <PageNoScrollWrapper>
       {article && <ViewerHead articleTitle={article.title} articleContent={article.content} />}
-      <GNB />
+      <PageGNBHide isscrolldown={isScrollDown}>
+        <GNB />
+      </PageGNBHide>
       {book && article && (
         <Flex>
           <TOC
@@ -80,6 +84,7 @@ export default function Viewer({ article }: ViewerProps) {
             articleToc={articleToc(article.content)}
             isOpen={isSideBarOpen}
             handleSideBarToggle={handleSideBarToggle}
+            isscrolldown={isScrollDown}
           />
 
           {book.scraps.find((scrap) => scrap.article.id === article.id) && (
@@ -90,6 +95,7 @@ export default function Viewer({ article }: ViewerProps) {
               bookAuthor={book.user.nickname}
               articleData={articleConversion(article.content)}
               handleScrapBtnClick={handleModalOpen}
+              setIsScrollDown={setIsScrollDown}
             />
           )}
         </Flex>
