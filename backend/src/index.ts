@@ -8,8 +8,14 @@ const startServer = async () => {
 
   await loader(app);
 
-  app.listen(+process.env.PORT, process.env.HOST, () => {
+  const server = app.listen(+process.env.PORT, process.env.HOST, () => {
+    if (process.send) process.send('ready');
+
     console.log(`Server listening on port: ${process.env.PORT}`);
+  });
+
+  process.on('SIGINT', () => {
+    server.close(() => process.exit(0));
   });
 };
 
