@@ -13,7 +13,7 @@ import useDebounce from '@hooks/useDebounce';
 import useFetch from '@hooks/useFetch';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
 import useSessionStorage from '@hooks/useSessionStorage';
-import { PageInnerSmall, PageWrapper } from '@styles/layout';
+import { PageInnerSmall, PageWrapperWithHeight } from '@styles/layout';
 
 interface PageInfo {
   hasNextPage: boolean;
@@ -26,6 +26,9 @@ export default function Search() {
 
   const { data: newArticles, execute: searchArticles } = useFetch(searchArticlesApi);
   const { data: newBooks, execute: searchBooks } = useFetch(searchBooksApi);
+
+  const { setValue: setScrollTop } = useSessionStorage('scroll', 0);
+  const [initialHeight, setInitialHeight] = useState(0);
 
   const {
     value: filter,
@@ -186,6 +189,25 @@ export default function Search() {
     });
   }, [newBooks]);
 
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollTop(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const handleFilter = (value: { [value: string]: string | number }) => {
     setFilter({
       ...filter,
@@ -198,11 +220,19 @@ export default function Search() {
     if (e.target) setKeyword(e.target.value);
   };
 
+  useEffect(() => {
+    setInitialHeight(Number(sessionStorage.getItem('scroll')));
+  }, []);
+
+  useEffect(() => {
+    if (initialHeight !== 0) window.scrollTo(0, initialHeight);
+  }, [initialHeight]);
+
   return (
     <>
       <SearchHead />
       <GNB />
-      <PageWrapper>
+      <PageWrapperWithHeight initialHeight={initialHeight}>
         <PageInnerSmall>
           <SearchBar onChange={handleKeywordOnChange} value={keyword} />
           <SearchFilter filter={filter} handleFilter={handleFilter} />
@@ -218,7 +248,7 @@ export default function Search() {
             (isBookNoResult ? <SearchNoResult /> : <BookList books={books} keywords={keywords} />)}
           <div ref={target} />
         </PageInnerSmall>
-      </PageWrapper>
+      </PageWrapperWithHeight>
     </>
   );
 }
