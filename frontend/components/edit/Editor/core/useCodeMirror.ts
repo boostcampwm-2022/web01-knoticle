@@ -38,13 +38,23 @@ export default function useCodeMirror() {
     });
   };
 
+  const handleImage = (imageFile: File) => {
+    if (!/image\/[png,jpg,jpeg,gif]/.test(imageFile.type)) return;
+
+    const formData = new FormData();
+
+    formData.append('image', imageFile);
+
+    createImage(formData);
+  };
+
   const onChange = () => {
     return EditorView.updateListener.of(({ view, docChanged }) => {
       if (docChanged) setDocument(view.state.doc.toString());
     });
   };
 
-  const onPaste = () => {
+  const eventHandler = () => {
     return EditorView.domEventHandlers({
       paste(event) {
         if (!event.clipboardData) return;
@@ -53,16 +63,20 @@ export default function useCodeMirror() {
 
         // eslint-disable-next-line no-restricted-syntax
         for (const item of items) {
-          if (item.kind === 'file' && /image\/[png,jpg,jpeg,gif]/.test(item.type)) {
-            const blob = item.getAsFile() as Blob;
-
-            const formData = new FormData();
-
-            formData.append('image', blob);
-
-            createImage(formData);
-          }
+          if (!(item.kind === 'file')) return;
+          handleImage(item.getAsFile() as File);
         }
+      },
+      drop(event, view) {
+        if (!event.dataTransfer) return;
+
+        const cursorPos = view.posAtCoords({ x: event.clientX, y: event.clientY });
+        if (cursorPos) view.dispatch({ selection: { anchor: cursorPos, head: cursorPos } });
+
+        const { files } = event.dataTransfer;
+
+        // eslint-disable-next-line no-restricted-syntax
+        for (const file of files) handleImage(file);
       },
     });
   };
@@ -72,16 +86,12 @@ export default function useCodeMirror() {
 
     const cursor = editorView.state.selection.main.head;
 
-    const markdownImage = (path: string) => `![image](${path})\n`;
+    const markdownImage = (path: string) => `\n![image](${path})`;
 
     const insert = markdownImage(image?.imagePath);
 
     editorView.dispatch({
-      changes: {
-        from: cursor,
-        to: cursor,
-        insert,
-      },
+      changes: { from: cursor, to: cursor, insert },
       selection: { anchor: cursor + insert.length },
     });
   }, [image]);
@@ -98,7 +108,7 @@ export default function useCodeMirror() {
         placeholder('내용을 입력해주세요.'),
         theme(),
         onChange(),
-        onPaste(),
+        eventHandler(),
         EditorView.lineWrapping,
         EditorView.theme({ '.cm-content': { fontFamily: 'Noto Sans KR' } }),
         keymap.of([indentWithTab]),
