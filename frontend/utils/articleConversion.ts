@@ -1,6 +1,6 @@
 import { html2markdown } from './parser';
 
-const articleToc = (content: string) => {
+export const articleToc = (content: string) => {
   // 게시물 본문을 줄바꿈 기준으로 나누고, 제목 요소인 것만 저장
   const titles = html2markdown(content)
     .split(`\n`)
@@ -24,4 +24,16 @@ const articleToc = (content: string) => {
   return result;
 };
 
-export default articleToc;
+export const articleConversion = (content: string) => {
+  const newArticle = content.split('\n').map((v, idx) => {
+    if (v.includes('h1') || v.includes('h2') || v.includes('h3')) {
+      const title = v.replace(/<[^>]*>?/g, '');
+      const result = v.split('');
+      result.splice(3, 0, ' ', `id=${title}`);
+      return result.join('');
+    }
+    return v;
+  });
+
+  return newArticle.join('\n');
+};

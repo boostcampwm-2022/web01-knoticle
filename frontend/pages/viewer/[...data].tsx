@@ -15,8 +15,8 @@ import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex, PageNoScrollWrapper } from '@styles/layout';
+import { articleToc, articleConversion } from '@utils/articleConversion';
 import { html2markdown } from '@utils/parser';
-import articleToc from '@utils/toc';
 
 interface ViewerProps {
   article: IArticleBook;
@@ -64,6 +64,7 @@ export default function Viewer({ article }: ViewerProps) {
     if (window.innerWidth > 576) setIsOpened(true);
     syncHeight();
     window.addEventListener('resize', syncHeight);
+
     return () => window.removeEventListener('resize', syncHeight);
   }, []);
 
@@ -89,6 +90,7 @@ export default function Viewer({ article }: ViewerProps) {
               scraps={book.scraps}
               bookId={book.id}
               bookAuthor={book.user.nickname}
+              articleData={articleConversion(article.content)}
               handleScrapBtnClick={handleModalOpen}
             />
           ) : (
