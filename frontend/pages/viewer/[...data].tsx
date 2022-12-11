@@ -4,11 +4,10 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { getArticleApi } from '@apis/articleApi';
-import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
+import { getBookApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
 import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
-import ClosedSideBar from '@components/viewer/ClosedSideBar';
 import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
@@ -21,26 +20,38 @@ interface ViewerProps {
 }
 
 export default function Viewer({ article }: ViewerProps) {
-  const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
   const router = useRouter();
 
-  const [isOpened, setIsOpened] = useState(false);
+  const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
 
+  const [isSideBarOpen, setSideBarOpen] = useState(false);
   const [isModalShown, setModalShown] = useState(false);
 
   const handleModalOpen = () => setModalShown(true);
   const handleModalClose = () => setModalShown(false);
 
   const handleSideBarToggle = () => {
-    setIsOpened((prev) => !prev);
+    setSideBarOpen((prev) => !prev);
   };
 
   const checkArticleAuthority = (targetBook: IBookScraps, id: number) => {
-    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) {
-      return true;
-    }
+    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) return true;
     return false;
   };
+
+  const syncHeight = () => {
+    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
+  };
+
+  useEffect(() => {
+    if (window.innerWidth > 576) setSideBarOpen(true);
+
+    syncHeight();
+
+    window.addEventListener('resize', syncHeight);
+
+    return () => window.removeEventListener('resize', syncHeight);
+  }, []);
 
   useEffect(() => {
     if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
@@ -54,29 +65,20 @@ export default function Viewer({ article }: ViewerProps) {
     if (!checkArticleAuthority(book, article.id)) router.push('/404');
   }, [book]);
 
-  const syncHeight = () => {
-    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
-  };
-
-  useEffect(() => {
-    if (window.innerWidth > 576) setIsOpened(true);
-    syncHeight();
-    window.addEventListener('resize', syncHeight);
-    return () => window.removeEventListener('resize', syncHeight);
-  }, []);
-
   return (
     <PageNoScrollWrapper>
       {article && <ViewerHead articleTitle={article.title} articleContent={article.content} />}
       <GNB />
-      {book && article ? (
+      {book && article && (
         <Flex>
-          {isOpened ? (
-            <TOC book={book} articleId={article.id} handleSideBarOnClick={handleSideBarToggle} />
-          ) : (
-            <ClosedSideBar handleSideBarOnClick={handleSideBarToggle} />
-          )}
-          {book.scraps.find((scrap) => scrap.article.id === article.id) ? (
+          <TOC
+            book={book}
+            articleId={article.id}
+            isOpen={isSideBarOpen}
+            handleSideBarToggle={handleSideBarToggle}
+          />
+
+          {book.scraps.find((scrap) => scrap.article.id === article.id) && (
             <ArticleContainer
               article={article}
               scraps={book.scraps}
@@ -84,12 +86,8 @@ export default function Viewer({ article }: ViewerProps) {
               bookAuthor={book.user.nickname}
               handleScrapBtnClick={handleModalOpen}
             />
-          ) : (
-            <div>올바르지 않은 접근입니다.</div>
           )}
         </Flex>
-      ) : (
-        <div>loading</div>
       )}
       {isModalShown && book && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
@@ -101,7 +99,7 @@ export default function Viewer({ article }: ViewerProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const [bookId, articleId] = context.query.data as string[];
+  const [, articleId] = context.query.data as string[];
   const article = await getArticleApi(articleId);
 
   return { props: { article } };
