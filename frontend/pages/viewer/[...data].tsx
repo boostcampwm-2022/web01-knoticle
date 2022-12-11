@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { getArticleApi } from '@apis/articleApi';
-import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
+import { getBookApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
 import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
@@ -16,7 +16,6 @@ import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex, PageNoScrollWrapper } from '@styles/layout';
 import { articleToc, articleConversion } from '@utils/articleConversion';
-import { html2markdown } from '@utils/parser';
 
 interface ViewerProps {
   article: IArticleBook;

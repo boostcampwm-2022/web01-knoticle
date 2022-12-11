@@ -78,7 +78,7 @@ export default function TOC({ articleId, articleToc, book, handleSideBarOnClick 
                     {v.order}.{v.article.title}
                   </TextSmall>
                   {isArticleShown &&
-                    articleToc.map((article, idx) => (
+                    articleToc.map((article) => (
                       <TocArticleTitle
                         href={`#${article.title}`}
                         key={article.title}
