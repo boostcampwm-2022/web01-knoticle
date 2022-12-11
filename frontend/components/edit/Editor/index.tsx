@@ -36,7 +36,7 @@ interface EditorProps {
 }
 
 export default function Editor({ handleModalOpen, originalArticle }: EditorProps) {
-  const { ref, document, replaceDocument, insertBetween } = useCodeMirror();
+  const { ref, document, replaceDocument, insertStart, insertBetween } = useCodeMirror();
   const [buffer, setBuffer] = useRecoilState(articleBuffer);
 
   const [isModifyMode, setIsModifyMode] = useState(false);
@@ -75,13 +75,13 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
       <EditorInner>
         <TitleInput placeholder="제목을 입력해주세요" {...title} />
         <EditorButtonWrapper>
-          <EditorButton onClick={() => insertBetween('# ')}>
+          <EditorButton onClick={() => insertStart('# ')}>
             <Image src={H1Icon} alt="Heading1 Icon" />
           </EditorButton>
-          <EditorButton onClick={() => insertBetween('## ')}>
+          <EditorButton onClick={() => insertStart('## ')}>
             <Image src={H2Icon} alt="Heading2 Icon" />
           </EditorButton>
-          <EditorButton onClick={() => insertBetween('### ')}>
+          <EditorButton onClick={() => insertStart('### ')}>
             <Image src={H3Icon} alt="Heading3 Icon" />
           </EditorButton>
           <EditorButtonSplit />
@@ -92,10 +92,10 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
             <Image src={ItalicIcon} alt="Italic Icon" />
           </EditorButton>
           <EditorButtonSplit />
-          <EditorButton onClick={() => insertBetween('> ')}>
+          <EditorButton onClick={() => insertStart('> ')}>
             <Image src={QuoteIcon} alt="Quote Icon" />
           </EditorButton>
-          <EditorButton onClick={() => insertBetween('\n```\n')}>
+          <EditorButton onClick={() => insertBetween('\n```\n', '코드')}>
             <Image src={CodeIcon} alt="Code Icon" />
           </EditorButton>
         </EditorButtonWrapper>

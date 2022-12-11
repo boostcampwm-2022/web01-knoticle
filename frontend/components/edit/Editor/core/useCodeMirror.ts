@@ -54,13 +54,45 @@ export default function useCodeMirror() {
     });
   };
 
-  const insertBetween = (symbol: string) => {
+  const insertStart = (symbol: string) => {
     if (!editorView) return;
+
+    editorView.focus();
+
+    const { head } = editorView.state.selection.main;
+    const { from, to, text } = editorView.state.doc.lineAt(head);
+
+    const hasExist = text.startsWith(symbol);
+
+    if (!hasExist) {
+      editorView.dispatch({
+        changes: {
+          from,
+          to,
+          insert: `${symbol}${text}`,
+        },
+      });
+
+      return;
+    }
+
+    editorView.dispatch({
+      changes: {
+        from,
+        to,
+        insert: `${text.slice(symbol.length, text.length)}`,
+      },
+    });
+  };
+
+  const insertBetween = (symbol: string, defaultText = '텍스트') => {
+    if (!editorView) return;
+
+    editorView.focus();
 
     const { from, to } = editorView.state.selection.ranges[0];
 
     const text = editorView.state.sliceDoc(from, to);
-    const defaultText = '텍스트';
 
     const prefixText = editorView.state.sliceDoc(from - symbol.length, from);
     const affixText = editorView.state.sliceDoc(to, to + symbol.length);
@@ -177,5 +209,5 @@ export default function useCodeMirror() {
     return () => view?.destroy();
   }, [element]);
 
-  return { ref, document, replaceDocument, insertBetween };
+  return { ref, document, replaceDocument, insertStart, insertBetween };
 }
