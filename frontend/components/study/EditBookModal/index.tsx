@@ -15,6 +15,7 @@ import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { IBookScraps } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
+import { toastError } from '@utils/toast';
 
 import {
   BookWrapper,
@@ -70,6 +71,11 @@ export default function EditBookModal({ book, handleModalClose }: BookProps) {
   };
 
   const handleCompletedBtnClick = () => {
+    if (titleData === '') {
+      toastError('책 제목이 비어있습니다.');
+      return;
+    }
+
     const editScraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     // 해당하는 책을 찾아서 전역에서 관리하고 있는 애를 변경해서 업데이트
