@@ -14,8 +14,6 @@ export const ContentTitle = styled.h1`
 `;
 
 export const ContentBody = styled.div`
-  padding-top: 10px;
-
   > * {
     line-height: 2;
     font-weight: 400;

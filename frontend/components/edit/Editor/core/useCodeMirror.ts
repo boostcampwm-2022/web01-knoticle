@@ -110,7 +110,16 @@ export default function useCodeMirror() {
         onChange(),
         eventHandler(),
         EditorView.lineWrapping,
-        EditorView.theme({ '.cm-content': { fontFamily: 'Noto Sans KR' } }),
+        EditorView.theme({
+          '.cm-content': {
+            padding: 0,
+            lineHeight: 2,
+            fontFamily: 'Noto Sans KR',
+          },
+          '.cm-line': {
+            padding: 0,
+          },
+        }),
         keymap.of([indentWithTab]),
       ],
     });
