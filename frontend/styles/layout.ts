@@ -23,6 +23,10 @@ export const FlexColumnCenter = styled(FlexColumn)`
   align-items: center;
 `;
 
+export const FlexColumnSpaceBetween = styled(FlexColumn)`
+  justify-content: space-between;
+`;
+
 export const FlexColumnAlignCenter = styled(FlexColumn)`
   align-items: center;
 `;
