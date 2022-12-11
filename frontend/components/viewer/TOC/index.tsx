@@ -30,8 +30,7 @@ interface TocProps {
   handleSideBarToggle: () => void;
 }
 
-
-export default function TOC({ articleId, book, handleSideBarOnClick }: TocProps) {
+export default function TOC({ articleId, book, isOpen, handleSideBarToggle }: TocProps) {
   const { id, title, user, scraps } = book;
   const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(book);
 
