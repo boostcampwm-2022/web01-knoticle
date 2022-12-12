@@ -13,4 +13,10 @@ export const Input = styled.input`
   font-size: 16px;
   border: 1px solid var(--grey-02-color);
   border-radius: 10px;
+
+  @media ${(props) => props.theme.mobile} {
+    ::placeholder {
+      font-size: 12px;
+    }
+  }
 `;
