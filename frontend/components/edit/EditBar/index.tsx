@@ -10,6 +10,7 @@ import ExitIcon from '@assets/ico_exit.svg';
 import articleState from '@atoms/article';
 import articleBuffer from '@atoms/articleBuffer';
 import useFetch from '@hooks/useFetch';
+import { toastSuccess } from '@utils/toast';
 
 import { Bar, ButtonGroup, ExitButton, PublishButton, TemporaryButton } from './styled';
 
@@ -27,11 +28,15 @@ export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps)
   const { execute: createTemporaryArticle } = useFetch(createTemporaryArticleApi);
 
   const handleLoadButton = () => {
-    getTemporaryArticle();
+    const confirm = window.confirm('작성하신 글이 사라집니다.\n정말 불러오시겠습니까?');
+
+    if (confirm) getTemporaryArticle();
   };
 
   const handleSaveButton = () => {
     createTemporaryArticle({ title: article.title, content: article.content });
+
+    toastSuccess('글을 임시 저장했습니다.');
   };
 
   const handleExitButton = () => {
@@ -47,6 +52,8 @@ export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps)
       title: temporaryArticle.title,
       content: temporaryArticle.content,
     });
+
+    toastSuccess('임시 저장된 글을 불러왔습니다.');
   }, [temporaryArticle]);
 
   return (
