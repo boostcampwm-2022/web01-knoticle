@@ -7,6 +7,7 @@ import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
 import SkeletonBook from '@components/common/SkeletonBook';
+import useSessionStorage from '@hooks/useSessionStorage';
 import { IBookScraps } from '@interfaces';
 
 import {
@@ -37,8 +38,20 @@ const setNumBetween = (val: number, min: number, max: number) => {
 };
 
 function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
-  const [curBookIndex, setCurBookIndex] = useState(0);
-  const [sliderNumber, setSliderNumber] = useState(1);
+  // const [curBookIndex, setCurBookIndex] = useState(0);
+  // const [sliderNumber, setSliderNumber] = useState(1);
+
+  const {
+    value: curBookIndex,
+    setValue: setCurBookIndex,
+    isValueSet: isCurBookIndexSet,
+  } = useSessionStorage(`${title}_curBookIndex`, 0);
+
+  const {
+    value: sliderNumber,
+    setValue: setSliderNumber,
+    isValueSet: isSliderNumberSet,
+  } = useSessionStorage(`${title}sliderNumber`, 1);
 
   const SkeletonList = Array.from({ length: numberPerPage }, (_, i) => i + 1);
 
