@@ -6,19 +6,20 @@ import {
 import { prisma } from '@config/orm.config';
 
 const searchArticles = async (searchArticles: SearchArticles) => {
-  const { query, page, take, userId } = searchArticles;
+  const { query, page, take, userId, isUsers } = searchArticles;
 
   const skip = (page - 1) * take;
 
-  const matchUserCondition = Number(userId)
-    ? {
-        book: {
-          user: {
-            id: Number(userId),
+  const matchUserCondition =
+    isUsers === '1'
+      ? {
+          book: {
+            user: {
+              id: Number(userId),
+            },
           },
-        },
-      }
-    : {};
+        }
+      : {};
 
   const articles = await prisma.article.findMany({
     select: {

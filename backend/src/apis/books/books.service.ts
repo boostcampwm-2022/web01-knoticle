@@ -2,7 +2,7 @@ import { FindBooks, SearchBooks, CreateBook } from '@apis/books/books.interface'
 import { prisma } from '@config/orm.config';
 import { Message, NotFound } from '@errors';
 
-const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
+const searchBooks = async ({ query, userId, isUsers, take, page }: SearchBooks) => {
   const skip = (page - 1) * take;
 
   const books = await prisma.book.findMany({
@@ -40,7 +40,7 @@ const searchBooks = async ({ query, userId, take, page }: SearchBooks) => {
     },
     where: {
       deleted_at: null,
-      user_id: Number(userId) ? Number(userId) : undefined,
+      user_id: isUsers === '1' ? Number(userId) : undefined,
       title: {
         search: `${query}*`,
       },
