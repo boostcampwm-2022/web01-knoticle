@@ -112,7 +112,7 @@ export const TocArticleTitle = styled(Link)<{ count: number | undefined }>`
   padding-left: ${(props) => `${props.count}px`};
 
   &:hover {
-    color: #c29880;
+    color: var(--primary-color);
   }
 `;
 
