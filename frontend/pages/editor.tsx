@@ -20,6 +20,8 @@ export default function EditorPage() {
   const PublishModal = dynamic(() => import('@components/edit/PublishModal'));
   const ModifyModal = dynamic(() => import('@components/edit/ModifyModal'));
 
+  const router = useRouter();
+
   const [isModalShown, setModalShown] = useState(false);
   const [originalArticle, setOriginalArticle] = useState<IArticle | undefined>(undefined);
 
@@ -31,7 +33,17 @@ export default function EditorPage() {
 
   const user = useRecoilValue(signInStatusState);
 
-  const router = useRouter();
+  const syncHeight = () => {
+    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
+  };
+
+  useEffect(() => {
+    syncHeight();
+
+    window.addEventListener('resize', syncHeight);
+
+    return () => window.removeEventListener('resize', syncHeight);
+  }, []);
 
   useEffect(() => {
     getUserKnottedBooks(user.nickname);
@@ -51,16 +63,6 @@ export default function EditorPage() {
     }
     setOriginalArticle(article);
   }, [article]);
-
-  const syncHeight = () => {
-    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
-  };
-
-  useEffect(() => {
-    syncHeight();
-    window.addEventListener('resize', syncHeight);
-    return () => window.removeEventListener('resize', syncHeight);
-  }, []);
 
   return (
     <PageNoScrollWrapper>
