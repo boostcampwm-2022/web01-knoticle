@@ -56,7 +56,7 @@ export const ContentBody = styled.div`
 
   p {
     img {
-      width: 100%;
+      max-width: 360px;
     }
   }
 
