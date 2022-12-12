@@ -14,6 +14,10 @@ export const Input = styled.input`
   border: 1px solid var(--grey-02-color);
   border-radius: 10px;
 
+  ::placeholder {
+    font-size: 14px;
+  }
+
   @media ${(props) => props.theme.mobile} {
     ::placeholder {
       font-size: 12px;
