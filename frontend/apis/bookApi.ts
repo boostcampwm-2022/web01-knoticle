@@ -3,7 +3,7 @@ import api from '@utils/api';
 
 interface SearchBooksApi {
   query: string;
-  isUsers: 0 | 1;
+  isUsers: boolean;
   page: number;
   take: number;
 }

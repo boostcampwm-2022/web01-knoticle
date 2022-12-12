@@ -2,7 +2,7 @@ import api from '@utils/api';
 
 interface SearchArticlesApi {
   query: string;
-  isUsers: 0 | 1;
+  isUsers: boolean;
   page: number;
   take: number;
 }

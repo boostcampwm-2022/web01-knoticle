@@ -40,7 +40,7 @@ const searchBooks = async ({ query, userId, isUsers, take, page }: SearchBooks) 
     },
     where: {
       deleted_at: null,
-      user_id: isUsers === '1' ? Number(userId) : undefined,
+      user_id: isUsers === 'true' ? Number(userId) : undefined,
       title: {
         search: `${query}*`,
       },

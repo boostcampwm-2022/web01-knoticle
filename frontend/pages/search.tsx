@@ -37,7 +37,7 @@ export default function Search() {
     setValue: setFilter,
   } = useSessionStorage('filter', {
     type: 'article',
-    isUsers: 0,
+    isUsers: false,
   });
 
   const {
@@ -200,7 +200,7 @@ export default function Search() {
     };
   }, []);
 
-  const handleFilter = (value: { [value: string]: string | number }) => {
+  const handleFilter = (value: { [value: string]: string | boolean }) => {
     setFilter({
       ...filter,
       ...value,

@@ -11,7 +11,7 @@ const searchArticles = async (searchArticles: SearchArticles) => {
   const skip = (page - 1) * take;
 
   const matchUserCondition =
-    isUsers === '1'
+    isUsers === 'true'
       ? {
           book: {
             user: {
