@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
@@ -48,6 +48,8 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
     1
   );
 
+  const [touchPositionX, setTouchPositionX] = useState(0);
+
   const SkeletonList = Array.from({ length: numberPerPage }, (_, i) => i + 1);
 
   const sliderIndicatorCount = bookList ? Math.ceil(bookList.length / numberPerPage) : 0;
@@ -61,6 +63,20 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   const handleRightArrowClick = () => {
     setCurBookIndex(curBookIndex + numberPerPage);
     setSliderNumber(sliderNumber + 1);
+  };
+
+  const handleSliderTrackTouchStart = (e: React.TouchEvent) => {
+    setTouchPositionX(e.changedTouches[0].pageX);
+  };
+
+  const handleSliderTrackTouchEnd = (e: React.TouchEvent) => {
+    const distanceX = touchPositionX - e.changedTouches[0].pageX;
+    if (distanceX > 0 && sliderNumber !== sliderIndicatorCount) {
+      handleRightArrowClick();
+    }
+    if (distanceX < 0 && sliderNumber !== 1) {
+      handleLeftArrowClick();
+    }
   };
 
   useEffect(() => {
@@ -101,7 +117,11 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
         </SliderInfoContainer>
 
         <SliderBookContainer>
-          <SliderTrack curBookIndex={curBookIndex}>
+          <SliderTrack
+            curBookIndex={curBookIndex}
+            onTouchStart={handleSliderTrackTouchStart}
+            onTouchEnd={handleSliderTrackTouchEnd}
+          >
             {isLoading
               ? SkeletonList.map((key) => <SkeletonBook key={key} />)
               : bookList.map((book) => (
