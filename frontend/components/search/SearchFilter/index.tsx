@@ -32,7 +32,7 @@ export default function SearchFilter({ handleFilter }: SearchFilterProps) {
         <FilterLabel>
           <FilterButton
             type="checkbox"
-            onChange={(e) => handleFilter({ userId: e.target.checked ? signInStatus.id : 0 })}
+            onChange={(e) => handleFilter({ isUsers: e.target.checked ? 1 : 0 })}
           />
           내 책에서 검색
         </FilterLabel>

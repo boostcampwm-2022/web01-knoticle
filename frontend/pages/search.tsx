@@ -32,7 +32,7 @@ export default function Search() {
   const [articlePage, setArticlePage] = useState({ hasNextPage: true, pageNumber: 2 });
   const [bookPage, setBookPage] = useState({ hasNextPage: true, pageNumber: 2 });
 
-  const [filter, setFilter] = useState({ type: 'article', userId: 0 });
+  const [filter, setFilter] = useState({ type: 'article', isUsers: 0 });
 
   const [isArticleNoResult, setIsArticleNoResult] = useState(false);
   const [isBookNoResult, setIsBookNoResult] = useState(false);
@@ -79,7 +79,7 @@ export default function Search() {
 
     searchArticles({
       query: debouncedKeyword,
-      userId: filter.userId,
+      isUsers: filter.isUsers,
       page: 1,
       take: 12,
     });
@@ -90,7 +90,7 @@ export default function Search() {
 
     searchBooks({
       query: debouncedKeyword,
-      userId: filter.userId,
+      isUsers: filter.isUsers,
       page: 1,
       take: 12,
     });
@@ -98,7 +98,7 @@ export default function Search() {
       hasNextPage: true,
       pageNumber: 2,
     });
-  }, [debouncedKeyword, filter.userId]);
+  }, [debouncedKeyword, filter.isUsers]);
 
   useEffect(() => {
     if (!isIntersecting || !debouncedKeyword) return;
@@ -107,7 +107,7 @@ export default function Search() {
       if (!articlePage.hasNextPage) return;
       searchArticles({
         query: debouncedKeyword,
-        userId: filter.userId,
+        isUsers: filter.isUsers,
         page: articlePage.pageNumber,
         take: 12,
       });
@@ -119,7 +119,7 @@ export default function Search() {
       if (!bookPage.hasNextPage) return;
       searchBooks({
         query: debouncedKeyword,
-        userId: filter.userId,
+        isUsers: filter.isUsers,
         page: bookPage.pageNumber,
         take: 12,
       });
