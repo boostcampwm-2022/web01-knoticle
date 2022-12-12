@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { useEffect } from 'react';
@@ -5,6 +6,7 @@ import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { createTemporaryArticleApi, getTemporaryArticleApi } from '@apis/articleApi';
+import ExitIcon from '@assets/ico_exit.svg';
 import articleState from '@atoms/article';
 import articleBuffer from '@atoms/articleBuffer';
 import useFetch from '@hooks/useFetch';
@@ -51,14 +53,14 @@ export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps)
     <Bar>
       <ButtonGroup>
         <ExitButton tabIndex={-1} onClick={() => handleExitButton()}>
-          나가기
+          <Image src={ExitIcon} alt="Exit Icon" />
         </ExitButton>
       </ButtonGroup>
       <ButtonGroup>
         <TemporaryButton onClick={() => handleLoadButton()}>불러오기</TemporaryButton>
-        <TemporaryButton onClick={() => handleSaveButton()}>저장</TemporaryButton>
+        <TemporaryButton onClick={() => handleSaveButton()}>저장하기</TemporaryButton>
         <PublishButton onClick={handleModalOpen}>
-          {isModifyMode ? '수정하기' : '발행'}
+          {isModifyMode ? '수정하기' : '발행하기'}
         </PublishButton>
       </ButtonGroup>
     </Bar>
