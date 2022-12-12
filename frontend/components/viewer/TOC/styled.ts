@@ -63,11 +63,13 @@ export const TocContainer = styled.div`
   color: var(--grey-01-color);
   background-color: var(--white-color);
   border-radius: 16px;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
 
   ::-webkit-scrollbar {
     width: 10px;
   }
+
   ::-webkit-scrollbar-thumb {
     background-color: var(--grey-02-color);
     border-radius: 10px;
