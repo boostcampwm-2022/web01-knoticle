@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import styled from 'styled-components';
 
+import { TextSmall } from '@styles/common';
 import { Flex, FlexColumn, FlexColumnSpaceBetween } from '@styles/layout';
 
 interface TocWrapperProps {
@@ -89,23 +90,30 @@ export const TocArticle = styled(Link)`
   color: inherit;
   display: block;
   margin-bottom: 5px;
+  font-weight: 600;
 `;
 export const TocCurrentArticle = styled.div`
   font-size: 14px;
   line-height: 20px;
   display: block;
   margin-bottom: 5px;
-
-  color: #ca7647;
+  color: var(--primary-color);
+`;
+export const TocCurrentText = styled(TextSmall)`
+  cursor: 'pointer';
+  font-weight: 600;
 `;
 export const TocArticleTitle = styled(Link)<{ count: number | undefined }>`
   font-size: 14px;
   line-height: 20px;
   text-decoration: none;
-  color: #c29880;
   display: block;
   margin-bottom: 5px;
   padding-left: ${(props) => `${props.count}px`};
+
+  &:hover {
+    color: #c29880;
+  }
 `;
 
 export const TocProfile = styled(Link)`
