@@ -14,8 +14,8 @@ import {
 } from './styled';
 
 interface ArticleItemProps {
-  title: string;
-  content: string;
+  title: React.ReactNode;
+  content: React.ReactNode;
   nickname: string;
   profileImage: string;
   articleUrl: string;
