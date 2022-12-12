@@ -38,20 +38,15 @@ const setNumBetween = (val: number, min: number, max: number) => {
 };
 
 function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
-  // const [curBookIndex, setCurBookIndex] = useState(0);
-  // const [sliderNumber, setSliderNumber] = useState(1);
+  const { value: curBookIndex, setValue: setCurBookIndex } = useSessionStorage(
+    `${title}_curBookIndex`,
+    0
+  );
 
-  const {
-    value: curBookIndex,
-    setValue: setCurBookIndex,
-    isValueSet: isCurBookIndexSet,
-  } = useSessionStorage(`${title}_curBookIndex`, 0);
-
-  const {
-    value: sliderNumber,
-    setValue: setSliderNumber,
-    isValueSet: isSliderNumberSet,
-  } = useSessionStorage(`${title}sliderNumber`, 1);
+  const { value: sliderNumber, setValue: setSliderNumber } = useSessionStorage(
+    `${title}_sliderNumber`,
+    1
+  );
 
   const SkeletonList = Array.from({ length: numberPerPage }, (_, i) => i + 1);
 
