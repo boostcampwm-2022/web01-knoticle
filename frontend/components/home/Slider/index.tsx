@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
