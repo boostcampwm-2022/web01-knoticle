@@ -23,6 +23,10 @@ export const FlexColumnCenter = styled(FlexColumn)`
   align-items: center;
 `;
 
+export const FlexColumnSpaceBetween = styled(FlexColumn)`
+  justify-content: space-between;
+`;
+
 export const FlexColumnAlignCenter = styled(FlexColumn)`
   align-items: center;
 `;
@@ -58,4 +62,20 @@ export const PageNoScrollWrapper = styled.div`
   position: fixed;
   top: 0px;
   width: 100%;
+`;
+
+export const PageGNBHide = styled.div<{ isscrolldown: 'true' | 'false' }>`
+  @media ${(props) => props.theme.mobile} {
+    position: absolute;
+    top: ${(props) => (props.isscrolldown === 'true' ? '-67px' : '0px')};
+    transition: top 0.2s ease-in-out;
+    width: 100%;
+  }
+`;
+
+export const PageWrapperWithHeight = styled.div<{ initialHeight: number }>`
+  padding-top: 64px;
+  background-color: var(--light-yellow-color);
+  min-height: ${(props) =>
+    props.initialHeight !== 0 ? `${props.initialHeight + 600}px` : 'calc(100vh - 131px)'};
 `;

@@ -8,11 +8,12 @@ export const ContentTitle = styled.h1`
   margin-bottom: 16px;
   font-size: 24px;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  height: 35px;
 `;
 
 export const ContentBody = styled.div`
-  padding-top: 10px;
-
   > * {
     line-height: 2;
     font-weight: 400;
@@ -68,6 +69,10 @@ export const ContentBody = styled.div`
     }
   }
 
+  em {
+    font-style: italic;
+  }
+
   blockquote {
     margin: 24px 0;
     padding: 24px 16px;
@@ -86,7 +91,6 @@ export const ContentBody = styled.div`
     border-radius: 4px;
     font-family: 'consolas';
     font-size: 16px;
-    font-weight: 700;
     line-height: 1.4;
 
     code {
