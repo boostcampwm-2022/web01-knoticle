@@ -24,14 +24,10 @@ interface FabProps {
 }
 
 export default function FAB({ isEditing, setIsEditing }: FabProps) {
-  const { isLoading: aaa, data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
-  const { isLoading: bbb, data: editBookData, execute: editBook } = useFetch(editBookApi);
-  const {
-    isLoading: ccc,
-    data: deleteArticleData,
-    execute: deleteArticle,
-  } = useFetch(deleteArticleApi);
-  const { isLoading: ddd, data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
+  const { data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
+  const { data: editBookData, execute: editBook } = useFetch(editBookApi);
+  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
+  const { data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
 
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
@@ -58,41 +54,46 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
     editInfo.deletedScraps.forEach((scrapId) => {
       deleteScrap(scrapId);
     });
+    setEditInfo({
+      deleted: [],
+      editted: [],
+      deletedArticle: [],
+      deletedScraps: [],
+    });
+    toastSuccess(`수정 완료되었습니다`);
   };
 
-  useEffect(() => {
-    if (!deletedBook) return;
+  // useEffect(() => {
+  //   if (!deletedBook) return;
 
-    setEditInfo({
-      ...editInfo,
-      deleted: editInfo.deleted.filter((id) => id !== deletedBook.id),
-    });
-  }, [deletedBook]);
+  //   setEditInfo({
+  //     ...editInfo,
+  //     deleted: editInfo.deleted.filter((id) => id !== deletedBook.id),
+  //   });
+  // }, [deletedBook]);
 
-  useEffect(() => {
-    console.log('editBookData', editBookData);
-    if (!editBookData || !deleteScrapData) return;
+  // useEffect(() => {
+  //   console.log('editBookData', editBookData);
+  //   if (!editBookData) return;
 
-    if (aaa || bbb || ccc || ddd) return;
+  //   setEditInfo({
+  //     ...editInfo,
+  //     editted: editInfo.editted.filter((edit) => edit.id !== editBookData.id),
+  //     deletedScraps: editInfo.deletedScraps.filter((scrapId) => scrapId !== deleteScrapData.id),
+  //   });
+  // }, [editBookData, deleteScrapData]);
 
-    setEditInfo({
-      ...editInfo,
-      editted: editInfo.editted.filter((edit) => edit.id !== editBookData.id),
-      deletedScraps: editInfo.deletedScraps.filter((scrapId) => scrapId !== deleteScrapData.id),
-    });
-  }, [editBookData, deleteScrapData]);
+  // useEffect(() => {
+  //   if (!deleteArticleData) return;
+  //   console.log('deleteArticleData', deleteArticleData);
 
-  useEffect(() => {
-    if (!deleteArticleData) return;
-    console.log('deleteArticleData', deleteArticleData);
-
-    setEditInfo({
-      ...editInfo,
-      deletedArticle: editInfo.deletedArticle.filter(
-        (articleId) => articleId !== deleteArticleData.id
-      ),
-    });
-  }, [deleteArticleData]);
+  //   setEditInfo({
+  //     ...editInfo,
+  //     deletedArticle: editInfo.deletedArticle.filter(
+  //       (articleId) => articleId !== deleteArticleData.id
+  //     ),
+  //   });
+  // }, [deleteArticleData]);
 
   // useEffect(() => {
   //   if (!deleteScrapData) return;
@@ -106,15 +107,14 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
 
   useEffect(() => {
     console.log(deletedBook, editBookData, deleteArticleData, deleteScrapData, editInfo);
-    if (
-      (deletedBook || editBookData || deleteArticleData || deleteScrapData) &&
-      editInfo.deleted.length === 0 &&
-      editInfo.editted.length === 0 &&
-      editInfo.deletedArticle.length === 0 &&
-      editInfo.deletedScraps.length === 0
-    ) {
-      toastSuccess(`수정 완료되었습니다`);
-    }
+    // if (
+    //   (deletedBook || editBookData || deleteArticleData || deleteScrapData) &&
+    //   editInfo.deleted.length === 0 &&
+    //   editInfo.editted.length === 0 &&
+    //   editInfo.deletedArticle.length === 0 &&
+    //   editInfo.deletedScraps.length === 0
+    // ) {
+    // }
   }, [editInfo]);
 
   return (
