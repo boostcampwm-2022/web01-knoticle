@@ -28,15 +28,19 @@ export default function EditBar({ handleModalOpen, isModifyMode }: EditBarProps)
   const { execute: createTemporaryArticle } = useFetch(createTemporaryArticleApi);
 
   const handleLoadButton = () => {
-    const confirm = window.confirm('작성하신 글이 사라집니다.\n정말 불러오시겠습니까?');
+    const confirm = window.confirm('현재 작성하신 글이 사라집니다.\n정말 불러오시겠습니까?');
 
     if (confirm) getTemporaryArticle();
   };
 
   const handleSaveButton = () => {
-    createTemporaryArticle({ title: article.title, content: article.content });
+    const confirm = window.confirm('기존에 임시 저장한 글이 사라집니다.\n정말 저장하시겠습니까?');
 
-    toastSuccess('글을 임시 저장했습니다.');
+    if (confirm) {
+      createTemporaryArticle({ title: article.title, content: article.content });
+
+      toastSuccess('글을 임시 저장했습니다.');
+    }
   };
 
   const handleExitButton = () => {
