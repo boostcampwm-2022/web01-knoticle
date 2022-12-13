@@ -18,7 +18,7 @@ export const markdown2html = (markdown: string) => {
     .toString();
 
   return unified()
-    .use(rehypeParse)
+    .use(rehypeParse, { fragment: true })
     .use(rehypeHighlight, { ignoreMissing: true })
     .use(rehypeStringify)
     .processSync(html)
