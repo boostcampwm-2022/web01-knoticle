@@ -94,11 +94,7 @@ export default function PublishModal({ books }: PublishModalProps) {
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle
-            data={createScrapDropdownItems(filteredScraps)}
-            isContentsShown
-            isDeleteBtnShown={false}
-          />
+          <DragArticle isContentsShown isDeleteBtnShown={false} />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handlePublishBtnClick}>
