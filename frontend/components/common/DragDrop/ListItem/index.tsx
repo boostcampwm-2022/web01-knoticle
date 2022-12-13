@@ -82,8 +82,6 @@ export const ListItem = memo(function Scrap({
   );
 
   const handleMinusBtnClick = () => {
-    // 원본글이 아니면 스크랩에서만 삭제
-    // 원본글이면 실제로 삭제
     if (isOriginal) {
       if (window.confirm('이 글은 원본 글입니다. 정말로 삭제하시겠습니까?')) {
         setEditInfo({

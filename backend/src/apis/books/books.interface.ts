@@ -3,6 +3,7 @@ export interface SearchBooks {
   page: number;
   take: number;
   userId?: number;
+  isUsers?: string;
 }
 
 export interface FindBooks {

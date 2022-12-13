@@ -31,9 +31,19 @@ const getBooks = async (req: Request, res: Response) => {
 };
 
 const searchBooks = async (req: Request, res: Response) => {
-  const { query, page, take, userId } = req.query as unknown as SearchBooks;
+  const { query, page, take, isUsers } = req.query as unknown as SearchBooks;
 
-  const searchResult = await booksService.searchBooks({ query, userId, take: +take, page });
+  let userId = res.locals.user?.id;
+
+  if (!userId) userId = 0;
+
+  const searchResult = await booksService.searchBooks({
+    query,
+    isUsers,
+    userId,
+    take: +take,
+    page,
+  });
 
   return res.status(200).send(searchResult);
 };

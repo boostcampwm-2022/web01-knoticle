@@ -56,7 +56,11 @@ export const ContentBody = styled.div`
 
   p {
     img {
-      width: 100%;
+      max-width: 720px;
+
+      @media ${(props) => props.theme.mobile} {
+        width: 100%;
+      }
     }
   }
 

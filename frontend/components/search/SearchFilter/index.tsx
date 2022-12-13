@@ -6,11 +6,11 @@ import { FilterButton, FilterGroup, FilterLabel, FilterWrapper } from './styled'
 
 interface Filter {
   type: string;
-  userId: number;
+  isUsers: boolean;
 }
 
 interface SearchFilterProps {
-  handleFilter: (value: { [value: string]: string | number }) => void;
+  handleFilter: (value: { [value: string]: string | boolean }) => void;
   filter: Filter;
 }
 
@@ -43,8 +43,8 @@ export default function SearchFilter({ handleFilter, filter }: SearchFilterProps
         <FilterLabel>
           <FilterButton
             type="checkbox"
-            onChange={(e) => handleFilter({ userId: e.target.checked ? signInStatus.id : 0 })}
-            checked={filter.userId !== 0}
+            onChange={() => handleFilter({ isUsers: !filter.isUsers })}
+            checked={filter.isUsers}
           />
           내 책에서 검색
         </FilterLabel>

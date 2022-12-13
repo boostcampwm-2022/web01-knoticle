@@ -51,7 +51,7 @@ export const SliderBookContainer = styled.div`
 export const SliderTrack = styled.div<{ curBookIndex: number }>`
   display: flex;
   ${(props) => `transform: translateX(-${300 * props.curBookIndex}px);`}
-  transition: transform 700ms ease 0ms;
+  transition: transform 500ms ease 0ms;
 `;
 
 export const SliderIndicatorContainer = styled.div`

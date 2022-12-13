@@ -29,7 +29,7 @@ export const articleConversion = (content: string) => {
     if (v.includes('h1') || v.includes('h2') || v.includes('h3')) {
       const title = v.replace(/<[^>]*>?/g, '');
       const result = v.split('');
-      result.splice(3, 0, ' ', `id=${title}`);
+      result.splice(3, 0, ' ', `id="${title}"`);
       return result.join('');
     }
     return v;

@@ -10,6 +10,7 @@ import useBookmark from '@hooks/useBookmark';
 import { IBookScraps } from '@interfaces';
 import { TextMedium, TextSmall } from '@styles/common';
 import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
+import { text2link } from '@utils/toc';
 
 import {
   TocWrapper,
@@ -25,6 +26,7 @@ import {
   TocArticleTitle,
   TocCurrentArticle,
   TocOpenButton,
+  TocCurrentText,
 } from './styled';
 
 interface TocProps {
@@ -86,13 +88,13 @@ export default function TOC({
                   </TocArticle>
                 ) : (
                   <TocCurrentArticle key={v.order} className="current">
-                    <TextSmall onClick={handleCurrentArticle} style={{ cursor: 'pointer' }}>
+                    <TocCurrentText onClick={handleCurrentArticle}>
                       {v.order}.{v.article.title}
-                    </TextSmall>
+                    </TocCurrentText>
                     {isArticleShown &&
                       articleToc.map((article) => (
                         <TocArticleTitle
-                          href={`#${article.title}`}
+                          href={text2link(article.title)}
                           key={article.title}
                           count={article.count}
                         >

@@ -2,7 +2,8 @@ export interface SearchArticles {
   query: string;
   page: number;
   take: number;
-  userId: number;
+  userId?: number;
+  isUsers?: string;
 }
 
 export interface CreateArticle {

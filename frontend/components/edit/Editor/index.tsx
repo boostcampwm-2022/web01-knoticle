@@ -20,7 +20,6 @@ import EditBar from '@components/edit/EditBar';
 import useCodeMirror from '@components/edit/Editor/core/useCodeMirror';
 import useInput from '@hooks/useInput';
 import { IArticle } from '@interfaces';
-import { html2markdown, markdown2html } from '@utils/parser';
 
 import {
   EditorButtonWrapper,
@@ -68,7 +67,7 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
     if (!buffer.title && !buffer.content) return;
 
     title.setValue(buffer.title);
-    replaceDocument(html2markdown(buffer.content));
+    replaceDocument(buffer.content);
 
     setBuffer({ title: '', content: '' });
   }, [buffer]);
@@ -77,7 +76,7 @@ export default function Editor({ handleModalOpen, originalArticle }: EditorProps
     setArticle({
       ...article,
       title: title.value,
-      content: markdown2html(document),
+      content: document,
     });
   }, [title.value, document]);
 

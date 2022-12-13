@@ -20,15 +20,17 @@ export const ButtonGroup = styled.div`
 `;
 
 const Button = styled.button`
-  padding: 8px 16px;
-  border-radius: 10px;
+  padding: 4px;
+  border-radius: 8px;
+  line-height: 16px;
   font-family: 'Noto Sans KR';
 `;
 
-export const ExitButton = styled(Button)`
-  color: var(--title-active-color);
-  background-color: var(--light-orange-color);
-  border: 1px solid var(--grey-01-color);
+export const ExitButton = styled.button`
+  > img {
+    width: 32px;
+    height: 32px;
+  }
 `;
 
 export const TemporaryButton = styled(Button)`

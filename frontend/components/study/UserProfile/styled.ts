@@ -40,7 +40,7 @@ export const Username = styled(TextLarge)`
 export const UserDescription = styled(TextSmall)`
   width: 400px;
   @media ${(props) => props.theme.tablet} {
-    width: 300px;
+    width: 250px;
   }
 `;
 

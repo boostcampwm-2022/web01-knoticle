@@ -6,19 +6,20 @@ import {
 import { prisma } from '@config/orm.config';
 
 const searchArticles = async (searchArticles: SearchArticles) => {
-  const { query, page, take, userId } = searchArticles;
+  const { query, page, take, userId, isUsers } = searchArticles;
 
   const skip = (page - 1) * take;
 
-  const matchUserCondition = Number(userId)
-    ? {
-        book: {
-          user: {
-            id: Number(userId),
+  const matchUserCondition =
+    isUsers === 'true'
+      ? {
+          book: {
+            user: {
+              id: Number(userId),
+            },
           },
-        },
-      }
-    : {};
+        }
+      : {};
 
   const articles = await prisma.article.findMany({
     select: {
@@ -112,7 +113,7 @@ const createArticle = async (dto: CreateArticle) => {
 };
 
 const deleteArticle = async (articleId: number) => {
-  await prisma.article.update({
+  const article = await prisma.article.update({
     where: {
       id: articleId,
     },
@@ -120,6 +121,8 @@ const deleteArticle = async (articleId: number) => {
       deleted_at: new Date(),
     },
   });
+
+  return article;
 };
 
 const getTemporaryArticle = async (userId: number) => {

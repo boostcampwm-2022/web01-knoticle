@@ -1,3 +1,5 @@
+import { markdown2html } from '@utils/parser';
+
 import { ContentBody, ContentTitle, ContentWrapper } from './styled';
 
 import 'highlight.js/styles/github.css';
@@ -13,7 +15,7 @@ export default function Content({ title, content }: ContentProps) {
       {title && <ContentTitle>{title}</ContentTitle>}
       <ContentBody
         dangerouslySetInnerHTML={{
-          __html: content,
+          __html: markdown2html(content),
         }}
       />
     </ContentWrapper>

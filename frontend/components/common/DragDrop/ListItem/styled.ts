@@ -16,6 +16,7 @@ export const Article = styled.div<{ isShown: true | false }>`
   align-items: center;
   border-bottom: 1px solid var(--grey-02-color);
   padding: 5px;
+  cursor: pointer;
 `;
 
 export const MinusButton = styled.div`

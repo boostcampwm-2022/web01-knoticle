@@ -13,6 +13,7 @@ import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IBook, IArticle, IScrap, IBookScraps } from '@interfaces';
+import { toastSuccess } from '@utils/toast';
 
 import { ArticleWrapper, Label, ScrapModalWrapper, WarningLabel } from './styled';
 
@@ -97,6 +98,7 @@ export default function ScrapModal({ bookId, handleModalClose, article }: ScrapM
   useEffect(() => {
     if (createScrapData === undefined) return;
     router.push(`/viewer/${bookId}/${article.id}`);
+    toastSuccess(`${article.title}글이 스크랩되었습니다.`);
     handleModalClose();
   }, [createScrapData]);
 
@@ -117,11 +119,7 @@ export default function ScrapModal({ bookId, handleModalClose, article }: ScrapM
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle
-            data={createScrapDropdownItems(filteredScraps)}
-            isContentsShown
-            isDeleteBtnShown={false}
-          />
+          <DragArticle isContentsShown isDeleteBtnShown={false} />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handleScrapBtnClick}>

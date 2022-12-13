@@ -12,6 +12,7 @@ import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IBook, IBookScraps, IScrap } from '@interfaces';
+import { toastSuccess } from '@utils/toast';
 
 import { ArticleWrapper, Label, PublishModalWrapper } from './styled';
 
@@ -73,7 +74,11 @@ export default function PublishModal({ books }: PublishModalProps) {
   };
 
   useEffect(() => {
-    if (createdArticle) router.push('/');
+    if (createdArticle) {
+      const { id, title } = createdArticle.createdArticle;
+      router.push(`/viewer/${selectedBookIndex}/${id}`);
+      toastSuccess(`${title}글이 발행되었습니다.`);
+    }
   }, [createdArticle]);
 
   return (
@@ -89,11 +94,7 @@ export default function PublishModal({ books }: PublishModalProps) {
       {filteredScraps.length !== 0 && (
         <ArticleWrapper>
           <Label>순서 선택</Label>
-          <DragArticle
-            data={createScrapDropdownItems(filteredScraps)}
-            isContentsShown
-            isDeleteBtnShown={false}
-          />
+          <DragArticle isContentsShown isDeleteBtnShown={false} />
         </ArticleWrapper>
       )}
       <ModalButton theme="primary" onClick={handlePublishBtnClick}>
