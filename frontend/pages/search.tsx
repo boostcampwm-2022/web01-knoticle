@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, RefObject, useEffect, useRef, useState } from 'react';
 
 import { searchArticlesApi } from '@apis/articleApi';
 import { searchBooksApi } from '@apis/bookApi';
@@ -11,67 +11,78 @@ import SearchHead from '@components/search/SearchHead';
 import SearchNoResult from '@components/search/SearchNoResult';
 import useDebounce from '@hooks/useDebounce';
 import useFetch from '@hooks/useFetch';
-import useInput from '@hooks/useInput';
 import useIntersectionObserver from '@hooks/useIntersectionObserver';
-import { IArticle, IBook } from '@interfaces';
-import { PageInnerSmall, PageWrapper } from '@styles/layout';
+import useSessionStorage from '@hooks/useSessionStorage';
+import { PageInnerSmall, PageWrapperWithHeight } from '@styles/layout';
 
 export default function Search() {
-  const [articles, setArticles] = useState([]);
-  const [books, setBooks] = useState([]);
+  const { value: articles, setValue: setArticles } = useSessionStorage('articles', []);
+  const { value: books, setValue: setBooks } = useSessionStorage('books', []);
 
   const { data: newArticles, execute: searchArticles } = useFetch(searchArticlesApi);
   const { data: newBooks, execute: searchBooks } = useFetch(searchBooksApi);
 
-  const keyword = useInput();
-  const debouncedKeyword = useDebounce(keyword.value, 300);
+  const { value: articlePage, setValue: setArticlePage } = useSessionStorage('articlePage', {
+    hasNextPage: true,
+    pageNumber: 2,
+  });
+  const { value: bookPage, setValue: setBookPage } = useSessionStorage('bookPage', {
+    hasNextPage: true,
+    pageNumber: 2,
+  });
+
+  const { value: filter, setValue: setFilter } = useSessionStorage('filter', {
+    type: 'article',
+    isUsers: false,
+  });
+
+  const { value: keyword, setValue: setKeyword } = useSessionStorage('keyword', '');
+
+  const debouncedKeyword = useDebounce(keyword, 300);
+  const [keywords, setKeywords] = useState<string[]>([]);
 
   const target = useRef() as RefObject<HTMLDivElement>;
   const isIntersecting = useIntersectionObserver(target);
 
-  const [articlePage, setArticlePage] = useState({ hasNextPage: true, pageNumber: 2 });
-  const [bookPage, setBookPage] = useState({ hasNextPage: true, pageNumber: 2 });
-
-  const [filter, setFilter] = useState({ type: 'article', userId: 0 });
+  const [isInitialRendering, setIsInitialRendering] = useState(true);
 
   const [isArticleNoResult, setIsArticleNoResult] = useState(false);
   const [isBookNoResult, setIsBookNoResult] = useState(false);
 
-  const highlightWord = (text: string, words: string[]): React.ReactNode => {
-    let wordIndexList = words.map((word) => text.toLowerCase().indexOf(word.toLowerCase()));
-
-    const filteredWords = words.filter((_, index) => wordIndexList[index] !== -1);
-    wordIndexList = wordIndexList.filter((wordIndex) => wordIndex !== -1);
-
-    if (wordIndexList.length === 0) return text;
-
-    const startIndex = Math.min(...wordIndexList);
-
-    const targetWord = filteredWords[wordIndexList.indexOf(startIndex)];
-
-    const endIndex = startIndex + targetWord.length;
-
-    return (
-      <>
-        {text.slice(0, startIndex)}
-        <b>{text.slice(startIndex, endIndex)}</b>
-        {highlightWord(text.slice(endIndex), words)}
-      </>
-    );
-  };
+  const { setValue: setScrollTop } = useSessionStorage('scroll', 0);
+  const [initialHeight, setInitialHeight] = useState(0);
 
   useEffect(() => {
+    setKeywords(
+      debouncedKeyword
+        .trim()
+        .split(' ')
+        .filter((word: string) => word)
+    );
+  }, [debouncedKeyword]);
+
+  useEffect(() => {
+    if (isInitialRendering) return;
+
     if (debouncedKeyword === '') {
       setArticles([]);
       setBooks([]);
       setIsArticleNoResult(false);
       setIsBookNoResult(false);
+      setArticlePage({
+        hasNextPage: true,
+        pageNumber: 2,
+      });
+      setBookPage({
+        hasNextPage: true,
+        pageNumber: 2,
+      });
       return;
     }
 
     searchArticles({
       query: debouncedKeyword,
-      userId: filter.userId,
+      isUsers: filter.isUsers,
       page: 1,
       take: 12,
     });
@@ -82,7 +93,7 @@ export default function Search() {
 
     searchBooks({
       query: debouncedKeyword,
-      userId: filter.userId,
+      isUsers: filter.isUsers,
       page: 1,
       take: 12,
     });
@@ -90,7 +101,7 @@ export default function Search() {
       hasNextPage: true,
       pageNumber: 2,
     });
-  }, [debouncedKeyword, filter.userId]);
+  }, [debouncedKeyword, filter.isUsers]);
 
   useEffect(() => {
     if (!isIntersecting || !debouncedKeyword) return;
@@ -99,7 +110,7 @@ export default function Search() {
       if (!articlePage.hasNextPage) return;
       searchArticles({
         query: debouncedKeyword,
-        userId: filter.userId,
+        isUsers: filter.isUsers,
         page: articlePage.pageNumber,
         take: 12,
       });
@@ -111,7 +122,7 @@ export default function Search() {
       if (!bookPage.hasNextPage) return;
       searchBooks({
         query: debouncedKeyword,
-        userId: filter.userId,
+        isUsers: filter.isUsers,
         page: bookPage.pageNumber,
         take: 12,
       });
@@ -133,18 +144,8 @@ export default function Search() {
 
     setIsArticleNoResult(false);
 
-    const newArticlesHighlighted = newArticles.data.map((article: IArticle) => {
-      const keywords = debouncedKeyword.trim().split(' ');
-
-      return {
-        ...article,
-        title: highlightWord(article.title, keywords),
-        content: highlightWord(article.content, keywords),
-      };
-    });
-
-    if (articlePage.pageNumber === 2) setArticles(newArticlesHighlighted);
-    else setArticles(articles.concat(newArticlesHighlighted));
+    if (articlePage.pageNumber === 2) setArticles(newArticles.data);
+    else setArticles(articles.concat(newArticles.data));
 
     setArticlePage({
       ...articlePage,
@@ -163,17 +164,8 @@ export default function Search() {
 
     setIsBookNoResult(false);
 
-    const newBooksHighlighted = newBooks.data.map((book: IBook) => {
-      const keywords = debouncedKeyword.trim().split(' ');
-
-      return {
-        ...book,
-        title: highlightWord(book.title, keywords),
-      };
-    });
-
-    if (bookPage.pageNumber === 2) setBooks(newBooksHighlighted);
-    setBooks(books.concat(newBooksHighlighted));
+    if (bookPage.pageNumber === 2) setBooks(newBooks.data);
+    else setBooks(books.concat(newBooks.data));
 
     setBookPage({
       ...bookPage,
@@ -181,30 +173,68 @@ export default function Search() {
     });
   }, [newBooks]);
 
-  const handleFilter = (value: { [value: string]: string | number }) => {
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollTop(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleFilter = (value: { [value: string]: string | boolean }) => {
+    setIsInitialRendering(false);
     setFilter({
       ...filter,
       ...value,
     });
+    if (initialHeight !== 0) setInitialHeight(0);
   };
+
+  const handleKeywordOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsInitialRendering(false);
+    if (e.target) setKeyword(e.target.value);
+  };
+
+  useEffect(() => {
+    setInitialHeight(Number(sessionStorage.getItem('scroll')));
+  }, []);
+
+  useEffect(() => {
+    if (initialHeight !== 0) window.scrollTo(0, initialHeight);
+  }, [initialHeight]);
 
   return (
     <>
       <SearchHead />
       <GNB />
-      <PageWrapper>
+      <PageWrapperWithHeight initialHeight={initialHeight}>
         <PageInnerSmall>
-          <SearchBar {...keyword} />
-          <SearchFilter handleFilter={handleFilter} />
+          <SearchBar onChange={handleKeywordOnChange} value={keyword} />
+          <SearchFilter filter={filter} handleFilter={handleFilter} />
           {debouncedKeyword !== '' &&
             filter.type === 'article' &&
-            (isArticleNoResult ? <SearchNoResult /> : <ArticleList articles={articles} />)}
+            (isArticleNoResult ? (
+              <SearchNoResult />
+            ) : (
+              <ArticleList articles={articles} keywords={keywords} />
+            ))}
           {debouncedKeyword !== '' &&
             filter.type === 'book' &&
-            (isBookNoResult ? <SearchNoResult /> : <BookList books={books} />)}
+            (isBookNoResult ? <SearchNoResult /> : <BookList books={books} keywords={keywords} />)}
           <div ref={target} />
         </PageInnerSmall>
-      </PageWrapper>
+      </PageWrapperWithHeight>
     </>
   );
 }

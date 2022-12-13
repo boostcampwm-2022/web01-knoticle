@@ -2,12 +2,17 @@ import Image from 'next/image';
 
 import styled from 'styled-components';
 
-import { FlexColumn, FlexSpaceBetween } from '@styles/layout';
+import { FlexCenter, FlexColumn, FlexSpaceBetween } from '@styles/layout';
 
 export const SliderWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
+
+  @media ${(props) => props.theme.mobile} {
+    gap: 0;
+  }
 `;
 
 export const SliderContent = styled(FlexColumn)<{ numberPerPage: number }>`
@@ -55,21 +60,8 @@ export const SliderIndicatorContainer = styled.div`
   gap: 4px;
 `;
 
-export const SliderBookWrapper = styled.div<{ numberPerPage: number }>`
+export const SliderBookWrapper = styled(FlexCenter)<{ numberPerPage: number }>`
   min-width: 300px;
-  @media ${(props) => props.theme.desktop} {
-    min-width: 300px;
-  }
-
-  @media ${(props) => props.theme.tablet} {
-    min-width: 280px;
-    margin: 0 10px;
-  }
-
-  @media ${(props) => props.theme.mobile} {
-    min-width: 280px;
-    margin: 0 10px;
-  }
 
   ${(props) => {
     if (props.numberPerPage === 1) return 'min-width: 280px; margin: 0 10px;';

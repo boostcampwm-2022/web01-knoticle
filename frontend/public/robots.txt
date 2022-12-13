@@ -8,7 +8,7 @@ Disallow: /editor
 Disallow: /search
 
 # Host
-Host: http://knoticle.app/
+Host: https://www.knoticle.app/
 
 # Sitemaps
-Sitemap: https://knoticle.app/sitemap.xml # Index sitemap
+Sitemap: https://www.knoticle.app/sitemap.xml # Index sitemap

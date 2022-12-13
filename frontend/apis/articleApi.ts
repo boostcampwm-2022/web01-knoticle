@@ -2,7 +2,7 @@ import api from '@utils/api';
 
 interface SearchArticlesApi {
   query: string;
-  userId: number;
+  isUsers: boolean;
   page: number;
   take: number;
 }
@@ -11,7 +11,7 @@ export const searchArticlesApi = async (data: SearchArticlesApi) => {
   const url = `/api/articles/search`;
   const params = {
     query: data.query,
-    userId: data.userId,
+    isUsers: data.isUsers,
     page: data.page,
     take: data.take,
   };

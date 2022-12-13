@@ -1,83 +1,117 @@
 import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
 
-import { useRecoilValue } from 'recoil';
-
 import { getArticleApi } from '@apis/articleApi';
-import { getBookApi, getUserKnottedBooksApi } from '@apis/bookApi';
-import signInStatusState from '@atoms/signInStatus';
+import { getBookApi } from '@apis/bookApi';
 import GNB from '@components/common/GNB';
-import Modal from '@components/common/Modal';
 import ArticleContainer from '@components/viewer/ArticleContent';
-import ClosedSideBar from '@components/viewer/ClosedSideBar';
-import ScrapModal from '@components/viewer/ScrapModal';
 import TOC from '@components/viewer/TOC';
 import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
-import { Flex } from '@styles/layout';
+import { Flex, PageGNBHide, PageNoScrollWrapper } from '@styles/layout';
+import { articleToc, articleConversion } from '@utils/articleConversion';
 
 interface ViewerProps {
-  book: IBookScraps;
   article: IArticleBook;
 }
 
-export default function Viewer({ book, article }: ViewerProps) {
-  const { data: userBooks, execute: getUserKnottedBooks } = useFetch(getUserKnottedBooksApi);
+export default function Viewer({ article }: ViewerProps) {
+  const Modal = dynamic(() => import('@components/common/Modal'));
+  const ScrapModal = dynamic(() => import('@components/viewer/ScrapModal'));
 
-  const user = useRecoilValue(signInStatusState);
+  const router = useRouter();
 
-  const [isOpened, setIsOpened] = useState(true);
+  const { data: book, execute: getBook } = useFetch<IBookScraps>(getBookApi);
 
+  const [isSideBarOpen, setSideBarOpen] = useState(false);
   const [isModalShown, setModalShown] = useState(false);
 
   const handleModalOpen = () => setModalShown(true);
   const handleModalClose = () => setModalShown(false);
 
   const handleSideBarToggle = () => {
-    setIsOpened((prev) => !prev);
+    setSideBarOpen((prev) => !prev);
+  };
+
+  const checkArticleAuthority = (targetBook: IBookScraps, id: number) => {
+    if (targetBook.scraps.find((scrap) => scrap.article.id === id)) return true;
+    return false;
+  };
+
+  const syncHeight = () => {
+    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
   };
 
   useEffect(() => {
-    getUserKnottedBooks(user.nickname);
-  }, [user.nickname]);
+    if (window.innerWidth > 576) setSideBarOpen(true);
+
+    syncHeight();
+
+    window.addEventListener('resize', syncHeight);
+
+    return () => window.removeEventListener('resize', syncHeight);
+  }, []);
+
+  useEffect(() => {
+    if (Array.isArray(router.query.data) && router.query.data?.length === 2) {
+      const bookId = router.query.data[0];
+      getBook(bookId);
+    }
+  }, [router.query.data]);
+
+  useEffect(() => {
+    if (!book) return;
+    if (!checkArticleAuthority(book, article.id)) router.push('/404');
+  }, [book]);
+
+  const [isScrollDown, setIsScrollDown] = useState<'true' | 'false'>('false');
 
   return (
-    <>
-      <ViewerHead articleTitle={article.title} articleContent={article.content} />
-      <GNB />
-      {book && article ? (
+    <PageNoScrollWrapper>
+      {article && <ViewerHead articleTitle={article.title} articleContent={article.content} />}
+      <PageGNBHide isscrolldown={isScrollDown}>
+        <GNB />
+      </PageGNBHide>
+      {book && article && (
         <Flex>
-          {isOpened ? (
-            <TOC book={book} articleId={article.id} handleSideBarOnClick={handleSideBarToggle} />
-          ) : (
-            <ClosedSideBar handleSideBarOnClick={handleSideBarToggle} />
-          )}
-          <ArticleContainer
-            article={article}
-            scraps={book.scraps}
-            bookId={book.id}
-            bookAuthor={book.user.nickname}
-            handleScrapBtnClick={handleModalOpen}
+          <TOC
+            book={book}
+            articleId={article.id}
+            articleToc={articleToc(article.content)}
+            isOpen={isSideBarOpen}
+            handleSideBarToggle={handleSideBarToggle}
+            isscrolldown={isScrollDown}
           />
+
+          {book.scraps.find((scrap) => scrap.article.id === article.id) && (
+            <ArticleContainer
+              article={article}
+              scraps={book.scraps}
+              bookId={book.id}
+              bookAuthor={book.user.nickname}
+              articleData={articleConversion(article.content)}
+              handleScrapBtnClick={handleModalOpen}
+              setIsScrollDown={setIsScrollDown}
+            />
+          )}
         </Flex>
-      ) : (
-        <div>loading</div>
       )}
-      {isModalShown && (
+      {isModalShown && book && (
         <Modal title="글 스크랩하기" handleModalClose={handleModalClose}>
-          <ScrapModal books={userBooks} handleModalClose={handleModalClose} article={article} />
+          <ScrapModal bookId={book.id} handleModalClose={handleModalClose} article={article} />
         </Modal>
       )}
-    </>
+    </PageNoScrollWrapper>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const [bookId, articleId] = context.query.data as string[];
-  const book = await getBookApi(bookId);
+  const [, articleId] = context.query.data as string[];
   const article = await getArticleApi(articleId);
 
-  return { props: { book, article } };
+  return { props: { article } };
 };

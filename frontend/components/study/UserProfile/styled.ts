@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { TextLarge, TextSmall } from '@styles/common';
 
 export const UserProfileWrapper = styled.div`
-  width: 100%;
-  margin: 40px 0 20px 40px;
+  margin: 40px 0 20px 0;
+  width: 78%;
   display: flex;
   @media ${(props) => props.theme.mobile} {
     flex-direction: column;
@@ -27,15 +27,22 @@ export const UserDetailGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 30px;
-  /* background-color: red; */
   @media ${(props) => props.theme.mobile} {
     margin-top: 20px;
   }
 `;
 
-export const Username = styled(TextLarge)``;
+export const Username = styled(TextLarge)`
+  font-size: 24px;
+  margin-bottom: 10px;
+`;
 
-export const UserDescription = styled(TextSmall)``;
+export const UserDescription = styled(TextSmall)`
+  width: 400px;
+  @media ${(props) => props.theme.tablet} {
+    width: 250px;
+  }
+`;
 
 export const ButtonGroup = styled.div<{ isVisible: boolean }>`
   display: flex;

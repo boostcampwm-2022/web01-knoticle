@@ -1,13 +1,10 @@
-import Image from 'next/image';
-
 import InactiveBookmarkIcon from '@assets/ico_bookmark_black.svg';
 import ActiveBookmarkIcon from '@assets/ico_bookmark_grey_filled.svg';
-import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import sampleImage from '@assets/img_sample_thumbnail.jpg';
 import useBookmark from '@hooks/useBookmark';
 import { IBookScraps } from '@interfaces';
 import { TextLarge, TextXSmall, TextSmall } from '@styles/common';
-import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
+import { FlexSpaceBetween } from '@styles/layout';
 
 import {
   BookWrapper,
@@ -28,17 +25,14 @@ interface BookProps {
 }
 
 export default function Book({ book }: BookProps) {
-  const { id, title, user, scraps, _count, bookmarks } = book;
-  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(
-    bookmarks.length ? bookmarks[0].id : null,
-    _count.bookmarks,
-    id
-  );
+  const { id, title, user, scraps } = book;
+  const { handleBookmarkClick, curBookmarkCnt, curBookmarkId } = useBookmark(book);
+
   return (
     // 수정모드일때만 아래 onclick이 실행되도록 수정해야함 -> 민형님 작업 후
     <BookWrapper>
       <BookLink
-        isArticleExists={!!scraps[0]}
+        isarticleexists={scraps[0] ? 'true' : 'false'}
         href={scraps[0] ? `/viewer/${id}/${scraps[0].article.id}` : ``}
       >
         <BookThumbnail
@@ -53,7 +47,7 @@ export default function Book({ book }: BookProps) {
         <FlexSpaceBetween>
           <BookTitle>
             <BookLink
-              isArticleExists={!!scraps[0]}
+              isarticleexists={scraps[0] ? 'true' : 'false'}
               href={scraps[0] ? `/viewer/${id}/${scraps[0].article.id}` : ``}
             >
               <TextLarge>{title}</TextLarge>

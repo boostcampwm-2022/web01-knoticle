@@ -6,7 +6,6 @@ import { useRecoilState } from 'recoil';
 
 import { createImageApi } from '@apis/imageApi';
 import Edit from '@assets/ico_edit.svg';
-import MoreContentsIcon from '@assets/ico_more_contents.svg';
 import curKnottedBookListState from '@atoms/curKnottedBookList';
 import editInfoState from '@atoms/editInfo';
 import scrapState from '@atoms/scrap';
@@ -16,6 +15,7 @@ import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { IBookScraps } from '@interfaces';
 import { FlexSpaceBetween } from '@styles/layout';
+import { toastError } from '@utils/toast';
 
 import {
   BookWrapper,
@@ -29,8 +29,10 @@ import {
   EditBookWapper,
   EditBookThumbnailWrapper,
   EditBookThumbnailIcon,
-  MoreContentsIconWrapper,
+  EditArticle,
   DragArticleWrapper,
+  ContentsWrapper,
+  DragArticleText,
 } from './styled';
 
 interface BookProps {
@@ -38,7 +40,7 @@ interface BookProps {
   handleModalClose: () => void;
 }
 
-export default function EditBook({ book, handleModalClose }: BookProps) {
+export default function EditBookModal({ book, handleModalClose }: BookProps) {
   const { id, title, user, scraps } = book;
 
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
@@ -69,6 +71,11 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
   };
 
   const handleCompletedBtnClick = () => {
+    if (titleData === '') {
+      toastError('책 제목이 비어있습니다.');
+      return;
+    }
+
     const editScraps = scrapList.map((v, i) => ({ ...v, order: i + 1 }));
 
     // 해당하는 책을 찾아서 전역에서 관리하고 있는 애를 변경해서 업데이트
@@ -141,15 +148,20 @@ export default function EditBook({ book, handleModalClose }: BookProps) {
           )}
 
           <BookContentsInfo>
-            <BookContent>Contents</BookContent>
+            <ContentsWrapper>
+              <BookContent>Contents</BookContent>
+              <EditArticle onClick={handleContentsOnClick}>
+                {isContentsShown ? '순서저장' : '순서수정'}
+              </EditArticle>
+            </ContentsWrapper>
             <DragArticleWrapper isContentsShown={isContentsShown}>
               <DragArticle data={scraps} isContentsShown={isContentsShown} isDeleteBtnShown />
             </DragArticleWrapper>
+            {isContentsShown && (
+              <DragArticleText>드래그앤드롭으로 글의 순서를 변경할 수 있습니다.</DragArticleText>
+            )}
           </BookContentsInfo>
         </BookInfoContainer>
-        <MoreContentsIconWrapper onClick={handleContentsOnClick}>
-          <Image src={MoreContentsIcon} alt="More Contents Icon" width={12} height={12} />
-        </MoreContentsIconWrapper>
       </BookWrapper>
       <Button theme="primary" onClick={handleCompletedBtnClick}>
         수정 완료

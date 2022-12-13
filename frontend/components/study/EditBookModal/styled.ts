@@ -3,11 +3,15 @@ import Image from 'next/image';
 import styled from 'styled-components';
 
 import { TextXSmall, TextSmall } from '@styles/common';
-import { FlexCenter, FlexColumn, FlexColumnAlignCenter } from '@styles/layout';
+import { Flex, FlexColumn, FlexColumnAlignCenter } from '@styles/layout';
 
 export const EditBookWapper = styled(FlexColumnAlignCenter)`
   width: 320px;
   margin: auto;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 300px;
+  }
 `;
 
 export const BookWrapper = styled(FlexColumn)`
@@ -57,8 +61,8 @@ export const BookContentsInfo = styled(FlexColumn)`
   gap: 8px;
 `;
 export const BookContent = styled(TextSmall)`
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--primary-color);
+  margin-bottom: 5px;
+  padding: 5px;
 `;
 
 export const BookContents = styled(TextXSmall)`
@@ -107,10 +111,24 @@ export const EditBookThumbnailIcon = styled.div`
   cursor: pointer;
 `;
 
-export const MoreContentsIconWrapper = styled(FlexCenter)``;
 export const DragArticleWrapper = styled.div<{ isContentsShown: true | false }>`
   ${(props) =>
     props.isContentsShown
       ? { overflow: 'auto', height: '415px' }
       : { overflow: 'none', height: '120px' }};
 `;
+
+export const ContentsWrapper = styled(Flex)`
+  justify-content: space-between;
+  border-bottom: 1px solid var(--primary-color);
+  width: 100%;
+`;
+
+export const EditArticle = styled.div`
+  font-size: 14px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: 1px solid var(--grey-02-color);
+  border-radius: 10px;
+`;
+export const DragArticleText = styled(TextXSmall)``;

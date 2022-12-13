@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { useEffect } from 'react';
+import { Dispatch, RefObject, SetStateAction, useEffect, useRef } from 'react';
 
-import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 
 import { deleteArticleApi } from '@apis/articleApi';
+import { deleteScrapApi, updateScrapsOrderApi } from '@apis/scrapApi';
 import LeftBtnIcon from '@assets/ico_leftBtn.svg';
 import Original from '@assets/ico_original.svg';
 import RightBtnIcon from '@assets/ico_rightBtn.svg';
@@ -14,8 +14,8 @@ import Scrap from '@assets/ico_scrap.svg';
 import signInStatusState from '@atoms/signInStatus';
 import Content from '@components/common/Content';
 import useFetch from '@hooks/useFetch';
+import useScrollDetector from '@hooks/useScrollDetector';
 import { IArticleBook, IScrap } from '@interfaces';
-import { TextLarge } from '@styles/common';
 import { toastSuccess } from '@utils/toast';
 
 import ArticleButton from './Button';
@@ -26,6 +26,8 @@ import {
   ArticleRightBtn,
   ArticleTitle,
   ArticleTitleBtnBox,
+  ArticleContentsWrapper,
+  ArticleMoveBtnContainer,
 } from './styled';
 
 interface ArticleProps {
@@ -33,7 +35,9 @@ interface ArticleProps {
   scraps: IScrap[];
   bookId: number;
   bookAuthor: string;
+  articleData: string;
   handleScrapBtnClick: () => void;
+  setIsScrollDown: Dispatch<SetStateAction<'true' | 'false'>>;
 }
 
 export default function Article({
@@ -41,11 +45,15 @@ export default function Article({
   scraps,
   bookId,
   bookAuthor,
+  articleData,
   handleScrapBtnClick,
+  setIsScrollDown,
 }: ArticleProps) {
-  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
-
   const user = useRecoilValue(signInStatusState);
+
+  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
+  const { execute: deleteScrap } = useFetch(deleteScrapApi);
+  const { data: updateScrapsData, execute: updateScrapsOrder } = useFetch(updateScrapsOrderApi);
 
   const router = useRouter();
 
@@ -67,13 +75,21 @@ export default function Article({
 
   const handleDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 삭제하시겠습니까?')) {
+      const curScrap = scraps.find((scrap) => scrap.article.id === article.id);
+      deleteScrap(curScrap?.id);
       deleteArticle(article.id);
     }
   };
 
   const handleScrapDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 책에서 삭제하시겠습니까?')) {
-      //
+      const curScrap = scraps.find((scrap) => scrap.article.id === article.id);
+      if (!curScrap) return;
+      const newScraps = scraps
+        .filter((scrap) => scrap.id !== curScrap.id)
+        .map((v, i) => ({ ...v, order: i + 1 }));
+      updateScrapsOrder(newScraps);
+      deleteScrap(curScrap.id);
     }
   };
 
@@ -81,20 +97,32 @@ export default function Article({
     router.push(`/editor?id=${article.id}`);
   };
 
-  const checkArticleAuthority = (id: number) => {
-    if (scraps.find((scrap) => scrap.article.id === id)) {
-      return true;
-    }
-    // alert 두번뜨는 현상...
-    // 404 페이지로 처리? 고민 중
-    // alert('잘못된 접근입니다.');
-    router.push('/');
-    return false;
-  };
+  useEffect(() => {
+    if (deleteArticleData !== undefined) router.push('/');
+  }, [deleteArticleData]);
 
   useEffect(() => {
-    checkArticleAuthority(article.id);
-  }, []);
+    if (updateScrapsData === undefined) return;
+
+    if (updateScrapsData.length !== 0) {
+      router.push(`/viewer/${bookId}/${updateScrapsData[0].article.id}`);
+      return;
+    }
+    router.push('/');
+  }, [updateScrapsData]);
+
+  const scrollTarget = useRef() as RefObject<HTMLDivElement>;
+  const isScrollDown = useScrollDetector(scrollTarget, 5);
+
+  useEffect(() => {
+    setIsScrollDown(isScrollDown ? 'true' : 'false');
+  }, [isScrollDown]);
+
+  useEffect(() => {
+    if (scrollTarget.current) {
+      scrollTarget.current.scrollTop = 0;
+    }
+  }, [router.query.data]);
 
   useEffect(() => {
     if (!deleteArticleData) return;
@@ -105,15 +133,14 @@ export default function Article({
 
   return (
     <ArticleContainer>
-      {article.id === scraps.at(0)?.article.id ? null : (
-        <ArticleLeftBtn onClick={handleLeftBtnOnClick}>
-          <Image src={LeftBtnIcon} alt="Viewer Icon" />
-        </ArticleLeftBtn>
-      )}
-      {!article.deleted_at ? (
-        <ArticleMain>
-          <ArticleTitle>
-            <TextLarge>{article.title}</TextLarge>
+      <ArticleMain ref={scrollTarget}>
+        {!article.deleted_at ? (
+          <>
+            <ArticleContentsWrapper>
+              <ArticleTitle>{article.title}</ArticleTitle>
+              <Content content={articleData} />
+            </ArticleContentsWrapper>
+
             <ArticleTitleBtnBox>
               {article.book_id !== bookId && (
                 <ArticleButton onClick={handleOriginalBtnOnClick}>
@@ -137,17 +164,26 @@ export default function Article({
                 </ArticleButton>
               )}
             </ArticleTitleBtnBox>
-          </ArticleTitle>
-          <Content content={article.content} />
-        </ArticleMain>
-      ) : (
-        <ArticleMain>삭제된 글입니다.</ArticleMain>
-      )}
-      {article.id === scraps.at(-1)?.article.id ? null : (
-        <ArticleRightBtn onClick={handleRightBtnOnClick}>
-          <Image src={RightBtnIcon} alt="Viewer Icon" />
-        </ArticleRightBtn>
-      )}
+          </>
+        ) : (
+          <div>삭제된 글입니다.</div>
+        )}
+
+        <ArticleMoveBtnContainer>
+          <ArticleLeftBtn
+            onClick={handleLeftBtnOnClick}
+            visibility={article.id === scraps.at(0)?.article.id ? 'hidden' : 'visible'}
+          >
+            <Image src={LeftBtnIcon} width={24} height={24} alt="Left Arrow Icon" />
+          </ArticleLeftBtn>
+          <ArticleRightBtn
+            onClick={handleRightBtnOnClick}
+            visibility={article.id === scraps.at(-1)?.article.id ? 'hidden' : 'visible'}
+          >
+            <Image src={RightBtnIcon} width={24} height={24} alt="Right Arrow Icon" />
+          </ArticleRightBtn>
+        </ArticleMoveBtnContainer>
+      </ArticleMain>
     </ArticleContainer>
   );
 }

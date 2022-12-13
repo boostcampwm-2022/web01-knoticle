@@ -23,7 +23,7 @@ router.get('/auth', decoder, catchAsync(authController.checkSignInStatus));
 
 router.get('/articles/temporary', guard, catchAsync(articlesController.getTemporaryArticle));
 router.post('/articles/temporary', guard, catchAsync(articlesController.createTemporaryArticle));
-router.get('/articles/search', catchAsync(articlesController.searchArticles));
+router.get('/articles/search', decoder, catchAsync(articlesController.searchArticles));
 router.get('/articles/:articleId', catchAsync(articlesController.getArticle));
 router.post('/articles', catchAsync(articlesController.createArticle));
 router.patch('/articles/:articleId', catchAsync(articlesController.updateArticle));
@@ -31,7 +31,7 @@ router.delete('/articles/:articleId', catchAsync(articlesController.deleteArticl
 
 router.post('/image', multer().single('image'), catchAsync(imagesController.createImage));
 
-router.get('/books/search', catchAsync(booksController.searchBooks));
+router.get('/books/search', decoder, catchAsync(booksController.searchBooks));
 router.get('/books/:bookId', decoder, catchAsync(booksController.getBook));
 router.get('/books', decoder, catchAsync(booksController.getBooks));
 router.post('/books', guard, catchAsync(booksController.createBook));
@@ -42,6 +42,7 @@ router.post('/bookmarks', guard, catchAsync(bookmarksController.createBookmark))
 router.delete('/bookmarks/:bookmarkId', catchAsync(bookmarksController.deleteBookmark));
 
 router.get('/scraps', catchAsync(scrapsController.getScraps));
+router.patch('/scraps', catchAsync(guard), catchAsync(scrapsController.updateScrapsOrder));
 router.post('/scraps', catchAsync(scrapsController.createScrap));
 router.delete('/scraps/:scrapId', guard, catchAsync(scrapsController.deleteScrap));
 

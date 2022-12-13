@@ -119,8 +119,8 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
 
   return (
     <FabWrapper>
-      <FabButton>
-        <Image src={Add} alt="책 추가" onClick={handleModalOpen} />
+      <FabButton onClick={handleModalOpen}>
+        <Image src={Add} alt="책 추가" />
       </FabButton>
 
       {isEditing ? (

@@ -18,24 +18,24 @@ export const BookWrapper = styled(FlexColumn)`
   overflow: hidden;
 
   color: var(--grey-01-color);
-  aspect-ratio: 280/480;
-  @media ${(props) => props.theme.tablet} {
-    width: 100%;
-    height: auto;
-    overflow: none;
-  }
+  // aspect-ratio: 280/480;
+  // @media ${(props) => props.theme.tablet} {
+  //   width: 100%;
+  //   height: auto;
+  //   overflow: none;
+  // }
 `;
 
 export const BookThumbnail = styled(Image)`
   width: 280px;
   min-height: 200px;
   object-fit: cover;
-  aspect-ratio: 280/200;
+  // aspect-ratio: 280/200;
 
-  @media ${(props) => props.theme.tablet} {
-    width: 100%;
-    min-height: auto;
-  }
+  // @media ${(props) => props.theme.tablet} {
+  //   width: 100%;
+  //   min-height: auto;
+  // }
 `;
 
 export const BookInfoContainer = styled(FlexColumn)`
@@ -112,7 +112,7 @@ export const AuthorLink = styled(Link)`
   margin-top: 2px;
 `;
 
-export const BookLink = styled(Link)<{ isArticleExists: boolean }>`
+export const BookLink = styled(Link)<{ isarticleexists: string }>`
   text-decoration: none;
-  ${(props) => (props.isArticleExists ? '' : 'pointer-events: none;')}
+  ${(props) => (props.isarticleexists === 'true' ? '' : 'pointer-events: none;')}
 `;

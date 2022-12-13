@@ -4,6 +4,7 @@ import { FindBooks, SearchBooks } from '@apis/books/books.interface';
 import booksService from '@apis/books/books.service';
 import { IScrap } from '@apis/scraps/scraps.interface';
 import scrapsService from '@apis/scraps/scraps.service';
+import { Forbidden, Message } from '@errors';
 
 const getBook = async (req: Request, res: Response) => {
   const { bookId } = req.params;
@@ -30,15 +31,27 @@ const getBooks = async (req: Request, res: Response) => {
 };
 
 const searchBooks = async (req: Request, res: Response) => {
-  const { query, page, take, userId } = req.query as unknown as SearchBooks;
+  const { query, page, take, isUsers } = req.query as unknown as SearchBooks;
 
-  const searchResult = await booksService.searchBooks({ query, userId, take: +take, page });
+  let userId = res.locals.user?.id;
+
+  if (!userId) userId = 0;
+
+  const searchResult = await booksService.searchBooks({
+    query,
+    isUsers,
+    userId,
+    take: +take,
+    page,
+  });
 
   return res.status(200).send(searchResult);
 };
 
 const createBook = async (req: Request, res: Response) => {
   const { title } = req.body;
+
+  if (!title.length) throw new Forbidden(Message.BOOK_INVALID_TITLE);
 
   const userId = res.locals.user.id;
 
@@ -51,6 +64,8 @@ const createBook = async (req: Request, res: Response) => {
 
 const updateBook = async (req: Request, res: Response) => {
   const { id, title, thumbnail_image, scraps } = req.body;
+
+  if (!title.length) throw new Forbidden(Message.BOOK_INVALID_TITLE);
 
   const userId = res.locals.user.id;
 

@@ -10,7 +10,7 @@ import Button from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import useInput from '@hooks/useInput';
 import { FlexSpaceBetween } from '@styles/layout';
-import { toastSuccess } from '@utils/toast';
+import { toastError, toastSuccess } from '@utils/toast';
 
 import {
   BookWrapper,
@@ -43,6 +43,11 @@ export default function AddBook({ handleModalClose }: AddBookProps) {
   }, [addBookData]);
 
   const handleAddBookBtnClick = () => {
+    if (title.value === '') {
+      toastError('책 제목이 비어있습니다.');
+      return;
+    }
+
     addBook({ title: title.value });
   };
   return (

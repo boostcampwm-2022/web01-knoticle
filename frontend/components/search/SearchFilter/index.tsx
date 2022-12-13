@@ -4,11 +4,17 @@ import signInStatusState from '@atoms/signInStatus';
 
 import { FilterButton, FilterGroup, FilterLabel, FilterWrapper } from './styled';
 
-interface SearchFilterProps {
-  handleFilter: (value: { [value: string]: string | number }) => void;
+interface Filter {
+  type: string;
+  isUsers: boolean;
 }
 
-export default function SearchFilter({ handleFilter }: SearchFilterProps) {
+interface SearchFilterProps {
+  handleFilter: (value: { [value: string]: string | boolean }) => void;
+  filter: Filter;
+}
+
+export default function SearchFilter({ handleFilter, filter }: SearchFilterProps) {
   const signInStatus = useRecoilValue(signInStatusState);
 
   return (
@@ -19,12 +25,17 @@ export default function SearchFilter({ handleFilter }: SearchFilterProps) {
             type="radio"
             name="type"
             onChange={() => handleFilter({ type: 'article' })}
-            defaultChecked
+            checked={filter.type !== 'book'}
           />
           글
         </FilterLabel>
         <FilterLabel>
-          <FilterButton type="radio" name="type" onChange={() => handleFilter({ type: 'book' })} />
+          <FilterButton
+            type="radio"
+            name="type"
+            onChange={() => handleFilter({ type: 'book' })}
+            checked={filter.type === 'book'}
+          />
           책
         </FilterLabel>
       </FilterGroup>
@@ -32,7 +43,8 @@ export default function SearchFilter({ handleFilter }: SearchFilterProps) {
         <FilterLabel>
           <FilterButton
             type="checkbox"
-            onChange={(e) => handleFilter({ userId: e.target.checked ? signInStatus.id : 0 })}
+            onChange={() => handleFilter({ isUsers: !filter.isUsers })}
+            checked={filter.isUsers}
           />
           내 책에서 검색
         </FilterLabel>

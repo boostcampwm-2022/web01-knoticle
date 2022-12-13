@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { useEffect, useState } from 'react';
@@ -7,16 +8,20 @@ import { useRecoilValue } from 'recoil';
 import { getArticleApi } from '@apis/articleApi';
 import { getUserKnottedBooksApi } from '@apis/bookApi';
 import signInStatusState from '@atoms/signInStatus';
-import Modal from '@components/common/Modal';
 import EditHead from '@components/edit/EditHead';
 import Editor from '@components/edit/Editor';
-import ModifyModal from '@components/edit/ModifyModal';
-import PublishModal from '@components/edit/PublishModal';
 import useFetch from '@hooks/useFetch';
 import { IArticle } from '@interfaces';
+import { PageNoScrollWrapper } from '@styles/layout';
 import { toastError } from '@utils/toast';
 
 export default function EditorPage() {
+  const Modal = dynamic(() => import('@components/common/Modal'));
+  const PublishModal = dynamic(() => import('@components/edit/PublishModal'));
+  const ModifyModal = dynamic(() => import('@components/edit/ModifyModal'));
+
+  const router = useRouter();
+
   const [isModalShown, setModalShown] = useState(false);
   const [originalArticle, setOriginalArticle] = useState<IArticle | undefined>(undefined);
 
@@ -28,7 +33,17 @@ export default function EditorPage() {
 
   const user = useRecoilValue(signInStatusState);
 
-  const router = useRouter();
+  const syncHeight = () => {
+    document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
+  };
+
+  useEffect(() => {
+    syncHeight();
+
+    window.addEventListener('resize', syncHeight);
+
+    return () => window.removeEventListener('resize', syncHeight);
+  }, []);
 
   useEffect(() => {
     getUserKnottedBooks(user.nickname);
@@ -50,7 +65,7 @@ export default function EditorPage() {
   }, [article]);
 
   return (
-    <>
+    <PageNoScrollWrapper>
       <EditHead />
       <Editor handleModalOpen={handleModalOpen} originalArticle={originalArticle} />
 
@@ -64,6 +79,6 @@ export default function EditorPage() {
             <PublishModal books={books} />
           </Modal>
         ))}
-    </>
+    </PageNoScrollWrapper>
   );
 }

@@ -12,6 +12,7 @@ import Dropdown from '@components/common/Dropdown';
 import ModalButton from '@components/common/Modal/ModalButton';
 import useFetch from '@hooks/useFetch';
 import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
+import { toastSuccess } from '@utils/toast';
 
 import { ArticleWrapper, Label, ModifyModalWrapper, WarningLabel } from './styled';
 
@@ -29,7 +30,7 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
 
   const [article, setArticle] = useRecoilState(articleState);
 
-  const [selectedBookIndex, setSelectedBookIndex] = useState(-1);
+  const [selectedBookIndex, setSelectedBookIndex] = useState(originalBookId);
   const [filteredScraps, setFilteredScraps] = useState<IScrap[]>([]);
   const [scrapList, setScrapList] = useRecoilState(scrapState);
 
@@ -95,7 +96,11 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
   };
 
   useEffect(() => {
-    if (modifiedArticle) router.push('/');
+    if (modifiedArticle) {
+      const { id, title } = modifiedArticle.modifiedArticle;
+      router.push(`/viewer/${selectedBookIndex}/${id}`);
+      toastSuccess(`${title}글이 수정되었습니다.`);
+    }
   }, [modifiedArticle]);
 
   return (
