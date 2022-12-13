@@ -43,7 +43,8 @@ export default function SearchFilter({ handleFilter, filter }: SearchFilterProps
         <FilterLabel>
           <FilterButton
             type="checkbox"
-            onChange={(e) => handleFilter({ isUsers: e.target.checked })}
+            onChange={() => handleFilter({ isUsers: !filter.isUsers })}
+            checked={filter.isUsers}
           />
           내 책에서 검색
         </FilterLabel>

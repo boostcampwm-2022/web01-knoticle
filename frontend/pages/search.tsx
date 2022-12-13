@@ -31,20 +31,12 @@ export default function Search() {
     pageNumber: 2,
   });
 
-  const {
-    value: filter,
-    isValueSet: isFilterSet,
-    setValue: setFilter,
-  } = useSessionStorage('filter', {
+  const { value: filter, setValue: setFilter } = useSessionStorage('filter', {
     type: 'article',
     isUsers: false,
   });
 
-  const {
-    value: keyword,
-    isValueSet: isKeywordSet,
-    setValue: setKeyword,
-  } = useSessionStorage('keyword', '');
+  const { value: keyword, setValue: setKeyword } = useSessionStorage('keyword', '');
 
   const debouncedKeyword = useDebounce(keyword, 300);
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -70,7 +62,7 @@ export default function Search() {
   }, [debouncedKeyword]);
 
   useEffect(() => {
-    if (!isKeywordSet || !isFilterSet || isInitialRendering) return;
+    if (isInitialRendering) return;
 
     if (debouncedKeyword === '') {
       setArticles([]);
@@ -201,6 +193,7 @@ export default function Search() {
   }, []);
 
   const handleFilter = (value: { [value: string]: string | boolean }) => {
+    setIsInitialRendering(false);
     setFilter({
       ...filter,
       ...value,
