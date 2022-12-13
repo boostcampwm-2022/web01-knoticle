@@ -113,7 +113,7 @@ const createArticle = async (dto: CreateArticle) => {
 };
 
 const deleteArticle = async (articleId: number) => {
-  await prisma.article.update({
+  const article = await prisma.article.update({
     where: {
       id: articleId,
     },
@@ -121,6 +121,8 @@ const deleteArticle = async (articleId: number) => {
       deleted_at: new Date(),
     },
   });
+
+  return article;
 };
 
 const getTemporaryArticle = async (userId: number) => {

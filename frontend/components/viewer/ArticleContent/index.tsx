@@ -16,6 +16,7 @@ import Content from '@components/common/Content';
 import useFetch from '@hooks/useFetch';
 import useScrollDetector from '@hooks/useScrollDetector';
 import { IArticleBook, IScrap } from '@interfaces';
+import { toastSuccess } from '@utils/toast';
 
 import ArticleButton from './Button';
 import {
@@ -122,6 +123,13 @@ export default function Article({
       scrollTarget.current.scrollTop = 0;
     }
   }, [router.query.data]);
+
+  useEffect(() => {
+    if (!deleteArticleData) return;
+
+    toastSuccess(`<${article.title}> 글이 삭제되었습니다`);
+    router.push('/');
+  }, [deleteArticleData]);
 
   return (
     <ArticleContainer>
