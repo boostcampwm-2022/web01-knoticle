@@ -117,6 +117,12 @@ export default function Article({
     setIsScrollDown(isScrollDown ? 'true' : 'false');
   }, [isScrollDown]);
 
+  useEffect(() => {
+    if (scrollTarget.current) {
+      scrollTarget.current.scrollTop = 0;
+    }
+  }, [router.query.data]);
+
   return (
     <ArticleContainer>
       <ArticleMain ref={scrollTarget}>

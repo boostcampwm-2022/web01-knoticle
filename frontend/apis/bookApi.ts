@@ -3,7 +3,7 @@ import api from '@utils/api';
 
 interface SearchBooksApi {
   query: string;
-  userId: number;
+  isUsers: boolean;
   page: number;
   take: number;
 }
@@ -12,7 +12,7 @@ export const searchBooksApi = async (data: SearchBooksApi) => {
   const url = `/api/books/search`;
   const params = {
     query: data.query,
-    userId: data.userId,
+    isUsers: data.isUsers,
     page: data.page,
     take: data.take,
   };

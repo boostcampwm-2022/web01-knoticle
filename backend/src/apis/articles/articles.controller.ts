@@ -7,9 +7,19 @@ import scrapsService from '@apis/scraps/scraps.service';
 import { Forbidden, Message } from '@errors';
 
 const searchArticles = async (req: Request, res: Response) => {
-  const { query, page, take, userId } = req.query as unknown as SearchArticles;
+  const { query, page, take, isUsers } = req.query as unknown as SearchArticles;
 
-  const searchResult = await articlesService.searchArticles({ query, page, take: +take, userId });
+  let userId = res.locals.user?.id;
+
+  if (!userId) userId = 0;
+
+  const searchResult = await articlesService.searchArticles({
+    query,
+    page,
+    take: +take,
+    isUsers,
+    userId,
+  });
 
   return res.status(200).send(searchResult);
 };
