@@ -38,6 +38,7 @@ export default function Viewer({ article }: ViewerProps) {
   };
 
   const checkArticleAuthority = (targetBook: IBookScraps, id: number) => {
+    if (!targetBook) return false;
     if (targetBook.scraps.find((scrap) => scrap.article.id === id)) return true;
     return false;
   };
@@ -64,7 +65,7 @@ export default function Viewer({ article }: ViewerProps) {
   }, [router.query.data]);
 
   useEffect(() => {
-    if (!book) return;
+    if (book === undefined) return;
     if (!checkArticleAuthority(book, article.id)) router.push('/404');
   }, [book]);
 

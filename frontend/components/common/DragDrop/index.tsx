@@ -13,19 +13,14 @@ export interface EditScrap {
   };
 }
 export interface ContainerState {
-  data: EditScrap[];
   isContentsShown: boolean;
   isDeleteBtnShown: boolean;
 }
 
-export default function DragArticle({ data, isContentsShown, isDeleteBtnShown }: ContainerState) {
+export default function DragArticle({ isContentsShown, isDeleteBtnShown }: ContainerState) {
   return (
     <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
-      <DragContainer
-        data={data}
-        isContentsShown={isContentsShown}
-        isDeleteBtnShown={isDeleteBtnShown}
-      />
+      <DragContainer isContentsShown={isContentsShown} isDeleteBtnShown={isDeleteBtnShown} />
     </DndProvider>
   );
 }

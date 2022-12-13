@@ -31,20 +31,12 @@ export default function Search() {
     pageNumber: 2,
   });
 
-  const {
-    value: filter,
-    isValueSet: isFilterSet,
-    setValue: setFilter,
-  } = useSessionStorage('filter', {
+  const { value: filter, setValue: setFilter } = useSessionStorage('filter', {
     type: 'article',
-    userId: 0,
+    isUsers: false,
   });
 
-  const {
-    value: keyword,
-    isValueSet: isKeywordSet,
-    setValue: setKeyword,
-  } = useSessionStorage('keyword', '');
+  const { value: keyword, setValue: setKeyword } = useSessionStorage('keyword', '');
 
   const debouncedKeyword = useDebounce(keyword, 300);
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -70,7 +62,7 @@ export default function Search() {
   }, [debouncedKeyword]);
 
   useEffect(() => {
-    if (!isKeywordSet || !isFilterSet || isInitialRendering) return;
+    if (isInitialRendering) return;
 
     if (debouncedKeyword === '') {
       setArticles([]);
@@ -90,7 +82,7 @@ export default function Search() {
 
     searchArticles({
       query: debouncedKeyword,
-      userId: filter.userId,
+      isUsers: filter.isUsers,
       page: 1,
       take: 12,
     });
@@ -101,7 +93,7 @@ export default function Search() {
 
     searchBooks({
       query: debouncedKeyword,
-      userId: filter.userId,
+      isUsers: filter.isUsers,
       page: 1,
       take: 12,
     });
@@ -109,7 +101,7 @@ export default function Search() {
       hasNextPage: true,
       pageNumber: 2,
     });
-  }, [debouncedKeyword, filter.userId]);
+  }, [debouncedKeyword, filter.isUsers]);
 
   useEffect(() => {
     if (!isIntersecting || !debouncedKeyword) return;
@@ -118,7 +110,7 @@ export default function Search() {
       if (!articlePage.hasNextPage) return;
       searchArticles({
         query: debouncedKeyword,
-        userId: filter.userId,
+        isUsers: filter.isUsers,
         page: articlePage.pageNumber,
         take: 12,
       });
@@ -130,7 +122,7 @@ export default function Search() {
       if (!bookPage.hasNextPage) return;
       searchBooks({
         query: debouncedKeyword,
-        userId: filter.userId,
+        isUsers: filter.isUsers,
         page: bookPage.pageNumber,
         take: 12,
       });
@@ -200,7 +192,8 @@ export default function Search() {
     };
   }, []);
 
-  const handleFilter = (value: { [value: string]: string | number }) => {
+  const handleFilter = (value: { [value: string]: string | boolean }) => {
+    setIsInitialRendering(false);
     setFilter({
       ...filter,
       ...value,

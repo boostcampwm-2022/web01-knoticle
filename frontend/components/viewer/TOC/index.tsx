@@ -26,6 +26,7 @@ import {
   TocArticleTitle,
   TocCurrentArticle,
   TocOpenButton,
+  TocCurrentText,
 } from './styled';
 
 interface TocProps {
@@ -87,9 +88,9 @@ export default function TOC({
                   </TocArticle>
                 ) : (
                   <TocCurrentArticle key={v.order} className="current">
-                    <TextSmall onClick={handleCurrentArticle} style={{ cursor: 'pointer' }}>
+                    <TocCurrentText onClick={handleCurrentArticle}>
                       {v.order}.{v.article.title}
-                    </TextSmall>
+                    </TocCurrentText>
                     {isArticleShown &&
                       articleToc.map((article) => (
                         <TocArticleTitle

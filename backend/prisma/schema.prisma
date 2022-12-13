@@ -14,7 +14,7 @@ model User {
   password          String            @db.VarChar(100)
   nickname          String            @unique @db.VarChar(20)
   description       String            @db.VarChar(100)
-  profile_image     String            @default("https://kr.object.ncloudstorage.com/j027/522da4f3-c9d7-403d-a98f-2b09cabefc47.png") @db.VarChar(255)
+  profile_image     String            @default("https://kr.object.ncloudstorage.com/j027/20e92b3e-af66-4eab-8272-a40ea9212930.png") @db.VarChar(255)
   provider          String            @db.VarChar(20)
   created_at        DateTime          @default(now())
   deleted_at        DateTime?
