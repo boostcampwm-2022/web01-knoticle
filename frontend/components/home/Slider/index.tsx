@@ -74,10 +74,10 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
 
   const handleSliderTrackTouchEnd = (e: React.TouchEvent) => {
     const distanceX = touchPositionX - e.changedTouches[0].pageX;
-    if (distanceX > 0 && sliderNumber !== sliderIndicatorCount) {
+    if (distanceX > 30 && sliderNumber !== sliderIndicatorCount) {
       handleRightArrowClick();
     }
-    if (distanceX < 0 && sliderNumber !== 1) {
+    if (distanceX < -30 && sliderNumber !== 1) {
       handleLeftArrowClick();
     }
   };
