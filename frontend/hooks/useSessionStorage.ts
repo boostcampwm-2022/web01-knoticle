@@ -1,18 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useSessionStorage = <T>(key: string, initialValue: T) => {
-  const savedValue = sessionStorage.getItem(key);
+  const [value, setStateValue] = useState<T>(initialValue);
+  const [isValueSet, setIsValueSet] = useState(false);
 
-  const [value, setStateValue] = useState<T>(
-    savedValue === null ? initialValue : JSON.parse(savedValue)
-  );
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedValue = sessionStorage.getItem(key);
+      if (savedValue) setStateValue(JSON.parse(savedValue));
+      setIsValueSet(true);
+    }
+  }, [typeof window]);
 
   const setValue = (newValue: T) => {
     setStateValue(newValue);
     sessionStorage.setItem(key, JSON.stringify(newValue));
   };
 
-  return { value, setValue };
+  return { value, isValueSet, setValue };
 };
 
 export default useSessionStorage;
