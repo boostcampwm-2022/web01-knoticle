@@ -151,7 +151,7 @@ export default function EditBookModal({ book, handleModalClose }: BookProps) {
             <ContentsWrapper>
               <BookContent>Contents</BookContent>
               <EditArticle onClick={handleContentsOnClick}>
-                {isContentsShown ? '완료' : '수정'}
+                {isContentsShown ? '순서저장' : '순서수정'}
               </EditArticle>
             </ContentsWrapper>
             <DragArticleWrapper isContentsShown={isContentsShown}>
