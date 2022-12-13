@@ -1,5 +1,6 @@
 import ArticleItem from '@components/search/ArticleItem';
 import { IArticleBook } from '@interfaces';
+import { markdown2text } from '@utils/parser';
 
 interface ArticleListProps {
   articles: IArticleBook[];
@@ -24,7 +25,7 @@ export default function ArticleList({ articles, keywords }: ArticleListProps) {
     let paddingIndex = 0;
 
     if (isFirst) {
-      const regex = /(<([^>]+)>)/g;
+      const regex = /\n/g;
 
       while (regex.test(text.slice(0, startIndex))) paddingIndex = regex.lastIndex;
     }
@@ -33,7 +34,7 @@ export default function ArticleList({ articles, keywords }: ArticleListProps) {
       <>
         {text.slice(paddingIndex, startIndex)}
         <b>{text.slice(startIndex, endIndex)}</b>
-        {highlightWord(text.slice(endIndex).replace(/(<([^>]+)>)/gi, ''), words)}
+        {highlightWord(text.slice(endIndex), words)}
       </>
     );
   };
@@ -44,7 +45,7 @@ export default function ArticleList({ articles, keywords }: ArticleListProps) {
         <ArticleItem
           key={article.id}
           title={highlightWord(article.title, keywords)}
-          content={highlightWord(article.content, keywords, true)}
+          content={highlightWord(markdown2text(article.content), keywords, true)}
           nickname={article.book.user.nickname}
           profileImage={article.book.user.profile_image}
           articleUrl={`/viewer/${article.book.id}/${article.id}`}
