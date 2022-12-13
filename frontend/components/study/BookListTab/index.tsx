@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import MinusWhite from '@assets/ico_minus_white.svg';
 import curKnottedBookListState from '@atoms/curKnottedBookList';
@@ -37,7 +37,7 @@ export default function BookListTab({
 }: BookListTabProps) {
   const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
-  const [_, setScraps] = useRecoilState(scrapState);
+  const setScraps = useSetRecoilState(scrapState);
 
   const [isModalShown, setModalShown] = useState(false);
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useRecoilState } from 'recoil';
 
@@ -24,10 +24,15 @@ interface FabProps {
 }
 
 export default function FAB({ isEditing, setIsEditing }: FabProps) {
-  const { data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
-  const { data: editBookData, execute: editBook } = useFetch(editBookApi);
-  const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
-  const { data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
+  const { execute: deleteBook } = useFetch(deleteBookApi);
+  const { execute: editBook } = useFetch(editBookApi);
+  const { execute: deleteArticle } = useFetch(deleteArticleApi);
+  const { execute: deleteScrap } = useFetch(deleteScrapApi);
+
+  // const { data: deletedBook, execute: deleteBook } = useFetch(deleteBookApi);
+  // const { data: editBookData, execute: editBook } = useFetch(editBookApi);
+  // const { data: deleteArticleData, execute: deleteArticle } = useFetch(deleteArticleApi);
+  // const { data: deleteScrapData, execute: deleteScrap } = useFetch(deleteScrapApi);
 
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
 
@@ -105,17 +110,17 @@ export default function FAB({ isEditing, setIsEditing }: FabProps) {
   //   });
   // }, [deleteScrapData]);
 
-  useEffect(() => {
-    console.log(deletedBook, editBookData, deleteArticleData, deleteScrapData, editInfo);
-    // if (
-    //   (deletedBook || editBookData || deleteArticleData || deleteScrapData) &&
-    //   editInfo.deleted.length === 0 &&
-    //   editInfo.editted.length === 0 &&
-    //   editInfo.deletedArticle.length === 0 &&
-    //   editInfo.deletedScraps.length === 0
-    // ) {
-    // }
-  }, [editInfo]);
+  // useEffect(() => {
+  //   console.log(deletedBook, editBookData, deleteArticleData, deleteScrapData, editInfo);
+  //   if (
+  //     (deletedBook || editBookData || deleteArticleData || deleteScrapData) &&
+  //     editInfo.deleted.length === 0 &&
+  //     editInfo.editted.length === 0 &&
+  //     editInfo.deletedArticle.length === 0 &&
+  //     editInfo.deletedScraps.length === 0
+  //   ) {
+  //   }
+  // }, [editInfo]);
 
   return (
     <FabWrapper>
