@@ -1,11 +1,10 @@
-import { useEffect, memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { useDrop } from 'react-dnd';
 
 import update from 'immutability-helper';
 import { useRecoilState } from 'recoil';
 
 import scrapState from '@atoms/scrap';
-import { IScrap } from '@interfaces';
 
 import { ListItem } from '../ListItem';
 import ContainerWapper from './styled';
@@ -15,21 +14,14 @@ const ItemTypes = {
 };
 
 export interface ContainerState {
-  data: IScrap[];
   isContentsShown: boolean;
   isDeleteBtnShown: boolean;
 }
 const DragContainer = memo(function Container({
-  data,
   isContentsShown,
   isDeleteBtnShown,
 }: ContainerState) {
   const [scraps, setScraps] = useRecoilState(scrapState);
-
-  useEffect(() => {
-    if (!data) return;
-    setScraps(data);
-  }, []);
 
   const findScrap = useCallback(
     (id: number) => {

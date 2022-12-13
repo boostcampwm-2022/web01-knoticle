@@ -41,7 +41,7 @@ interface BookProps {
 }
 
 export default function EditBookModal({ book, handleModalClose }: BookProps) {
-  const { id, title, user, scraps } = book;
+  const { id, title, user } = book;
 
   const { data: imgFile, execute: createImage } = useFetch(createImageApi);
   const { value: titleData, onChange: onTitleChange } = useInput(title);
@@ -106,7 +106,6 @@ export default function EditBookModal({ book, handleModalClose }: BookProps) {
         },
       ],
     });
-
     handleModalClose();
   };
 
@@ -155,7 +154,7 @@ export default function EditBookModal({ book, handleModalClose }: BookProps) {
               </EditArticle>
             </ContentsWrapper>
             <DragArticleWrapper isContentsShown={isContentsShown}>
-              <DragArticle data={scraps} isContentsShown={isContentsShown} isDeleteBtnShown />
+              <DragArticle isContentsShown={isContentsShown} isDeleteBtnShown />
             </DragArticleWrapper>
             {isContentsShown && (
               <DragArticleText>드래그앤드롭으로 글의 순서를 변경할 수 있습니다.</DragArticleText>
