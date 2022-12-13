@@ -13,7 +13,7 @@ import ViewerHead from '@components/viewer/ViewerHead';
 import useFetch from '@hooks/useFetch';
 import { IArticleBook, IBookScraps } from '@interfaces';
 import { Flex, PageGNBHide, PageNoScrollWrapper } from '@styles/layout';
-import { articleToc, articleConversion } from '@utils/articleConversion';
+import { parseHeadings } from '@utils/toc';
 
 interface ViewerProps {
   article: IArticleBook;
@@ -81,7 +81,7 @@ export default function Viewer({ article }: ViewerProps) {
           <TOC
             book={book}
             articleId={article.id}
-            articleToc={articleToc(article.content)}
+            articleToc={parseHeadings(article.content)}
             isOpen={isSideBarOpen}
             handleSideBarToggle={handleSideBarToggle}
             isscrolldown={isScrollDown}
@@ -93,7 +93,7 @@ export default function Viewer({ article }: ViewerProps) {
               scraps={book.scraps}
               bookId={book.id}
               bookAuthor={book.user.nickname}
-              articleData={articleConversion(article.content)}
+              articleData={article.content}
               handleScrapBtnClick={handleModalOpen}
               setIsScrollDown={setIsScrollDown}
             />

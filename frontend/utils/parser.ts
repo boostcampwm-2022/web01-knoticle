@@ -2,6 +2,7 @@ import { rehype } from 'rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeParse from 'rehype-parse';
 import rehypeRemark from 'rehype-remark';
+import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
 import { remark } from 'remark';
 import remarkBreaks from 'remark-breaks';
@@ -21,6 +22,7 @@ export const markdown2html = (markdown: string) => {
     .toString();
 
   const htmlWithSyntaxHighlight = rehype()
+    .use(rehypeSlug)
     .use(rehypeHighlight, { ignoreMissing: true })
     .processSync(html)
     .toString();
