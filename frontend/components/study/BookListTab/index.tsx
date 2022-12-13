@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import MinusWhite from '@assets/ico_minus_white.svg';
 import curKnottedBookListState from '@atoms/curKnottedBookList';
 import editInfoState from '@atoms/editInfo';
+import scrapState from '@atoms/scrap';
 import Book from '@components/common/Book';
 import FAB from '@components/study/FAB';
 import { IBookScraps } from '@interfaces';
@@ -39,6 +40,7 @@ export default function BookListTab({
 
   const [curKnottedBookList, setCurKnottedBookList] = useRecoilState(curKnottedBookListState);
   const [editInfo, setEditInfo] = useRecoilState(editInfoState);
+  const [_, setScraps] = useRecoilState(scrapState);
 
   const [isModalShown, setModalShown] = useState(false);
   const [curEditBook, setCurEditBook] = useState<IBookScraps | null>(null);
@@ -51,10 +53,12 @@ export default function BookListTab({
 
     setModalShown(true);
     setCurEditBook(curBook);
+    setScraps(curBook.scraps);
   };
 
   const handleModalClose = () => {
     setModalShown(false);
+    setScraps([]);
   };
 
   const handleMinusBtnClick = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
