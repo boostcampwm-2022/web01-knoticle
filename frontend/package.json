@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.1.2",
     "@codemirror/lang-markdown": "^6.0.5",
     "@codemirror/language": "^6.3.1",
     "@codemirror/language-data": "^6.1.0",
@@ -39,6 +40,7 @@
     "rehype-parse": "^8.0.4",
     "rehype-remark": "^9.1.2",
     "rehype-stringify": "^9.0.3",
+    "remark-breaks": "^3.0.2",
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "remark-stringify": "^10.0.2",
