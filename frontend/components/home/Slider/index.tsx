@@ -1,13 +1,15 @@
 import Image from 'next/image';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import LeftArrowIcon from '@assets/ico_arrow_left.svg';
 import RightArrowIcon from '@assets/ico_arrow_right.svg';
 import ListIcon from '@assets/ico_flower.svg';
 import Book from '@components/common/Book';
 import SkeletonBook from '@components/common/SkeletonBook';
+import useSessionStorage from '@hooks/useSessionStorage';
 import { IBookScraps } from '@interfaces';
+import { Flex } from '@styles/layout';
 
 import {
   SliderContent,
@@ -37,8 +39,19 @@ const setNumBetween = (val: number, min: number, max: number) => {
 };
 
 function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
-  const [curBookIndex, setCurBookIndex] = useState(0);
-  const [sliderNumber, setSliderNumber] = useState(1);
+  const {
+    value: curBookIndex,
+    isValueSet: isCurBookIndexSet,
+    setValue: setCurBookIndex,
+  } = useSessionStorage(`${title}_curBookIndex`, 0);
+
+  const {
+    value: sliderNumber,
+    isValueSet: isSliderNumberSet,
+    setValue: setSliderNumber,
+  } = useSessionStorage(`${title}_sliderNumber`, 1);
+
+  const [touchPositionX, setTouchPositionX] = useState(0);
 
   const SkeletonList = Array.from({ length: numberPerPage }, (_, i) => i + 1);
 
@@ -53,6 +66,20 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   const handleRightArrowClick = () => {
     setCurBookIndex(curBookIndex + numberPerPage);
     setSliderNumber(sliderNumber + 1);
+  };
+
+  const handleSliderTrackTouchStart = (e: React.TouchEvent) => {
+    setTouchPositionX(e.changedTouches[0].pageX);
+  };
+
+  const handleSliderTrackTouchEnd = (e: React.TouchEvent) => {
+    const distanceX = touchPositionX - e.changedTouches[0].pageX;
+    if (distanceX > 30 && sliderNumber !== sliderIndicatorCount) {
+      handleRightArrowClick();
+    }
+    if (distanceX < -30 && sliderNumber !== 1) {
+      handleLeftArrowClick();
+    }
   };
 
   useEffect(() => {
@@ -93,15 +120,25 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
         </SliderInfoContainer>
 
         <SliderBookContainer>
-          <SliderTrack curBookIndex={curBookIndex}>
-            {isLoading
-              ? SkeletonList.map((key) => <SkeletonBook key={key} />)
-              : bookList.map((book) => (
-                  <SliderBookWrapper key={book.id} numberPerPage={numberPerPage}>
-                    <Book book={book} />
-                  </SliderBookWrapper>
-                ))}
-          </SliderTrack>
+          {!isLoading && isCurBookIndexSet && isSliderNumberSet ? (
+            <SliderTrack
+              curBookIndex={curBookIndex}
+              onTouchStart={handleSliderTrackTouchStart}
+              onTouchEnd={handleSliderTrackTouchEnd}
+            >
+              {bookList.map((book) => (
+                <SliderBookWrapper key={book.id} numberPerPage={numberPerPage}>
+                  <Book book={book} />
+                </SliderBookWrapper>
+              ))}
+            </SliderTrack>
+          ) : (
+            <Flex>
+              {SkeletonList.map((key) => (
+                <SkeletonBook key={key} />
+              ))}
+            </Flex>
+          )}
         </SliderBookContainer>
       </SliderContent>
 
