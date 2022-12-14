@@ -17,7 +17,7 @@ export const TocWrapper = styled(FlexColumnSpaceBetween)<TocWrapperProps>`
   background-color: var(--primary-color);
   transition: all 0.3s ease;
   overflow: hidden;
-  z-index: 100;
+  z-index: 80;
 
   * {
     white-space: nowrap;
