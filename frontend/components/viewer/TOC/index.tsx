@@ -94,7 +94,7 @@ export default function TOC({
                     {isArticleShown &&
                       articleToc.map((article) => (
                         <TocArticleTitle
-                          href={text2link(article.title)}
+                          href={text2link(article.title).toLowerCase()}
                           key={article.title}
                           count={article.count}
                         >

@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 import styled from 'styled-components';
 
 import { TextMedium, TextSmall } from '@styles/common';
@@ -54,8 +56,8 @@ export const ProfileDescription = styled.div`
   }
 `;
 
-export const ProfileImage = styled.div`
+export const ProfileImage = styled(Image)`
+  border-radius: 100%;
+  object-fit: cover;
   border: 1px solid var(--grey-01-color);
-  border-radius: 36px;
-  overflow: hidden;
 `;
