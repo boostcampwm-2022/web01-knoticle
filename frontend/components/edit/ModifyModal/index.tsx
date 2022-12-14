@@ -14,7 +14,7 @@ import useFetch from '@hooks/useFetch';
 import { IArticle, IBook, IBookScraps, IScrap } from '@interfaces';
 import { toastSuccess } from '@utils/toast';
 
-import { ArticleWrapper, Label, ModifyModalWrapper, WarningLabel } from './styled';
+import { ArticleWrapper, DragArticleText, Label, ModifyModalWrapper, WarningLabel } from './styled';
 
 interface ModifyModalProps {
   books: IBookScraps[];
@@ -52,11 +52,11 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
     const itemList = [...items];
 
     if (selectedBookIndex !== originalBookId)
-      itemList.push({
+      itemList.unshift({
         id: 0,
         order: items.length + 1,
         is_original: false,
-        article: { id: 0, title: article.title },
+        article: { id: article.id, title: article.title },
       });
     return itemList;
   };
@@ -116,10 +116,13 @@ export default function ModifyModal({ books, originalArticle }: ModifyModalProps
         <WarningLabel>선택하신 책에 본 글이 스크랩되어 있습니다.</WarningLabel>
       )}
       {filteredScraps.length !== 0 && (
-        <ArticleWrapper>
-          <Label>순서 선택</Label>
-          <DragArticle isContentsShown isDeleteBtnShown={false} />
-        </ArticleWrapper>
+        <>
+          <Label>순서 수정</Label>
+          <ArticleWrapper>
+            <DragArticle isContentsShown isDeleteBtnShown={false} />
+          </ArticleWrapper>
+          <DragArticleText>드래그앤드롭으로 글의 순서를 변경할 수 있습니다.</DragArticleText>
+        </>
       )}
       <ModalButton theme="primary" onClick={handleModifyBtnClick}>
         수정하기

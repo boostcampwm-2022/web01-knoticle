@@ -17,7 +17,7 @@ export const TocWrapper = styled(FlexColumnSpaceBetween)<TocWrapperProps>`
   background-color: var(--primary-color);
   transition: all 0.3s ease;
   overflow: hidden;
-  z-index: 100;
+  z-index: 80;
 
   * {
     white-space: nowrap;
@@ -141,4 +141,6 @@ export const TocImgWrapper = styled(Image)`
   margin-left: 10px;
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid var(--grey-01-color);
+  box-sizing: border-box;
 `;

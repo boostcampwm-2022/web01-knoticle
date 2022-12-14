@@ -101,7 +101,12 @@ export const ListItem = memo(function Scrap({
   };
 
   return (
-    <Article ref={(node) => drag(drop(node))} isShown={isContentsShown ? true : isShown}>
+    <Article
+      ref={(node) => drag(drop(node))}
+      isShown={isContentsShown ? true : isShown}
+      isEdit={isDeleteBtnShown}
+      isActive={scrapId === 0}
+    >
       <TextWapper>
         <Text>{text}</Text>
         {isOriginal && isDeleteBtnShown && <OriginalBadge>원본</OriginalBadge>}
