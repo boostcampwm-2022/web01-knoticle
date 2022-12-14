@@ -141,4 +141,6 @@ export const TocImgWrapper = styled(Image)`
   margin-left: 10px;
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid var(--grey-01-color);
+  box-sizing: border-box;
 `;
