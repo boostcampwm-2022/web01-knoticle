@@ -77,6 +77,11 @@ export default function Article({
   const handleDeleteBtnOnClick = () => {
     if (window.confirm('해당 글을 삭제하시겠습니까?')) {
       const curScrap = scraps.find((scrap) => scrap.article.id === article.id);
+      if (!curScrap) return;
+      const newScraps = scraps
+        .filter((scrap) => scrap.id !== curScrap.id)
+        .map((v, i) => ({ ...v, order: i + 1 }));
+      updateScrapsOrder(newScraps);
       deleteScrap(curScrap?.id);
       deleteArticle(article.id);
     }
