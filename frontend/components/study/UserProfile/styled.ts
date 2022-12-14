@@ -21,6 +21,7 @@ export const UserThumbnail = styled(Image)`
   height: 200px;
   border-radius: 100%;
   border: 1px solid var(--grey-01-color);
+  object-fit: cover;
 `;
 
 export const UserDetailGroup = styled.div`

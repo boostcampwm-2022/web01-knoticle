@@ -44,9 +44,7 @@ export default function ArticleItem({
             <TextXSmall>Written By</TextXSmall>
             <TextSmall>{nickname}</TextSmall>
           </ProfileDescription>
-          <ProfileImage>
-            <Image src={profileImage} alt="profile" width={72} height={72} />
-          </ProfileImage>
+          <ProfileImage src={profileImage} alt="profile" width={72} height={72} />
         </UserProfile>
       </Link>
     </ItemWrapper>
