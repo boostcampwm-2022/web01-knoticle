@@ -28,6 +28,7 @@ import {
   ArticleTitleBtnBox,
   ArticleContentsWrapper,
   ArticleMoveBtnContainer,
+  ArticleTitleWrapper,
 } from './styled';
 
 interface ArticleProps {
@@ -135,36 +136,35 @@ export default function Article({
     <ArticleContainer>
       <ArticleMain ref={scrollTarget}>
         {!article.deleted_at ? (
-          <>
-            <ArticleContentsWrapper>
+          <ArticleContentsWrapper>
+            <ArticleTitleWrapper>
               <ArticleTitle>{article.title}</ArticleTitle>
-              <Content content={articleData} />
-            </ArticleContentsWrapper>
-
-            <ArticleTitleBtnBox>
-              {article.book_id !== bookId && (
-                <ArticleButton onClick={handleOriginalBtnOnClick}>
-                  <Image src={Original} alt="Original Icon" width={20} height={15} />
-                  원본 글 보기
-                </ArticleButton>
-              )}
-              {article.book_id === bookId && article.book.user.nickname === user.nickname && (
-                <>
-                  <ArticleButton onClick={handleDeleteBtnOnClick}>글 삭제</ArticleButton>
-                  <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
-                </>
-              )}
-              {article.book_id !== bookId && bookAuthor === user.nickname && (
-                <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
-              )}
-              {user.id !== 0 && (
-                <ArticleButton onClick={handleScrapBtnClick}>
-                  <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
-                  스크랩
-                </ArticleButton>
-              )}
-            </ArticleTitleBtnBox>
-          </>
+              <ArticleTitleBtnBox>
+                {article.book_id !== bookId && (
+                  <ArticleButton onClick={handleOriginalBtnOnClick}>
+                    <Image src={Original} alt="Original Icon" width={20} height={15} />
+                    원본 글 보기
+                  </ArticleButton>
+                )}
+                {article.book_id === bookId && article.book.user.nickname === user.nickname && (
+                  <>
+                    <ArticleButton onClick={handleDeleteBtnOnClick}>글 삭제</ArticleButton>
+                    <ArticleButton onClick={handleModifyBtnOnClick}>글 수정</ArticleButton>
+                  </>
+                )}
+                {article.book_id !== bookId && bookAuthor === user.nickname && (
+                  <ArticleButton onClick={handleScrapDeleteBtnOnClick}>스크랩 삭제</ArticleButton>
+                )}
+                {user.id !== 0 && (
+                  <ArticleButton onClick={handleScrapBtnClick}>
+                    <Image src={Scrap} alt="Scrap Icon" width={20} height={15} />
+                    스크랩
+                  </ArticleButton>
+                )}
+              </ArticleTitleBtnBox>
+            </ArticleTitleWrapper>
+            <Content content={articleData} />
+          </ArticleContentsWrapper>
         ) : (
           <div>삭제된 글입니다.</div>
         )}
