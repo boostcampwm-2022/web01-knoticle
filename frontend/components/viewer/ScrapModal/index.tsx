@@ -15,7 +15,7 @@ import useFetch from '@hooks/useFetch';
 import { IBook, IArticle, IScrap, IBookScraps } from '@interfaces';
 import { toastSuccess } from '@utils/toast';
 
-import { ArticleWrapper, Label, ScrapModalWrapper, WarningLabel } from './styled';
+import { ArticleWrapper, DragArticleText, Label, ScrapModalWrapper, WarningLabel } from './styled';
 
 interface ScrapModalProps {
   bookId: number;
@@ -48,13 +48,13 @@ export default function ScrapModal({ bookId, handleModalClose, article }: ScrapM
 
   const createScrapDropdownItems = (items: IScrap[]) => {
     return [
-      ...items,
       {
         id: 0,
-        order: items.length + 1,
+        order: 0,
         is_original: true,
         article: { id: article.id, title: article.title },
       },
+      ...items,
     ];
   };
 
@@ -117,10 +117,13 @@ export default function ScrapModal({ bookId, handleModalClose, article }: ScrapM
         <WarningLabel>선택하신 책에 이미 동일한 글이 존재합니다.</WarningLabel>
       )}
       {filteredScraps.length !== 0 && (
-        <ArticleWrapper>
-          <Label>순서 선택</Label>
-          <DragArticle isContentsShown isDeleteBtnShown={false} />
-        </ArticleWrapper>
+        <>
+          <Label>순서 수정</Label>
+          <ArticleWrapper>
+            <DragArticle isContentsShown isDeleteBtnShown={false} />
+          </ArticleWrapper>
+          <DragArticleText>드래그앤드롭으로 글의 순서를 변경할 수 있습니다.</DragArticleText>
+        </>
       )}
       <ModalButton theme="primary" onClick={handleScrapBtnClick}>
         스크랩하기

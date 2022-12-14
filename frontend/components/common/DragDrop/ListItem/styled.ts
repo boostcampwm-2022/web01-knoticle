@@ -6,7 +6,7 @@ import { TextXSmall } from '@styles/common';
 import { Flex } from '@styles/layout';
 
 export const Text = styled.span``;
-export const Article = styled.div<{ isShown: true | false }>`
+export const Article = styled.div<{ isShown: boolean; isEdit: boolean; isActive: boolean }>`
   font-size: 14px;
   line-height: 20px;
   text-decoration: none;
@@ -15,8 +15,9 @@ export const Article = styled.div<{ isShown: true | false }>`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--grey-02-color);
-  padding: 5px;
+  padding: ${(props) => (props.isEdit ? '5px' : '10px')};
   cursor: pointer;
+  background-color: ${(props) => (props.isActive ? 'var(--light-orange-color)' : 'none')};
 `;
 
 export const MinusButton = styled.div`
