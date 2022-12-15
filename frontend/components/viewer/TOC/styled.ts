@@ -105,13 +105,14 @@ export const TocCurrentText = styled(TextSmall)`
   cursor: 'pointer';
   font-weight: 600;
 `;
-export const TocArticleTitle = styled(Link)<{ count: number | undefined }>`
+
+export const TocArticleTitle = styled(Link)<{ padding: number }>`
   font-size: 14px;
   line-height: 20px;
   text-decoration: none;
   display: block;
   margin-bottom: 5px;
-  padding-left: ${(props) => `${props.count}px`};
+  padding-left: ${(props) => `${props.padding}px`};
 
   &:hover {
     color: var(--primary-color);
