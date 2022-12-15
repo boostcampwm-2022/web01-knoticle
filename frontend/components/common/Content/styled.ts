@@ -17,6 +17,7 @@ export const ContentBody = styled.div`
   > * {
     line-height: 2;
     font-weight: 400;
+    word-break: break-word;
   }
 
   h1,
@@ -56,12 +57,9 @@ export const ContentBody = styled.div`
 
   p {
     img {
-      max-width: 720px;
+      max-width: 480px;
 
       @media ${(props) => props.theme.desktop} {
-        width: 500px;
-      }
-      @media ${(props) => props.theme.tablet} {
         width: 100%;
       }
     }

@@ -10,7 +10,6 @@ import useBookmark from '@hooks/useBookmark';
 import { IBookScraps } from '@interfaces';
 import { TextMedium, TextSmall } from '@styles/common';
 import { FlexCenter, FlexSpaceBetween } from '@styles/layout';
-import { text2link } from '@utils/toc';
 
 import {
   TocWrapper,
@@ -32,8 +31,9 @@ import {
 interface TocProps {
   articleId: number;
   articleToc: {
-    title: string;
-    count: number | undefined;
+    heading: string;
+    link: string;
+    padding: number;
   }[];
   book: IBookScraps;
   isOpen: boolean;
@@ -94,11 +94,11 @@ export default function TOC({
                     {isArticleShown &&
                       articleToc.map((article) => (
                         <TocArticleTitle
-                          href={text2link(article.title).toLowerCase()}
-                          key={article.title}
-                          count={article.count}
+                          href={article.link}
+                          key={article.link}
+                          padding={article.padding}
                         >
-                          {article.title}
+                          {article.heading}
                         </TocArticleTitle>
                       ))}
                   </TocCurrentArticle>
