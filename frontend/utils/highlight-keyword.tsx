@@ -4,7 +4,7 @@ const getFirstKeyword = (text: string, keywords: string[]) => {
   keywords.forEach((keyword) => {
     const index = text.toLowerCase().indexOf(keyword.toLowerCase());
 
-    if (index !== -1) keywordMap.set(index, keyword);
+    if (index !== -1) keywordMap.set(index, text.slice(index, index + keyword.length));
   });
 
   if (keywordMap.size === 0) return { keyword: '', index: -1, validKeywords: [] };
@@ -24,27 +24,21 @@ export const getTextAfterLastNewLine = (text: string, keywords: string[]) => {
 
   const newLineIndex = text.slice(0, index).lastIndexOf('\n');
 
-  return newLineIndex === -1 ? text : text.slice(newLineIndex);
+  return newLineIndex === -1 ? text.slice(0, 200) : text.slice(newLineIndex, newLineIndex + 200);
 };
 
-export const highlightKeyword = (text: string, keywords: string[], length = 0): React.ReactNode => {
-  if (length > 200) return '';
-
+export const highlightKeyword = (text: string, keywords: string[]): React.ReactNode => {
   const { keyword, index, validKeywords } = getFirstKeyword(text, keywords);
 
   if (index === -1) return text;
 
   const endIndex = index + keyword.length;
 
-  const affixText = text.slice(0, index);
-
-  const accumulatedLength = length + affixText.length + keyword.length;
-
   return (
     <>
-      {affixText}
+      {text.slice(0, index)}
       <b>{keyword}</b>
-      {highlightKeyword(text.slice(endIndex), validKeywords, accumulatedLength)}
+      {highlightKeyword(text.slice(endIndex), validKeywords)}
     </>
   );
 };
