@@ -51,7 +51,7 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
     setValue: setSliderNumber,
   } = useSessionStorage(`${title}_sliderNumber`, 1);
 
-  const [touchPositionX, setTouchPositionX] = useState(0);
+  const [touchPosition, setTouchPosition] = useState({ x: 0, y: 0 });
 
   const SkeletonList = Array.from({ length: numberPerPage }, (_, i) => i + 1);
 
@@ -69,15 +69,20 @@ function Slider({ bookList, title, isLoading, numberPerPage }: SliderProps) {
   };
 
   const handleSliderTrackTouchStart = (e: React.TouchEvent) => {
-    setTouchPositionX(e.changedTouches[0].pageX);
+    setTouchPosition({
+      x: e.changedTouches[0].pageX,
+      y: e.changedTouches[0].pageY,
+    });
   };
 
   const handleSliderTrackTouchEnd = (e: React.TouchEvent) => {
-    const distanceX = touchPositionX - e.changedTouches[0].pageX;
-    if (distanceX > 30 && sliderNumber !== sliderIndicatorCount) {
+    const distanceX = touchPosition.x - e.changedTouches[0].pageX;
+    const distanceY = Math.abs(touchPosition.y - e.changedTouches[0].pageY);
+
+    if (distanceX > 40 && distanceY < 10 && sliderNumber !== sliderIndicatorCount) {
       handleRightArrowClick();
     }
-    if (distanceX < -30 && sliderNumber !== 1) {
+    if (distanceX < -40 && distanceY < 10 && sliderNumber !== 1) {
       handleLeftArrowClick();
     }
   };
