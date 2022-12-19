@@ -93,6 +93,35 @@
 
 <br>
 
+## ⭐️ 기술 공유
+
+<details>
+<summary>Knoticle의 기술 공유</summary>
+<div markdown="1">
+
+[📑북마크 기능 개발기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%93%91%EB%B6%81%EB%A7%88%ED%81%AC-%EA%B8%B0%EB%8A%A5-%EA%B0%9C%EB%B0%9C%EA%B8%B0)
+
+[🤖Github Action으로 CI/CD 자동화하기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%A4%96-Github-Action%EB%A1%9C-CI-CD-%EC%9E%90%EB%8F%99%ED%99%94%ED%95%98%EA%B8%B0)
+
+[🔍 Full-Text Search를 활용한 검색 기능 개발기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%94%8D-Full-Text-Search%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-%EA%B2%80%EC%83%89-%EA%B8%B0%EB%8A%A5-%EA%B0%9C%EB%B0%9C%EA%B8%B0)
+
+[💡 더 나은 검색 결과 제공하기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%92%A1-%EB%8D%94-%EB%82%98%EC%9D%80-%EA%B2%80%EC%83%89-%EA%B2%B0%EA%B3%BC-%EC%A0%9C%EA%B3%B5%ED%95%98%EA%B8%B0)
+
+[🖱️ 무한스크롤 개발기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%96%B1%EF%B8%8F%EB%AC%B4%ED%95%9C%EC%8A%A4%ED%81%AC%EB%A1%A4-%EA%B0%9C%EB%B0%9C%EA%B8%B0)
+
+[🔶 검색 결과 요청에 디바운싱 적용하기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%94%B6-%EA%B2%80%EC%83%89-%EA%B2%B0%EA%B3%BC-%EC%9A%94%EC%B2%AD%EC%97%90-%EB%94%94%EB%B0%94%EC%9A%B4%EC%8B%B1-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
+
+[🚀 좋은 UX를 위한 기능](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%EC%A2%8B%EC%9D%80-UX%EB%A5%BC-%EC%9C%84%ED%95%9C-%EA%B8%B0%EB%8A%A5)
+
+[💽 SEO : NextJS SSR 적용](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%92%BD-SEO-:-NextJS-SSR-%EC%A0%81%EC%9A%A9)
+
+[🏷 SEO: Sitemap & Meta tag](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%8F%B7-SEO:-Sitemap-&-Meta-tag)
+
+[🎯 http에서 https로 배포하기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/HTTP%EC%97%90%EC%84%9C-HTTPS%EB%A1%9C-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0)
+
+</div>
+</details>
+
 ## ⚒ 기술 스택
 
 ## Common
