@@ -107,6 +107,8 @@
 
 - [🔶 검색 결과 요청에 디바운싱 적용하기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%94%B6-%EA%B2%80%EC%83%89-%EA%B2%B0%EA%B3%BC-%EC%9A%94%EC%B2%AD%EC%97%90-%EB%94%94%EB%B0%94%EC%9A%B4%EC%8B%B1-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
 
+- [📝 우아한 마크다운 에디터 제작기](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%93%9D-%EC%9A%B0%EC%95%84%ED%95%9C-%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4-%EC%97%90%EB%94%94%ED%84%B0-%EC%A0%9C%EC%9E%91%EA%B8%B0)
+
 - [🚀 좋은 UX를 위한 기능](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%EC%A2%8B%EC%9D%80-UX%EB%A5%BC-%EC%9C%84%ED%95%9C-%EA%B8%B0%EB%8A%A5)
 
 - [💽 SEO : NextJS SSR 적용](https://github.com/boostcampwm-2022/web01-knoticle/wiki/%F0%9F%92%BD-SEO-:-NextJS-SSR-%EC%A0%81%EC%9A%A9)
