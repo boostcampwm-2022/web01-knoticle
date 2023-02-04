@@ -4,7 +4,7 @@
 <h3>모두의 글을 엮어 만드는 나만의 책, 노티클 📒</h3>
 
 <a href="https://glaze-lavender-37c.notion.site/Knoticle-256a16714181452eaf3e288b45c9da3b">Documentation</a><br>
-<a href="https://www.knoticle.app">Explore Knoticle</a>
+<a href="https://www.youtube.com/watch?v=vevx65L6Odg">Explore Knoticle</a>
 
 </div>
 
